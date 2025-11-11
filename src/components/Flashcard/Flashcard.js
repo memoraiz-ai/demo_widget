@@ -313,14 +313,14 @@ const Flashcard = React.forwardRef(({ theme, mode = 'normal', timerEnabled = tru
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M15 10H5m5-5l-5 5 5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span>Previous</span>
+            <span>Precedente</span>
           </button>
           <button
             className="nav-button next-button"
             onClick={handleNext}
             disabled={currentCard === totalCards - 1}
           >
-            <span>Next</span>
+            <span>Successivo</span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M5 10h10m-5-5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

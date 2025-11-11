@@ -235,7 +235,7 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
           <path d="M12 5l-5 5 5 5" stroke={theme.secondary} strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        <span>Previous</span>
+        <span>Precedente</span>
       </button>
 
       {!immediateFeedbackEnabled && (

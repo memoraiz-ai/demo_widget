@@ -1,10 +1,12 @@
-# Demo
+# Demo MemorAIz
 
 <div align="center">
 
 ![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+
+[Link demo](https://demo-memoraiz.vercel.app/)
 
 </div>
 

@@ -35,21 +35,21 @@
 
 .navigation-buttons {
   display: flex;
-  gap: 12px;
-  padding: 20px;
+  gap: 0.75rem;
+  padding: 1.25rem;
   background: #ffffff;
-  border-bottom: 1px solid var(--card-border);
+  border-bottom: 0.0625rem solid var(--card-border);
 }
 
 .nav-button {
-  padding: 10px 20px;
-  border: 2px solid var(--primary);
-  border-radius: 24px;
+  padding: 0.625rem 1.25rem;
+  border: 0.125rem solid var(--primary);
+  border-radius: 1.5rem;
   background: #ffffff;
   color: var(--foreground);
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -65,7 +65,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  padding: 2.5rem 1.25rem;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
@@ -85,7 +85,7 @@
   }
 
   .content-container {
-    padding: 20px;
+    padding: 1.25rem;
     min-height: 70vh;
   }
 }
@@ -98,17 +98,17 @@
 
 @media (max-width: 640px) {
   .content-container {
-    padding: 16px;
+    padding: 1rem;
   }
 
   .navigation-buttons {
-    padding: 16px;
+    padding: 1rem;
   }
 }
 
 /* Scrollbar Styles */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0.5rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -117,7 +117,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: var(--muted-border);
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -127,7 +127,7 @@
 /* Flashcard Styles */
 .flashcard-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 50rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,17 +135,17 @@
 .flashcard-wrapper {
   width: 100%;
   background: white;
-  border: 1px solid var(--card-border);
-  border-radius: 24px;
-  padding: 24px 16px;
+  border: 0.0625rem solid var(--card-border);
+  border-radius: 1.5rem;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 3rem;
 }
 .flashcard-header {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 .header-top {
   display: flex;
@@ -155,20 +155,20 @@
 .flashcard-title {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
   color: black;
   margin: 0;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.025rem;
 }
 .header-controls {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: center;
 }
 .timer-widget {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
 }
@@ -178,18 +178,18 @@
 .timer-text {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: var(--foreground);
 }
 .settings-button {
   display: flex;
-  gap: 6px;
+  gap: 0.375rem;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 10px 16px;
-  border-radius: 24px;
+  height: 2.75rem;
+  padding: 0.625rem 1rem;
+  border-radius: 1.5rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -204,59 +204,59 @@
 }
 .progress-section {
   display: flex;
-  gap: 24px;
+  gap: 1.5rem;
   align-items: center;
 }
 .progress-bar {
   flex: 1;
-  height: 8px;
+  height: 0.5rem;
   background-color: var(--muted);
-  border-radius: 9999px;
+  border-radius: 624.9375rem;
   overflow: hidden;
 }
 .progress-fill {
   height: 100%;
   background-color: var(--primary);
-  border-radius: 40px;
+  border-radius: 2.5rem;
   transition: width 0.3s ease;
 }
 .progress-text {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: var(--foreground);
 }
 .flashcard-content {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 0 24px;
+  gap: 2.5rem;
+  padding: 0 1.5rem;
 }
 .question-text {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
   color: black;
   margin: 0;
   white-space: pre-wrap;
 }
 .flashcard {
   background-color: var(--background);
-  border: 1px solid var(--card-border);
-  border-radius: 24px;
-  padding: 32px;
+  border: 0.0625rem solid var(--card-border);
+  border-radius: 1.5rem;
+  padding: 2rem;
   cursor: pointer;
   position: relative;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  height: 200px;
+  height: 12.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 48px;
+  gap: 3rem;
 }
 .flashcard.flipped {
   transform: rotateY(180deg);
@@ -286,25 +286,25 @@
 .card-text {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 1.5rem;
+  line-height: 2rem;
   color: var(--foreground);
   margin: 0;
-  letter-spacing: -0.48px;
+  letter-spacing: -0.03rem;
 }
 .flip-hint {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   left: 50%;
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: center;
   cursor: pointer;
   color: var(--muted-border);
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   z-index: 10;
   will-change: transform;
 }
@@ -327,23 +327,23 @@
 
 .flashcard-navigation .nav-button {
   display: flex;
-  gap: 6px;
+  gap: 0.375rem;
   align-items: center;
   justify-content: center;
-  height: 52px;
-  padding: 12px 20px;
-  border-radius: 24px;
+  height: 3.25rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 1.5rem;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
   text-align: center;
   transition: all 0.2s ease;
 }
 
 .flashcard-navigation .prev-button {
-  border: 2px solid var(--primary);
+  border: 0.125rem solid var(--primary);
   background: transparent;
   color: var(--secondary);
 }
@@ -370,25 +370,25 @@
 /* Shuffle Button Styles */
 .shuffle-button {
   display: flex;
-  gap: 6px;
+  gap: 0.375rem;
   align-items: center;
   justify-content: center;
-  padding: 5px 5px;
-  border-radius: 100px;
-  border: 2px solid var(--card-border);
+  padding: 0.3125rem 0.3125rem;
+  border-radius: 6.25rem;
+  border: 0.125rem solid var(--card-border);
   background: var(--primary);
   color: var(--primary-foreground);
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 0.625rem;
   transition: all 0.2s ease;
 }
 
 .shuffle-button:hover {
   background: var(--secondary);
   border-color: var(--secondary);
-  transform: translateY(-1px);
+  transform: translateY(-0.0625rem);
 }
 
 .shuffle-button:active {
@@ -397,17 +397,17 @@
 }
 
 .shuffle-icon {
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .shuffle-text {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Mindmap Styles */
 .mindmap-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 50rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -416,26 +416,26 @@
 .mindmap-placeholder {
   width: 100%;
   background: white;
-  border: 1px solid var(--card-border);
-  border-radius: 24px;
-  padding: 48px;
+  border: 0.0625rem solid var(--card-border);
+  border-radius: 1.5rem;
+  padding: 3rem;
   text-align: center;
 }
 
 .mindmap-title {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 1.5rem;
+  line-height: 2rem;
   color: var(--foreground);
-  margin: 0 0 24px 0;
+  margin: 0 0 1.5rem 0;
 }
 
 .mindmap-content {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: var(--foreground);
   opacity: 0.7;
 }
