@@ -1,31 +1,39 @@
 import React, { useState } from 'react';
 import QuizBase from './QuizBase';
 
-const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [showFeedback, setShowFeedback] = useState(false);
+const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState(null); // No pre-selection
+  const [showFeedback, setShowFeedback] = useState(false); // Not showing feedback initially
   const [timeLeft, setTimeLeft] = useState(85);
-  const [score, setScore] = useState(125);
+  const [score, setScore] = useState(125); // Starting score without points
   const [currentQuestion, setCurrentQuestion] = useState(8);
   const [totalQuestions] = useState(10);
-  const [pointsAwarded, setPointsAwarded] = useState(false);
+  const [pointsAwarded, setPointsAwarded] = useState(false); // No points awarded initially
 
   const questionVariants = [
-    "Giove è il pianeta più grande del nostro sistema solare.",
-    "Giove è il pianeta più grande del nostro sistema solare?",
-    "Giove detiene il primato di essere il pianeta più grande del nostro sistema solare."
+    "Il pianeta più grande del nostro sistema solare è _______.",
+    "Quale pianeta detiene il titolo di più grande nel nostro sistema solare?",
+    "Identifica il pianeta più grande che orbita nel nostro sistema solare."
   ];
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const correctAnswer = true;
+  const [answers, setAnswers] = useState([
+    "Terra",
+    "Giove",
+    "Saturno",
+    "Marte",
+    "Nettuno"
+  ]);
 
-  const selectAnswer = (isTrue) => {
-    setSelectedAnswer(isTrue);
+  const correctAnswer = "Giove";
+
+  const selectAnswer = (answer) => {
+    setSelectedAnswer(answer);
 
     // Show feedback immediately if enabled, otherwise wait for user action
     if (immediateFeedbackEnabled) {
       setTimeout(() => {
         setShowFeedback(true);
-        if (isTrue === correctAnswer && !pointsAwarded) {
+        if (answer === correctAnswer && !pointsAwarded) {
           setScore(prev => prev + 25);
           setPointsAwarded(true);
         }
@@ -51,22 +59,15 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
   };
 
   const shuffleAnswers = () => {
-    // For True/False, toggle the order between TRUE/FALSE and FALSE/TRUE
+    const shuffled = [...answers];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setAnswers(shuffled);
     setSelectedAnswer(null);
     setShowFeedback(false);
     setPointsAwarded(false);
-    // This toggles the visual order of buttons
-    const trueButton = document.querySelector('.true-option');
-    const falseButton = document.querySelector('.false-option');
-    if (trueButton && falseButton) {
-      const parent = trueButton.parentNode;
-      const isTrueFirst = parent.firstChild === trueButton;
-      if (isTrueFirst) {
-        parent.appendChild(trueButton); // Move TRUE to the end
-      } else {
-        parent.insertBefore(trueButton, parent.firstChild); // Move TRUE to the beginning
-      }
-    }
   };
 
   const rephraseQuestion = () => {
@@ -105,64 +106,43 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
         {questionVariants[currentQuestionIndex]}
       </p>
 
-      <div className="answers true-false-answers">
-        <div
-          className={`answer-option ${selectedAnswer === true ? 'true-option selected' : 'true-option'}`}
-          onClick={() => selectAnswer(true)}
-          style={{ cursor: 'pointer' }}
-        >
+      <div className="answers" style={{ gap: '8px' }}>
+        {answers.map((answer, index) => (
           <div
-            className="radio-button"
+            key={index}
+            className={`answer-box ${selectedAnswer === answer ? 'selected' : ''}`}
+            onClick={() => selectAnswer(answer)}
             style={{
-              borderColor: selectedAnswer === true ? theme.primary : theme.mutedBorder
+              borderColor: selectedAnswer === answer ? theme.primary : theme.cardBorder,
+              backgroundColor: selectedAnswer === answer ? theme.successBackground : theme.background
             }}
           >
-            {selectedAnswer === true && (
-              <div
-                className="radio-dot"
-                style={{ backgroundColor: theme.primary }}
+            <p
+              className="answer-text"
+              style={{
+                color: selectedAnswer === answer ? theme.popoverForeground : theme.foreground,
+                fontSize: '16px',
+                lineHeight: '24px'
+              }}
+            >
+              {answer}
+            </p>
+            <svg
+              className="answer-icon"
+              viewBox="0 0 20 20"
+              fill="none"
+              style={{ display: selectedAnswer === answer ? 'block' : 'none' }}
+            >
+              <path
+                d="M16 5l-9 9-3-3"
+                stroke={theme.popoverForeground}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
-            )}
+            </svg>
           </div>
-          <p
-            className="answer-text"
-            style={{
-              color: selectedAnswer === true ? theme.primary : theme.primary,
-              fontWeight: selectedAnswer === true ? '600' : '500'
-            }}
-          >
-            VERO
-          </p>
-        </div>
-
-        <div
-          className={`answer-option ${selectedAnswer === false ? 'false-option selected' : 'false-option'}`}
-          onClick={() => selectAnswer(false)}
-          style={{ cursor: 'pointer' }}
-        >
-          <div
-            className="radio-button"
-            style={{
-              borderColor: selectedAnswer === false ? '#d44a4a' : theme.mutedBorder
-            }}
-          >
-            {selectedAnswer === false && (
-              <div
-                className="radio-dot"
-                style={{ backgroundColor: '#d44a4a' }}
-              />
-            )}
-          </div>
-          <p
-            className="answer-text"
-            style={{
-              color: selectedAnswer === false ? '#d44a4a' : '#d44a4a',
-              fontWeight: selectedAnswer === false ? '600' : '500'
-            }}
-          >
-            FALSO
-          </p>
-        </div>
+        ))}
       </div>
     </>
   );
@@ -193,7 +173,7 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
             color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
           }}
         >
-          {selectedAnswer === correctAnswer ? 'Corretto!' : 'Sbagliato'}
+          {selectedAnswer === correctAnswer ? 'Fantastico!' : 'Risposta Sbagliata'}
         </div>
         <div
           className="feedback-message"
@@ -202,8 +182,8 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
           }}
         >
           {selectedAnswer === correctAnswer
-            ? 'Giove è effettivamente il pianeta più grande del nostro sistema solare, con una massa superiore a tutti gli altri pianeti messi insieme.'
-            : 'In realtà, Giove è il pianeta più grande del nostro sistema solare. È più di due volte più massiccio di tutti gli altri pianeti messi insieme!'
+            ? 'Hai risposto correttamente! Giove è effettivamente il pianeta più grande del nostro sistema solare.'
+            : 'Giove è in realtà il pianeta più grande del nostro sistema solare.'
           }
         </div>
       </div>
@@ -235,40 +215,38 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
           <path d="M12 5l-5 5 5 5" stroke={theme.secondary} strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        <span>Previous</span>
+        <span>Precedente</span>
       </button>
 
       {!immediateFeedbackEnabled && (
         <button
           className="nav-button check-button"
           onClick={checkAnswer}
-          disabled={selectedAnswer === null || showFeedback}
+          disabled={!selectedAnswer || showFeedback}
           style={{
-            backgroundColor: selectedAnswer !== null && !showFeedback ? theme.secondary : theme.muted,
-            color: selectedAnswer !== null && !showFeedback ? theme.primaryForeground : theme.mutedForeground,
-            cursor: selectedAnswer !== null && !showFeedback ? 'pointer' : 'not-allowed',
-            opacity: selectedAnswer !== null && !showFeedback ? 1 : 0.6
+            backgroundColor: selectedAnswer && !showFeedback ? theme.secondary : theme.muted,
+            color: selectedAnswer && !showFeedback ? theme.primaryForeground : theme.mutedForeground,
+            cursor: selectedAnswer && !showFeedback ? 'pointer' : 'not-allowed',
+            opacity: selectedAnswer && !showFeedback ? 1 : 0.6
           }}
         >
           <span>Controlla</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fill-rule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clip-rule="evenodd"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fillRule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clipRule="evenodd"/></svg>
         </button>
       )}
 
       <button
         className="nav-button next-button"
         onClick={nextQuestion}
-        disabled={selectedAnswer === null}
         style={{
-          backgroundColor: selectedAnswer !== null ? theme.primary : theme.muted,
-          color: selectedAnswer !== null ? theme.primaryForeground : theme.mutedForeground,
-          cursor: selectedAnswer !== null ? 'pointer' : 'not-allowed',
-          opacity: selectedAnswer !== null ? 1 : 0.6
+          backgroundColor: theme.primary,
+          color: theme.primaryForeground,
+          cursor: 'pointer'
         }}
       >
-        <span>Next</span>
+        <span>Successivo</span>
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
-          <path d="M8 5l5 5-5 5" stroke={selectedAnswer !== null ? theme.primaryForeground : '#AAA'} strokeWidth="2" strokeLinecap="round"/>
+          <path d="M8 5l5 5-5 5" stroke={theme.primaryForeground} strokeWidth="2" strokeLinecap="round"/>
         </svg>
       </button>
     </>
@@ -293,4 +271,4 @@ const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = 
   );
 };
 
-export default TrueFalseQuiz;
+export default OutlinedQuiz;

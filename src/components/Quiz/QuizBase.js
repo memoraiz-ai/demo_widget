@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './QuizBase.css';
+import '../../styles/QuizBase.css';
 
 const QuizBase = ({
   theme,

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState, useRef } from 'react';
+import './styles/App.css';
 
-import SingleQuiz from './components/SingleQuiz';
-import MultiQuiz from './components/MultiQuiz';
-import TrueFalseQuiz from './components/TrueFalseQuiz';
-import OutlinedQuiz from './components/OutlinedQuiz';
+import { SingleQuiz, MultiQuiz, TrueFalseQuiz, OutlinedQuiz } from './components/Quiz';
 import SidePanel from './components/SidePanel';
+import Flashcard from './components/Flashcard';
+import Mindmap from './components/Mindmap';
 
 // Define color palettes
 const colorPalettes = {
@@ -56,31 +55,42 @@ const colorPalettes = {
     successForeground: '#064e3b',
     warning: '#fbbf24',
     warningForeground: '#78350f'
+
   },
-  dark: {
-    name: 'Dark Mode',
-    primary: '#3b82f6',
-    primaryForeground: '#ffffff',
-    secondary: '#1e40af',
-    background: '#1f2937',
-    cardBorder: '#374151',
-    muted: '#374151',
-    mutedBorder: '#4b5563',
-    foreground: '#f9fafb',
-    popoverForeground: '#ffffff',
-    success: '#10b981',
-    successForeground: '#ffffff',
-    warning: '#f59e0b',
-    warningForeground: '#ffffff'
-  }
+//   dark: {
+//     name: 'Dark Mode',
+//     primary: '#3b82f6',
+//     primaryForeground: '#ffffff',
+//     secondary: '#1e40af',
+//     background: '#1f2937',
+//     cardBorder: '#374151',
+//     muted: '#374151',
+//     mutedBorder: '#4b5563',
+//     foreground: '#f9fafb',
+//     popoverForeground: '#ffffff',
+//     success: '#10b981',
+//     successForeground: '#ffffff',
+//     warning: '#f59e0b',
+//     warningForeground: '#ffffff'
+//   }
 };
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('quiz');
   const [quizType, setQuizType] = useState('single');
+  const [flashcardMode, setFlashcardMode] = useState('normal');
   const [colorPalette, setColorPalette] = useState('default');
   const [currentTheme, setCurrentTheme] = useState(colorPalettes.default);
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
+  const flashcardRef = useRef(null);
+const mindmapRef = useRef(null);
+
+  const handleShuffle = () => {
+    if (flashcardRef.current && flashcardRef.current.shuffleFlashcards) {
+      flashcardRef.current.shuffleFlashcards();
+    }
+  };
 
   // Update theme when color palette changes
   React.useEffect(() => {
@@ -91,22 +101,34 @@ function App() {
     const commonProps = {
       theme: currentTheme,
       timerEnabled,
-      immediateFeedbackEnabled,
-      key: `quiz-${immediateFeedbackEnabled}` // Reset quiz when immediate feedback changes
+      immediateFeedbackEnabled
     };
+
+    const quizKey = `quiz-${immediateFeedbackEnabled}`; // Reset quiz when immediate feedback changes
 
     switch (quizType) {
       case 'single':
-        return <SingleQuiz {...commonProps} />;
+        return <SingleQuiz key={quizKey} {...commonProps} />;
       case 'multi':
-        return <MultiQuiz {...commonProps} />;
+        return <MultiQuiz key={quizKey} {...commonProps} />;
       case 'truefalse':
-        return <TrueFalseQuiz {...commonProps} />;
+        return <TrueFalseQuiz key={quizKey} {...commonProps} />;
       case 'outlined':
-        return <OutlinedQuiz {...commonProps} />;
+        return <OutlinedQuiz key={quizKey} {...commonProps} />;
       default:
-        return <SingleQuiz {...commonProps} />;
+        return <SingleQuiz key={quizKey} {...commonProps} />;
     }
+  };
+
+  const renderContent = () => {
+    if (currentPage === 'quiz') {
+      return renderQuiz();
+    } else if (currentPage === 'flashcard') {
+      return <Flashcard ref={flashcardRef} theme={currentTheme} mode={flashcardMode} timerEnabled={timerEnabled} />;
+    } else if (currentPage === 'mindmap') {
+      return <Mindmap ref={mindmapRef} theme={currentTheme} />;
+    }
+    return renderQuiz();
   };
 
   return (
@@ -126,12 +148,38 @@ function App() {
       '--warning-foreground': currentTheme.warningForeground
     }}>
       <div className="app-container">
-        <div className="quiz-container">
-          {renderQuiz()}
+        <div className="main-content">
+          <div className="navigation-buttons">
+            <button
+              className={`nav-button ${currentPage === 'quiz' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('quiz')}
+            >
+              Quiz
+            </button>
+            <button
+              className={`nav-button ${currentPage === 'flashcard' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('flashcard')}
+            >
+              Flashcard
+            </button>
+            <button
+              className={`nav-button ${currentPage === 'mindmap' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('mindmap')}
+            >
+              Mindmap
+            </button>
+          </div>
+          <div className="content-container">
+            {renderContent()}
+          </div>
         </div>
         <SidePanel
+          currentPage={currentPage}
           quizType={quizType}
           setQuizType={setQuizType}
+          flashcardMode={flashcardMode}
+          setFlashcardMode={setFlashcardMode}
+          onShuffle={handleShuffle}
           colorPalette={colorPalette}
           setColorPalette={setColorPalette}
           colorPalettes={colorPalettes}

@@ -1,114 +1,51 @@
-# Quiz App
+# Demo
 
-A React application featuring multiple quiz types with customizable color palettes.
+<div align="center">
 
-## Features
+![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-### Funzionalità
+</div>
+
+## ✨ Features
+
+### 📝 Quiz Modes
 
 - **Single Answer**: Traditional multiple choice with radio buttons
 - **Multiple Answer**: Select all that apply with checkboxes
 - **True/False**: Binary choice with styled true/false buttons
 - **Outlined Boxes**: Modern card-based selection with checkmarks
 
-### Color Themes
+### 🃏 Flashcard Modes
 
-- **Default Blue**: Classic blue theme
-- **Purple Dream**: Modern purple accent
-- **Forest Green**: Natural green palette
-- **Dark Mode**: Dark theme for low-light environments
+- **Normal Mode**: Standard question and answer flashcards
+- **Fill the Blank**: Complete sentences with missing words
+- **Mix Mode**: Combination of different question types
 
-## Installation
+## 📖 Usage
 
-1. Install dependencies:
+### Navigation
 
-```bash
-npm install
-```
+Use the navigation buttons in the top-left corner to switch between:
 
-2. Start the development server:
-
-
-
-```bash
-npm start
-```
-
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Usage
+- **Quiz Mode**: Test your knowledge with various question types
+- **Flashcard Mode**: Study with interactive flashcards
+- **Mindmap Mode**: Visual learning tool (coming soon)
 
 ### SidePanel Controls
 
-- **Quiz Type Selection**: Click on any quiz type card to switch between different quiz formats
-- **Color Palette**: Choose from 4 predefined color themes
-- **Quick Stats**: View current mode and theme information
-- **Reset Button**: Return to default single quiz with blue theme
+The side panel provides comprehensive control over your learning experience:
 
-### Quiz Features
+#### Quiz Settings
 
-- **Timer**: Each quiz has a countdown timer
-- **Progress Bar**: Visual progress through questions
-- **Score Tracking**: Points awarded for correct answers
-- **Navigation**: Previous/Next buttons for quiz flow
-- **Interactive Feedback**: Immediate visual and textual feedback
-- **Responsive Design**: Works on desktop, tablet, and mobile
+- **Quiz Type Selection**: Choose between 4 different quiz formats
+- **Timer Toggle**: Enable/disable the countdown timer
+- **Immediate Feedback**: Toggle instant answer validation
+- **Color Theme**: Select from 4 predefined color palettes
 
-## Project Structure
+#### Flashcard Settings
 
-```
-
-src/
-├── components/
-│   ├── SingleQuiz.js      # Single answer quiz component
-│   ├── MultiQuiz.js       # Multiple answer quiz component
-│   ├── TrueFalseQuiz.js   # True/False quiz component
-│   ├── OutlinedQuiz.js    # Outlined boxes quiz component
-│   ├── SidePanel.js       # Settings and theme panel
-│   ├── QuizBase.css       # Shared quiz styling
-│   └── SidePanel.css      # Sidepanel specific styles
-├── App.js                 # Main app component with theme management
-├── App.css                # Global app styles
-└── index.js               # App entry point
-```
-
-## Customization
-
-### Adding New Quiz Types
-1. Create a new component in `src/components/`
-2. Import and add to the quiz types array in `App.js`
-3. Add to the `quizTypes` array in `SidePanel.js`
-
-### Adding New Color Themes
-1. Define new theme object in the `colorPalettes` object in `App.js`
-2. Include all required color properties
-3. The theme will automatically appear in the sidepanel
-
-### Required Theme Colors
-- `primary`: Primary accent color
-- `primaryForeground`: Text color for primary elements
-- `secondary`: Secondary accent color
-- `background`: Main background color
-- `cardBorder`: Border color for cards and panels
-- `muted`: Background for disabled elements
-- `mutedBorder`: Border for disabled elements
-- `foreground`: Main text color
-- `popoverForeground`: Text for overlays and headers
-- `successBackground`: Background for success states
-- `successForeground`: Text for success states
-- `warningBackground`: Background for warning/error states
-- `warningForeground`: Text for warning/error states
-
-## Technologies Used
-
-- **React 18**: Modern React with hooks
-- **CSS Custom Properties**: Dynamic theming
-- **CSS Grid/Flexbox**: Responsive layouts
-- **Geist Font**: Modern typography
-
-## Browser Support
-
-- Chrome 60+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
+- **Flashcard Mode**: Choose between Normal, Fill the Blank, or Mix modes
+- **Timer Toggle**: Control timer visibility
+- **Shuffle Button**: Randomize flashcard order

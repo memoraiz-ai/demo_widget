@@ -346,8 +346,16 @@
   cursor: pointer;
   height: 3.25rem;
   text-decoration: none;
-  border: none;
   transition: all 0.2s ease;
+}
+
+.prev-button, .next-button {
+  border: 2px solid;
+  background: transparent;
+}
+
+.check-button {
+  border: none;
 }
 
 .nav-button:hover {

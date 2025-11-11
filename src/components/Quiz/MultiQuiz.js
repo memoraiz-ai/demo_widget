@@ -1,58 +1,69 @@
 import React, { useState } from 'react';
 import QuizBase from './QuizBase';
 
-const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState(null); // No pre-selection
-  const [showFeedback, setShowFeedback] = useState(false); // Not showing feedback initially
+const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true }) => {
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackType, setFeedbackType] = useState('success'); // 'success' or 'warning'
   const [timeLeft, setTimeLeft] = useState(85);
-  const [score, setScore] = useState(125); // Starting score without points
+  const [score, setScore] = useState(125);
   const [currentQuestion, setCurrentQuestion] = useState(8);
   const [totalQuestions] = useState(10);
-  const [pointsAwarded, setPointsAwarded] = useState(false); // No points awarded initially
+  const [pointsAwarded, setPointsAwarded] = useState(false);
 
   const questionVariants = [
-    "Il pianeta più grande del nostro sistema solare è _______.",
-    "Quale pianeta detiene il titolo di più grande nel nostro sistema solare?",
-    "Identifica il pianeta più grande che orbita nel nostro sistema solare."
+    "Quali dei seguenti sono giganti gassosi nel nostro sistema solare?",
+    "Seleziona tutti i pianeti giganti gassosi del nostro sistema solare:",
+    "Identifica quali di questi pianeti sono giganti gassosi nel nostro sistema solare:"
   ];
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([
-    "Terra",
     "Giove",
     "Saturno",
     "Marte",
-    "Nettuno"
+    "Nettuno",
+    "Terra"
   ]);
 
-  const correctAnswer = "Giove";
+  const correctAnswers = ["Giove", "Saturno", "Nettuno"];
 
-  const selectAnswer = (answer) => {
-    setSelectedAnswer(answer);
+  const toggleAnswer = (answer) => {
+    const newSelected = selectedAnswers.includes(answer)
+      ? selectedAnswers.filter(a => a !== answer)
+      : [...selectedAnswers, answer];
 
-    // Show feedback immediately if enabled, otherwise wait for user action
+    setSelectedAnswers(newSelected);
+
+    // Show feedback immediately if enabled
     if (immediateFeedbackEnabled) {
-      setTimeout(() => {
-        setShowFeedback(true);
-        if (answer === correctAnswer && !pointsAwarded) {
-          setScore(prev => prev + 25);
-          setPointsAwarded(true);
-        }
-      }, 300);
+      checkAnswer(newSelected);
     } else {
       setShowFeedback(false);
+      setPointsAwarded(false);
     }
   };
 
-  const checkAnswer = () => {
+  const checkAnswerManual = () => {
+    checkAnswer(selectedAnswers);
+  };
+
+  const checkAnswer = (answersToCheck = selectedAnswers) => {
+    if (answersToCheck.length === 0) return;
+
+    const correctCount = answersToCheck.filter(answer => correctAnswers.includes(answer)).length;
+    const isCorrect = answersToCheck.length === correctAnswers.length && correctCount === correctAnswers.length;
+
+    setFeedbackType(isCorrect ? 'success' : 'warning');
     setShowFeedback(true);
-    if (selectedAnswer === correctAnswer && !pointsAwarded) {
-      setScore(prev => prev + 25);
+
+    if (isCorrect && !pointsAwarded) {
+      setScore(prev => prev + 50);
       setPointsAwarded(true);
     }
   };
 
   const nextQuestion = () => {
-    setSelectedAnswer(null);
+    setSelectedAnswers([]);
     setShowFeedback(false);
     setPointsAwarded(false);
     setCurrentQuestion(prev => Math.min(prev + 1, totalQuestions));
@@ -65,7 +76,7 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     setAnswers(shuffled);
-    setSelectedAnswer(null);
+    setSelectedAnswers([]);
     setShowFeedback(false);
     setPointsAwarded(false);
   };
@@ -73,13 +84,13 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
   const rephraseQuestion = () => {
     const nextIndex = (currentQuestionIndex + 1) % questionVariants.length;
     setCurrentQuestionIndex(nextIndex);
-    setSelectedAnswer(null);
+    setSelectedAnswers([]);
     setShowFeedback(false);
     setPointsAwarded(false);
   };
 
   const prevQuestion = () => {
-    setSelectedAnswer(null);
+    setSelectedAnswers([]);
     setShowFeedback(false);
     setPointsAwarded(false);
     setCurrentQuestion(prev => Math.max(prev - 1, 1));
@@ -106,41 +117,38 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
         {questionVariants[currentQuestionIndex]}
       </p>
 
-      <div className="answers" style={{ gap: '8px' }}>
+      <div className="answers">
         {answers.map((answer, index) => (
           <div
             key={index}
-            className={`answer-box ${selectedAnswer === answer ? 'selected' : ''}`}
-            onClick={() => selectAnswer(answer)}
-            style={{
-              borderColor: selectedAnswer === answer ? theme.primary : theme.cardBorder,
-              backgroundColor: selectedAnswer === answer ? theme.successBackground : theme.background
-            }}
+            className="answer-option"
+            onClick={() => toggleAnswer(answer)}
           >
-            <p
-              className="answer-text"
+            <div
+              className={`checkbox ${selectedAnswers.includes(answer) ? 'checked' : ''}`}
               style={{
-                color: selectedAnswer === answer ? theme.popoverForeground : theme.foreground,
-                fontSize: '16px',
-                lineHeight: '24px'
+                backgroundColor: selectedAnswers.includes(answer) ? theme.primary : theme.background,
+                borderColor: selectedAnswers.includes(answer) ? theme.primary : theme.mutedBorder
               }}
             >
+              <svg
+                className="checkbox-icon"
+                viewBox="0 0 16 16"
+                fill="none"
+                style={{ display: selectedAnswers.includes(answer) ? 'block' : 'none' }}
+              >
+                <path
+                  d="M3 8l3 3 7-7"
+                  stroke={theme.primaryForeground}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <p className="answer-text" style={{ color: theme.foreground }}>
               {answer}
             </p>
-            <svg
-              className="answer-icon"
-              viewBox="0 0 20 20"
-              fill="none"
-              style={{ display: selectedAnswer === answer ? 'block' : 'none' }}
-            >
-              <path
-                d="M16 5l-9 9-3-3"
-                stroke={theme.popoverForeground}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
           </div>
         ))}
       </div>
@@ -152,11 +160,11 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
     <div
       className="feedback"
       style={{
-        backgroundColor: selectedAnswer === correctAnswer ? '#a2b99c' : '#ff9359'
+        backgroundColor: feedbackType === 'success' ? '#a2b99c' : '#ff9359'
       }}
     >
       <svg className="feedback-icon" viewBox="0 0 20 20" fill="none">
-        {selectedAnswer === correctAnswer ? (
+        {feedbackType === 'success' ? (
           <path d="M10 2l2.39 4.84L18 7.46l-4 3.9.94 5.5L10 14.24 5.06 16.86l.94-5.5-4-3.9 5.61-.62L10 2z"
             fill="#121c12" stroke="#121c12" strokeWidth="2"/>
         ) : (
@@ -170,31 +178,31 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
         <div
           className="feedback-title"
           style={{
-            color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
+            color: feedbackType === 'success' ? '#121c12' : '#440a06'
           }}
         >
-          {selectedAnswer === correctAnswer ? 'Fantastico!' : 'Risposta Sbagliata'}
+          {feedbackType === 'success' ? 'Perfetto!' : 'Risposta Sbagliata'}
         </div>
         <div
           className="feedback-message"
           style={{
-            color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
+            color: feedbackType === 'success' ? '#121c12' : '#440a06'
           }}
         >
-          {selectedAnswer === correctAnswer
-            ? 'Hai risposto correttamente! Giove è effettivamente il pianeta più grande del nostro sistema solare.'
-            : 'Giove è in realtà il pianeta più grande del nostro sistema solare.'
+          {feedbackType === 'success'
+            ? 'Eccellente! Giove, Saturno e Nettuno sono effettivamente giganti gassosi.'
+            : 'Ricorda che i giganti gassosi sono i quattro pianeti esterni del nostro sistema solare. Riprova!'
           }
         </div>
       </div>
       <div
         className="feedback-score"
         style={{
-          color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
+          color: feedbackType === 'success' ? '#121c12' : '#440a06'
         }}
       >
         <div className="score-points">
-          {selectedAnswer === correctAnswer ? '+25p' : '+0p'}
+          {feedbackType === 'success' ? '+50p' : '+0p'}
         </div>
         <div className="score-total">{score}/500</div>
       </div>
@@ -221,34 +229,32 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
       {!immediateFeedbackEnabled && (
         <button
           className="nav-button check-button"
-          onClick={checkAnswer}
-          disabled={!selectedAnswer || showFeedback}
+          onClick={checkAnswerManual}
+          disabled={selectedAnswers.length === 0 || showFeedback}
           style={{
-            backgroundColor: selectedAnswer && !showFeedback ? theme.secondary : theme.muted,
-            color: selectedAnswer && !showFeedback ? theme.primaryForeground : theme.mutedForeground,
-            cursor: selectedAnswer && !showFeedback ? 'pointer' : 'not-allowed',
-            opacity: selectedAnswer && !showFeedback ? 1 : 0.6
+            backgroundColor: selectedAnswers.length > 0 && !showFeedback ? theme.secondary : theme.muted,
+            color: selectedAnswers.length > 0 && !showFeedback ? theme.primaryForeground : theme.mutedForeground,
+            cursor: selectedAnswers.length > 0 && !showFeedback ? 'pointer' : 'not-allowed',
+            opacity: selectedAnswers.length > 0 && !showFeedback ? 1 : 0.6
           }}
         >
           <span>Controlla</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fill-rule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clip-rule="evenodd"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fillRule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clipRule="evenodd"/></svg>
         </button>
       )}
 
       <button
         className="nav-button next-button"
         onClick={nextQuestion}
-        disabled={!selectedAnswer}
         style={{
-          backgroundColor: selectedAnswer ? theme.primary : theme.muted,
-          color: selectedAnswer ? theme.primaryForeground : theme.mutedForeground,
-          cursor: selectedAnswer ? 'pointer' : 'not-allowed',
-          opacity: selectedAnswer ? 1 : 0.6
+          backgroundColor: theme.primary,
+          color: theme.primaryForeground,
+          cursor: 'pointer'
         }}
       >
         <span>Successivo</span>
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
-          <path d="M8 5l5 5-5 5" stroke={selectedAnswer > 0 ? theme.primaryForeground : '#AAA'} strokeWidth="2" strokeLinecap="round"/>
+          <path d="M8 5l5 5-5 5" stroke={theme.primaryForeground} strokeWidth="2" strokeLinecap="round"/>
         </svg>
       </button>
     </>
@@ -273,4 +279,4 @@ const OutlinedQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = t
   );
 };
 
-export default OutlinedQuiz;
+export default MultiQuiz;

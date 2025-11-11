@@ -1,0 +1,441 @@
+/* Global Styles */
+:root {
+  --primary: #21578c;
+  --primary-foreground: #ffffff;
+  --secondary: #21466e;
+  --background: #ffffff;
+  --card-border: #dfe1e6;
+  --muted: #dfe1e6;
+  --muted-border: #b4b8c5;
+  --foreground: #303136;
+  --popover-foreground: #111111;
+  --success-background: #a2b99c;
+  --success-foreground: #121c12;
+  --warning-background: #ff9359;
+  --warning-foreground: #440a06;
+}
+
+.app {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr 28rem;
+  min-height: 100vh;
+  gap: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid var(--primary);
+  border-radius: 24px;
+  background: #ffffff;
+  color: var(--foreground);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button.active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.content-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  .content-container {
+    padding: 20px;
+    min-height: 70vh;
+  }
+}
+
+@media (max-width: 1280px) {
+  .app-container {
+    grid-template-columns: 1fr 24rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .content-container {
+    padding: 16px;
+  }
+
+  .navigation-buttons {
+    padding: 16px;
+  }
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Flashcard Styles */
+.flashcard-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flashcard-wrapper {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.flashcard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flashcard-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  color: black;
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+.header-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.timer-widget {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.timer-widget svg {
+  color: var(--foreground);
+}
+.timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--foreground);
+}
+.settings-button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--primary);
+  transition: background-color 0.2s ease;
+}
+.settings-button:hover {
+  background-color: var(--muted);
+}
+.settings-button svg {
+  color: var(--primary);
+}
+.progress-section {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background-color: var(--muted);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 40px;
+  transition: width 0.3s ease;
+}
+.progress-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--foreground);
+}
+.flashcard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 0 24px;
+}
+.question-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: black;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.flashcard {
+  background-color: var(--background);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 32px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.flashcard-back {
+  transform: rotateY(180deg);
+}
+.card-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--foreground);
+  margin: 0;
+  letter-spacing: -0.48px;
+}
+.flip-hint {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  color: var(--muted-border);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  z-index: 10;
+  will-change: transform;
+}
+
+.flashcard-front .flip-hint {
+  transform: translateX(-50%) translateZ(0);
+}
+
+.flashcard-back .flip-hint {
+  transform: translateX(-50%) rotateY(180deg) scaleX(-1) translateZ(0);
+}
+.flip-hint svg {
+  color: var(--muted-border);
+}
+.flashcard-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flashcard-navigation .nav-button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 12px 20px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.flashcard-navigation .prev-button {
+  border: 2px solid var(--primary);
+  background: transparent;
+  color: var(--secondary);
+}
+.flashcard-navigation .prev-button:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--muted);
+}
+.flashcard-navigation .prev-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.flashcard-navigation .next-button {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+.flashcard-navigation .next-button:hover:not(:disabled) {
+  background-color: var(--secondary);
+}
+.flashcard-navigation .next-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Shuffle Button Styles */
+.shuffle-button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 5px;
+  border-radius: 100px;
+  border: 2px solid var(--card-border);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  transition: all 0.2s ease;
+}
+
+.shuffle-button:hover {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  transform: translateY(-1px);
+}
+
+.shuffle-button:active {
+    transform: translateY(0) rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+.shuffle-icon {
+  font-size: 16px;
+}
+
+.shuffle-text {
+  font-size: 14px;
+}
+
+/* Mindmap Styles */
+.mindmap-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mindmap-placeholder {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 48px;
+  text-align: center;
+}
+
+.mindmap-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--foreground);
+  margin: 0 0 24px 0;
+}
+
+.mindmap-content {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--foreground);
+  opacity: 0.7;
+}

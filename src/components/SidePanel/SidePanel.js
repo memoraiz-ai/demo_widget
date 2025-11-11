@@ -1,0 +1,219 @@
+import React from 'react';
+import '../../styles/SidePanel.css';
+
+const SidePanel = ({ currentPage, quizType, setQuizType, colorPalette, setColorPalette, colorPalettes, timerEnabled, setTimerEnabled, immediateFeedbackEnabled, setImmediateFeedbackEnabled, flashcardMode, setFlashcardMode, onShuffle }) => {
+  const quizTypes = [
+    { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
+    { id: 'multi', name: 'Risposta Multipla', icon: '☑️', description: 'Seleziona tutte le opzioni corrette' },
+    { id: 'truefalse', name: 'Vero/Falso', icon: '✅', description: 'Scelta binaria semplice' },
+    { id: 'outlined', name: 'Riquadri Contornati', icon: '📦', description: 'Selezione basata su schede' }
+  ];
+
+  const flashcardModes = [
+    { id: 'normal', name: 'Domanda classica', icon: '❓', description: 'Domande e risposte standard' },
+    { id: 'fillblank', name: 'Riempi lo spazio', icon: '📝', description: 'Completa le frasi con la parola mancante' },
+    { id: 'mix', name: 'Mix', icon: '🔄', description: 'Combinazione di modalità diverse' }
+  ];
+
+  return (
+    <div className="sidepanel">
+      <div className="sidepanel-content">
+        {currentPage === 'quiz' && (
+          <div className="sidepanel-section">
+            <h3 className="section-title">Funzionalità</h3>
+            <div className="quiz-types">
+              {quizTypes.map((type) => (
+                <div
+                  key={type.id}
+                  className={`quiz-type-card ${quizType === type.id ? 'active' : ''}`}
+                  onClick={() => setQuizType(type.id)}
+                >
+                  <div className="quiz-type-header">
+                    <span className="quiz-type-icon">{type.icon}</span>
+                    <span className="quiz-type-name">{type.name}</span>
+                  </div>
+                  <p className="quiz-type-description">{type.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {currentPage === 'flashcard' && (
+          <div className="sidepanel-section">
+            <h3 className="section-title">Funzionalità</h3>
+            <div className="quiz-types">
+              {flashcardModes.map((mode) => (
+                <div
+                  key={mode.id}
+                  className={`quiz-type-card ${flashcardMode === mode.id ? 'active' : ''}`}
+                  onClick={() => setFlashcardMode(mode.id)}
+                >
+                  <div className="quiz-type-header">
+                    <span className="quiz-type-icon">{mode.icon}</span>
+                    <span className="quiz-type-name">{mode.name}</span>
+                  </div>
+                  <p className="quiz-type-description">{mode.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {currentPage === 'quiz' ? (
+          <div className="sidepanel-section">
+            <h3 className="section-title">Dettagli</h3>
+            <div className="details">
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Timer</span>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      id="timer-toggle"
+                      checked={timerEnabled}
+                      onChange={(e) => setTimerEnabled(e.target.checked)}
+                    />
+                    <label htmlFor="timer-toggle" className="toggle-label">
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <p className="detail-description">
+                  Abilita o disabilita il timer per le domande del quiz
+                </p>
+              </div>
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Feedback Immediato</span>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      id="immediate-feedback-toggle"
+                      checked={immediateFeedbackEnabled}
+                      onChange={(e) => setImmediateFeedbackEnabled(e.target.checked)}
+                    />
+                    <label htmlFor="immediate-feedback-toggle" className="toggle-label">
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <p className="detail-description">
+                  Mostra un feedback immediato quando si seleziona una risposta
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : currentPage === 'flashcard' ? (
+          <div className="sidepanel-section">
+            <h3 className="section-title">Dettagli</h3>
+            <div className="details">
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Timer</span>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      id="timer-toggle-flashcard"
+                      checked={timerEnabled}
+                      onChange={(e) => setTimerEnabled(e.target.checked)}
+                    />
+                    <label htmlFor="timer-toggle-flashcard" className="toggle-label">
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <p className="detail-description">
+                  Abilita o disabilita il timer per le flashcard
+                </p>
+              </div>
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Mescola Flashcard</span>
+                  <button className="shuffle-button" onClick={onShuffle}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M19.47 4.47a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 1 1-1.06-1.06l.72-.72h-1.793c-.844 0-1.424 0-1.88.045c-.44.043-.706.122-.927.247c-.22.125-.426.313-.689.668c-.272.368-.572.865-1.006 1.589l-2.523 4.205c-.41.685-.747 1.245-1.068 1.679c-.335.453-.688.816-1.155 1.08s-.96.38-1.52.435c-.538.052-1.191.052-1.99.052H2a.75.75 0 0 1 0-1.5h3.603c.844 0 1.424 0 1.88-.045c.44-.043.706-.122.927-.247c.22-.125.426-.313.689-.668c.272-.368.571-.865 1.006-1.589l2.523-4.205c.41-.685.747-1.245 1.068-1.679c.335-.453.688-.816 1.155-1.08s.96-.38 1.52-.435c.538-.052 1.191-.052 1.99-.052h1.828l-.72-.72a.75.75 0 0 1 0-1.06M7.73 7.79c-.196-.038-.418-.041-1.063-.041H2a.75.75 0 0 1 0-1.5h4.74c.546 0 .922 0 1.278.07a3.75 3.75 0 0 1 2.071 1.172c.243.27.436.592.717 1.06l.037.062a.75.75 0 1 1-1.286.772c-.332-.554-.45-.742-.583-.89a2.25 2.25 0 0 0-1.243-.705m5.683 6.566a.75.75 0 0 1 1.03.257c.331.554.448.742.582.89c.327.364.763.611 1.243.705c.196.038.418.041 1.063.041h2.857l-.72-.72a.75.75 0 1 1 1.061-1.06l2 2a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 1 1-1.06-1.06l.72-.72h-2.931c-.545 0-.92 0-1.277-.07a3.75 3.75 0 0 1-2.071-1.172c-.243-.27-.436-.592-.717-1.06l-.037-.062a.75.75 0 0 1 .257-1.03" clipRule="evenodd"/></svg>
+                  </button>
+                </div>
+                <p className="detail-description">
+                  Clicca per mescolare l'ordine delle flashcard in modo casuale
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        <div className="sidepanel-section">
+          <h3 className="section-title">Stile</h3>
+          <div className="color-palettes">
+            {Object.entries(colorPalettes).map(([key, palette]) => (
+              <div
+                key={key}
+                className={`palette-card ${colorPalette === key ? 'active' : ''}`}
+                onClick={() => setColorPalette(key)}
+              >
+                <div className="palette-preview">
+                  <div className="color-sample primary" style={{ backgroundColor: palette.primary }}></div>
+                  <div className="color-sample secondary" style={{ backgroundColor: palette.secondary }}></div>
+                  <div className="color-sample success" style={{ backgroundColor: palette.success }}></div>
+                  <div className="color-sample warning" style={{ backgroundColor: palette.warning }}></div>
+                </div>
+                <span className="palette-name">{palette.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="sidepanel-section">
+          <h3 className="section-title">Informazioni rapide</h3>
+          <div className="stats">
+            <div className="stat-item">
+              <span className="stat-label">Pagina corrente</span>
+              <span className="stat-value">
+                {currentPage === 'quiz' ? 'Quiz' : currentPage === 'flashcard' ? 'Flashcard' : 'Mindmap'}
+              </span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Modalità</span>
+              <span className="stat-value">
+                {currentPage === 'quiz'
+                  ? quizTypes.find(t => t.id === quizType)?.name
+                  : currentPage === 'flashcard'
+                  ? flashcardModes.find(m => m.id === flashcardMode)?.name
+                  : 'N/A'
+                }
+              </span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Tema</span>
+              <span className="stat-value">{colorPalettes[colorPalette].name}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Opzioni disponibili</span>
+              <span className="stat-value">
+                {currentPage === 'quiz' ? '4 Quiz' : currentPage === 'flashcard' ? '3 Modalità' : '1 Pagina'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="sidepanel-footer">
+          <button className="reset-button" onClick={() => {
+            if (currentPage === 'quiz') {
+              setQuizType('single');
+              setImmediateFeedbackEnabled(true);
+            } else if (currentPage === 'flashcard') {
+              setFlashcardMode('normal');
+            }
+            setColorPalette('default');
+            setTimerEnabled(true);
+          }}>
+            Reset Impostazioni
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SidePanel;

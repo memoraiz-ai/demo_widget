@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import QuizBase from './QuizBase';
 
-const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true }) => {
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+const TrueFalseQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackType, setFeedbackType] = useState('success'); // 'success' or 'warning'
   const [timeLeft, setTimeLeft] = useState(85);
   const [score, setScore] = useState(125);
   const [currentQuestion, setCurrentQuestion] = useState(8);
@@ -12,85 +11,74 @@ const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true
   const [pointsAwarded, setPointsAwarded] = useState(false);
 
   const questionVariants = [
-    "Quali dei seguenti sono giganti gassosi nel nostro sistema solare?",
-    "Seleziona tutti i pianeti giganti gassosi del nostro sistema solare:",
-    "Identifica quali di questi pianeti sono giganti gassosi nel nostro sistema solare:"
+    "Giove è il pianeta più grande del nostro sistema solare.",
+    "Giove è il pianeta più grande del nostro sistema solare?",
+    "Giove detiene il primato di essere il pianeta più grande del nostro sistema solare."
   ];
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState([
-    "Giove",
-    "Saturno",
-    "Marte",
-    "Nettuno",
-    "Terra"
-  ]);
+  const correctAnswer = true;
 
-  const correctAnswers = ["Giove", "Saturno", "Nettuno"];
+  const selectAnswer = (isTrue) => {
+    setSelectedAnswer(isTrue);
 
-  const toggleAnswer = (answer) => {
-    const newSelected = selectedAnswers.includes(answer)
-      ? selectedAnswers.filter(a => a !== answer)
-      : [...selectedAnswers, answer];
-
-    setSelectedAnswers(newSelected);
-
-    // Show feedback immediately if enabled
+    // Show feedback immediately if enabled, otherwise wait for user action
     if (immediateFeedbackEnabled) {
-      checkAnswer(newSelected);
+      setTimeout(() => {
+        setShowFeedback(true);
+        if (isTrue === correctAnswer && !pointsAwarded) {
+          setScore(prev => prev + 25);
+          setPointsAwarded(true);
+        }
+      }, 300);
     } else {
       setShowFeedback(false);
-      setPointsAwarded(false);
     }
   };
 
-  const checkAnswerManual = () => {
-    checkAnswer(selectedAnswers);
-  };
-
-  const checkAnswer = (answersToCheck = selectedAnswers) => {
-    if (answersToCheck.length === 0) return;
-
-    const correctCount = answersToCheck.filter(answer => correctAnswers.includes(answer)).length;
-    const isCorrect = answersToCheck.length === correctAnswers.length && correctCount === correctAnswers.length;
-
-    setFeedbackType(isCorrect ? 'success' : 'warning');
+  const checkAnswer = () => {
     setShowFeedback(true);
-
-    if (isCorrect && !pointsAwarded) {
-      setScore(prev => prev + 50);
+    if (selectedAnswer === correctAnswer && !pointsAwarded) {
+      setScore(prev => prev + 25);
       setPointsAwarded(true);
     }
   };
 
   const nextQuestion = () => {
-    setSelectedAnswers([]);
+    setSelectedAnswer(null);
     setShowFeedback(false);
     setPointsAwarded(false);
     setCurrentQuestion(prev => Math.min(prev + 1, totalQuestions));
   };
 
   const shuffleAnswers = () => {
-    const shuffled = [...answers];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    setAnswers(shuffled);
-    setSelectedAnswers([]);
+    // For True/False, toggle the order between TRUE/FALSE and FALSE/TRUE
+    setSelectedAnswer(null);
     setShowFeedback(false);
     setPointsAwarded(false);
+    // This toggles the visual order of buttons
+    const trueButton = document.querySelector('.true-option');
+    const falseButton = document.querySelector('.false-option');
+    if (trueButton && falseButton) {
+      const parent = trueButton.parentNode;
+      const isTrueFirst = parent.firstChild === trueButton;
+      if (isTrueFirst) {
+        parent.appendChild(trueButton); // Move TRUE to the end
+      } else {
+        parent.insertBefore(trueButton, parent.firstChild); // Move TRUE to the beginning
+      }
+    }
   };
 
   const rephraseQuestion = () => {
     const nextIndex = (currentQuestionIndex + 1) % questionVariants.length;
     setCurrentQuestionIndex(nextIndex);
-    setSelectedAnswers([]);
+    setSelectedAnswer(null);
     setShowFeedback(false);
     setPointsAwarded(false);
   };
 
   const prevQuestion = () => {
-    setSelectedAnswers([]);
+    setSelectedAnswer(null);
     setShowFeedback(false);
     setPointsAwarded(false);
     setCurrentQuestion(prev => Math.max(prev - 1, 1));
@@ -117,40 +105,64 @@ const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true
         {questionVariants[currentQuestionIndex]}
       </p>
 
-      <div className="answers">
-        {answers.map((answer, index) => (
+      <div className="answers true-false-answers">
+        <div
+          className={`answer-option ${selectedAnswer === true ? 'true-option selected' : 'true-option'}`}
+          onClick={() => selectAnswer(true)}
+          style={{ cursor: 'pointer' }}
+        >
           <div
-            key={index}
-            className="answer-option"
-            onClick={() => toggleAnswer(answer)}
+            className="radio-button"
+            style={{
+              borderColor: selectedAnswer === true ? theme.primary : theme.mutedBorder
+            }}
           >
-            <div
-              className={`checkbox ${selectedAnswers.includes(answer) ? 'checked' : ''}`}
-              style={{
-                backgroundColor: selectedAnswers.includes(answer) ? theme.primary : theme.background,
-                borderColor: selectedAnswers.includes(answer) ? theme.primary : theme.mutedBorder
-              }}
-            >
-              <svg
-                className="checkbox-icon"
-                viewBox="0 0 16 16"
-                fill="none"
-                style={{ display: selectedAnswers.includes(answer) ? 'block' : 'none' }}
-              >
-                <path
-                  d="M3 8l3 3 7-7"
-                  stroke={theme.primaryForeground}
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <p className="answer-text" style={{ color: theme.foreground }}>
-              {answer}
-            </p>
+            {selectedAnswer === true && (
+              <div
+                className="radio-dot"
+                style={{ backgroundColor: theme.primary }}
+              />
+            )}
           </div>
-        ))}
+          <p
+            className="answer-text"
+            style={{
+              color: selectedAnswer === true ? theme.primary : theme.primary,
+              fontWeight: selectedAnswer === true ? '600' : '500'
+            }}
+          >
+            VERO
+          </p>
+        </div>
+
+        <div
+          className={`answer-option ${selectedAnswer === false ? 'false-option selected' : 'false-option'}`}
+          onClick={() => selectAnswer(false)}
+          style={{ cursor: 'pointer' }}
+        >
+          <div
+            className="radio-button"
+            style={{
+              borderColor: selectedAnswer === false ? '#d44a4a' : theme.mutedBorder
+            }}
+          >
+            {selectedAnswer === false && (
+              <div
+                className="radio-dot"
+                style={{ backgroundColor: '#d44a4a' }}
+              />
+            )}
+          </div>
+          <p
+            className="answer-text"
+            style={{
+              color: selectedAnswer === false ? '#d44a4a' : '#d44a4a',
+              fontWeight: selectedAnswer === false ? '600' : '500'
+            }}
+          >
+            FALSO
+          </p>
+        </div>
       </div>
     </>
   );
@@ -160,11 +172,11 @@ const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true
     <div
       className="feedback"
       style={{
-        backgroundColor: feedbackType === 'success' ? '#a2b99c' : '#ff9359'
+        backgroundColor: selectedAnswer === correctAnswer ? '#a2b99c' : '#ff9359'
       }}
     >
       <svg className="feedback-icon" viewBox="0 0 20 20" fill="none">
-        {feedbackType === 'success' ? (
+        {selectedAnswer === correctAnswer ? (
           <path d="M10 2l2.39 4.84L18 7.46l-4 3.9.94 5.5L10 14.24 5.06 16.86l.94-5.5-4-3.9 5.61-.62L10 2z"
             fill="#121c12" stroke="#121c12" strokeWidth="2"/>
         ) : (
@@ -178,31 +190,31 @@ const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true
         <div
           className="feedback-title"
           style={{
-            color: feedbackType === 'success' ? '#121c12' : '#440a06'
+            color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
           }}
         >
-          {feedbackType === 'success' ? 'Perfetto!' : 'Risposta Sbagliata'}
+          {selectedAnswer === correctAnswer ? 'Corretto!' : 'Sbagliato'}
         </div>
         <div
           className="feedback-message"
           style={{
-            color: feedbackType === 'success' ? '#121c12' : '#440a06'
+            color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
           }}
         >
-          {feedbackType === 'success'
-            ? 'Eccellente! Giove, Saturno e Nettuno sono effettivamente giganti gassosi.'
-            : 'Ricorda che i giganti gassosi sono i quattro pianeti esterni del nostro sistema solare. Riprova!'
+          {selectedAnswer === correctAnswer
+            ? 'Giove è effettivamente il pianeta più grande del nostro sistema solare, con una massa superiore a tutti gli altri pianeti messi insieme.'
+            : 'In realtà, Giove è il pianeta più grande del nostro sistema solare. È più di due volte più massiccio di tutti gli altri pianeti messi insieme!'
           }
         </div>
       </div>
       <div
         className="feedback-score"
         style={{
-          color: feedbackType === 'success' ? '#121c12' : '#440a06'
+          color: selectedAnswer === correctAnswer ? '#121c12' : '#440a06'
         }}
       >
         <div className="score-points">
-          {feedbackType === 'success' ? '+50p' : '+0p'}
+          {selectedAnswer === correctAnswer ? '+25p' : '+0p'}
         </div>
         <div className="score-total">{score}/500</div>
       </div>
@@ -223,40 +235,38 @@ const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
           <path d="M12 5l-5 5 5 5" stroke={theme.secondary} strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        <span>Precedente</span>
+        <span>Previous</span>
       </button>
 
       {!immediateFeedbackEnabled && (
         <button
           className="nav-button check-button"
-          onClick={checkAnswerManual}
-          disabled={selectedAnswers.length === 0 || showFeedback}
+          onClick={checkAnswer}
+          disabled={selectedAnswer === null || showFeedback}
           style={{
-            backgroundColor: selectedAnswers.length > 0 && !showFeedback ? theme.secondary : theme.muted,
-            color: selectedAnswers.length > 0 && !showFeedback ? theme.primaryForeground : theme.mutedForeground,
-            cursor: selectedAnswers.length > 0 && !showFeedback ? 'pointer' : 'not-allowed',
-            opacity: selectedAnswers.length > 0 && !showFeedback ? 1 : 0.6
+            backgroundColor: selectedAnswer !== null && !showFeedback ? theme.secondary : theme.muted,
+            color: selectedAnswer !== null && !showFeedback ? theme.primaryForeground : theme.mutedForeground,
+            cursor: selectedAnswer !== null && !showFeedback ? 'pointer' : 'not-allowed',
+            opacity: selectedAnswer !== null && !showFeedback ? 1 : 0.6
           }}
         >
           <span>Controlla</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fill-rule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clip-rule="evenodd"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fillRule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clipRule="evenodd"/></svg>
         </button>
       )}
 
       <button
         className="nav-button next-button"
         onClick={nextQuestion}
-        disabled={selectedAnswers.length === 0}
         style={{
-          backgroundColor: selectedAnswers.length > 0 ? theme.primary : theme.muted,
-          color: selectedAnswers.length > 0 ? theme.primaryForeground : theme.mutedForeground,
-          cursor: selectedAnswers.length > 0 ? 'pointer' : 'not-allowed',
-          opacity: selectedAnswers.length > 0 ? 1 : 0.6
+          backgroundColor: theme.primary,
+          color: theme.primaryForeground,
+          cursor: 'pointer'
         }}
       >
         <span>Successivo</span>
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
-          <path d="M8 5l5 5-5 5" stroke={selectedAnswers.length > 0 ? theme.primaryForeground : '#AAA'} strokeWidth="2" strokeLinecap="round"/>
+          <path d="M8 5l5 5-5 5" stroke={theme.primaryForeground} strokeWidth="2" strokeLinecap="round"/>
         </svg>
       </button>
     </>
@@ -281,4 +291,4 @@ const MultiQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = true
   );
 };
 
-export default MultiQuiz;
+export default TrueFalseQuiz;

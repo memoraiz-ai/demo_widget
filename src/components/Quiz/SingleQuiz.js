@@ -219,24 +219,22 @@ const SingleQuiz = ({ theme, timerEnabled = true, immediateFeedbackEnabled = tru
           }}
         >
           <span>Controlla</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fill-rule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clip-rule="evenodd"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.03 10.03a.75.75 0 1 0-1.06-1.06l-4.47 4.47l-1.47-1.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0z"/><path fill="currentColor" fillRule="evenodd" d="M12 1.25C6.063 1.25 1.25 6.063 1.25 12S6.063 22.75 12 22.75S22.75 17.937 22.75 12S17.937 1.25 12 1.25M2.75 12a9.25 9.25 0 1 1 18.5 0a9.25 9.25 0 0 1-18.5 0" clipRule="evenodd"/></svg>
         </button>
       )}
 
       <button
         className="nav-button next-button"
         onClick={nextQuestion}
-        disabled={!selectedAnswer}
         style={{
-          backgroundColor: selectedAnswer ? theme.primary : theme.muted,
-          color: selectedAnswer ? theme.primaryForeground : theme.mutedForeground,
-          cursor: selectedAnswer ? 'pointer' : 'not-allowed',
-          opacity: selectedAnswer ? 1 : 0.6
+          backgroundColor: theme.primary,
+          color: theme.primaryForeground,
+          cursor: 'pointer'
         }}
       >
         <span>Successivo</span>
         <svg className="nav-icon" viewBox="0 0 20 20" fill="none">
-            <path d="M8 5l5 5-5 5" stroke={selectedAnswer !== null ? theme.primaryForeground : '#AAA'} strokeWidth="2" strokeLinecap="round"/>
+            <path d="M8 5l5 5-5 5" stroke={theme.primaryForeground} strokeWidth="2" strokeLinecap="round"/>
         </svg>
       </button>
     </>
