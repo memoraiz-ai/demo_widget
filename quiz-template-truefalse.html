@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True/False Quiz Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #ffffff;
+            color: #303136;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            border: 1px solid #dfe1e6;
+            border-radius: 4px;
+            padding: 24px 16px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .headline {
+            font-family: 'Geist', sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 28px;
+            color: #111111;
+            letter-spacing: -0.4px;
+        }
+
+        .progress-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+        }
+
+        .progress-counter {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #111111;
+        }
+
+        .progress-bar {
+            flex: 1;
+            background-color: #dfe1e6;
+            height: 8px;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: #21578c;
+            height: 100%;
+            width: 80%;
+            border-radius: 40px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .timer-text {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #303136;
+        }
+
+        .content {
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .question {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 28px;
+            color: #303136;
+            width: 100%;
+        }
+
+        .answers {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-button {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #b4b8c5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            flex-shrink: 0;
+        }
+
+        .radio-button.selected {
+            border-color: #21578c;
+        }
+
+        .radio-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #21578c;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .radio-button.selected .radio-dot {
+            display: block;
+        }
+
+        .answer-text {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #303136;
+        }
+
+        .feedback {
+            background-color: #a2b99c;
+            border-radius: 4px;
+            padding: 12px 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .feedback.hidden {
+            display: none;
+        }
+
+        .feedback-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .feedback-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .feedback-title {
+            font-family: 'Geist', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+            color: #121c12;
+        }
+
+        .feedback-message {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #121c12;
+        }
+
+        .feedback-score {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            color: #121c12;
+        }
+
+        .score-points {
+            font-family: 'Geist', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 28px;
+            letter-spacing: -0.4px;
+        }
+
+        .score-total {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 28px;
+            cursor: pointer;
+            height: 52px;
+            text-decoration: none;
+        }
+
+        .prev-button {
+            border: 1px solid #b4b8c5;
+            background: none;
+            color: #21466e;
+        }
+
+        .next-button {
+            background-color: #21578c;
+            color: #ffffff;
+            border: none;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* True/False specific styling */
+        .true-option .answer-text {
+            color: #21578c;
+            font-weight: 500;
+        }
+
+        .false-option .answer-text {
+            color: #d44a4a;
+            font-weight: 500;
+        }
+
+        .true-option.selected .answer-text {
+            color: #21578c;
+            font-weight: 600;
+        }
+
+        .false-option.selected .answer-text {
+            color: #d44a4a;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <div class="headline">Quiz headline</div>
+            <div class="progress-section">
+                <div class="progress-counter">8/10</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="timer">
+                    <svg class="timer-icon" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="8" stroke="#303136" stroke-width="2"/>
+                        <path d="M10 6V10L13 13" stroke="#303136" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <div class="timer-text">01:25</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="question">Jupiter is the largest planet in our solar system.</div>
+
+            <div class="answers">
+                <div class="answer-option true-option" onclick="selectAnswer(this, true)">
+                    <div class="radio-button">
+                        <div class="radio-dot"></div>
+                    </div>
+                    <div class="answer-text">TRUE</div>
+                </div>
+                <div class="answer-option false-option" onclick="selectAnswer(this, false)">
+                    <div class="radio-button">
+                        <div class="radio-dot"></div>
+                    </div>
+                    <div class="answer-text">FALSE</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback hidden" id="feedback">
+            <svg class="feedback-icon" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2l2.39 4.84L18 7.46l-4 3.9.94 5.5L10 14.24 5.06 16.86l.94-5.5-4-3.9 5.61-.62L10 2z" fill="#121c12" stroke="#121c12" stroke-width="2"/>
+            </svg>
+            <div class="feedback-content">
+                <div class="feedback-title">Correct!</div>
+                <div class="feedback-message">Jupiter is indeed the largest planet in our solar system, with a mass greater than all other planets combined.</div>
+            </div>
+            <div class="feedback-score">
+                <div class="score-points">+25p</div>
+                <div class="score-total">125/500</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button prev-button">
+                <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+                    <path d="M12 5l-5 5 5 5" stroke="#21466e" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Previous</span>
+            </button>
+            <button class="nav-button next-button">
+                <span>Next</span>
+                <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+                    <path d="M8 5l5 5-5 5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedAnswer = null;
+
+        function selectAnswer(element, isTrue) {
+            // Remove selected class from all options
+            const allOptions = document.querySelectorAll('.answer-option');
+            allOptions.forEach(option => {
+                option.querySelector('.radio-button').classList.remove('selected');
+            });
+
+            // Add selected class to clicked option
+            element.querySelector('.radio-button').classList.add('selected');
+            selectedAnswer = isTrue;
+
+            // Show feedback after a short delay
+            setTimeout(() => {
+                const feedback = document.getElementById('feedback');
+
+                if (isTrue) {
+                    feedback.className = 'feedback';
+                    feedback.querySelector('.feedback-title').textContent = 'Correct!';
+                    feedback.querySelector('.feedback-message').textContent = 'Jupiter is indeed the largest planet in our solar system, with a mass greater than all other planets combined.';
+                    feedback.querySelector('.score-points').textContent = '+25p';
+                    feedback.querySelector('.score-total').textContent = '150/500';
+                } else {
+                    feedback.className = 'feedback';
+                    feedback.style.backgroundColor = '#ff9359';
+                    feedback.querySelector('.feedback-title').textContent = 'Incorrect';
+                    feedback.querySelector('.feedback-message').textContent = 'Actually, Jupiter is the largest planet in our solar system. It\'s more than twice as massive as all other planets combined.';
+                    feedback.querySelector('.score-points').textContent = '+0p';
+                    feedback.querySelector('.score-total').textContent = '125/500';
+                    feedback.querySelector('.feedback-content').style.color = '#440a06';
+                    feedback.querySelector('.feedback-title').style.color = '#440a06';
+                    feedback.querySelector('.feedback-message').style.color = '#440a06';
+                    feedback.querySelector('.feedback-score').style.color = '#440a06';
+                }
+
+                feedback.classList.remove('hidden');
+            }, 500);
+        }
+
+        // Timer functionality
+        let seconds = 85;
+        const timerElement = document.querySelector('.timer-text');
+
+        setInterval(() => {
+            seconds--;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+
+            if (seconds <= 0) {
+                seconds = 0;
+                timerElement.textContent = "00:00";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+.sidepanel {
+  background: var(--background);
+  border-left: 1px solid var(--card-border);
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.sidepanel-content {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  height: 100%;
+}
+
+.sidepanel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--popover-foreground);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.quiz-types {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-type-card {
+  padding: 16px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--background);
+}
+
+.quiz-type-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-type-card.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.quiz-type-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.quiz-type-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.quiz-type-name {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.quiz-type-description {
+  font-family: 'Geist', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--foreground);
+  margin: 0;
+  opacity: 0.8;
+}
+
+.quiz-type-card.active .quiz-type-description {
+  color: var(--primary-foreground);
+  opacity: 0.9;
+}
+
+.color-palettes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.palette-card {
+  padding: 16px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--background);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.palette-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.palette-card.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(33, 87, 140, 0.1);
+}
+
+.palette-preview {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.color-sample {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.palette-name {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--foreground);
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--muted);
+  border-radius: 6px;
+}
+
+.stat-label {
+  font-family: 'Geist', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--foreground);
+  opacity: 0.7;
+}
+
+.stat-value {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--foreground);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-item {
+  padding: 16px;
+  background: var(--background);
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.detail-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.detail-title {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--foreground);
+}
+
+.detail-description {
+  font-family: 'Geist', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--foreground);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Toggle Switch Styles */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--muted);
+  transition: 0.3s;
+  border-radius: 24px;
+  border: 1px solid var(--muted-border);
+}
+
+.toggle-label.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.toggle-slider {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 2px;
+  background-color: var(--foreground);
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-label.disabled .toggle-slider {
+  background-color: var(--muted-border);
+}
+
+input:checked + .toggle-label {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+input:checked + .toggle-label .toggle-slider {
+  transform: translateX(20px);
+}
+
+.sidepanel-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--card-border);
+}
+
+.reset-button {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--muted-border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 0 18px 0;
+}
+
+.reset-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(33, 87, 140, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sidepanel {
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .sidepanel-content {
+    padding: 20px;
+    gap: 24px;
+  }
+
+  .color-palettes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1280px) {
+  .sidepanel-content {
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidepanel-content {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .color-palettes {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-types {
+    gap: 8px;
+  }
+
+  .quiz-type-card {
+    padding: 12px;
+  }
+
+  .palette-card {
+    padding: 12px;
+  }
+}

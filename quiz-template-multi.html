@@ -1,0 +1,516 @@
+now this<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Answer Quiz Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #ffffff;
+            color: #303136;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            border: 1px solid #dfe1e6;
+            border-radius: 4px;
+            padding: 24px 16px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .headline {
+            font-family: 'Geist', sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 28px;
+            color: #111111;
+            letter-spacing: -0.4px;
+        }
+
+        .progress-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+        }
+
+        .progress-counter {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #111111;
+        }
+
+        .progress-bar {
+            flex: 1;
+            background-color: #dfe1e6;
+            height: 8px;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: #21578c;
+            height: 100%;
+            width: 80%;
+            border-radius: 40px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .timer-text {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #303136;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #111111;
+        }
+
+        .action-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .content {
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .question {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 28px;
+            color: #303136;
+            width: 100%;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #b4b8c5;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox.checked {
+            background-color: #21578c;
+            border-color: #21578c;
+        }
+
+        .checkbox-icon {
+            width: 16px;
+            height: 16px;
+            display: none;
+        }
+
+        .checkbox.checked .checkbox-icon {
+            display: block;
+        }
+
+        .answer-text {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #303136;
+        }
+
+        .feedback {
+            border-radius: 4px;
+            padding: 12px 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .feedback.success {
+            background-color: #a2b99c;
+        }
+
+        .feedback.warning {
+            background-color: #ff9359;
+        }
+
+        .feedback-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .feedback-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .feedback.success .feedback-title {
+            color: #121c12;
+        }
+
+        .feedback.warning .feedback-title {
+            color: #440a06;
+        }
+
+        .feedback.success .feedback-message {
+            color: #121c12;
+        }
+
+        .feedback.warning .feedback-message {
+            color: #440a06;
+        }
+
+        .feedback-title {
+            font-family: 'Geist', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        .feedback-message {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .feedback-score {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .feedback.success .feedback-score {
+            color: #121c12;
+        }
+
+        .feedback.warning .feedback-score {
+            color: #440a06;
+        }
+
+        .score-points {
+            font-family: 'Geist', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 28px;
+            letter-spacing: -0.4px;
+        }
+
+        .score-total {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 28px;
+            cursor: pointer;
+            height: 52px;
+            text-decoration: none;
+        }
+
+        .prev-button {
+            border: 1px solid #b4b8c5;
+            background: none;
+            color: #21466e;
+        }
+
+        .next-button {
+            background-color: #21578c;
+            color: #ffffff;
+            border: none;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .feedback.hidden {
+            display: none;
+        }
+
+        .instruction {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <div class="headline">Quiz headline</div>
+            <div class="progress-section">
+                <div class="progress-counter">8/10</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="timer">
+                    <svg class="timer-icon" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="8" stroke="#303136" stroke-width="2"/>
+                        <path d="M10 6V10L13 13" stroke="#303136" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <div class="timer-text">01:25</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action-button">
+                    <span>Casual Order</span>
+                    <svg class="action-icon" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 8h10M8 5l3 3-3 3" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M15 12H5m3-3l-3 3 3 3" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <button class="action-button">
+                    <span>Rephrase it</span>
+                    <svg class="action-icon" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 4v6l4 2M4 10a6 6 0 0 0 12 0" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="instruction">Select all that apply:</div>
+            <div class="question">Which of the following are gas giants in our solar system?</div>
+
+            <div class="answers">
+                <div class="answer-option" onclick="toggleAnswer(this)">
+                    <div class="checkbox">
+                        <svg class="checkbox-icon" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8l3 3 7-7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="answer-text">Jupiter</div>
+                </div>
+                <div class="answer-option" onclick="toggleAnswer(this)">
+                    <div class="checkbox">
+                        <svg class="checkbox-icon" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8l3 3 7-7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="answer-text">Saturn</div>
+                </div>
+                <div class="answer-option" onclick="toggleAnswer(this)">
+                    <div class="checkbox">
+                        <svg class="checkbox-icon" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8l3 3 7-7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="answer-text">Mars</div>
+                </div>
+                <div class="answer-option" onclick="toggleAnswer(this)">
+                    <div class="checkbox">
+                        <svg class="checkbox-icon" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8l3 3 7-7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="answer-text">Neptune</div>
+                </div>
+                <div class="answer-option" onclick="toggleAnswer(this)">
+                    <div class="checkbox">
+                        <svg class="checkbox-icon" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8l3 3 7-7" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="answer-text">Earth</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback warning hidden" id="feedback">
+            <svg class="feedback-icon" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="8" stroke="#440a06" stroke-width="2"/>
+                <path d="M10 6v4m0 4h.01" stroke="#440a06" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="feedback-content">
+                <div class="feedback-title">Wrong Answer</div>
+                <div class="feedback-message">Remember that gas giants are the four outer planets of our solar system. Try again!</div>
+            </div>
+            <div class="feedback-score">
+                <div class="score-points">+0p</div>
+                <div class="score-total">125/500</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button prev-button">
+                <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+                    <path d="M12 5l-5 5 5 5" stroke="#21466e" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Previous</span>
+            </button>
+            <button class="nav-button next-button" onclick="checkAnswer()">
+                <span>Check Answer</span>
+                <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+                    <path d="M8 5l5 5-5 5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(element) {
+            const checkbox = element.querySelector('.checkbox');
+            checkbox.classList.toggle('checked');
+
+            // Hide feedback when answers are being selected
+            document.getElementById('feedback').classList.add('hidden');
+        }
+
+        function checkAnswer() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            const answers = document.querySelectorAll('.answer-option');
+
+            // Correct answers: Jupiter (index 0), Saturn (index 1), Neptune (index 3)
+            const correctIndices = [0, 1, 3];
+
+            let selectedCount = 0;
+            let correctCount = 0;
+
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.classList.contains('checked')) {
+                    selectedCount++;
+                    if (correctIndices.includes(index)) {
+                        correctCount++;
+                    }
+                }
+            });
+
+            const feedback = document.getElementById('feedback');
+
+            // Check if all correct answers are selected and no incorrect ones
+            if (selectedCount === correctIndices.length && correctCount === correctIndices.length) {
+                feedback.className = 'feedback success';
+                feedback.querySelector('.feedback-title').textContent = 'Perfect!';
+                feedback.querySelector('.feedback-message').textContent = 'Excellent! Jupiter, Saturn, and Neptune are indeed gas giants.';
+                feedback.querySelector('.score-points').textContent = '+50p';
+                feedback.querySelector('.score-total').textContent = '175/500';
+
+                // Change button to "Next"
+                document.querySelector('.next-button span').textContent = 'Next';
+            } else {
+                feedback.className = 'feedback warning';
+                feedback.querySelector('.feedback-title').textContent = 'Wrong Answer';
+                feedback.querySelector('.feedback-message').textContent = 'Remember that gas giants are the four outer planets of our solar system. Try again!';
+                feedback.querySelector('.score-points').textContent = '+0p';
+                feedback.querySelector('.score-total').textContent = '125/500';
+            }
+        }
+
+        // Timer functionality
+        let seconds = 85;
+        const timerElement = document.querySelector('.timer-text');
+
+        setInterval(() => {
+            seconds--;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+
+            if (seconds <= 0) {
+                seconds = 0;
+                timerElement.textContent = "00:00";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
