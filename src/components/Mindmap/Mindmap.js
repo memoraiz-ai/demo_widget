@@ -71,20 +71,23 @@ const nodeInfoData = {
 };
 
 const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dynamicMapEnabled }, ref) => {
+  // Set di icone disponibili (ridotto a 8)
+  const availableIcons = ['🏛️', '📍', '📜', '🗺️', '📚', '🔧', '⭐', '🎯'];
+
   const [nodes, setNodes] = useState([
-    { id: 1, text: 'Museo e area archeologica di Sant\'Antioco', x: 50, y: 50, color: '#e8f5e9' },
-    { id: 2, text: 'Isola di Sant\'Antioco', x: 20, y: 45, color: '#e0f7fa' },
-    { id: 3, text: 'Via Sabatino Moscati', x: 20, y: 65, color: '#e0f7fa' },
-    { id: 4, text: 'Ubicazione e siti', x: 35, y: 80, color: '#e0f7fa' },
-    { id: 5, text: 'Storia e cronologia', x: 80, y: 55, color: '#e8eaf6' },
-    { id: 6, text: 'Sulky / Sulci', x: 80, y: 30, color: '#e8eaf6' },
-    { id: 7, text: 'Percorso e fruizione', x: 50, y: 70, color: '#fff3e0' },
-    { id: 8, text: 'Significato e dibattiti', x: 65, y: 70, color: '#ffebee' },
-    { id: 9, text: 'Valore didattico', x: 76, y: 85, color: '#ffebee' },
-    { id: 10, text: 'Reperti e decorazioni', x: 40, y: 30, color: '#fce4ec' },
-    { id: 11, text: 'Strutture e siti', x: 60, y: 30, color: '#e8eaf6' },
-    { id: 12, text: 'Plastico e ricostruzioni', x: 30, y: 15, color: '#fce4ec' },
-    { id: 13, text: 'Inaugurazione museo 2006', x: 70, y: 10, color: '#e8eaf6' }
+    { id: 1, text: 'Museo e area archeologica di Sant\'Antioco', x: 50, y: 50, color: '#e8f5e9', icon: '🏛️' },
+    { id: 2, text: 'Isola di Sant\'Antioco', x: 20, y: 45, color: '#e0f7fa', icon: '🏝️' },
+    { id: 3, text: 'Via Sabatino Moscati', x: 20, y: 65, color: '#e0f7fa', icon: '📍' },
+    { id: 4, text: 'Ubicazione e siti', x: 35, y: 80, color: '#e0f7fa', icon: '🗺️' },
+    { id: 5, text: 'Storia e cronologia', x: 80, y: 55, color: '#e8eaf6', icon: '📜' },
+    { id: 6, text: 'Sulky / Sulci', x: 80, y: 30, color: '#e8eaf6', icon: '🏺' },
+    { id: 7, text: 'Percorso e fruizione', x: 50, y: 70, color: '#fff3e0', icon: '🚶' },
+    { id: 8, text: 'Significato e dibattiti', x: 65, y: 70, color: '#ffebee', icon: '💡' },
+    { id: 9, text: 'Valore didattico', x: 76, y: 85, color: '#ffebee', icon: '📚' },
+    { id: 10, text: 'Reperti e decorazioni', x: 40, y: 30, color: '#fce4ec', icon: '💎' },
+    { id: 11, text: 'Strutture e siti', x: 60, y: 30, color: '#e8eaf6', icon: '🏗️' },
+    { id: 12, text: 'Plastico e ricostruzioni', x: 30, y: 15, color: '#fce4ec', icon: '🎨' },
+    { id: 13, text: 'Inaugurazione museo 2006', x: 70, y: 10, color: '#e8eaf6', icon: '🎉' }
   ]);
 
   const [connections, setConnections] = useState([
@@ -249,6 +252,12 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
     ));
   };
 
+  const handleIconChange = (nodeId, newIcon) => {
+    setNodes(nodes.map(node => 
+      node.id === nodeId ? { ...node, icon: newIcon } : node
+    ));
+  };
+
   const addNode = () => {
     // Trova una posizione libera lontana dagli altri nodi
     const findFreePosition = () => {
@@ -286,7 +295,8 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
       text: 'Nuovo nodo',
       x: position.x,
       y: position.y,
-      color: '#f5f5f5'
+      color: '#f5f5f5',
+      icon: '📌'
     };
     setNodes([...nodes, newNode]);
   };
@@ -629,6 +639,29 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                     </div>
                   )}
 
+                  {/* Icona in alto a sinistra */}
+                  {node.icon && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '-0.75rem',
+                      left: '-0.75rem',
+                      fontSize: '1.1rem',
+                      lineHeight: 1,
+                      background: 'white',
+                      borderRadius: '50%',
+                      width: '1.7rem',
+                      height: '1.7rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.15)',
+                      border: '2px solid white',
+                      zIndex: 10
+                    }}>
+                      {node.icon}
+                    </div>
+                  )}
+
                   {/* Tooltip informazioni - attaccato al nodo */}
                   {showNodeDetails && hoveredNode === node.id && nodeInfoData[node.id] && (
                     <div
@@ -765,6 +798,60 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                           onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
                           onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
                         />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Icon picker - visibile solo con mappa dinamica, sopra il nodo */}
+                  {dynamicMapEnabled && selectedNode === node.id && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        marginBottom: '0.8rem',
+                        display: 'flex',
+                        gap: '0.25rem',
+                        padding: '0.5rem',
+                        background: 'white',
+                        borderRadius: '0.5rem',
+                        boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                        zIndex: 1000
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {availableIcons.map(icon => (
+                        <button
+                          key={icon}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleIconChange(node.id, icon);
+                          }}
+                          style={{
+                            width: '2rem',
+                            height: '2rem',
+                            fontSize: '1.2rem',
+                            background: node.icon === icon ? '#e3f2fd' : 'transparent',
+                            border: node.icon === icon ? '2px solid #2196f3' : '1px solid #ddd',
+                            borderRadius: '0.25rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.15)';
+                            e.target.style.background = '#f5f5f5';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                            e.target.style.background = node.icon === icon ? '#e3f2fd' : 'transparent';
+                          }}
+                        >
+                          {icon}
+                        </button>
                       ))}
                     </div>
                   )}
