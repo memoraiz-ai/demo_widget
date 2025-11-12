@@ -85,7 +85,7 @@ function App() {
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
-  const [dynamicMapEnabled, setDynamicMapEnabled] = useState(false);
+  const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
   const flashcardRef = useRef(null);
 const mindmapRef = useRef(null);
 

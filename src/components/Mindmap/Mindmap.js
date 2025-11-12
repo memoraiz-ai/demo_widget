@@ -365,6 +365,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draggedNode, isPanning, offset, pan, panStart, zoom]);
 
   // Forza re-render per calcolare le posizioni iniziali
@@ -372,10 +373,11 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
     if (canvasRef.current) {
       // Trigger un piccolo aggiornamento per forzare il calcolo delle linee
       const timer = setTimeout(() => {
-        setNodes([...nodes]);
+        setNodes(n => [...n]);
       }, 100);
       return () => clearTimeout(timer);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Listener per il resize della finestra per aggiornare le linee SVG
@@ -401,6 +403,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
 
     canvas.addEventListener('wheel', wheelHandler, { passive: false });
     return () => canvas.removeEventListener('wheel', wheelHandler);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zoom, pan]); // Dipendenze necessarie per handleWheel
 
   const getNodeCenter = (nodeId) => {
@@ -634,7 +637,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                         left: '50%',
                         top: '100%',
                         transform: 'translateX(-50%)',
-                        marginTop: '0.5rem',
+                        marginTop: selectedNode === node.id ? '3.5rem' : '0.5rem',
                         minWidth: '18rem',
                         maxWidth: '25rem',
                         padding: '1rem',
@@ -647,7 +650,8 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                         pointerEvents: 'none',
                         border: '2px solid ' + node.color,
                         animation: 'tooltipFadeIn 0.3s ease-out',
-                        opacity: 1
+                        opacity: 1,
+                        transition: 'margin-top 0.2s ease'
                       }}
                     >
                       <style>
