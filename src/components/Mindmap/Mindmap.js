@@ -37,6 +37,7 @@ const MindMap = forwardRef(({ theme }, ref) => {
 
   const [draggedNode, setDraggedNode] = useState(null);
   const [editingNode, setEditingNode] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -152,11 +153,13 @@ const MindMap = forwardRef(({ theme }, ref) => {
     // Permetti panning solo se non si clicca su un nodo o pulsante
     const isNodeOrButton = e.target.closest('.mindmap-node') || 
                           e.target.closest('button') || 
-                          e.target.closest('input');
+                          e.target.closest('input') ||
+                          e.target.closest('textarea');
     
     if (!isNodeOrButton) {
       setIsPanning(true);
       setPanStart({ x: e.clientX, y: e.clientY });
+      setSelectedNode(null); // Deseleziona il nodo quando clicchi sul canvas
       e.preventDefault();
     }
   };
@@ -164,6 +167,12 @@ const MindMap = forwardRef(({ theme }, ref) => {
   const handleNodeTextChange = (nodeId, newText) => {
     setNodes(nodes.map(node => 
       node.id === nodeId ? { ...node, text: newText } : node
+    ));
+  };
+
+  const handleColorChange = (nodeId, newColor) => {
+    setNodes(nodes.map(node => 
+      node.id === nodeId ? { ...node, color: newColor } : node
     ));
   };
 
@@ -388,7 +397,17 @@ const MindMap = forwardRef(({ theme }, ref) => {
             </svg>
 
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-              {nodes.map(node => (
+              {nodes.map(node => {
+                // Funzione per scurire il colore per il bordo
+                const darkenColor = (color) => {
+                  const hex = color.replace('#', '');
+                  const r = Math.max(0, parseInt(hex.substring(0, 2), 16) - 40);
+                  const g = Math.max(0, parseInt(hex.substring(2, 4), 16) - 40);
+                  const b = Math.max(0, parseInt(hex.substring(4, 6), 16) - 40);
+                  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+                };
+
+                return (
                 <div
                   key={node.id}
                   className="mindmap-node"
@@ -403,10 +422,18 @@ const MindMap = forwardRef(({ theme }, ref) => {
                     width: editingNode === node.id ? 'fit-content' : 'auto',
                     borderRadius: '1rem',
                     padding: '0.75rem 1rem',
-                    boxShadow: '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)',
+                    boxShadow: selectedNode === node.id 
+                      ? `0 0 0 0.1875rem ${darkenColor(node.color)}` 
+                      : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)',
                     cursor: 'move',
                     userSelect: 'none',
                     transition: 'box-shadow 0.2s ease'
+                  }}
+                  onClick={(e) => {
+                    if (!draggedNode && editingNode !== node.id) {
+                      e.stopPropagation();
+                      setSelectedNode(selectedNode === node.id ? null : node.id);
+                    }
                   }}
                   onMouseDown={(e) => handleMouseDown(e, node.id)}
                   onDoubleClick={(e) => {
@@ -490,19 +517,60 @@ const MindMap = forwardRef(({ theme }, ref) => {
                       fontSize: '0.875rem',
                       border: 'none',
                       cursor: 'pointer',
-                      display: 'flex',
+                      display: selectedNode === node.id ? 'flex' : 'none',
                       alignItems: 'center',
                       justifyContent: 'center',
                       transition: 'opacity 0.2s ease'
                     }}
-                    onMouseEnter={(e) => e.target.style.opacity = '1'}
-                    onMouseLeave={(e) => e.target.style.opacity = '0'}
                     className="delete-node-btn"
                   >
                     ×
                   </button>
+
+                  {/* Color picker */}
+                  {selectedNode === node.id && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        marginTop: '0.5rem',
+                        display: 'flex',
+                        gap: '0.25rem',
+                        padding: '0.5rem',
+                        background: 'white',
+                        borderRadius: '0.5rem',
+                        boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                        zIndex: 1000
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {['#e8f5e9', '#e0f7fa', '#e8eaf6', '#fff3e0', '#ffebee', '#fce4ec', '#f3e5f5', '#e1f5fe'].map(color => (
+                        <button
+                          key={color}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleColorChange(node.id, color);
+                          }}
+                          style={{
+                            width: '1.5rem',
+                            height: '1.5rem',
+                            backgroundColor: color,
+                            border: node.color === color ? '2px solid #333' : '1px solid #ddd',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 {/* 
