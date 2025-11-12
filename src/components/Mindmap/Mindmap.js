@@ -6,16 +6,16 @@ const MindMap = forwardRef(({ theme }, ref) => {
     { id: 1, text: 'Museo e area archeologica di Sant\'Antioco', x: 50, y: 50, color: '#e8f5e9' },
     { id: 2, text: 'Isola di Sant\'Antioco', x: 20, y: 45, color: '#e0f7fa' },
     { id: 3, text: 'Via Sabatino Moscati', x: 20, y: 65, color: '#e0f7fa' },
-    { id: 4, text: 'Ubicazione e siti', x: 45, y: 45, color: '#e0f7fa' },
-    { id: 5, text: 'Storia e cronologia', x: 65, y: 45, color: '#e8eaf6' },
-    { id: 6, text: 'Sulky / Sulci', x: 80, y: 45, color: '#e8eaf6' },
+    { id: 4, text: 'Ubicazione e siti', x: 35, y: 80, color: '#e0f7fa' },
+    { id: 5, text: 'Storia e cronologia', x: 80, y: 55, color: '#e8eaf6' },
+    { id: 6, text: 'Sulky / Sulci', x: 80, y: 30, color: '#e8eaf6' },
     { id: 7, text: 'Percorso e fruizione', x: 50, y: 70, color: '#fff3e0' },
     { id: 8, text: 'Significato e dibattiti', x: 65, y: 70, color: '#ffebee' },
-    { id: 9, text: 'Valore didattico', x: 80, y: 65, color: '#ffebee' },
-    { id: 10, text: 'Reperti e decorazioni', x: 45, y: 30, color: '#fce4ec' },
-    { id: 11, text: 'Strutture e siti', x: 65, y: 30, color: '#e8eaf6' },
-    { id: 12, text: 'Plastico e ricostruzioni', x: 20, y: 35, color: '#fce4ec' },
-    { id: 13, text: 'Inaugurazione museo 2006', x: 80, y: 35, color: '#e8eaf6' }
+    { id: 9, text: 'Valore didattico', x: 76, y: 85, color: '#ffebee' },
+    { id: 10, text: 'Reperti e decorazioni', x: 40, y: 30, color: '#fce4ec' },
+    { id: 11, text: 'Strutture e siti', x: 60, y: 30, color: '#e8eaf6' },
+    { id: 12, text: 'Plastico e ricostruzioni', x: 30, y: 15, color: '#fce4ec' },
+    { id: 13, text: 'Inaugurazione museo 2006', x: 70, y: 10, color: '#e8eaf6' }
   ]);
 
   const [connections, setConnections] = useState([
@@ -47,23 +47,76 @@ const MindMap = forwardRef(({ theme }, ref) => {
   const svgRef = useRef(null);
 
   const handleMouseDown = (e, nodeId) => {
+    // Previeni drag se è un doppio click
     if (e.detail === 2) {
-      setEditingNode(nodeId);
       return;
     }
     
+    // Salva la posizione iniziale del mouse e il nodo premuto
     const node = nodes.find(n => n.id === nodeId);
+    if (!canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
-    setDraggedNode(nodeId);
+    
     const nodeXpx = (node.x / 100) * rect.width;
     const nodeYpx = (node.y / 100) * rect.height;
-    setOffset({
+    
+    const startPos = {
+      x: e.clientX,
+      y: e.clientY
+    };
+    
+    const offset = {
       x: (e.clientX - rect.left) / zoom - pan.x - nodeXpx,
       y: (e.clientY - rect.top) / zoom - pan.y - nodeYpx
-    });
+    };
+    
+    // Salva queste info per l'handleMouseMove
+    e.currentTarget.dragData = {
+      nodeId,
+      startPos,
+      offset,
+      hasMoved: false
+    };
   };
 
   const handleMouseMove = (e) => {
+    // Gestisci il panning
+    if (isPanning && !draggedNode) {
+      const deltaX = e.clientX - panStart.x;
+      const deltaY = e.clientY - panStart.y;
+      setPan({ 
+        x: pan.x + deltaX / zoom,
+        y: pan.y + deltaY / zoom
+      });
+      setPanStart({ x: e.clientX, y: e.clientY });
+      return;
+    }
+    
+    // Controlla se c'è un potenziale drag in corso
+    const nodeElements = document.querySelectorAll('.mindmap-node');
+    let dragData = null;
+    
+    nodeElements.forEach(el => {
+      if (el.dragData) {
+        dragData = el.dragData;
+      }
+    });
+    
+    if (dragData && !draggedNode) {
+      // Calcola la distanza dal punto iniziale
+      const distance = Math.sqrt(
+        Math.pow(e.clientX - dragData.startPos.x, 2) +
+        Math.pow(e.clientY - dragData.startPos.y, 2)
+      );
+      
+      // Se il mouse si è mosso di almeno 5px, inizia il drag
+      if (distance > 5) {
+        setDraggedNode(dragData.nodeId);
+        setOffset(dragData.offset);
+        dragData.hasMoved = true;
+      }
+    }
+    
     if (draggedNode) {
       const rect = canvasRef.current.getBoundingClientRect();
       const newXpx = (e.clientX - rect.left) / zoom - pan.x - offset.x;
@@ -85,6 +138,12 @@ const MindMap = forwardRef(({ theme }, ref) => {
   };
 
   const handleMouseUp = () => {
+    // Pulisci i dati di drag da tutti i nodi
+    const nodeElements = document.querySelectorAll('.mindmap-node');
+    nodeElements.forEach(el => {
+      delete el.dragData;
+    });
+    
     setDraggedNode(null);
     setIsPanning(false);
   };
@@ -163,6 +222,29 @@ const MindMap = forwardRef(({ theme }, ref) => {
     setPan({ x: 0, y: 0 });
   };
 
+  const handleWheel = (e) => {
+    e.preventDefault();
+    
+    if (!canvasRef.current) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    
+    // Posizione del mouse relativa al canvas
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    // Calcola il nuovo zoom (scroll up = zoom in, scroll down = zoom out)
+    const zoomDelta = e.deltaY > 0 ? 0.9 : 1.1;
+    const newZoom = Math.max(0.3, Math.min(3, zoom * zoomDelta));
+    const zoomRatio = newZoom / zoom;
+    
+    // Aggiusta il pan per mantenere il punto sotto il mouse fisso
+    setPan({
+      x: pan.x + (mouseX / zoom) * (1 - zoomRatio),
+      y: pan.y + (mouseY / zoom) * (1 - zoomRatio)
+    });
+    setZoom(newZoom);
+  };
+
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -183,6 +265,17 @@ const MindMap = forwardRef(({ theme }, ref) => {
     }
   }, []);
 
+  // Listener per il resize della finestra per aggiornare le linee SVG
+  useEffect(() => {
+    const handleResize = () => {
+      // Forza il re-render degli archi aggiornando lo stato dei nodi
+      setNodes(prevNodes => [...prevNodes]);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const getNodeCenter = (nodeId) => {
     const node = nodes.find(n => n.id === nodeId);
     if (!canvasRef.current) return { x: 0, y: 0 };
@@ -197,7 +290,7 @@ const MindMap = forwardRef(({ theme }, ref) => {
     <div className="mindmap-container-fullpage">
       <div className="mindmap-wrapper-fullpage">
         <div className="mindmap-header">
-          <h2 className="mindmap-title">Mappa Mentale</h2>
+          <h2 className="mindmap-title">Mindmap Sant'Antioco</h2>
           <div className="mindmap-controls">
             <button onClick={handleZoomIn} className="control-button" title="Zoom In">
               <Plus size={18} />
@@ -212,20 +305,37 @@ const MindMap = forwardRef(({ theme }, ref) => {
         </div>
 
         <div className="mindmap-instructions">
-          <p>Trascina per spostare • Doppio clic per modificare • Zoom con i pulsanti</p>
+          <p>Trascina per spostare • Doppio clic per modificare • Rotella per zoom</p>
         </div>
 
         <div 
           ref={canvasRef}
           className="mindmap-canvas-fullpage"
           onMouseDown={handleCanvasMouseDown}
+          onWheel={handleWheel}
           style={{
-            backgroundImage: `radial-gradient(circle, ${theme === 'dark' ? '#ccccccff' : '#8f8f8fff'} 1px, transparent 1px)`,
-            backgroundSize: '25px 25px',
-            backgroundPosition: '0 0'
+            overflow: 'hidden',
+            position: 'relative'
           }}
         >
-          <div style={{ transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`, transformOrigin: '0 0', width: '100%', height: '100%' }}>
+          {/* Layer sfondo infinito con puntini */}
+          <div style={{ 
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            backgroundImage: `radial-gradient(circle, ${theme === 'dark' ? '#ccccccff' : '#8f8f8fff'} 1px, transparent 1px)`,
+            backgroundSize: `${25 * zoom}px ${25 * zoom}px`,
+            backgroundPosition: `${pan.x * zoom}px ${pan.y * zoom}px`
+          }} />
+          
+          {/* Layer contenuto (nodi e linee) */}
+          <div style={{ 
+            transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`, 
+            transformOrigin: '0 0',
+            width: '100%', 
+            height: '100%',
+            position: 'relative'
+          }}>
             <svg 
               ref={svgRef}
               className="mindmap-svg"
@@ -288,8 +398,9 @@ const MindMap = forwardRef(({ theme }, ref) => {
                     top: `${node.y}%`,
                     backgroundColor: node.color,
                     transform: 'translate(-50%, -50%)',
-                    minWidth: '120px',
-                    maxWidth: '180px',
+                    minWidth: editingNode === node.id ? 'auto' : '7.5rem',
+                    maxWidth: editingNode === node.id ? '25rem' : '11.25rem',
+                    width: editingNode === node.id ? 'fit-content' : 'auto',
                     borderRadius: '1rem',
                     padding: '0.75rem 1rem',
                     boxShadow: '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)',
@@ -298,32 +409,68 @@ const MindMap = forwardRef(({ theme }, ref) => {
                     transition: 'box-shadow 0.2s ease'
                   }}
                   onMouseDown={(e) => handleMouseDown(e, node.id)}
+                  onDoubleClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    // Pulisci i dati di drag
+                    delete e.currentTarget.dragData;
+                    setDraggedNode(null);
+                    setEditingNode(node.id);
+                  }}
                 >
                   {editingNode === node.id ? (
-                    <input
-                      type="text"
+                    <textarea
+                      ref={(el) => {
+                        if (el) {
+                          // Posiziona il cursore alla fine del testo
+                          el.focus();
+                          el.setSelectionRange(el.value.length, el.value.length);
+                          // Auto-resize textarea
+                          el.style.minHeight = 'auto';
+                          el.style.height = 'auto';
+                          el.style.height = el.scrollHeight + 'px';
+                        }
+                      }}
                       value={node.text}
                       onChange={(e) => handleNodeTextChange(node.id, e.target.value)}
                       onBlur={() => setEditingNode(null)}
-                      onKeyPress={(e) => e.key === 'Enter' && setEditingNode(null)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          setEditingNode(null);
+                        }
+                      }}
                       style={{
                         width: '100%',
+                        minHeight: '1rem',
                         background: 'transparent',
                         border: 'none',
                         outline: 'none',
                         fontSize: '0.875rem',
                         color: '#1f2937',
                         textAlign: 'center',
-                        fontFamily: "'Poppins', sans-serif"
+                        fontFamily: "'Poppins', sans-serif",
+                        resize: 'none',
+                        overflow: 'hidden',
+                        whiteSpace: 'pre-wrap',
+                        wordWrap: 'break-word'
                       }}
-                      autoFocus
+                      rows={1}
+                      onInput={(e) => {
+                        // Auto-resize textarea
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                      }}
                     />
                   ) : (
                     <div style={{ 
                       fontSize: '0.875rem', 
                       color: '#1f2937', 
                       textAlign: 'center',
-                      fontFamily: "'Poppins', sans-serif"
+                      fontFamily: "'Poppins', sans-serif",
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                      overflowWrap: 'break-word'
                     }}>
                       {node.text}
                     </div>
@@ -358,7 +505,127 @@ const MindMap = forwardRef(({ theme }, ref) => {
               ))}
             </div>
           </div>
-        </div>
+{/* 
+          {/* Minimappa }
+          <div style={{
+            position: 'absolute',
+            bottom: '1rem',
+            right: '1rem',
+            backgroundColor: 'white',
+            borderRadius: '0.5rem',
+            boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+            padding: '0.5rem',
+            zIndex: 10
+          }}>
+            <div style={{
+              position: 'relative',
+              width: '12rem',
+              height: '8rem',
+              backgroundColor: '#f3f4f6',
+              borderRadius: '0.25rem',
+              overflow: 'hidden'
+            }}>
+              <svg style={{ width: '100%', height: '100%' }}>
+                {(() => {
+                  if (!canvasRef.current) return null;
+                  
+                  const rect = canvasRef.current.getBoundingClientRect();
+                  const padding = 50;
+                  const allX = nodes.map(n => n.x);
+                  const allY = nodes.map(n => n.y);
+                  const minX = Math.min(...allX) - padding;
+                  const maxX = Math.max(...allX) + padding;
+                  const minY = Math.min(...allY) - padding;
+                  const maxY = Math.max(...allY) + padding;
+                  const width = maxX - minX;
+                  const height = maxY - minY;
+                  
+                  const scaleX = 192 / width;
+                  const scaleY = 128 / height;
+                  const scale = Math.min(scaleX, scaleY);
+                  
+                  // Offset per centrare la mappa nella minimappa (statico)
+                  const offsetX = (192 - width * scale) / 2;
+                  const offsetY = (128 - height * scale) / 2;
+                  
+                  // Viewport rectangle che si muove con proporzioni canvas
+                  const canvasAspect = rect.width / rect.height;
+                  const viewportSize = 100 / zoom; // Dimensione base del viewport
+                  
+                  let viewportWidthPercent = viewportSize;
+                  let viewportHeightPercent = viewportSize;
+                  
+                  // Aggiusta per aspect ratio
+                  if (canvasAspect > 1) {
+                    viewportHeightPercent = viewportSize / canvasAspect;
+                  } else {
+                    viewportWidthPercent = viewportSize * canvasAspect;
+                  }
+                  
+                  // Centro del viewport basato sul pan (NON sullo zoom per evitare spostamenti)
+                  const viewportCenterX = 50 - (pan.x / (rect.width / 100));
+                  const viewportCenterY = 50 - (pan.y / (rect.height / 100));
+                  
+                  // Top-left del viewport - il rettangolo si rimpicciolisce centrato sul viewportCenter
+                  const viewportLeft = viewportCenterX - viewportWidthPercent / 2;
+                  const viewportTop = viewportCenterY - viewportHeightPercent / 2;
+                  
+                  return (
+                    <>
+                      {/* Connessioni }
+                      {connections.map((conn, idx) => {
+                        const from = nodes.find(n => n.id === conn.from);
+                        const to = nodes.find(n => n.id === conn.to);
+                        if (!from || !to) return null;
+                        
+                        return (
+                          <line
+                            key={idx}
+                            x1={offsetX + (from.x - minX) * scale}
+                            y1={offsetY + (from.y - minY) * scale}
+                            x2={offsetX + (to.x - minX) * scale}
+                            y2={offsetY + (to.y - minY) * scale}
+                            stroke="#ddd"
+                            strokeWidth="1"
+                          />
+                        );
+                      })}
+                      
+                      {/* Nodi come rettangoli }
+                      {nodes.map(node => (
+                        <rect
+                          key={node.id}
+                          x={offsetX + (node.x - minX) * scale - 4}
+                          y={offsetY + (node.y - minY) * scale - 3}
+                          width="10"
+                          height="6"
+                          fill={node.color}
+                          stroke="#666"
+                          strokeWidth="0.5"
+                          rx="3"
+                          ry="3"
+                        />
+                      ))}
+                      
+                      {/* Viewport }
+                      <rect
+                        x={offsetX + (viewportLeft - minX) * scale}
+                        y={offsetY + (viewportTop - minY) * scale}
+                        width={viewportWidthPercent * scale}
+                        height={viewportHeightPercent * scale}
+                        fill="rgba(33, 150, 243, 0.2)"
+                        stroke="#3b82f6"
+                        strokeWidth="2"
+                        
+                      />
+                    </>
+                  );
+                })()}
+              </svg>
+            </div>
+          </div>
+          */}
+        </div> 
 
         <div className="mindmap-actions">
           <button
