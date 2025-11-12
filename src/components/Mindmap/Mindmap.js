@@ -1,7 +1,76 @@
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { Plus, Minus, Crosshair } from 'lucide-react';
 
-const MindMap = forwardRef(({ theme }, ref) => {
+// Informazioni locali per ogni nodo
+const nodeInfoData = {
+  1: {
+    title: 'Museo e area archeologica di Sant\'Antioco',
+    description: 'Complesso museale e archeologico',
+    extract: 'Principale sito culturale della Sardegna sud-occidentale che valorizza i reperti dell\'antica città fenicio-punica di Sulky.',
+  },
+  2: {
+    title: 'Isola di Sant\'Antioco',
+    description: 'Isola del sud-ovest della Sardegna',
+    extract: 'Quarta isola italiana per estensione, collegata alla Sardegna da un istmo. Ricca di testimonianze fenicie, puniche e romane.',
+  },
+  3: {
+    title: 'Via Sabatino Moscati',
+    description: 'Indirizzo del museo',
+    extract: 'Via dedicata a Sabatino Moscati, esperto di civiltà fenicia e punica. Ospita l\'ingresso principale del complesso.',
+  },
+  4: {
+    title: 'Ubicazione e siti',
+    description: 'Posizione geografica e siti archeologici',
+    extract: 'Il complesso si trova nel centro storico e include necropoli punica e tophet, uno dei più importanti del Mediterraneo.',
+  },
+  5: {
+    title: 'Storia e cronologia',
+    description: 'Sviluppo storico del sito',
+    extract: 'La storia copre oltre 2500 anni, dalla fondazione fenicia di Sulky (VIII sec. a.C.) all\'epoca bizantina e medievale.',
+  },
+  6: {
+    title: 'Sulky / Sulci',
+    description: 'Antica città fenicio-punica',
+    extract: 'Una delle più importanti città fenicie in Sardegna (VIII sec. a.C.), divenne centro punico e poi città romana.',
+  },
+  7: {
+    title: 'Percorso e fruizione',
+    description: 'Modalità di visita del museo',
+    extract: 'Percorso cronologico e tematico con spazi espositivi al chiuso e aree archeologiche all\'aperto con pannelli didattici.',
+  },
+  8: {
+    title: 'Significato e dibattiti',
+    description: 'Rilevanza culturale e scientifica',
+    extract: 'Sito di grande importanza per lo studio delle civiltà fenicio-puniche, con scoperte sui rituali religiosi e pratiche funerarie.',
+  },
+  9: {
+    title: 'Valore didattico',
+    description: 'Importanza educativa del museo',
+    extract: 'Eccellente risorsa didattica con laboratori e visite guidate per comprendere la storia antica della Sardegna.',
+  },
+  10: {
+    title: 'Reperti e decorazioni',
+    description: 'Collezione archeologica',
+    extract: 'Collezione di ceramiche, gioielli, amuleti e stele funerarie che documentano la vita quotidiana e religiosa antica.',
+  },
+  11: {
+    title: 'Strutture e siti',
+    description: 'Architettura e complessi archeologici',
+    extract: 'Include museo, necropoli ipogea nel tufo, tophet e resti della città romana. Ogni area offre una prospettiva diversa.',
+  },
+  12: {
+    title: 'Plastico e ricostruzioni',
+    description: 'Modelli e rappresentazioni',
+    extract: 'Plastici e ricostruzioni che visualizzano l\'aspetto originale della città e l\'organizzazione urbana di Sulky/Sulci.',
+  },
+  13: {
+    title: 'Inaugurazione museo 2006',
+    description: 'Apertura del museo moderno',
+    extract: 'Rinnovato nel 2006 con allestimento moderno, tecnologie multimediali e percorsi didattici innovativi.',
+  }
+};
+
+const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, ref) => {
   const [nodes, setNodes] = useState([
     { id: 1, text: 'Museo e area archeologica di Sant\'Antioco', x: 50, y: 50, color: '#e8f5e9' },
     { id: 2, text: 'Isola di Sant\'Antioco', x: 20, y: 45, color: '#e0f7fa' },
@@ -38,6 +107,7 @@ const MindMap = forwardRef(({ theme }, ref) => {
   const [draggedNode, setDraggedNode] = useState(null);
   const [editingNode, setEditingNode] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [hoveredNode, setHoveredNode] = useState(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -285,6 +355,20 @@ const MindMap = forwardRef(({ theme }, ref) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Listener per lo zoom con la rotella
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const wheelHandler = (e) => {
+      e.preventDefault();
+      handleWheel(e);
+    };
+
+    canvas.addEventListener('wheel', wheelHandler, { passive: false });
+    return () => canvas.removeEventListener('wheel', wheelHandler);
+  }, [zoom, pan]); // Dipendenze necessarie per handleWheel
+
   const getNodeCenter = (nodeId) => {
     const node = nodes.find(n => n.id === nodeId);
     if (!canvasRef.current) return { x: 0, y: 0 };
@@ -321,7 +405,6 @@ const MindMap = forwardRef(({ theme }, ref) => {
           ref={canvasRef}
           className="mindmap-canvas-fullpage"
           onMouseDown={handleCanvasMouseDown}
-          onWheel={handleWheel}
           style={{
             overflow: 'hidden',
             position: 'relative'
@@ -381,16 +464,18 @@ const MindMap = forwardRef(({ theme }, ref) => {
                       strokeDasharray="5,5"
                       markerEnd="url(#arrowhead)"
                     />
-                    <text
-                      x={midX}
-                      y={midY - 5}
-                      fill="#999"
-                      fontSize="11"
-                      textAnchor="middle"
-                      className="pointer-events-none select-none"
-                    >
-                      {conn.label}
-                    </text>
+                    {showConnectionLabels && (
+                      <text
+                        x={midX}
+                        y={midY - 5}
+                        fill="#999"
+                        fontSize="11"
+                        textAnchor="middle"
+                        className="pointer-events-none select-none"
+                      >
+                        {conn.label}
+                      </text>
+                    )}
                   </g>
                 );
               })}
@@ -427,7 +512,8 @@ const MindMap = forwardRef(({ theme }, ref) => {
                       : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)',
                     cursor: 'move',
                     userSelect: 'none',
-                    transition: 'box-shadow 0.2s ease'
+                    transition: 'box-shadow 0.2s ease',
+                    zIndex: hoveredNode === node.id ? 10000 : 1
                   }}
                   onClick={(e) => {
                     if (!draggedNode && editingNode !== node.id) {
@@ -435,6 +521,8 @@ const MindMap = forwardRef(({ theme }, ref) => {
                       setSelectedNode(selectedNode === node.id ? null : node.id);
                     }
                   }}
+                  onMouseEnter={() => setHoveredNode(node.id)}
+                  onMouseLeave={() => setHoveredNode(null)}
                   onMouseDown={(e) => handleMouseDown(e, node.id)}
                   onDoubleClick={(e) => {
                     e.stopPropagation();
@@ -500,6 +588,76 @@ const MindMap = forwardRef(({ theme }, ref) => {
                       overflowWrap: 'break-word'
                     }}>
                       {node.text}
+                    </div>
+                  )}
+
+                  {/* Tooltip informazioni - attaccato al nodo */}
+                  {showNodeDetails && hoveredNode === node.id && nodeInfoData[node.id] && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: '50%',
+                        top: '100%',
+                        transform: 'translateX(-50%)',
+                        marginTop: '0.5rem',
+                        minWidth: '18rem',
+                        maxWidth: '25rem',
+                        padding: '1rem',
+                        background: node.color,
+                        borderRadius: '0.75rem',
+                        boxShadow: '0 0.5rem 1.5rem rgba(0, 0, 0, 0.2)',
+                        zIndex: 10000,
+                        fontSize: '0.8rem',
+                        color: '#333',
+                        pointerEvents: 'none',
+                        border: '2px solid ' + node.color,
+                        animation: 'tooltipFadeIn 0.3s ease-out',
+                        opacity: 1
+                      }}
+                    >
+                      <style>
+                        {`
+                          @keyframes tooltipFadeIn {
+                            from {
+                              opacity: 0;
+                                transform: translateX(-50%) translateY(-10px);
+                            }
+                            to {
+                              opacity: 1;
+                              transform: translateX(-50%) translateY(0);
+                            }
+                          }
+                        `}
+                      </style>
+                      <div style={{ 
+                        fontWeight: 'bold', 
+                        marginBottom: '0.75rem', 
+                        color: '#1976d2', 
+                        fontSize: '1rem',
+                        borderBottom: '2px solid rgba(0,0,0,0.1)',
+                        paddingBottom: '0.5rem'
+                      }}>
+                        {nodeInfoData[node.id].title}
+                      </div>
+                      
+                      {nodeInfoData[node.id].description && (
+                        <div style={{ 
+                          marginBottom: '0.5rem',
+                          fontStyle: 'italic',
+                          color: '#555',
+                          fontSize: '0.85rem'
+                        }}>
+                          {nodeInfoData[node.id].description}
+                        </div>
+                      )}
+                      
+                      <div style={{ 
+                        color: '#666',
+                        lineHeight: '1.5',
+                        textAlign: 'justify'
+                      }}>
+                        {nodeInfoData[node.id].extract}
+                      </div>
                     </div>
                   )}
                   
@@ -573,8 +731,8 @@ const MindMap = forwardRef(({ theme }, ref) => {
               })}
             </div>
           </div>
-{/* 
-          {/* Minimappa }
+
+          {/* Minimappa */}
           <div style={{
             position: 'absolute',
             bottom: '1rem',
@@ -640,7 +798,6 @@ const MindMap = forwardRef(({ theme }, ref) => {
                   
                   return (
                     <>
-                      {/* Connessioni }
                       {connections.map((conn, idx) => {
                         const from = nodes.find(n => n.id === conn.from);
                         const to = nodes.find(n => n.id === conn.to);
@@ -659,7 +816,6 @@ const MindMap = forwardRef(({ theme }, ref) => {
                         );
                       })}
                       
-                      {/* Nodi come rettangoli }
                       {nodes.map(node => (
                         <rect
                           key={node.id}
@@ -675,7 +831,6 @@ const MindMap = forwardRef(({ theme }, ref) => {
                         />
                       ))}
                       
-                      {/* Viewport }
                       <rect
                         x={offsetX + (viewportLeft - minX) * scale}
                         y={offsetY + (viewportTop - minY) * scale}
@@ -692,7 +847,7 @@ const MindMap = forwardRef(({ theme }, ref) => {
               </svg>
             </div>
           </div>
-          */}
+          
         </div> 
 
         <div className="mindmap-actions">

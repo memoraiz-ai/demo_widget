@@ -1,7 +1,25 @@
 import React from 'react';
 import '../../styles/SidePanel.css';
 
-const SidePanel = ({ currentPage, quizType, setQuizType, colorPalette, setColorPalette, colorPalettes, timerEnabled, setTimerEnabled, immediateFeedbackEnabled, setImmediateFeedbackEnabled, flashcardMode, setFlashcardMode, onShuffle }) => {
+const SidePanel = ({ 
+  currentPage, 
+  quizType, 
+  setQuizType, 
+  colorPalette, 
+  setColorPalette, 
+  colorPalettes, 
+  timerEnabled, 
+  setTimerEnabled, 
+  immediateFeedbackEnabled, 
+  setImmediateFeedbackEnabled, 
+  flashcardMode, 
+  setFlashcardMode, 
+  onShuffle,
+  showNodeDetails,
+  setShowNodeDetails,
+  showConnectionLabels,
+  setShowConnectionLabels
+}) => {
   const quizTypes = [
     { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
     { id: 'multi', name: 'Risposta Multipla', icon: '☑️', description: 'Seleziona tutte le opzioni corrette' },
@@ -136,6 +154,50 @@ const SidePanel = ({ currentPage, quizType, setQuizType, colorPalette, setColorP
                 </div>
                 <p className="detail-description">
                   Clicca per mescolare l'ordine delle flashcard in modo casuale
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : currentPage === 'mindmap' ? (
+          <div className="sidepanel-section">
+            <h3 className="section-title">Dettagli</h3>
+            <div className="details">
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Visualizza maggiori informazioni nodo</span>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      id="node-details-toggle"
+                      checked={showNodeDetails}
+                      onChange={(e) => setShowNodeDetails(e.target.checked)}
+                    />
+                    <label htmlFor="node-details-toggle" className="toggle-label">
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <p className="detail-description">
+                  Mostra informazioni dettagliate quando passi il mouse sopra un nodo
+                </p>
+              </div>
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Mostra etichette relazioni</span>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      id="connection-labels-toggle"
+                      checked={showConnectionLabels}
+                      onChange={(e) => setShowConnectionLabels(e.target.checked)}
+                    />
+                    <label htmlFor="connection-labels-toggle" className="toggle-label">
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <p className="detail-description">
+                  Mostra le etichette delle connessioni tra i nodi
                 </p>
               </div>
             </div>

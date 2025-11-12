@@ -83,6 +83,8 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState(colorPalettes.default);
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
+  const [showNodeDetails, setShowNodeDetails] = useState(false);
+  const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const flashcardRef = useRef(null);
 const mindmapRef = useRef(null);
 
@@ -126,7 +128,7 @@ const mindmapRef = useRef(null);
     } else if (currentPage === 'flashcard') {
       return <Flashcard ref={flashcardRef} theme={currentTheme} mode={flashcardMode} timerEnabled={timerEnabled} />;
     } else if (currentPage === 'mindmap') {
-      return <Mindmap ref={mindmapRef} theme={currentTheme} />;
+      return <Mindmap ref={mindmapRef} theme={currentTheme} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} />;
     }
     return renderQuiz();
   };
@@ -187,6 +189,10 @@ const mindmapRef = useRef(null);
           setTimerEnabled={setTimerEnabled}
           immediateFeedbackEnabled={immediateFeedbackEnabled}
           setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
+          showNodeDetails={showNodeDetails}
+          setShowNodeDetails={setShowNodeDetails}
+          showConnectionLabels={showConnectionLabels}
+          setShowConnectionLabels={setShowConnectionLabels}
         />
       </div>
     </div>
