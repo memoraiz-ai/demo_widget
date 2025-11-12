@@ -70,7 +70,7 @@ const nodeInfoData = {
   }
 };
 
-const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, ref) => {
+const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dynamicMapEnabled }, ref) => {
   const [nodes, setNodes] = useState([
     { id: 1, text: 'Museo e area archeologica di Sant\'Antioco', x: 50, y: 50, color: '#e8f5e9' },
     { id: 2, text: 'Isola di Sant\'Antioco', x: 20, y: 45, color: '#e0f7fa' },
@@ -118,6 +118,9 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, re
   const svgRef = useRef(null);
 
   const handleMouseDown = (e, nodeId) => {
+    // Non permettere drag se dinamicMapEnabled è false
+    if (!dynamicMapEnabled) return;
+    
     // Previeni drag se è un doppio click
     if (e.detail === 2) {
       return;
@@ -247,11 +250,42 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, re
   };
 
   const addNode = () => {
+    // Trova una posizione libera lontana dagli altri nodi
+    const findFreePosition = () => {
+      const minDistance = 15; // Distanza minima percentuale da altri nodi
+      const maxAttempts = 50;
+      
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        // Genera posizione casuale in un'area visibile (tra 20% e 80%)
+        const x = 20 + Math.random() * 60;
+        const y = 20 + Math.random() * 60;
+        
+        // Controlla se è sufficientemente lontana da tutti gli altri nodi
+        const isFree = nodes.every(node => {
+          const distance = Math.sqrt(
+            Math.pow(node.x - x, 2) + Math.pow(node.y - y, 2)
+          );
+          return distance >= minDistance;
+        });
+        
+        if (isFree) {
+          return { x, y };
+        }
+      }
+      
+      // Se non trova uno spazio libero, usa una posizione casuale comunque
+      return { 
+        x: 20 + Math.random() * 60, 
+        y: 20 + Math.random() * 60 
+      };
+    };
+    
+    const position = findFreePosition();
     const newNode = {
       id: Math.max(...nodes.map(n => n.id)) + 1,
       text: 'Nuovo nodo',
-      x: 50,
-      y: 50,
+      x: position.x,
+      y: position.y,
       color: '#f5f5f5'
     };
     setNodes([...nodes, newNode]);
@@ -510,13 +544,13 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, re
                     boxShadow: selectedNode === node.id 
                       ? `0 0 0 0.1875rem ${darkenColor(node.color)}` 
                       : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)',
-                    cursor: 'move',
+                    cursor: 'pointer',
                     userSelect: 'none',
                     transition: 'box-shadow 0.2s ease',
                     zIndex: hoveredNode === node.id ? 10000 : 1
                   }}
                   onClick={(e) => {
-                    if (!draggedNode && editingNode !== node.id) {
+                    if (!draggedNode && editingNode !== node.id && dynamicMapEnabled) {
                       e.stopPropagation();
                       setSelectedNode(selectedNode === node.id ? null : node.id);
                     }
@@ -525,6 +559,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, re
                   onMouseLeave={() => setHoveredNode(null)}
                   onMouseDown={(e) => handleMouseDown(e, node.id)}
                   onDoubleClick={(e) => {
+                    if (!dynamicMapEnabled) return;
                     e.stopPropagation();
                     e.preventDefault();
                     // Pulisci i dati di drag
@@ -661,32 +696,35 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, re
                     </div>
                   )}
                   
-                  <button
-                    onClick={() => deleteNode(node.id)}
-                    style={{
-                      position: 'absolute',
-                      top: '-0.5rem',
-                      right: '-0.5rem',
-                      width: '1.5rem',
-                      height: '1.5rem',
-                      background: '#dc3545',
-                      color: 'white',
-                      borderRadius: '50%',
-                      fontSize: '0.875rem',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: selectedNode === node.id ? 'flex' : 'none',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'opacity 0.2s ease'
-                    }}
-                    className="delete-node-btn"
-                  >
-                    ×
-                  </button>
+                  {/* Pulsante delete - visibile solo con mappa dinamica */}
+                  {dynamicMapEnabled && (
+                    <button
+                      onClick={() => deleteNode(node.id)}
+                      style={{
+                        position: 'absolute',
+                        top: '-0.5rem',
+                        right: '-0.5rem',
+                        width: '1.5rem',
+                        height: '1.5rem',
+                        background: '#dc3545',
+                        color: 'white',
+                        borderRadius: '50%',
+                        fontSize: '0.875rem',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: selectedNode === node.id ? 'flex' : 'none',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'opacity 0.2s ease'
+                      }}
+                      className="delete-node-btn"
+                    >
+                      ×
+                    </button>
+                  )}
 
-                  {/* Color picker */}
-                  {selectedNode === node.id && (
+                  {/* Color picker - visibile solo con mappa dinamica */}
+                  {dynamicMapEnabled && selectedNode === node.id && (
                     <div
                       style={{
                         position: 'absolute',
@@ -848,31 +886,48 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels }, re
             </div>
           </div>
           
+          {/* Pulsante aggiungi nodo - posizione assoluta sopra il canvas */}
+          {dynamicMapEnabled && (
+            <button
+              onClick={addNode}
+              className="add-node-btn"
+              style={{
+                position: 'absolute',
+                bottom: '1.5rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                padding: '0.75rem 1.5rem',
+                border: '0.125rem solid var(--primary)',
+                borderRadius: '1.5rem',
+                background: 'var(--primary)',
+                color: 'var(--primary-foreground)',
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500,
+                fontSize: '0.875rem',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                zIndex: 1000
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateX(-50%) translateY(-0.25rem) scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 0.5rem 1.5rem rgba(0, 0, 0, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)';
+              }}
+            >
+              <Plus size={18} />
+              Aggiungi Nodo
+            </button>
+          )}
+          
         </div> 
 
-        <div className="mindmap-actions">
-          <button
-            onClick={addNode}
-            style={{
-              padding: '0.75rem 1.5rem',
-              border: '0.125rem solid var(--primary)',
-              borderRadius: '1.5rem',
-              background: 'var(--primary)',
-              color: 'var(--primary-foreground)',
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 500,
-              fontSize: '0.875rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            <Plus size={18} />
-            Aggiungi Nodo
-          </button>
-        </div>
       </div>
     </div>
   );

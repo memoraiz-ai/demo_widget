@@ -18,7 +18,9 @@ const SidePanel = ({
   showNodeDetails,
   setShowNodeDetails,
   showConnectionLabels,
-  setShowConnectionLabels
+  setShowConnectionLabels,
+  dynamicMapEnabled,
+  setDynamicMapEnabled
 }) => {
   const quizTypes = [
     { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
@@ -159,28 +161,54 @@ const SidePanel = ({
             </div>
           </div>
         ) : currentPage === 'mindmap' ? (
-          <div className="sidepanel-section">
-            <h3 className="section-title">Dettagli</h3>
-            <div className="details">
-              <div className="detail-item">
-                <div className="detail-header">
-                  <span className="detail-title">Visualizza maggiori informazioni nodo</span>
-                  <div className="toggle-switch">
-                    <input
-                      type="checkbox"
-                      id="node-details-toggle"
-                      checked={showNodeDetails}
-                      onChange={(e) => setShowNodeDetails(e.target.checked)}
-                    />
-                    <label htmlFor="node-details-toggle" className="toggle-label">
-                      <span className="toggle-slider"></span>
-                    </label>
+          <>
+            <div className="sidepanel-section">
+              <h3 className="section-title">Funzionalità</h3>
+              <div className="details">
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Mappa Dinamica</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="dynamic-map-toggle"
+                        checked={dynamicMapEnabled}
+                        onChange={(e) => setDynamicMapEnabled(e.target.checked)}
+                      />
+                      <label htmlFor="dynamic-map-toggle" className="toggle-label">
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
                   </div>
+                  <p className="detail-description">
+                    Abilita la modifica della mappa: spostamento nodi, cambio colori, aggiunta/rimozione elementi
+                  </p>
                 </div>
-                <p className="detail-description">
-                  Mostra informazioni dettagliate quando passi il mouse sopra un nodo
-                </p>
               </div>
+            </div>
+            
+            <div className="sidepanel-section">
+              <h3 className="section-title">Dettagli</h3>
+              <div className="details">
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Visualizza maggiori informazioni nodo</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="node-details-toggle"
+                        checked={showNodeDetails}
+                        onChange={(e) => setShowNodeDetails(e.target.checked)}
+                      />
+                      <label htmlFor="node-details-toggle" className="toggle-label">
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <p className="detail-description">
+                    Mostra informazioni dettagliate quando passi il mouse sopra un nodo
+                  </p>
+                </div>
               <div className="detail-item">
                 <div className="detail-header">
                   <span className="detail-title">Mostra etichette relazioni</span>
@@ -202,6 +230,7 @@ const SidePanel = ({
               </div>
             </div>
           </div>
+          </>
         ) : null}
 
         <div className="sidepanel-section">
