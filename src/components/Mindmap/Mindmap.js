@@ -91,20 +91,20 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
   ]);
 
   const [connections, setConnections] = useState([
-    { from: 1, to: 2, label: 'ubicazione', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 3, label: 'resti', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 4, label: 'ubicazione', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 5, label: 'contesto', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 6, label: 'nome storico', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 7, label: 'fruizione', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 8, label: 'importanza', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 10, label: 'reperti', offsetX: 0, offsetY: 0 },
-    { from: 1, to: 11, label: 'struttura', offsetX: 0, offsetY: 0 },
-    { from: 2, to: 3, label: 'indirizzo', offsetX: 0, offsetY: 0 },
-    { from: 5, to: 6, label: 'periodo', offsetX: 0, offsetY: 0 },
-    { from: 8, to: 9, label: 'valore', offsetX: 0, offsetY: 0 },
-    { from: 10, to: 12, label: 'allestimento', offsetX: 0, offsetY: 0 },
-    { from: 11, to: 13, label: 'apertura', offsetX: 0, offsetY: 0 }
+    { from: 1, to: 2, label: 'ubicazione' },
+    { from: 1, to: 3, label: 'resti' },
+    { from: 1, to: 4, label: 'ubicazione' },
+    { from: 1, to: 5, label: 'contesto' },
+    { from: 1, to: 6, label: 'nome storico' },
+    { from: 1, to: 7, label: 'fruizione' },
+    { from: 1, to: 8, label: 'importanza' },
+    { from: 1, to: 10, label: 'reperti' },
+    { from: 1, to: 11, label: 'struttura' },
+    { from: 2, to: 3, label: 'indirizzo' },
+    { from: 5, to: 6, label: 'periodo' },
+    { from: 8, to: 9, label: 'valore' },
+    { from: 10, to: 12, label: 'allestimento' },
+    { from: 11, to: 13, label: 'apertura' }
   ]);
 
   const [draggedNode, setDraggedNode] = useState(null);
@@ -112,7 +112,6 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
   const [selectedNode, setSelectedNode] = useState(null);
   const [hoveredNode, setHoveredNode] = useState(null);
   const [editingConnection, setEditingConnection] = useState(null);
-  const [draggedConnection, setDraggedConnection] = useState(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -121,6 +120,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
   
   const canvasRef = useRef(null);
   const svgRef = useRef(null);
+  const justDraggedRef = useRef(false);
 
   const handleMouseDown = (e, nodeId) => {
     // Non permettere drag se dinamicMapEnabled è false
@@ -208,13 +208,6 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
           ? { ...node, x: Math.max(0, Math.min(100, newXpercent)), y: Math.max(0, Math.min(100, newYpercent)) }
           : node
       ));
-    } else if (draggedConnection) {
-      // Gestisci il drag delle etichette delle connessioni
-      const newOffsetX = e.clientX - offset.x;
-      const newOffsetY = e.clientY - offset.y;
-      
-      const [fromId, toId] = draggedConnection.split('-').map(Number);
-      handleConnectionOffsetChange(fromId, toId, newOffsetX, newOffsetY);
     } else if (isPanning) {
       const dx = e.clientX - panStart.x;
       const dy = e.clientY - panStart.y;
@@ -224,14 +217,30 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
   };
 
   const handleMouseUp = () => {
-    // Pulisci i dati di drag da tutti i nodi
+    // Controlla se c'è stato un drag prima di pulire
     const nodeElements = document.querySelectorAll('.mindmap-node');
+    let hasMoved = false;
+    nodeElements.forEach(el => {
+      if (el.dragData && el.dragData.hasMoved) {
+        hasMoved = true;
+      }
+    });
+    
+    // Imposta la flag se c'è stato un movimento
+    if (hasMoved) {
+      justDraggedRef.current = true;
+      // Resetta la flag dopo un breve delay (dopo che onClick viene chiamato)
+      setTimeout(() => {
+        justDraggedRef.current = false;
+      }, 50);
+    }
+    
+    // Pulisci i dati di drag da tutti i nodi
     nodeElements.forEach(el => {
       delete el.dragData;
     });
     
     setDraggedNode(null);
-    setDraggedConnection(null);
     setIsPanning(false);
   };
 
@@ -271,12 +280,6 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
   const handleConnectionLabelChange = (fromId, toId, newLabel) => {
     setConnections(connections.map(conn => 
       conn.from === fromId && conn.to === toId ? { ...conn, label: newLabel } : conn
-    ));
-  };
-
-  const handleConnectionOffsetChange = (fromId, toId, offsetX, offsetY) => {
-    setConnections(connections.map(conn => 
-      conn.from === fromId && conn.to === toId ? { ...conn, offsetX, offsetY } : conn
     ));
   };
 
@@ -398,7 +401,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
       document.removeEventListener('mouseup', handleMouseUp);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draggedNode, draggedConnection, isPanning, offset, pan, panStart, zoom]);
+  }, [draggedNode, isPanning, offset, pan, panStart, zoom]);
 
   // Forza re-render per calcolare le posizioni iniziali
   useEffect(() => {
@@ -568,10 +571,13 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                     cursor: 'pointer',
                     userSelect: 'none',
                     transition: 'box-shadow 0.2s ease',
-                    zIndex: hoveredNode === node.id ? 10000 : 1
+                    zIndex: selectedNode === node.id ? 20000 : (hoveredNode === node.id ? 10000 : 1)
                   }}
                   onClick={(e) => {
-                    if (!draggedNode && editingNode !== node.id && dynamicMapEnabled) {
+                    if (!dynamicMapEnabled) return;
+                    
+                    // Non selezionare se c'è appena stato un drag o se si sta editando
+                    if (!justDraggedRef.current && editingNode !== node.id) {
                       e.stopPropagation();
                       setSelectedNode(selectedNode === node.id ? null : node.id);
                     }
@@ -870,20 +876,15 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
               {/* Etichette connessioni come mini contenitori */}
               {showConnectionLabels && connections.map((conn, idx) => {
                 if (!canvasRef.current) return null;
+                const rect = canvasRef.current.getBoundingClientRect();
+                const from = getNodeCenter(conn.from);
+                const to = getNodeCenter(conn.to);
+                const midXpx = (from.x + to.x) / 2;
+                const midYpx = (from.y + to.y) / 2;
                 
-                // Se non ha ancora una posizione, inizializza al centro della connessione
-                if (conn.offsetX === 0 && conn.offsetY === 0) {
-                  const rect = canvasRef.current.getBoundingClientRect();
-                  const from = getNodeCenter(conn.from);
-                  const to = getNodeCenter(conn.to);
-                  const midXpx = (from.x + to.x) / 2;
-                  const midYpx = (from.y + to.y) / 2;
-                  
-                  // Imposta la posizione iniziale al centro (solo la prima volta)
-                  setTimeout(() => {
-                    handleConnectionOffsetChange(conn.from, conn.to, midXpx, midYpx);
-                  }, 0);
-                }
+                // Converti in percentuale
+                const midXPercent = (midXpx / rect.width) * 100;
+                const midYPercent = (midYpx / rect.height) * 100;
                 
                 const connKey = `${conn.from}-${conn.to}`;
                 
@@ -893,8 +894,8 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                     className="connection-label"
                     style={{
                       position: 'absolute',
-                      left: `${conn.offsetX || 0}px`,
-                      top: `${conn.offsetY || 0}px`,
+                      left: `${midXPercent}%`,
+                      top: `${midYPercent}%`,
                       transform: 'translate(-50%, -50%)',
                       backgroundColor: '#f5f5f5',
                       borderRadius: '0.5rem',
@@ -902,7 +903,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       fontSize: '0.75rem',
                       color: '#666',
                       boxShadow: '0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)',
-                      cursor: dynamicMapEnabled ? 'move' : 'default',
+                      cursor: dynamicMapEnabled ? 'pointer' : 'default',
                       userSelect: 'none',
                       border: '1px solid #ddd',
                       whiteSpace: 'nowrap',
@@ -912,15 +913,6 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       if (!dynamicMapEnabled) return;
                       e.stopPropagation();
                       setEditingConnection(connKey);
-                    }}
-                    onMouseDown={(e) => {
-                      if (!dynamicMapEnabled || editingConnection === connKey) return;
-                      e.stopPropagation();
-                      setDraggedConnection(connKey);
-                      setOffset({
-                        x: e.clientX - (conn.offsetX || 0),
-                        y: e.clientY - (conn.offsetY || 0)
-                      });
                     }}
                   >
                     {editingConnection === connKey ? (
