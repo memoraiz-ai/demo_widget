@@ -868,7 +868,6 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       }}
                       onMouseDown={(e) => {
                         e.stopPropagation();
-                        const rect = canvasRef.current.getBoundingClientRect();
                         setDraggingConnection({
                           from: node.id,
                           mouseX: e.clientX,
