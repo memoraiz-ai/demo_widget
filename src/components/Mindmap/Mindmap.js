@@ -614,7 +614,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                     left: `${node.x}%`,
                     top: `${node.y}%`,
                     backgroundColor: node.color,
-                    transform: 'translate(-50%, -50%)',
+                    transform: selectedNode === node.id ? 'translate(-50%, -50%) scale(1.05)' : 'translate(-50%, -50%)',
                     minWidth: editingNode === node.id ? 'auto' : '7.5rem',
                     maxWidth: editingNode === node.id ? '25rem' : '11.25rem',
                     width: editingNode === node.id ? 'fit-content' : 'auto',
@@ -627,7 +627,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                         : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)'),
                     cursor: 'pointer',
                     userSelect: 'none',
-                    transition: 'box-shadow 0.2s ease',
+                    transition: draggedNode === node.id ? 'box-shadow 0.2s ease' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease',
                     zIndex: selectedNode === node.id ? 20000 : (hoveredNode === node.id ? 10000 : 1)
                   }}
                   onClick={(e) => {
@@ -753,7 +753,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                         left: '50%',
                         top: '100%',
                         transform: 'translateX(-50%)',
-                        marginTop: selectedNode === node.id ? '3.5rem' : '0.5rem',
+                        marginTop: selectedNode === node.id ? '1.5rem' : '0.5rem',
                         minWidth: '18rem',
                         maxWidth: '25rem',
                         padding: '1rem',
@@ -766,8 +766,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                         pointerEvents: 'none',
                         border: '2px solid ' + node.color,
                         animation: 'tooltipFadeIn 0.3s ease-out',
-                        opacity: 1,
-                        transition: 'margin-top 0.2s ease'
+                        opacity: 1
                       }}
                     >
                       <style>
@@ -843,110 +842,14 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                     </button>
                   )}
 
-                  {/* Color picker - visibile solo con mappa dinamica */}
-                  {dynamicMapEnabled && selectedNode === node.id && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        marginTop: '0.5rem',
-                        display: 'flex',
-                        gap: '0.25rem',
-                        padding: '0.5rem',
-                        background: 'white',
-                        borderRadius: '0.5rem',
-                        boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
-                        zIndex: 1000
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {['#e8f5e9', '#e0f7fa', '#e8eaf6', '#fff3e0', '#ffebee', '#fce4ec', '#f3e5f5', '#e1f5fe'].map(color => (
-                        <button
-                          key={color}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleColorChange(node.id, color);
-                          }}
-                          style={{
-                            width: '1.5rem',
-                            height: '1.5rem',
-                            backgroundColor: color,
-                            border: node.color === color ? '2px solid #333' : '1px solid #ddd',
-                            borderRadius: '50%',
-                            cursor: 'pointer',
-                            transition: 'transform 0.2s ease'
-                          }}
-                          onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-                          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Icon picker - visibile solo con mappa dinamica, sopra il nodo */}
-                  {dynamicMapEnabled && selectedNode === node.id && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '100%',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        marginBottom: '0.8rem',
-                        display: 'flex',
-                        gap: '0.25rem',
-                        padding: '0.5rem',
-                        background: 'white',
-                        borderRadius: '0.5rem',
-                        boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
-                        zIndex: 1000
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {availableIcons.map(icon => (
-                        <button
-                          key={icon}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleIconChange(node.id, icon);
-                          }}
-                          style={{
-                            width: '2rem',
-                            height: '2rem',
-                            fontSize: '1.2rem',
-                            background: node.icon === icon ? '#e3f2fd' : 'transparent',
-                            border: node.icon === icon ? '2px solid #2196f3' : '1px solid #ddd',
-                            borderRadius: '0.25rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.target.style.transform = 'scale(1.15)';
-                            e.target.style.background = '#f5f5f5';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.transform = 'scale(1)';
-                            e.target.style.background = node.icon === icon ? '#e3f2fd' : 'transparent';
-                          }}
-                        >
-                          {icon}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
                   {/* Connection handle - cerchietto per creare nuove connessioni */}
                   {dynamicMapEnabled && selectedNode === node.id && (
                     <div
                       style={{
                         position: 'absolute',
-                        right: '-1rem',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
+                        left: '50%',
+                        bottom: '-1rem',
+                        transform: 'translateX(-50%)',
                         width: '1.5rem',
                         height: '1.5rem',
                         backgroundColor: '#2196f3',
@@ -1015,7 +918,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       userSelect: 'none',
                       border: '1px solid #ddd',
                       whiteSpace: 'nowrap',
-                      zIndex: 5
+                      zIndex: 0
                     }}
                     onClick={(e) => {
                       if (!dynamicMapEnabled) return;
@@ -1204,44 +1107,194 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
             </div>
           </div>
           
-          {/* Pulsante aggiungi nodo - posizione assoluta sopra il canvas */}
+          {/* Barra controlli in basso - add node O (color picker + icon picker) */}
           {dynamicMapEnabled && (
-            <button
-              onClick={addNode}
-              className="add-node-btn"
+            <div
               style={{
                 position: 'absolute',
                 bottom: '1.5rem',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                padding: '0.75rem 1.5rem',
-                border: '0.125rem solid var(--primary)',
-                borderRadius: '1.5rem',
-                background: 'var(--primary)',
-                color: 'var(--primary-foreground)',
-                fontFamily: "'Poppins', sans-serif",
-                fontWeight: 500,
-                fontSize: '0.875rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                gap: '1rem',
                 zIndex: 1000
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-0.25rem) scale(1.05)';
-                e.currentTarget.style.boxShadow = '0 0.5rem 1.5rem rgba(0, 0, 0, 0.25)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)';
-              }}
             >
-              <Plus size={18} />
-              Aggiungi Nodo
-            </button>
+              {/* Pulsante aggiungi nodo - visibile solo se nessun nodo è selezionato */}
+              {!selectedNode && (
+                <>
+                  <style>
+                    {`
+                      @keyframes fadeInScale {
+                        from {
+                          opacity: 0;
+                          transform: scale(0.8);
+                        }
+                        to {
+                          opacity: 1;
+                          transform: scale(1);
+                        }
+                      }
+                    `}
+                  </style>
+                  <button
+                    onClick={addNode}
+                    className="add-node-btn"
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      border: 'none',
+                      borderRadius: '1.5rem',
+                      background: 'var(--primary)',
+                      color: 'var(--primary-foreground)',
+                      fontFamily: "'Poppins', sans-serif",
+                      fontWeight: 500,
+                      fontSize: '0.875rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                      animation: 'fadeInScale 0.3s ease-out'
+                    }}
+                    onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-0.25rem) scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 0.5rem 1.5rem rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)';
+                  }}
+                  >
+                    <Plus size={18} />
+                    Aggiungi Nodo
+                  </button>
+                </>
+              )}
+
+              {/* Picker verticale - visibile solo se un nodo è selezionato */}
+              {selectedNode && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.5rem',
+                    animation: 'slideUp 0.3s ease-out'
+                  }}
+                >
+                  <style>
+                    {`
+                      @keyframes slideUp {
+                        from {
+                          opacity: 0;
+                          transform: translateY(10px);
+                        }
+                        to {
+                          opacity: 1;
+                          transform: translateY(0);
+                        }
+                      }
+                    `}
+                  </style>
+                  {/* Color picker */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '0.25rem',
+                      padding: '0.5rem',
+                      background: 'white',
+                      borderRadius: '0.5rem',
+                      boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                      cursor: 'pointer'
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                  >
+                    {['#e8f5e9', '#e0f7fa', '#e8eaf6', '#fff3e0', '#ffebee', '#fce4ec', '#f3e5f5', '#e1f5fe', '#fff9c4'].map(color => {
+                      const selectedNodeObj = nodes.find(n => n.id === selectedNode);
+                      return (
+                        <button
+                          key={color}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleColorChange(selectedNode, color);
+                          }}
+                          style={{
+                            width: '1.5rem',
+                            height: '1.5rem',
+                            backgroundColor: color,
+                            border: selectedNodeObj?.color === color ? '2px solid #333' : '1px solid #ddd',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.2)';
+                            e.target.style.boxShadow = '0 0.25rem 0.5rem rgba(0, 0, 0, 0.2)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  {/* Icon picker */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '0.25rem',
+                      padding: '0.5rem',
+                      background: 'white',
+                      borderRadius: '0.5rem',
+                      boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
+                      cursor: 'pointer'
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                  >
+                    {availableIcons.map(icon => {
+                      const selectedNodeObj = nodes.find(n => n.id === selectedNode);
+                      return (
+                        <button
+                          key={icon}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleIconChange(selectedNode, icon);
+                          }}
+                          style={{
+                            width: '1.75rem',
+                            height: '1.75rem',
+                            fontSize: '1rem',
+                            background: selectedNodeObj?.icon === icon ? '#e3f2fd' : 'transparent',
+                            border: selectedNodeObj?.icon === icon ? '2px solid #2196f3' : '1px solid #ddd',
+                            borderRadius: '0.25rem',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.2)';
+                            e.target.style.boxShadow = '0 0.25rem 0.5rem rgba(0, 0, 0, 0.2)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        >
+                          {icon}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
           
         </div> 
