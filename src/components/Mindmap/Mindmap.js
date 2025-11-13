@@ -112,6 +112,9 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
   const [selectedNode, setSelectedNode] = useState(null);
   const [hoveredNode, setHoveredNode] = useState(null);
   const [editingConnection, setEditingConnection] = useState(null);
+  const [selectedConnection, setSelectedConnection] = useState(null); // connessione selezionata per mostrare il pulsante elimina
+  const [draggingConnection, setDraggingConnection] = useState(null); // { from: nodeId, mouseX, mouseY }
+  const [connectionTarget, setConnectionTarget] = useState(null); // nodo su cui si sta hovering durante il drag
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -208,6 +211,13 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
           ? { ...node, x: Math.max(0, Math.min(100, newXpercent)), y: Math.max(0, Math.min(100, newYpercent)) }
           : node
       ));
+    } else if (draggingConnection) {
+      // Aggiorna la posizione del mouse per la linea temporanea
+      setDraggingConnection({
+        ...draggingConnection,
+        mouseX: e.clientX,
+        mouseY: e.clientY
+      });
     } else if (isPanning) {
       const dx = e.clientX - panStart.x;
       const dy = e.clientY - panStart.y;
@@ -240,7 +250,14 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
       delete el.dragData;
     });
     
+    // Completa la connessione se si sta draggando
+    if (draggingConnection && connectionTarget) {
+      addConnection(draggingConnection.from, connectionTarget);
+    }
+    
     setDraggedNode(null);
+    setDraggingConnection(null);
+    setConnectionTarget(null);
     setIsPanning(false);
   };
 
@@ -249,12 +266,14 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
     const isNodeOrButton = e.target.closest('.mindmap-node') || 
                           e.target.closest('button') || 
                           e.target.closest('input') ||
-                          e.target.closest('textarea');
+                          e.target.closest('textarea') ||
+                          e.target.closest('.connection-label');
     
     if (!isNodeOrButton) {
       setIsPanning(true);
       setPanStart({ x: e.clientX, y: e.clientY });
       setSelectedNode(null); // Deseleziona il nodo quando clicchi sul canvas
+      setSelectedConnection(null); // Deseleziona la connessione quando clicchi sul canvas
       e.preventDefault();
     }
   };
@@ -281,6 +300,19 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
     setConnections(connections.map(conn => 
       conn.from === fromId && conn.to === toId ? { ...conn, label: newLabel } : conn
     ));
+  };
+
+  const addConnection = (fromId, toId) => {
+    // Previeni connessioni duplicate e self-connections
+    if (fromId === toId) return;
+    const exists = connections.some(conn => conn.from === fromId && conn.to === toId);
+    if (exists) return;
+    
+    setConnections([...connections, { from: fromId, to: toId, label: 'relazione' }]);
+  };
+
+  const deleteConnection = (fromId, toId) => {
+    setConnections(connections.filter(conn => !(conn.from === fromId && conn.to === toId)));
   };
 
   const addNode = () => {
@@ -401,7 +433,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
       document.removeEventListener('mouseup', handleMouseUp);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draggedNode, isPanning, offset, pan, panStart, zoom]);
+  }, [draggedNode, draggingConnection, isPanning, offset, pan, panStart, zoom]);
 
   // Forza re-render per calcolare le posizioni iniziali
   useEffect(() => {
@@ -537,6 +569,29 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                   </g>
                 );
               })}
+              
+              {/* Linea temporanea durante il drag di una nuova connessione */}
+              {draggingConnection && canvasRef.current && (
+                (() => {
+                  const rect = canvasRef.current.getBoundingClientRect();
+                  const from = getNodeCenter(draggingConnection.from);
+                  const toX = (draggingConnection.mouseX - rect.left) / zoom - pan.x;
+                  const toY = (draggingConnection.mouseY - rect.top) / zoom - pan.y;
+                  
+                  return (
+                    <line
+                      x1={from.x}
+                      y1={from.y}
+                      x2={toX}
+                      y2={toY}
+                      stroke="#2196f3"
+                      strokeWidth="3"
+                      strokeDasharray="10,5"
+                      opacity="0.6"
+                    />
+                  );
+                })()
+              )}
             </svg>
 
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -567,7 +622,9 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                     padding: '0.75rem 1rem',
                     boxShadow: selectedNode === node.id 
                       ? `0 0 0 0.1875rem ${darkenColor(node.color)}` 
-                      : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)',
+                      : (connectionTarget === node.id 
+                        ? `0 0 0 0.25rem #2196f3`
+                        : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)'),
                     cursor: 'pointer',
                     userSelect: 'none',
                     transition: 'box-shadow 0.2s ease',
@@ -582,8 +639,20 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       setSelectedNode(selectedNode === node.id ? null : node.id);
                     }
                   }}
-                  onMouseEnter={() => setHoveredNode(node.id)}
-                  onMouseLeave={() => setHoveredNode(null)}
+                  onMouseEnter={() => {
+                    setHoveredNode(node.id);
+                    // Se stiamo draggando una connessione, imposta questo nodo come target
+                    if (draggingConnection && node.id !== draggingConnection.from) {
+                      setConnectionTarget(node.id);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredNode(null);
+                    // Rimuovi il target quando lasci il nodo
+                    if (connectionTarget === node.id) {
+                      setConnectionTarget(null);
+                    }
+                  }}
                   onMouseDown={(e) => handleMouseDown(e, node.id)}
                   onDoubleClick={(e) => {
                     if (!dynamicMapEnabled) return;
@@ -869,6 +938,45 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       ))}
                     </div>
                   )}
+
+                  {/* Connection handle - cerchietto per creare nuove connessioni */}
+                  {dynamicMapEnabled && selectedNode === node.id && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        right: '-1rem',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        width: '1.5rem',
+                        height: '1.5rem',
+                        backgroundColor: '#2196f3',
+                        border: '3px solid white',
+                        borderRadius: '50%',
+                        cursor: 'crosshair',
+                        boxShadow: '0 0.125rem 0.5rem rgba(33, 150, 243, 0.5)',
+                        zIndex: 1001,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        lineHeight: '1'
+                      }}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                        const rect = canvasRef.current.getBoundingClientRect();
+                        setDraggingConnection({
+                          from: node.id,
+                          mouseX: e.clientX,
+                          mouseY: e.clientY
+                        });
+                      }}
+                      title="Trascina per creare una connessione"
+                    >
+                      +
+                    </div>
+                  )}
                 </div>
                 );
               })}
@@ -909,6 +1017,11 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       whiteSpace: 'nowrap',
                       zIndex: 5
                     }}
+                    onClick={(e) => {
+                      if (!dynamicMapEnabled) return;
+                      e.stopPropagation();
+                      setSelectedConnection(selectedConnection === connKey ? null : connKey);
+                    }}
                     onDoubleClick={(e) => {
                       if (!dynamicMapEnabled) return;
                       e.stopPropagation();
@@ -938,7 +1051,36 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                         onClick={(e) => e.stopPropagation()}
                       />
                     ) : (
-                      conn.label
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span>{conn.label}</span>
+                        {dynamicMapEnabled && selectedConnection === connKey && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteConnection(conn.from, conn.to);
+                              setSelectedConnection(null);
+                            }}
+                            style={{
+                              width: '1rem',
+                              height: '1rem',
+                              padding: 0,
+                              border: 'none',
+                              background: '#ff4444',
+                              color: 'white',
+                              borderRadius: '50%',
+                              cursor: 'pointer',
+                              fontSize: '0.6rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0
+                            }}
+                            title="Elimina connessione"
+                          >
+                            ×
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                 );
