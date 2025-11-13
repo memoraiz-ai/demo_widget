@@ -270,6 +270,8 @@ const SidePanel = ({
                   ? quizTypes.find(t => t.id === quizType)?.name
                   : currentPage === 'flashcard'
                   ? flashcardModes.find(m => m.id === flashcardMode)?.name
+                  : currentPage === 'mindmap'
+                  ? (dynamicMapEnabled ? 'Dinamica' : 'Statica')
                   : 'N/A'
                 }
               </span>
