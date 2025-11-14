@@ -76,9 +76,10 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
             position: 'absolute',
             inset: 0,
             pointerEvents: 'none',
-            backgroundImage: `radial-gradient(circle, ${theme === 'dark' ? '#ccccccff' : '#8f8f8fff'} 1px, transparent 1px)`,
-            backgroundSize: `${25 * zoom}px ${25 * zoom}px`,
-            backgroundPosition: `${pan.x * zoom}px ${pan.y * zoom}px`
+            backgroundImage: `radial-gradient(circle, #d0d0d0 1px, transparent 1px)`,
+            backgroundSize: `${20 * zoom}px ${20 * zoom}px`,
+            backgroundPosition: `${pan.x * zoom}px ${pan.y * zoom}px`,
+            opacity: 0.6
           }} />
           
           {/* Content layer */}
