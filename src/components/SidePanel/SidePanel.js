@@ -5,9 +5,13 @@ const SidePanel = ({
   currentPage, 
   quizType, 
   setQuizType, 
-  colorPalette, 
-  setColorPalette, 
-  colorPalettes, 
+  quizStyle, 
+  setQuizStyle,
+  flashcardStyle,
+  setFlashcardStyle,
+  mindmapStyle,
+  setMindmapStyle,
+  visualStyles, 
   timerEnabled, 
   setTimerEnabled, 
   immediateFeedbackEnabled, 
@@ -318,20 +322,42 @@ const SidePanel = ({
 
         <div className="sidepanel-section">
           <h3 className="section-title">Stile</h3>
-          <div className="color-palettes">
-            {Object.entries(colorPalettes).map(([key, palette]) => (
+          <div className="quiz-types">
+            {Object.entries(visualStyles).map(([key, style]) => (
               <div
                 key={key}
-                className={`palette-card ${colorPalette === key ? 'active' : ''}`}
-                onClick={() => setColorPalette(key)}
+                className={`quiz-type-card ${
+                  (currentPage === 'quiz' && quizStyle === key) || 
+                  (currentPage === 'flashcard' && flashcardStyle === key) ||
+                  (currentPage === 'mindmap' && mindmapStyle === key) ? 'active' : ''
+                }`}
+                onClick={() => {
+                  if (currentPage === 'quiz') {
+                    setQuizStyle(key);
+                  } else if (currentPage === 'flashcard') {
+                    setFlashcardStyle(key);
+                  } else if (currentPage === 'mindmap') {
+                    setMindmapStyle(key);
+                  }
+                }}
               >
-                <div className="palette-preview">
-                  <div className="color-sample primary" style={{ backgroundColor: palette.primary }}></div>
-                  <div className="color-sample secondary" style={{ backgroundColor: palette.secondary }}></div>
-                  <div className="color-sample success" style={{ backgroundColor: palette.success }}></div>
-                  <div className="color-sample warning" style={{ backgroundColor: palette.warning }}></div>
+                <div className="quiz-type-header">
+                  <span className="quiz-type-icon">
+                    {key === 'playful' && '🎨'}
+                    {key === 'tech' && '💻'}
+                    {key === 'corporate' && '💼'}
+                    {key === 'picasso' && '🖼️'}
+                    {key === 'illustrated' && '✨'}
+                  </span>
+                  <span className="quiz-type-name">{style.name}</span>
                 </div>
-                <span className="palette-name">{palette.name}</span>
+                <p className="quiz-type-description">
+                  {key === 'playful' && 'Colorato e divertente'}
+                  {key === 'tech' && 'Stile tecnologico scuro'}
+                  {key === 'corporate' && 'Professionale e pulito'}
+                  {key === 'picasso' && 'Artistico e creativo'}
+                  {key === 'illustrated' && 'Illustrato con bordi audaci'}
+                </p>
               </div>
             ))}
           </div>
@@ -362,8 +388,12 @@ const SidePanel = ({
               </span>
             </div>
             <div className="stat-item">
-              <span className="stat-label">Tema</span>
-              <span className="stat-value">{colorPalettes[colorPalette].name}</span>
+              <span className="stat-label">Stile</span>
+              <span className="stat-value">
+                {currentPage === 'quiz' ? visualStyles[quizStyle].name : 
+                 currentPage === 'flashcard' ? visualStyles[flashcardStyle].name :
+                 currentPage === 'mindmap' ? visualStyles[mindmapStyle].name : 'N/A'}
+              </span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Opzioni disponibili</span>
@@ -380,10 +410,16 @@ const SidePanel = ({
             if (currentPage === 'quiz') {
               setQuizType('single');
               setImmediateFeedbackEnabled(true);
+              setQuizStyle('playful');
             } else if (currentPage === 'flashcard') {
               setFlashcardMode('normal');
+              setFlashcardStyle('playful');
+            } else if (currentPage === 'mindmap') {
+              setMindmapStyle('playful');
+              setShowNodeDetails(true);
+              setShowConnectionLabels(true);
+              setDynamicMapEnabled(true);
             }
-            setColorPalette('default');
             setTimerEnabled(true);
           }}>
             Reset

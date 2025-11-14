@@ -6,6 +6,7 @@ import { availableColors, availableIcons } from '../utils/mindmapUtils';
  * Component for node customization (colors and icons) and adding new nodes
  */
 const NodeCustomization = ({ 
+  visualStyle = 'playful',
   selectedNode, 
   nodes, 
   onColorChange, 
@@ -46,14 +47,11 @@ const NodeCustomization = ({
           </style>
           <button
             onClick={onAddNode}
-            className="add-node-btn"
+            className={`add-node-btn ${visualStyle}-add-node-btn`}
             style={{
               padding: '0.75rem 1.5rem',
-              border: 'none',
-              borderRadius: '1.5rem',
-              background: 'var(--primary)',
-              color: 'var(--primary-foreground)',
-              fontFamily: "'Poppins', sans-serif",
+              border: visualStyle === 'illustrated' || visualStyle === 'picasso' ? undefined : 'none',
+              fontFamily: visualStyle === 'tech' ? 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' : "'Poppins', sans-serif",
               fontWeight: 500,
               fontSize: '0.875rem',
               cursor: 'pointer',
@@ -61,7 +59,6 @@ const NodeCustomization = ({
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
-              boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
               animation: 'fadeInScale 0.3s ease-out'
             }}
             onMouseEnter={(e) => {
@@ -82,6 +79,7 @@ const NodeCustomization = ({
       {/* Color and Icon pickers - visible when node selected */}
       {selectedNode && (
         <div
+          className={`${visualStyle}-customization-panel`}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -110,9 +108,6 @@ const NodeCustomization = ({
               display: 'flex',
               gap: '0.25rem',
               padding: '0.5rem',
-              background: 'white',
-              borderRadius: '0.5rem',
-              boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
               cursor: 'pointer'
             }}
             onClick={(e) => e.stopPropagation()}
@@ -152,9 +147,6 @@ const NodeCustomization = ({
               display: 'flex',
               gap: '0.25rem',
               padding: '0.5rem',
-              background: 'white',
-              borderRadius: '0.5rem',
-              boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
               cursor: 'pointer'
             }}
             onClick={(e) => e.stopPropagation()}

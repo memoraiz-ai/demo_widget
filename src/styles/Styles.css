@@ -1,0 +1,3225 @@
+/* ======================
+   PLAYFUL STYLE
+   ====================== */
+
+/* Playful Quiz */
+.playful-quiz-container {
+  background: linear-gradient(to bottom right, rgb(224, 231, 255), rgb(237, 233, 254));
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 42rem;
+}
+
+.playful-quiz-inner {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+}
+
+.playful-quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.playful-quiz-question-badge {
+  background: rgb(99, 102, 241);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+}
+
+.playful-quiz-score-badge {
+  background: rgb(233, 213, 255);
+  color: rgb(49, 46, 129);
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+}
+
+.playful-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(99, 102, 241);
+}
+
+.playful-quiz-timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: rgb(99, 102, 241);
+  min-width: 4.5ch;
+}
+
+.playful-quiz-question {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: rgb(30, 41, 59);
+}
+
+.playful-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.playful-quiz-option {
+  width: 100%;
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+  transition: all 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  cursor: pointer;
+}
+
+.playful-quiz-option:hover {
+  transform: scale(1.05);
+}
+
+.playful-quiz-option-default {
+  background: linear-gradient(to right, rgb(238, 242, 255), rgb(250, 245, 255));
+}
+
+.playful-quiz-option-default:hover {
+  background: linear-gradient(to right, rgb(224, 231, 255), rgb(243, 232, 255));
+}
+
+.playful-quiz-option-selected {
+  background: rgb(129, 140, 248);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-option-correct {
+  background: rgb(134, 239, 172);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-option-incorrect {
+  background: rgb(248, 113, 113);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-next-btn {
+  width: 100%;
+  background: linear-gradient(to right, rgb(99, 102, 241), rgb(168, 85, 247));
+  color: white;
+  padding: 1rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-next-btn:hover {
+  transform: scale(1.05);
+}
+
+.playful-quiz-result-emoji {
+  font-size: 3.75rem;
+  margin-bottom: 1rem;
+}
+
+.playful-quiz-result-title {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  color: rgb(79, 70, 229);
+}
+
+.playful-quiz-result-text {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.playful-quiz-result-score {
+  color: rgb(99, 102, 241);
+}
+
+.playful-quiz-result-total {
+  color: rgb(168, 85, 247);
+}
+
+.playful-quiz-restart-btn {
+  background: linear-gradient(to right, rgb(99, 102, 241), rgb(168, 85, 247));
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-restart-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Playful Flashcard */
+.playful-flashcard-wrapper {
+  max-width: 56rem;
+  width: 100%;
+}
+
+.playful-flashcard-container {
+  background: linear-gradient(to bottom right, rgb(224, 231, 255), rgb(237, 233, 254));
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.playful-flashcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.playful-flashcard-counter {
+  background: white;
+  color: rgb(79, 70, 229);
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-flashcard-flip-btn {
+  background: white;
+  color: rgb(147, 51, 234);
+  padding: 0.75rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 150ms;
+}
+
+.playful-flashcard-flip-btn:hover {
+  transform: scale(1.1);
+}
+
+.playful-flashcard-card-area {
+  position: relative;
+  height: 20rem;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.playful-flashcard-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 500ms;
+  transform-style: preserve-3d;
+}
+
+.playful-flashcard-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  backface-visibility: hidden;
+}
+
+.playful-flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgb(99, 102, 241), rgb(168, 85, 247));
+  border-radius: 1.5rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.playful-flashcard-emoji {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.playful-flashcard-text-front {
+  font-size: 1.5rem;
+  color: rgb(30, 41, 59);
+}
+
+.playful-flashcard-text-back {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.playful-flashcard-hint {
+  color: rgb(148, 163, 184);
+  margin-top: 1.5rem;
+}
+
+.playful-flashcard-nav {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.playful-flashcard-nav-btn {
+  flex: 1;
+  background: white;
+  padding: 1rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.playful-flashcard-nav-btn-prev {
+  color: rgb(79, 70, 229);
+}
+
+.playful-flashcard-nav-btn-next {
+  color: rgb(147, 51, 234);
+}
+
+.playful-flashcard-nav-btn:hover {
+  transform: scale(1.05);
+}
+
+.playful-flashcard-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.playful-flashcard-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  transition: all 150ms;
+  border: none;
+  cursor: pointer;
+}
+
+.playful-flashcard-dot-active {
+  background: white;
+  width: 2rem;
+}
+
+.playful-flashcard-dot-inactive {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.playful-flashcard-dot-inactive:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* ======================
+   CORPORATE STYLE
+   ====================== */
+
+/* Corporate Quiz */
+.corporate-quiz-container {
+  background: white;
+  border: 2px solid rgb(226, 232, 240);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-width: 42rem;
+  padding: 2rem;
+}
+
+.corporate-quiz-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(226, 232, 240);
+}
+
+.corporate-quiz-progress-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.corporate-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.corporate-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(37, 99, 235);
+}
+
+.corporate-quiz-timer-text {
+  font-family: 'Geist', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: rgb(100, 116, 139);
+  min-width: 4.5ch;
+}
+
+.corporate-quiz-question-label {
+  color: rgb(100, 116, 139);
+}
+
+.corporate-quiz-score-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.corporate-quiz-score-label {
+  color: rgb(100, 116, 139);
+}
+
+.corporate-quiz-score-value {
+  background: rgb(37, 99, 235);
+  color: white;
+  padding: 0.25rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.corporate-quiz-progress-bar {
+  width: 100%;
+  background: rgb(226, 232, 240);
+  border-radius: 9999px;
+  height: 0.5rem;
+  margin-top: 1rem;
+}
+
+.corporate-quiz-progress-fill {
+  background: rgb(37, 99, 235);
+  height: 0.5rem;
+  border-radius: 9999px;
+  transition: all 150ms;
+}
+
+.corporate-quiz-question {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: rgb(30, 41, 59);
+}
+
+.corporate-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.corporate-quiz-option {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: all 150ms;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: white;
+}
+
+.corporate-quiz-option-default {
+  border-color: rgb(226, 232, 240);
+  color: rgb(51, 65, 85);
+}
+
+.corporate-quiz-option-default:hover {
+  border-color: rgb(96, 165, 250);
+}
+
+.corporate-quiz-option-selected {
+  background: rgb(239, 246, 255);
+  border-color: rgb(37, 99, 235);
+  color: rgb(30, 58, 138);
+}
+
+.corporate-quiz-option-correct {
+  background: rgb(240, 253, 244);
+  border-color: rgb(34, 197, 94);
+  color: rgb(20, 83, 45);
+}
+
+.corporate-quiz-option-incorrect {
+  background: rgb(254, 242, 242);
+  border-color: rgb(239, 68, 68);
+  color: rgb(127, 29, 29);
+}
+
+.corporate-quiz-option-icon-correct {
+  color: rgb(22, 163, 74);
+}
+
+.corporate-quiz-option-icon-incorrect {
+  color: rgb(220, 38, 38);
+}
+
+.corporate-quiz-next-btn {
+  width: 100%;
+  background: rgb(37, 99, 235);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.corporate-quiz-next-btn:hover {
+  background: rgb(29, 78, 216);
+}
+
+.corporate-quiz-result-container {
+  background: white;
+  border: 2px solid rgb(226, 232, 240);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-width: 42rem;
+  padding: 2rem;
+}
+
+.corporate-quiz-result-inner {
+  border-left: 4px solid rgb(37, 99, 235);
+  padding-left: 1.5rem;
+}
+
+.corporate-quiz-result-title {
+  font-size: 1.875rem;
+  margin-bottom: 1rem;
+  color: rgb(30, 41, 59);
+}
+
+.corporate-quiz-result-text {
+  font-size: 1.25rem;
+  color: rgb(71, 85, 105);
+  margin-bottom: 1.5rem;
+}
+
+.corporate-quiz-result-score {
+  color: rgb(37, 99, 235);
+}
+
+.corporate-quiz-performance-box {
+  background: rgb(248, 250, 252);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.corporate-quiz-performance-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.corporate-quiz-performance-label {
+  color: rgb(71, 85, 105);
+}
+
+.corporate-quiz-performance-value {
+  color: rgb(30, 41, 59);
+}
+
+.corporate-quiz-performance-bar {
+  width: 100%;
+  background: rgb(226, 232, 240);
+  border-radius: 9999px;
+  height: 0.75rem;
+}
+
+.corporate-quiz-performance-fill {
+  background: rgb(37, 99, 235);
+  height: 0.75rem;
+  border-radius: 9999px;
+  transition: all 150ms;
+}
+
+.corporate-quiz-restart-btn {
+  background: rgb(37, 99, 235);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.corporate-quiz-restart-btn:hover {
+  background: rgb(29, 78, 216);
+}
+
+/* Corporate Flashcard */
+.corporate-flashcard-wrapper {
+  max-width: 56rem;
+  width: 100%;
+}
+
+.corporate-flashcard-container {
+  background: white;
+  border: 2px solid rgb(226, 232, 240);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+}
+
+.corporate-flashcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(226, 232, 240);
+}
+
+.corporate-flashcard-counter {
+  color: rgb(71, 85, 105);
+}
+
+.corporate-flashcard-flip-btn {
+  background: rgb(37, 99, 235);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.corporate-flashcard-flip-btn:hover {
+  background: rgb(29, 78, 216);
+}
+
+.corporate-flashcard-card-area {
+  position: relative;
+  height: 20rem;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.corporate-flashcard-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 500ms;
+  transform-style: preserve-3d;
+}
+
+.corporate-flashcard-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(248, 250, 252);
+  border: 2px solid rgb(226, 232, 240);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.corporate-flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(37, 99, 235);
+  border: 2px solid rgb(29, 78, 216);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.corporate-flashcard-label-front {
+  color: rgb(37, 99, 235);
+  margin-bottom: 1rem;
+}
+
+.corporate-flashcard-text-front {
+  font-size: 1.5rem;
+  color: rgb(30, 41, 59);
+}
+
+.corporate-flashcard-hint {
+  color: rgb(148, 163, 184);
+  margin-top: 1.5rem;
+}
+
+.corporate-flashcard-label-back {
+  color: rgb(191, 219, 254);
+  margin-bottom: 1rem;
+}
+
+.corporate-flashcard-text-back {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.corporate-flashcard-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.corporate-flashcard-nav-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.corporate-flashcard-nav-btn-prev {
+  background: rgb(241, 245, 249);
+  color: rgb(51, 65, 85);
+  border: 1px solid rgb(203, 213, 225);
+}
+
+.corporate-flashcard-nav-btn-prev:hover {
+  background: rgb(226, 232, 240);
+}
+
+.corporate-flashcard-nav-btn-next {
+  background: rgb(37, 99, 235);
+  color: white;
+}
+
+.corporate-flashcard-nav-btn-next:hover {
+  background: rgb(29, 78, 216);
+}
+
+.corporate-flashcard-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.corporate-flashcard-dot {
+  height: 0.5rem;
+  border-radius: 9999px;
+  transition: all 150ms;
+  border: none;
+  cursor: pointer;
+}
+
+.corporate-flashcard-dot-active {
+  background: rgb(37, 99, 235);
+  width: 2rem;
+}
+
+.corporate-flashcard-dot-inactive {
+  background: rgb(203, 213, 225);
+  width: 0.5rem;
+}
+
+.corporate-flashcard-dot-inactive:hover {
+  background: rgb(148, 163, 184);
+}
+
+/* ======================
+   TECH STYLE
+   ====================== */
+
+/* Tech Quiz */
+.tech-quiz-container {
+  background: rgb(2, 6, 23);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 0.25rem;
+  box-shadow: 0 10px 15px -3px rgba(34, 211, 238, 0.2), 0 4px 6px -2px rgba(34, 211, 238, 0.2);
+  max-width: 42rem;
+  padding: 2rem;
+}
+
+.tech-quiz-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: rgb(34, 211, 238);
+}
+
+.tech-quiz-header-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-progress-wrapper {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(30, 41, 59);
+}
+
+.tech-quiz-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(6, 182, 212);
+}
+
+.tech-quiz-timer-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 400;
+  font-size: 1rem;
+  color: rgb(34, 211, 238);
+  min-width: 4.5ch;
+}
+
+.tech-quiz-question-label {
+  color: rgb(148, 163, 184);
+}
+
+.tech-quiz-score-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-quiz-score-label {
+  color: rgb(148, 163, 184);
+}
+
+.tech-quiz-score-value {
+  background: rgb(6, 182, 212);
+  color: rgb(2, 6, 23);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.tech-quiz-progress-bar {
+  width: 100%;
+  background: rgb(15, 23, 42);
+  border-radius: 0.125rem;
+  height: 0.25rem;
+  margin-top: 1rem;
+}
+
+.tech-quiz-progress-fill {
+  background: rgb(6, 182, 212);
+  height: 0.25rem;
+  border-radius: 0.125rem;
+  transition: all 150ms;
+}
+
+.tech-quiz-question {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: rgb(241, 245, 249);
+}
+
+.tech-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.tech-quiz-option {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  transition: all 150ms;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-option-default {
+  background: rgb(15, 23, 42);
+  border-color: rgb(30, 41, 59);
+  color: rgb(203, 213, 225);
+}
+
+.tech-quiz-option-default:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+}
+
+.tech-quiz-option-selected {
+  background: rgba(6, 182, 212, 0.2);
+  border-color: rgb(6, 182, 212);
+  color: rgb(34, 211, 238);
+}
+
+.tech-quiz-option-correct {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgb(34, 197, 94);
+  color: rgb(74, 222, 128);
+}
+
+.tech-quiz-option-incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgb(239, 68, 68);
+  color: rgb(248, 113, 113);
+}
+
+.tech-quiz-next-btn {
+  width: 100%;
+  background: rgb(6, 182, 212);
+  color: rgb(2, 6, 23);
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-next-btn:hover {
+  background: rgb(34, 211, 238);
+}
+
+.tech-quiz-result-container {
+  background: rgb(2, 6, 23);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 0.25rem;
+  box-shadow: 0 10px 15px -3px rgba(34, 211, 238, 0.2), 0 4px 6px -2px rgba(34, 211, 238, 0.2);
+  max-width: 42rem;
+  padding: 2rem;
+}
+
+.tech-quiz-result-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: rgb(34, 211, 238);
+}
+
+.tech-quiz-result-header-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-result-inner {
+  border-left: 2px solid rgb(6, 182, 212);
+  padding-left: 1.5rem;
+}
+
+.tech-quiz-result-title {
+  font-size: 1.875rem;
+  margin-bottom: 1rem;
+  color: rgb(34, 211, 238);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-result-box {
+  background: rgb(15, 23, 42);
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-result-label {
+  color: rgb(74, 222, 128);
+  margin-bottom: 0.5rem;
+}
+
+.tech-quiz-result-row {
+  color: rgb(203, 213, 225);
+  margin-left: 1rem;
+}
+
+.tech-quiz-result-value {
+  color: rgb(34, 211, 238);
+}
+
+.tech-quiz-result-status-perfect {
+  color: rgb(74, 222, 128);
+}
+
+.tech-quiz-result-status-complete {
+  color: rgb(250, 204, 21);
+}
+
+.tech-quiz-restart-btn {
+  background: rgb(6, 182, 212);
+  color: rgb(2, 6, 23);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-restart-btn:hover {
+  background: rgb(34, 211, 238);
+}
+
+/* Tech Flashcard */
+.tech-flashcard-wrapper {
+  max-width: 56rem;
+  width: 100%;
+}
+
+.tech-flashcard-container {
+  background: rgb(2, 6, 23);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 0.25rem;
+  box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.2), 0 4px 6px -2px rgba(34, 197, 94, 0.2);
+  padding: 2rem;
+}
+
+.tech-flashcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(30, 41, 59);
+}
+
+.tech-flashcard-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(74, 222, 128);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-flashcard-flip-btn {
+  background: rgb(34, 197, 94);
+  color: rgb(2, 6, 23);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.tech-flashcard-flip-btn:hover {
+  background: rgb(74, 222, 128);
+}
+
+.tech-flashcard-card-area {
+  position: relative;
+  height: 20rem;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.tech-flashcard-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 500ms;
+  transform-style: preserve-3d;
+}
+
+.tech-flashcard-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(15, 23, 42);
+  border: 1px solid rgb(30, 41, 59);
+  border-radius: 0.25rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.tech-flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgba(34, 197, 94, 0.2), rgba(6, 182, 212, 0.2));
+  border: 1px solid rgb(34, 197, 94);
+  border-radius: 0.25rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.tech-flashcard-label {
+  color: rgb(74, 222, 128);
+  margin-bottom: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-flashcard-text-front {
+  font-size: 1.25rem;
+  color: rgb(241, 245, 249);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-flashcard-hint {
+  color: rgb(100, 116, 139);
+  margin-top: 1.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-flashcard-text-back {
+  font-size: 1.25rem;
+  color: rgb(241, 245, 249);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-flashcard-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.tech-flashcard-nav-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-flashcard-nav-btn-prev {
+  background: rgb(15, 23, 42);
+  color: rgb(203, 213, 225);
+  border: 1px solid rgb(30, 41, 59);
+}
+
+.tech-flashcard-nav-btn-prev:hover {
+  background: rgb(30, 41, 59);
+}
+
+.tech-flashcard-nav-btn-next {
+  background: rgb(34, 197, 94);
+  color: rgb(2, 6, 23);
+}
+
+.tech-flashcard-nav-btn-next:hover {
+  background: rgb(74, 222, 128);
+}
+
+.tech-flashcard-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.tech-flashcard-dot {
+  height: 0.25rem;
+  border-radius: 0.125rem;
+  transition: all 150ms;
+  border: none;
+  cursor: pointer;
+}
+
+.tech-flashcard-dot-active {
+  background: rgb(34, 197, 94);
+  width: 2rem;
+}
+
+.tech-flashcard-dot-inactive {
+  background: rgb(51, 65, 85);
+  width: 0.25rem;
+}
+
+.tech-flashcard-dot-inactive:hover {
+  background: rgb(71, 85, 105);
+}
+
+/* ======================
+   ILLUSTRATED STYLE
+   ====================== */
+
+/* Illustrated Quiz */
+.illustrated-quiz-container {
+  background: white;
+  border: 4px solid #111042;
+  border-radius: 1.5rem;
+  box-shadow: 8px 8px 0px 0px rgba(17, 16, 66, 1);
+  max-width: 42rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.illustrated-quiz-bg-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6rem;
+  height: 6rem;
+  opacity: 0.1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.illustrated-quiz-inner {
+  position: relative;
+  z-index: 10;
+}
+
+.illustrated-quiz-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.illustrated-quiz-star-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.illustrated-quiz-badges {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.illustrated-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 3px solid #111042;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 3px 3px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #43a6cf;
+}
+
+.illustrated-quiz-timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111042;
+  min-width: 4.5ch;
+}
+
+.illustrated-quiz-question-badge {
+  background: #ffbe2d;
+  border: 3px solid #111042;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  color: #111042;
+}
+
+.illustrated-quiz-score-badge {
+  background: #43a6cf;
+  border: 3px solid #111042;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  color: #111042;
+}
+
+.illustrated-quiz-question-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-quiz-question-box {
+  background: rgba(255, 190, 45, 0.2);
+  border: 3px dashed #111042;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-quiz-question {
+  font-size: 1.5rem;
+  color: #111042;
+}
+
+.illustrated-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-quiz-option {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 3px solid #111042;
+  transition: all 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: #111042;
+}
+
+.illustrated-quiz-option:hover {
+  transform: translateX(0.25rem);
+}
+
+.illustrated-quiz-option-default {
+  background: white;
+  box-shadow: 3px 3px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-option-default:hover {
+  background: rgba(67, 166, 207, 0.1);
+}
+
+.illustrated-quiz-option-selected {
+  background: #43a6cf;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-option-correct {
+  background: rgb(134, 239, 172);
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-option-incorrect {
+  background: #ff3366;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-next-btn {
+  width: 100%;
+  background: #ff3366;
+  border: 4px solid #111042;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+  color: #111042;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.illustrated-quiz-next-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-star-running {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+}
+
+.illustrated-quiz-result-container {
+  background: white;
+  border: 4px solid #111042;
+  border-radius: 1.5rem;
+  box-shadow: 8px 8px 0px 0px rgba(17, 16, 66, 1);
+  max-width: 42rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.illustrated-quiz-result-bg {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 8rem;
+  height: 8rem;
+  opacity: 0.2;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.illustrated-quiz-result-inner {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-quiz-result-star {
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto 1rem;
+}
+
+.illustrated-quiz-result-title {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  color: #111042;
+}
+
+.illustrated-quiz-result-score-box {
+  display: inline-block;
+  background: #ffbe2d;
+  border: 4px solid #111042;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-quiz-result-score-text {
+  font-size: 1.5rem;
+  color: #111042;
+}
+
+.illustrated-quiz-restart-btn {
+  width: 100%;
+  background: #43a6cf;
+  border: 4px solid #111042;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+  color: #111042;
+}
+
+.illustrated-quiz-restart-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+}
+
+/* Illustrated Flashcard */
+.illustrated-flashcard-wrapper {
+  max-width: 56rem;
+  width: 100%;
+}
+
+.illustrated-flashcard-container {
+  background: white;
+  border: 4px solid #111042;
+  border-radius: 1.5rem;
+  box-shadow: 8px 8px 0px 0px rgba(17, 16, 66, 1);
+  padding: 2rem;
+}
+
+.illustrated-flashcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-flashcard-counter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.illustrated-flashcard-star-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.illustrated-flashcard-counter {
+  background: #ffbe2d;
+  border: 3px solid #111042;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  color: #111042;
+}
+
+.illustrated-flashcard-flip-btn {
+  background: #43a6cf;
+  border: 3px solid #111042;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 3px 3px 0px 0px rgba(17, 16, 66, 1);
+  color: #111042;
+}
+
+.illustrated-flashcard-flip-btn:hover {
+  transform: translateY(-2px);
+}
+
+.illustrated-flashcard-card-area {
+  position: relative;
+  height: 20rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  perspective: 1000px;
+}
+
+.illustrated-flashcard-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 500ms;
+  transform-style: preserve-3d;
+}
+
+.illustrated-flashcard-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 190, 45, 0.1);
+  border: 4px dashed #111042;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+  backface-visibility: hidden;
+}
+
+.illustrated-flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, #43a6cf, #ff3366);
+  border: 4px solid #111042;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.illustrated-flashcard-content-star {
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto 1rem;
+}
+
+.illustrated-flashcard-text-front {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #111042;
+}
+
+.illustrated-flashcard-hint {
+  display: inline-block;
+  background: #43a6cf;
+  border: 3px solid #111042;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  color: #111042;
+}
+
+.illustrated-flashcard-text-back {
+  font-size: 1.5rem;
+  color: #111042;
+}
+
+.illustrated-flashcard-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.illustrated-flashcard-nav-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 3px solid #111042;
+  cursor: pointer;
+  transition: transform 150ms;
+  box-shadow: 3px 3px 0px 0px rgba(17, 16, 66, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #111042;
+}
+
+.illustrated-flashcard-nav-btn-prev {
+  background: white;
+}
+
+.illustrated-flashcard-nav-btn-prev:hover {
+  transform: translateX(-2px);
+}
+
+.illustrated-flashcard-nav-btn-next {
+  background: #ff3366;
+}
+
+.illustrated-flashcard-nav-btn-next:hover {
+  transform: translateX(2px);
+}
+
+.illustrated-flashcard-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.illustrated-flashcard-dot {
+  transition: all 150ms;
+  border: 2px solid #111042;
+  cursor: pointer;
+}
+
+.illustrated-flashcard-dot-active {
+  background: #ffbe2d;
+  width: 2rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+.illustrated-flashcard-dot-inactive {
+  background: white;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+.illustrated-flashcard-dot-inactive:hover {
+  background: rgba(67, 166, 207, 0.3);
+}
+
+.illustrated-flashcard-star-running {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.5rem;
+}
+
+/* ======================
+   PICASSO STYLE
+   ====================== */
+
+/* Picasso Quiz */
+.picasso-quiz-wrapper {
+  max-width: 42rem;
+  position: relative;
+}
+
+.picasso-quiz-deco-1 {
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  width: 6rem;
+  height: 6rem;
+  background: rgb(217, 119, 6);
+  transform: rotate(45deg);
+  opacity: 0.3;
+}
+
+.picasso-quiz-deco-2 {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1.5rem;
+  width: 8rem;
+  height: 8rem;
+  background: rgb(2, 132, 199);
+  border-radius: 9999px;
+  opacity: 0.2;
+}
+
+.picasso-quiz-container {
+  background: linear-gradient(to bottom right, rgb(255, 251, 235), rgb(255, 241, 242));
+  border: 4px solid rgb(41, 37, 36);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.picasso-quiz-bg-1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10rem;
+  height: 10rem;
+  background: rgba(56, 189, 248, 0.2);
+  transform: rotate(-12deg);
+}
+
+.picasso-quiz-bg-2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 8rem;
+  height: 8rem;
+  background: rgba(251, 191, 36, 0.2);
+  border-radius: 9999px;
+}
+
+.picasso-quiz-inner {
+  position: relative;
+  z-index: 10;
+}
+
+.picasso-quiz-top-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  background: linear-gradient(to right, rgb(14, 165, 233), rgb(251, 191, 36), rgb(244, 63, 94));
+}
+
+.picasso-quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.picasso-quiz-badge-wrapper {
+  position: relative;
+}
+
+.picasso-quiz-timer-wrapper {
+  position: relative;
+}
+
+.picasso-quiz-timer-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(14, 165, 233);
+  transform: translateX(0.25rem) translateY(0.25rem);
+}
+
+.picasso-quiz-timer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.5rem 1rem;
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(14, 165, 233);
+}
+
+.picasso-quiz-timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: rgb(28, 25, 23);
+  min-width: 4.5ch;
+}
+
+.picasso-quiz-badge-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(2, 132, 199);
+  transform: translateX(0.25rem) translateY(0.25rem);
+}
+
+.picasso-quiz-badge {
+  position: relative;
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.5rem 1rem;
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-question-badge {
+  background: rgb(56, 189, 248);
+}
+
+.picasso-quiz-score-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(217, 119, 6);
+  transform: translateX(-0.25rem) translateY(0.25rem);
+}
+
+.picasso-quiz-score-badge {
+  background: rgb(251, 191, 36);
+}
+
+.picasso-quiz-question-wrapper {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.picasso-quiz-question-bg {
+  position: absolute;
+  left: -0.75rem;
+  top: 0.75rem;
+  width: 100%;
+  height: 100%;
+  background: rgba(251, 113, 133, 0.4);
+  transform: rotate(-1deg);
+}
+
+.picasso-quiz-question-box {
+  position: relative;
+  background: white;
+  border: 4px solid rgb(41, 37, 36);
+  padding: 1.5rem;
+  transform: rotate(1deg);
+}
+
+.picasso-quiz-question-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.75rem;
+  height: 100%;
+  background: rgb(14, 165, 233);
+}
+
+.picasso-quiz-question {
+  font-size: 1.25rem;
+  color: rgb(28, 25, 23);
+  padding-left: 1rem;
+}
+
+.picasso-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.picasso-quiz-option-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.picasso-quiz-option-shadow {
+  position: absolute;
+  inset: 0;
+  transform: translateX(0.25rem) translateY(0.25rem);
+  transition: transform 150ms;
+}
+
+.picasso-quiz-option-shadow-default {
+  background: rgb(41, 37, 36);
+}
+
+.picasso-quiz-option-wrapper:hover .picasso-quiz-option-shadow-default {
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-quiz-option-shadow-correct {
+  background: rgb(21, 128, 61);
+}
+
+.picasso-quiz-option-shadow-incorrect {
+  background: rgb(127, 29, 29);
+}
+
+.picasso-quiz-option {
+  position: relative;
+  border: 3px solid;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 150ms;
+  cursor: pointer;
+  width: 100%;
+}
+
+.picasso-quiz-option-wrapper:hover .picasso-quiz-option {
+  transform: translateX(-0.25rem) translateY(-0.25rem);
+}
+
+.picasso-quiz-option-default {
+  background: white;
+  border-color: rgb(41, 37, 36);
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-option-selected {
+  background: linear-gradient(to right, rgb(186, 230, 253), rgb(147, 197, 253));
+  border-color: rgb(41, 37, 36);
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-option-correct {
+  background: rgb(134, 239, 172);
+  border-color: rgb(21, 128, 61);
+  color: rgb(20, 83, 45);
+}
+
+.picasso-quiz-option-incorrect {
+  background: rgb(248, 113, 113);
+  border-color: rgb(127, 29, 29);
+  color: rgb(127, 29, 29);
+}
+
+.picasso-quiz-next-btn-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.picasso-quiz-next-btn-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.25rem) translateY(0.25rem);
+  transition: transform 150ms;
+}
+
+.picasso-quiz-next-btn-wrapper:hover .picasso-quiz-next-btn-shadow {
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-quiz-next-btn {
+  position: relative;
+  background: linear-gradient(to right, rgb(244, 63, 94), rgb(251, 113, 133));
+  border: 4px solid rgb(41, 37, 36);
+  padding: 1rem 2rem;
+  color: rgb(28, 25, 23);
+  cursor: pointer;
+  transition: transform 150ms;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.picasso-quiz-next-btn-wrapper:hover .picasso-quiz-next-btn {
+  transform: translateX(-0.25rem) translateY(-0.25rem);
+}
+
+/* Picasso Quiz Result */
+.picasso-quiz-result-wrapper {
+  max-width: 42rem;
+  position: relative;
+}
+
+.picasso-quiz-result-deco-1 {
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  width: 6rem;
+  height: 6rem;
+  background: rgb(217, 119, 6);
+  transform: rotate(45deg);
+  opacity: 0.3;
+}
+
+.picasso-quiz-result-deco-2 {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1.5rem;
+  width: 8rem;
+  height: 8rem;
+  background: rgb(2, 132, 199);
+  border-radius: 9999px;
+  opacity: 0.2;
+}
+
+.picasso-quiz-result-container {
+  background: linear-gradient(to bottom right, rgb(255, 251, 235), rgb(255, 241, 242));
+  border: 4px solid rgb(41, 37, 36);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.picasso-quiz-result-bg-1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10rem;
+  height: 10rem;
+  background: rgba(56, 189, 248, 0.2);
+  transform: rotate(-12deg);
+}
+
+.picasso-quiz-result-bg-2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 8rem;
+  height: 8rem;
+  background: rgba(251, 191, 36, 0.2);
+  border-radius: 9999px;
+}
+
+.picasso-quiz-result-inner {
+  position: relative;
+  z-index: 10;
+}
+
+.picasso-quiz-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.picasso-quiz-result-title-wrapper {
+  position: relative;
+}
+
+.picasso-quiz-result-title-bg {
+  position: absolute;
+  inset: 0;
+  background: rgb(251, 113, 133);
+  transform: rotate(3deg);
+}
+
+.picasso-quiz-result-title-box {
+  position: relative;
+  background: rgb(14, 165, 233);
+  padding: 0.75rem 2rem;
+  transform: rotate(-2deg);
+  border: 3px solid rgb(41, 37, 36);
+}
+
+.picasso-quiz-result-title {
+  font-size: 1.875rem;
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-result-score-wrapper {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.picasso-quiz-result-score-outer {
+  position: relative;
+}
+
+.picasso-quiz-result-score-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(245, 158, 11);
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-quiz-result-score-box {
+  position: relative;
+  background: white;
+  border: 4px solid rgb(41, 37, 36);
+  padding: 1.5rem;
+  transform: rotate(-1deg);
+}
+
+.picasso-quiz-result-score-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.picasso-quiz-result-score-icon {
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(to bottom right, rgb(56, 189, 248), rgb(14, 116, 144));
+  border: 3px solid rgb(41, 37, 36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+}
+
+.picasso-quiz-result-score-number {
+  font-size: 1.5rem;
+  color: white;
+  transform: rotate(-45deg);
+}
+
+.picasso-quiz-result-score-label {
+  color: rgb(87, 83, 78);
+}
+
+.picasso-quiz-result-score-value {
+  font-size: 1.5rem;
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-result-restart-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.picasso-quiz-result-restart-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.25rem) translateY(0.25rem);
+  transition: transform 150ms;
+}
+
+.picasso-quiz-result-restart-wrapper:hover .picasso-quiz-result-restart-shadow {
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-quiz-result-restart-btn {
+  position: relative;
+  background: linear-gradient(to right, rgb(245, 158, 11), rgb(244, 63, 94));
+  border: 4px solid rgb(41, 37, 36);
+  padding: 1rem 2rem;
+  color: rgb(28, 25, 23);
+  cursor: pointer;
+  transition: transform 150ms;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.picasso-quiz-result-restart-wrapper:hover .picasso-quiz-result-restart-btn {
+  transform: translateX(-0.25rem) translateY(-0.25rem);
+}
+
+/* Picasso Flashcard */
+.picasso-flashcard-wrapper {
+  max-width: 56rem;
+  width: 100%;
+  position: relative;
+}
+
+.picasso-flashcard-deco-1 {
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  width: 8rem;
+  height: 8rem;
+  background: rgb(251, 191, 36);
+  transform: rotate(45deg);
+  opacity: 0.2;
+}
+
+.picasso-flashcard-deco-2 {
+  position: absolute;
+  bottom: -2rem;
+  right: -2rem;
+  width: 6rem;
+  height: 6rem;
+  background: rgb(14, 165, 233);
+  border-radius: 9999px;
+  opacity: 0.2;
+}
+
+.picasso-flashcard-deco-3 {
+  position: absolute;
+  top: 50%;
+  right: -3rem;
+  width: 4rem;
+  height: 4rem;
+  background: rgb(244, 63, 94);
+  transform: rotate(12deg);
+  opacity: 0.3;
+}
+
+.picasso-flashcard-container {
+  background: linear-gradient(to bottom right, rgb(250, 250, 249), rgb(254, 243, 199));
+  border: 4px solid rgb(41, 37, 36);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.picasso-flashcard-top-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.75rem;
+  background: linear-gradient(to right, rgb(14, 165, 233), rgb(251, 191, 36), rgb(244, 63, 94));
+}
+
+.picasso-flashcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.picasso-flashcard-counter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.picasso-flashcard-counter-box-wrapper {
+  position: relative;
+}
+
+.picasso-flashcard-counter-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(2, 132, 199);
+  transform: translateX(0.25rem) translateY(0.25rem);
+}
+
+.picasso-flashcard-counter-box {
+  position: relative;
+  background: rgb(56, 189, 248);
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.picasso-flashcard-counter-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  background: rgb(244, 63, 94);
+  transform: rotate(45deg);
+}
+
+.picasso-flashcard-counter-text {
+  color: rgb(28, 25, 23);
+}
+
+.picasso-flashcard-flip-btn-wrapper {
+  position: relative;
+}
+
+.picasso-flashcard-flip-btn-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.25rem) translateY(0.25rem);
+  transition: transform 150ms;
+}
+
+.picasso-flashcard-flip-btn-wrapper:hover .picasso-flashcard-flip-btn-shadow {
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-flashcard-flip-btn {
+  position: relative;
+  background: rgb(251, 191, 36);
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: transform 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picasso-flashcard-flip-btn-wrapper:hover .picasso-flashcard-flip-btn {
+  transform: translateX(-0.25rem) translateY(-0.25rem);
+}
+
+.picasso-flashcard-flip-icon {
+  color: rgb(28, 25, 23);
+}
+
+.picasso-flashcard-card-area {
+  position: relative;
+  height: 20rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  perspective: 1000px;
+}
+
+.picasso-flashcard-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms;
+  transform-style: preserve-3d;
+}
+
+.picasso-flashcard-front-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.picasso-flashcard-front-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.picasso-flashcard-front-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-flashcard-front {
+  position: relative;
+  height: 100%;
+  background: white;
+  border: 4px solid rgb(41, 37, 36);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picasso-flashcard-front-deco-1 {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  background: rgb(56, 189, 248);
+  transform: rotate(45deg);
+  opacity: 0.3;
+}
+
+.picasso-flashcard-front-deco-2 {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  width: 4rem;
+  height: 4rem;
+  background: rgb(251, 113, 133);
+  border-radius: 9999px;
+  opacity: 0.2;
+}
+
+.picasso-flashcard-front-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.picasso-flashcard-front-icon-wrapper {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.picasso-flashcard-front-icon-inner {
+  position: relative;
+}
+
+.picasso-flashcard-front-icon-bg {
+  position: absolute;
+  inset: 0;
+  background: rgb(245, 158, 11);
+  transform: rotate(6deg);
+}
+
+.picasso-flashcard-front-icon {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  background: rgb(14, 165, 233);
+  border: 3px solid rgb(41, 37, 36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-3deg);
+}
+
+.picasso-flashcard-front-icon-text {
+  font-size: 1.875rem;
+}
+
+.picasso-flashcard-front-question {
+  font-size: 1.5rem;
+  color: rgb(28, 25, 23);
+  margin-bottom: 1rem;
+}
+
+.picasso-flashcard-front-hint {
+  display: inline-block;
+  background: rgb(254, 243, 199);
+  border: 2px solid rgb(41, 37, 36);
+  padding: 0.5rem 1rem;
+  transform: rotate(-1deg);
+  color: rgb(87, 83, 78);
+}
+
+.picasso-flashcard-back-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.picasso-flashcard-back-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.picasso-flashcard-back-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-flashcard-back {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgb(56, 189, 248), rgb(244, 63, 94), rgb(251, 191, 36));
+  border: 4px solid rgb(41, 37, 36);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.picasso-flashcard-back-deco-1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8rem;
+  height: 8rem;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(-12deg);
+}
+
+.picasso-flashcard-back-deco-2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 6rem;
+  height: 6rem;
+  background: rgba(28, 25, 23, 0.1);
+  border-radius: 9999px;
+}
+
+.picasso-flashcard-back-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.picasso-flashcard-back-icon {
+  width: 4rem;
+  height: 4rem;
+  background: white;
+  border: 3px solid rgb(41, 37, 36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+  margin: 0 auto 1rem;
+}
+
+.picasso-flashcard-back-icon-text {
+  font-size: 1.875rem;
+  transform: rotate(-45deg);
+}
+
+.picasso-flashcard-back-answer-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.picasso-flashcard-back-answer-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateX(-0.25rem) translateY(-0.25rem);
+}
+
+.picasso-flashcard-back-answer {
+  position: relative;
+  font-size: 1.5rem;
+  color: rgb(28, 25, 23);
+  background: rgba(255, 255, 255, 0.8);
+  border: 3px solid rgb(41, 37, 36);
+  padding: 1rem 1.5rem;
+}
+
+.picasso-flashcard-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.picasso-flashcard-nav-btn-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.picasso-flashcard-nav-btn-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.25rem) translateY(0.25rem);
+  transition: transform 150ms;
+}
+
+.picasso-flashcard-nav-btn-wrapper:hover .picasso-flashcard-nav-btn-shadow {
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+.picasso-flashcard-nav-btn {
+  position: relative;
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 150ms;
+  color: rgb(28, 25, 23);
+  width: 100%;
+}
+
+.picasso-flashcard-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.picasso-flashcard-nav-btn-wrapper:hover .picasso-flashcard-nav-btn:not(:disabled) {
+  transform: translateX(-0.25rem) translateY(-0.25rem);
+}
+
+.picasso-flashcard-nav-btn-wrapper:has(.picasso-flashcard-nav-btn:disabled):hover .picasso-flashcard-nav-btn-shadow {
+  transform: translateX(0.25rem) translateY(0.25rem);
+}
+
+.picasso-flashcard-nav-btn-prev {
+  background: white;
+}
+
+.picasso-flashcard-nav-btn-next {
+  background: linear-gradient(to right, rgb(244, 63, 94), rgb(251, 191, 36));
+}
+
+.picasso-flashcard-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.picasso-flashcard-dot-wrapper {
+  position: relative;
+}
+
+.picasso-flashcard-dot-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.125rem) translateY(0.125rem);
+}
+
+.picasso-flashcard-dot {
+  position: relative;
+  border: 2px solid rgb(41, 37, 36);
+  cursor: pointer;
+  transition: transform 150ms, opacity 150ms;
+}
+
+.picasso-flashcard-dot:hover {
+  transform: scale(1.1);
+}
+
+.picasso-flashcard-dot-active {
+  background: linear-gradient(to right, rgb(14, 165, 233), rgb(244, 63, 94));
+  width: 2rem;
+  height: 0.75rem;
+}
+
+.picasso-flashcard-dot-inactive {
+  background: rgb(68, 64, 60);
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.picasso-flashcard-dot-inactive:hover {
+  background: rgb(87, 83, 78);
+}
+
+/* ======================
+   UTILITY CLASSES
+   ====================== */
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-5 {
+  width: 1.25rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
+/* ======================
+   MINDMAP STYLES
+   ====================== */
+
+/* ======================
+   PLAYFUL MINDMAP STYLE
+   ====================== */
+
+.playful-mindmap-container-fullpage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(to bottom right, rgb(224, 231, 255), rgb(237, 233, 254));
+}
+
+.playful-mindmap-wrapper-fullpage {
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  margin: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.playful-mindmap-instructions {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  color: rgb(99, 102, 241);
+  text-align: center;
+  margin: 0;
+  padding: 0.5rem;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 1rem;
+}
+
+.playful-mindmap-instructions p {
+  margin: 0;
+}
+
+.playful-mindmap-canvas-fullpage {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(135deg, rgb(250, 245, 255) 0%, rgb(238, 242, 255) 100%);
+  overflow: hidden;
+  cursor: grab;
+  min-height: 0;
+  border-radius: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.playful-mindmap-canvas-fullpage:active {
+  cursor: grabbing;
+}
+
+/* Playful Mindmap Nodes */
+.playful-mindmap-node {
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3), 0 2px 4px -1px rgba(99, 102, 241, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.playful-mindmap-node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4), 0 4px 6px -2px rgba(99, 102, 241, 0.3);
+}
+
+/* Playful Connection Labels */
+.playful-connection-label {
+  background: linear-gradient(to right, rgb(238, 242, 255), rgb(250, 245, 255));
+  border: 2px solid rgb(168, 85, 247);
+  border-radius: 1rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: rgb(99, 102, 241);
+  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
+  font-weight: 500;
+}
+
+/* Playful Customization Panel */
+.playful-customization-panel {
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.3);
+  padding: 0.75rem;
+  border: 3px solid rgb(168, 85, 247);
+}
+
+.playful-add-node-btn {
+  background: linear-gradient(to right, rgb(99, 102, 241), rgb(168, 85, 247));
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+}
+
+.playful-add-node-btn:hover {
+  box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.5);
+}
+
+/* Playful Minimap */
+.playful-minimap {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+  border: 3px solid rgb(224, 231, 255);
+}
+
+/* ======================
+   CORPORATE MINDMAP STYLE
+   ====================== */
+
+.corporate-mindmap-container-fullpage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background: #f8f9fa;
+}
+
+.corporate-mindmap-wrapper-fullpage {
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow: hidden;
+  border: 2px solid rgb(226, 232, 240);
+  border-radius: 0.5rem;
+  margin: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.corporate-mindmap-instructions {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;
+  color: rgb(100, 116, 139);
+  text-align: center;
+  margin: 0;
+  padding: 0.5rem;
+  background: rgb(248, 250, 252);
+  border-radius: 0.5rem;
+  border: 1px solid rgb(226, 232, 240);
+}
+
+.corporate-mindmap-instructions p {
+  margin: 0;
+}
+
+.corporate-mindmap-canvas-fullpage {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+  overflow: hidden;
+  cursor: grab;
+  min-height: 0;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(226, 232, 240);
+}
+
+.corporate-mindmap-canvas-fullpage:active {
+  cursor: grabbing;
+}
+
+/* Corporate Mindmap Nodes */
+.corporate-mindmap-node {
+  border-radius: 0.5rem;
+  border: 2px solid rgb(226, 232, 240);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.corporate-mindmap-node:hover {
+  border-color: rgb(37, 99, 235);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Corporate Connection Labels */
+.corporate-connection-label {
+  background: rgb(248, 250, 252);
+  border: 1px solid rgb(226, 232, 240);
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  color: rgb(71, 85, 105);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Corporate Customization Panel */
+.corporate-customization-panel {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem;
+  border: 2px solid rgb(226, 232, 240);
+}
+
+.corporate-add-node-btn {
+  background: rgb(37, 99, 235);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.corporate-add-node-btn:hover {
+  background: rgb(29, 78, 216);
+}
+
+/* Corporate Minimap */
+.corporate-minimap {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgb(226, 232, 240);
+}
+
+/* ======================
+   TECH MINDMAP STYLE
+   ====================== */
+
+.tech-mindmap-container-fullpage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background: rgb(2, 6, 23);
+}
+
+.tech-mindmap-wrapper-fullpage {
+  width: 100%;
+  height: 100%;
+  background: rgb(15, 23, 42);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 0.25rem;
+  margin: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(34, 211, 238, 0.2), 0 4px 6px -2px rgba(34, 211, 238, 0.2);
+}
+
+.tech-mindmap-instructions {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  color: rgb(148, 163, 184);
+  text-align: center;
+  margin: 0;
+  padding: 0.5rem;
+  background: rgba(6, 182, 212, 0.1);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(30, 41, 59);
+}
+
+.tech-mindmap-instructions p {
+  margin: 0;
+}
+
+.tech-mindmap-canvas-fullpage {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(145deg, rgb(2, 6, 23) 0%, rgb(15, 23, 42) 100%);
+  overflow: hidden;
+  cursor: grab;
+  min-height: 0;
+  border-radius: 0.25rem;
+  border: 1px solid rgb(30, 41, 59);
+}
+
+.tech-mindmap-canvas-fullpage:active {
+  cursor: grabbing;
+}
+
+/* Tech Mindmap Nodes */
+.tech-mindmap-node {
+  border-radius: 0.25rem;
+  border: 1px solid rgb(30, 41, 59);
+  background: rgb(15, 23, 42);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+  transition: all 0.2s ease;
+}
+
+.tech-mindmap-node:hover {
+  border-color: rgb(6, 182, 212);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+}
+
+/* Tech Connection Labels */
+.tech-connection-label {
+  background: rgb(15, 23, 42);
+  border: 1px solid rgb(30, 41, 59);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  color: rgb(34, 211, 238);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+}
+
+/* Tech Customization Panel */
+.tech-customization-panel {
+  background: rgb(15, 23, 42);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+  padding: 0.75rem;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
+.tech-add-node-btn {
+  background: rgb(6, 182, 212);
+  color: rgb(2, 6, 23);
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-add-node-btn:hover {
+  background: rgb(34, 211, 238);
+}
+
+/* Tech Minimap */
+.tech-minimap {
+  background: rgb(15, 23, 42);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
+/* ======================
+   ILLUSTRATED MINDMAP STYLE
+   ====================== */
+
+.illustrated-mindmap-container-fullpage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(to bottom right, #fff8e1, #ffe0b2);
+}
+
+.illustrated-mindmap-wrapper-fullpage {
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow: hidden;
+  border: 4px solid #111042;
+  border-radius: 1.5rem;
+  margin: 1rem;
+  box-shadow: 8px 8px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-mindmap-instructions {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  color: #111042;
+  text-align: center;
+  margin: 0;
+  padding: 0.75rem;
+  background: rgba(255, 190, 45, 0.2);
+  border-radius: 1rem;
+  border: 3px dashed #111042;
+}
+
+.illustrated-mindmap-instructions p {
+  margin: 0;
+}
+
+.illustrated-mindmap-canvas-fullpage {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  overflow: hidden;
+  cursor: grab;
+  min-height: 0;
+  border-radius: 1rem;
+  border: 3px solid #111042;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-mindmap-canvas-fullpage:active {
+  cursor: grabbing;
+}
+
+/* Illustrated Mindmap Nodes */
+.illustrated-mindmap-node {
+  border-radius: 0.75rem;
+  border: 3px solid #111042;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+  transition: all 0.15s ease;
+}
+
+.illustrated-mindmap-node:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+}
+
+/* Illustrated Connection Labels */
+.illustrated-connection-label {
+  background: #ffbe2d;
+  border: 3px solid #111042;
+  border-radius: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: #111042;
+  font-weight: 600;
+  box-shadow: 3px 3px 0px 0px rgba(17, 16, 66, 1);
+}
+
+/* Illustrated Customization Panel */
+.illustrated-customization-panel {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+  padding: 0.75rem;
+  border: 4px solid #111042;
+}
+
+.illustrated-add-node-btn {
+  background: #43a6cf;
+  border: 3px solid #111042;
+  border-radius: 1rem;
+  color: #111042;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-add-node-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
+}
+
+/* Illustrated Minimap */
+.illustrated-minimap {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 4px 4px 0px 0px rgba(17, 16, 66, 1);
+  border: 3px solid #111042;
+}
+
+/* ======================
+   PICASSO MINDMAP STYLE
+   ====================== */
+
+.picasso-mindmap-container-fullpage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(to bottom right, rgb(255, 251, 235), rgb(255, 241, 242));
+}
+
+.picasso-mindmap-wrapper-fullpage {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgb(250, 250, 249), rgb(254, 243, 199));
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow: hidden;
+  border: 4px solid rgb(41, 37, 36);
+  margin: 1rem;
+  position: relative;
+}
+
+.picasso-mindmap-wrapper-fullpage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.75rem;
+  background: linear-gradient(to right, rgb(14, 165, 233), rgb(251, 191, 36), rgb(244, 63, 94));
+}
+
+.picasso-mindmap-instructions {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  color: rgb(28, 25, 23);
+  text-align: center;
+  margin: 0;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border: 3px solid rgb(41, 37, 36);
+  transform: rotate(-0.5deg);
+  box-shadow: 2px 2px 0px 0px rgba(41, 37, 36, 1);
+}
+
+.picasso-mindmap-instructions p {
+  margin: 0;
+}
+
+.picasso-mindmap-canvas-fullpage {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(145deg, rgb(255, 255, 255) 0%, rgb(250, 250, 249) 100%);
+  overflow: hidden;
+  cursor: grab;
+  min-height: 0;
+  border: 3px solid rgb(41, 37, 36);
+  box-shadow: 4px 4px 0px 0px rgba(41, 37, 36, 0.3);
+}
+
+.picasso-mindmap-canvas-fullpage:active {
+  cursor: grabbing;
+}
+
+/* Picasso Mindmap Nodes */
+.picasso-mindmap-node {
+  border: 3px solid rgb(41, 37, 36);
+  box-shadow: 3px 3px 0px 0px rgba(41, 37, 36, 1);
+  transition: all 0.15s ease;
+  transform: rotate(0deg);
+}
+
+.picasso-mindmap-node:hover {
+  transform: translateX(-2px) translateY(-2px) rotate(-1deg);
+  box-shadow: 5px 5px 0px 0px rgba(41, 37, 36, 1);
+}
+
+/* Picasso Connection Labels */
+.picasso-connection-label {
+  background: linear-gradient(to right, rgb(56, 189, 248), rgb(251, 191, 36));
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: rgb(28, 25, 23);
+  font-weight: 600;
+  box-shadow: 2px 2px 0px 0px rgba(41, 37, 36, 1);
+  transform: rotate(-1deg);
+}
+
+/* Picasso Customization Panel */
+.picasso-customization-panel {
+  background: white;
+  border: 3px solid rgb(41, 37, 36);
+  box-shadow: 4px 4px 0px 0px rgba(41, 37, 36, 1);
+  padding: 0.75rem;
+}
+
+.picasso-add-node-btn {
+  background: linear-gradient(to right, rgb(244, 63, 94), rgb(251, 191, 36));
+  border: 3px solid rgb(41, 37, 36);
+  color: rgb(28, 25, 23);
+  box-shadow: 3px 3px 0px 0px rgba(41, 37, 36, 1);
+}
+
+.picasso-add-node-btn:hover {
+  transform: translateX(-2px) translateY(-2px);
+  box-shadow: 5px 5px 0px 0px rgba(41, 37, 36, 1);
+}
+
+/* Picasso Minimap */
+.picasso-minimap {
+  background: white;
+  border: 3px solid rgb(41, 37, 36);
+  box-shadow: 3px 3px 0px 0px rgba(41, 37, 36, 1);
+}
+
