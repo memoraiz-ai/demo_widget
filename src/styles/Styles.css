@@ -22,6 +22,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .playful-quiz-question-badge {
@@ -36,6 +38,30 @@
   color: rgb(49, 46, 129);
   padding: 0.5rem 1.5rem;
   border-radius: 9999px;
+}
+
+.playful-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playful-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(99, 102, 241);
+}
+
+.playful-quiz-timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: rgb(99, 102, 241);
+  min-width: 4.5ch;
 }
 
 .playful-quiz-question {
@@ -341,6 +367,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.corporate-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.corporate-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(37, 99, 235);
+}
+
+.corporate-quiz-timer-text {
+  font-family: 'Geist', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: rgb(100, 116, 139);
+  min-width: 4.5ch;
 }
 
 .corporate-quiz-question-label {
@@ -747,7 +795,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tech-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(6, 182, 212);
+}
+
+.tech-quiz-timer-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 400;
+  font-size: 1rem;
+  color: rgb(34, 211, 238);
+  min-width: 4.5ch;
 }
 
 .tech-quiz-question-label {
@@ -1153,6 +1223,7 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .illustrated-quiz-star-icon {
@@ -1165,6 +1236,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.illustrated-quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 3px solid #111042;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 3px 3px 0px 0px rgba(17, 16, 66, 1);
+}
+
+.illustrated-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #43a6cf;
+}
+
+.illustrated-quiz-timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111042;
+  min-width: 4.5ch;
 }
 
 .illustrated-quiz-question-badge {
@@ -1629,10 +1727,48 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .picasso-quiz-badge-wrapper {
   position: relative;
+}
+
+.picasso-quiz-timer-wrapper {
+  position: relative;
+}
+
+.picasso-quiz-timer-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(14, 165, 233);
+  transform: translateX(0.25rem) translateY(0.25rem);
+}
+
+.picasso-quiz-timer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 3px solid rgb(41, 37, 36);
+  padding: 0.5rem 1rem;
+  color: rgb(28, 25, 23);
+}
+
+.picasso-quiz-timer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(14, 165, 233);
+}
+
+.picasso-quiz-timer-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: rgb(28, 25, 23);
+  min-width: 4.5ch;
 }
 
 .picasso-quiz-badge-shadow {
@@ -1790,7 +1926,7 @@
   transition: transform 150ms;
 }
 
-.picasso-quiz-next-btn-shadow:hover {
+.picasso-quiz-next-btn-wrapper:hover .picasso-quiz-next-btn-shadow {
   transform: translateX(0.5rem) translateY(0.5rem);
 }
 
@@ -1802,9 +1938,14 @@
   color: rgb(28, 25, 23);
   cursor: pointer;
   transition: transform 150ms;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.picasso-quiz-next-btn:hover {
+.picasso-quiz-next-btn-wrapper:hover .picasso-quiz-next-btn {
   transform: translateX(-0.25rem) translateY(-0.25rem);
 }
 
@@ -1970,7 +2111,7 @@
   transition: transform 150ms;
 }
 
-.picasso-quiz-result-restart-shadow:hover {
+.picasso-quiz-result-restart-wrapper:hover .picasso-quiz-result-restart-shadow {
   transform: translateX(0.5rem) translateY(0.5rem);
 }
 
@@ -1982,9 +2123,14 @@
   color: rgb(28, 25, 23);
   cursor: pointer;
   transition: transform 150ms;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.picasso-quiz-result-restart-btn:hover {
+.picasso-quiz-result-restart-wrapper:hover .picasso-quiz-result-restart-btn {
   transform: translateX(-0.25rem) translateY(-0.25rem);
 }
 
