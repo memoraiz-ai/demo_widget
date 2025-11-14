@@ -88,9 +88,9 @@ function App() {
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
-  const [podcastTranscript, setPodcastTranscript] = useState('none');
+  const [podcastTranscript, setPodcastTranscript] = useState('simple');
   const [podcastVoice, setPodcastVoice] = useState('uomo');
-  const [podcastMultispeaker, setPodcastMultispeaker] = useState(false);
+  const [podcastMultispeaker, setPodcastMultispeaker] = useState(true);
   const [showExportView, setShowExportView] = useState(false);
   const [exportData, setExportData] = useState(null);
   const flashcardRef = useRef(null);
@@ -116,6 +116,12 @@ function App() {
       'normal': 'Domanda classica',
       'fillblank': 'Riempi lo spazio',
       'mix': 'Mix'
+    };
+
+    const podcastTranscriptNames = {
+      'none': 'Nessuno',
+      'simple': 'Semplice',
+      'detailed': 'Dettagliato'
     };
 
     const data = {
@@ -148,6 +154,14 @@ function App() {
         dettagli: {
           dettagliNodo: showNodeDetails,
           etichetteRelazioni: showConnectionLabels
+        }
+      },
+      podcast: {
+        funzionalità: podcastTranscriptNames[podcastTranscript] || podcastTranscript,
+        stile: colorPalettes[colorPalette].name,
+        dettagli: {
+          voce: podcastVoice,
+          multispeaker: podcastMultispeaker
         }
       }
     };

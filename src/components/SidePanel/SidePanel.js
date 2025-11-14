@@ -33,7 +33,7 @@ const SidePanel = ({
     { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
     { id: 'multi', name: 'Risposta Multipla', icon: '☑️', description: 'Seleziona tutte le opzioni corrette' },
     { id: 'truefalse', name: 'Vero/Falso', icon: '✅', description: 'Scelta binaria semplice' },
-    { id: 'outlined', name: 'Riquadri Contornati', icon: '📦', description: 'Selezione basata su schede' }
+    // { id: 'outlined', name: 'Riquadri Contornati', icon: '📦', description: 'Selezione basata su schede' }
   ];
 
   const flashcardModes = [
@@ -43,9 +43,13 @@ const SidePanel = ({
   ];
 
   const podcastTranscripts = [
-    { id: 'none', name: 'Nessuno', icon: '🚫', description: 'Nessun transcript' },
-    { id: 'simple', name: 'Semplice', icon: '📄', description: 'Transcript base senza timestamp' },
-    { id: 'detailed', name: 'Dettagliato', icon: '📋', description: 'Transcript con timestamp e speaker' }
+    { id: 'simple', name: 'Attiva Transcript', icon: '📄', description: 'Genera il transcript del podcast' },
+    { id: 'none', name: 'Disattiva Transcript', icon: '🚫', description: 'Nessun transcript' },
+  ];
+
+  const mindmapModes = [
+    { id: 'dynamic', name: 'Mappa Dinamica', icon: '✨', description: 'Modifica nodi, colori e connessioni' },
+    { id: 'static', name: 'Mappa Statica', icon: '🗺️', description: 'Visualizza la mappa senza modifiche' },
   ];
 
   return (
@@ -179,26 +183,20 @@ const SidePanel = ({
           <>
             <div className="sidepanel-section">
               <h3 className="section-title">Funzionalità</h3>
-              <div className="details">
-                <div className="detail-item">
-                  <div className="detail-header">
-                    <span className="detail-title">Mappa Dinamica</span>
-                    <div className="toggle-switch">
-                      <input
-                        type="checkbox"
-                        id="dynamic-map-toggle"
-                        checked={dynamicMapEnabled}
-                        onChange={(e) => setDynamicMapEnabled(e.target.checked)}
-                      />
-                      <label htmlFor="dynamic-map-toggle" className="toggle-label">
-                        <span className="toggle-slider"></span>
-                      </label>
+              <div className="quiz-types">
+                {mindmapModes.map((mode) => (
+                  <div
+                    key={mode.id}
+                    className={`quiz-type-card ${(mode.id === 'dynamic' && dynamicMapEnabled) || (mode.id === 'static' && !dynamicMapEnabled) ? 'active' : ''}`}
+                    onClick={() => setDynamicMapEnabled(mode.id === 'dynamic')}
+                  >
+                    <div className="quiz-type-header">
+                      <span className="quiz-type-icon">{mode.icon}</span>
+                      <span className="quiz-type-name">{mode.name}</span>
                     </div>
+                    <p className="quiz-type-description">{mode.description}</p>
                   </div>
-                  <p className="detail-description">
-                    Abilita la modifica della mappa: spostamento nodi, cambio colori, aggiunta/rimozione elementi
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
             
@@ -356,7 +354,7 @@ const SidePanel = ({
                   : currentPage === 'flashcard'
                   ? flashcardModes.find(m => m.id === flashcardMode)?.name
                   : currentPage === 'mindmap'
-                  ? (dynamicMapEnabled ? 'Dinamica' : 'Statica')
+                  ? mindmapModes.find(m => (m.id === 'dynamic' && dynamicMapEnabled) || (m.id === 'static' && !dynamicMapEnabled))?.name
                   : currentPage === 'podcast'
                   ? podcastTranscripts.find(t => t.id === podcastTranscript)?.name
                   : 'N/A'
@@ -370,7 +368,7 @@ const SidePanel = ({
             <div className="stat-item">
               <span className="stat-label">Opzioni disponibili</span>
               <span className="stat-value">
-                {currentPage === 'quiz' ? '4 Quiz' : currentPage === 'flashcard' ? '3 Modalità' : currentPage === 'mindmap' ? '1 Pagina' : '3 Transcript'}
+                {currentPage === 'quiz' ? '4 Quiz' : currentPage === 'flashcard' ? '3 Modalità' : currentPage === 'mindmap' ? '2 Modalità' : '3 Transcript'}
               </span>
             </div>
           </div>
