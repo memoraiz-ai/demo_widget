@@ -5,6 +5,7 @@ import React from 'react';
  */
 const ConnectionLabel = ({
   connection,
+  visualStyle = 'playful',
   midXPercent,
   midYPercent,
   isEditing,
@@ -18,21 +19,14 @@ const ConnectionLabel = ({
 }) => {
   return (
     <div
-      className="connection-label"
+      className={`connection-label ${visualStyle}-connection-label`}
       style={{
         position: 'absolute',
         left: `${midXPercent}%`,
         top: `${midYPercent}%`,
         transform: 'translate(-50%, -50%)',
-        backgroundColor: '#f5f5f5',
-        borderRadius: '0.5rem',
-        padding: '0.25rem 0.5rem',
-        fontSize: '0.75rem',
-        color: '#666',
-        boxShadow: '0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)',
         cursor: dynamicMapEnabled ? 'pointer' : 'default',
         userSelect: 'none',
-        border: '1px solid #ddd',
         whiteSpace: 'nowrap',
         zIndex: 0
       }}
@@ -64,8 +58,9 @@ const ConnectionLabel = ({
             border: 'none',
             outline: 'none',
             fontSize: '0.75rem',
-            color: '#666',
-            textAlign: 'center'
+            textAlign: 'center',
+            fontFamily: visualStyle === 'tech' ? 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' : 'inherit',
+            fontWeight: visualStyle === 'illustrated' || visualStyle === 'picasso' ? '600' : 'inherit'
           }}
           onClick={(e) => e.stopPropagation()}
         />

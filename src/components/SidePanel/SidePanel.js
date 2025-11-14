@@ -9,6 +9,8 @@ const SidePanel = ({
   setQuizStyle,
   flashcardStyle,
   setFlashcardStyle,
+  mindmapStyle,
+  setMindmapStyle,
   visualStyles, 
   timerEnabled, 
   setTimerEnabled, 
@@ -243,13 +245,16 @@ const SidePanel = ({
                 key={key}
                 className={`quiz-type-card ${
                   (currentPage === 'quiz' && quizStyle === key) || 
-                  (currentPage === 'flashcard' && flashcardStyle === key) ? 'active' : ''
+                  (currentPage === 'flashcard' && flashcardStyle === key) ||
+                  (currentPage === 'mindmap' && mindmapStyle === key) ? 'active' : ''
                 }`}
                 onClick={() => {
                   if (currentPage === 'quiz') {
                     setQuizStyle(key);
                   } else if (currentPage === 'flashcard') {
                     setFlashcardStyle(key);
+                  } else if (currentPage === 'mindmap') {
+                    setMindmapStyle(key);
                   }
                 }}
               >
@@ -301,7 +306,8 @@ const SidePanel = ({
               <span className="stat-label">Stile</span>
               <span className="stat-value">
                 {currentPage === 'quiz' ? visualStyles[quizStyle].name : 
-                 currentPage === 'flashcard' ? visualStyles[flashcardStyle].name : 'N/A'}
+                 currentPage === 'flashcard' ? visualStyles[flashcardStyle].name :
+                 currentPage === 'mindmap' ? visualStyles[mindmapStyle].name : 'N/A'}
               </span>
             </div>
             <div className="stat-item">
@@ -323,6 +329,11 @@ const SidePanel = ({
             } else if (currentPage === 'flashcard') {
               setFlashcardMode('normal');
               setFlashcardStyle('playful');
+            } else if (currentPage === 'mindmap') {
+              setMindmapStyle('playful');
+              setShowNodeDetails(true);
+              setShowConnectionLabels(true);
+              setDynamicMapEnabled(true);
             }
             setTimerEnabled(true);
           }}>

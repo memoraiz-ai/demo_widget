@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Minimap component showing overview of all nodes and current viewport
  */
-const MindmapMinimap = ({ nodes, connections, zoom, pan, canvasRect }) => {
+const MindmapMinimap = ({ visualStyle = 'playful', nodes, connections, zoom, pan, canvasRect }) => {
   if (!canvasRect) return null;
 
   const padding = 50;
@@ -47,22 +47,22 @@ const MindmapMinimap = ({ nodes, connections, zoom, pan, canvasRect }) => {
   const viewportTop = viewportCenterY - viewportHeightPercent / 2;
 
   return (
-    <div style={{
-      position: 'absolute',
-      bottom: '1rem',
-      right: '1rem',
-      backgroundColor: 'white',
-      borderRadius: '0.5rem',
-      boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)',
-      padding: '0.5rem',
-      zIndex: 10
-    }}>
+    <div 
+      className={`${visualStyle}-minimap`}
+      style={{
+        position: 'absolute',
+        bottom: '1rem',
+        right: '1rem',
+        padding: '0.5rem',
+        zIndex: 10
+      }}
+    >
       <div style={{
         position: 'relative',
         width: '12rem',
         height: '8rem',
-        backgroundColor: '#f3f4f6',
-        borderRadius: '0.25rem',
+        backgroundColor: visualStyle === 'tech' ? 'rgb(2, 6, 23)' : visualStyle === 'corporate' ? '#f8f9fa' : '#f3f4f6',
+        borderRadius: visualStyle === 'illustrated' ? '0.75rem' : visualStyle === 'tech' ? '0.25rem' : '0.5rem',
         overflow: 'hidden'
       }}>
         <svg style={{ width: '100%', height: '100%' }}>

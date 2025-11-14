@@ -4,7 +4,7 @@ import { Plus, Minus, Crosshair } from 'lucide-react';
 /**
  * Zoom and pan controls for the mindmap
  */
-const MindmapControls = ({ onZoomIn, onZoomOut, onResetView }) => {
+const MindmapControls = ({ visualStyle = 'playful', onZoomIn, onZoomOut, onResetView }) => {
   return (
     <div className="mindmap-header">
       <h2 className="mindmap-title">Mindmap Sant'Antioco</h2>

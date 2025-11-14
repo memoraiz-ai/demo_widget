@@ -7,6 +7,7 @@ import { darkenColor } from '../utils/mindmapUtils';
  */
 const MindmapNode = ({
   node,
+  visualStyle = 'playful',
   isEditing,
   isSelected,
   isHovered,
@@ -28,7 +29,7 @@ const MindmapNode = ({
 }) => {
   return (
     <div
-      className="mindmap-node"
+      className={`mindmap-node ${visualStyle}-mindmap-node`}
       style={{
         position: 'absolute',
         left: `${node.x}%`,
@@ -38,16 +39,15 @@ const MindmapNode = ({
         minWidth: isEditing ? 'auto' : '7.5rem',
         maxWidth: isEditing ? '25rem' : '11.25rem',
         width: isEditing ? 'fit-content' : 'auto',
-        borderRadius: '1rem',
         padding: '0.75rem 1rem',
         boxShadow: isSelected 
           ? `0 0 0 0.1875rem ${darkenColor(node.color)}` 
           : (isConnectionTarget 
             ? `0 0 0 0.25rem #2196f3`
-            : '0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)'),
+            : undefined),
         cursor: 'pointer',
         userSelect: 'none',
-        transition: isDragged ? 'box-shadow 0.2s ease' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease',
+        transition: isDragged ? 'box-shadow 0.2s ease' : undefined,
         zIndex: isSelected ? 20000 : (isHovered ? 10000 : 1)
       }}
       onClick={onClick}

@@ -13,7 +13,7 @@ import MindmapMinimap from './components/MindmapMinimap';
  * Main Mindmap Component
  * A visual interactive mindmap with draggable nodes, connections, and customization
  */
-const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dynamicMapEnabled }, ref) => {
+const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConnectionLabels, dynamicMapEnabled }, ref) => {
   // Initialize state
   const state = useMindmapState();
   
@@ -46,25 +46,40 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
     return canvasRef.current?.getBoundingClientRect();
   };
 
+  /**
+   * Get connection line color based on visual style
+   */
+  const getConnectionColor = () => {
+    const colors = {
+      playful: '#a855f7',
+      corporate: '#94a3b8',
+      tech: '#06b6d4',
+      illustrated: '#111042',
+      picasso: '#292524'
+    };
+    return colors[visualStyle] || colors.playful;
+  };
+
   return (
-    <div className="mindmap-container-fullpage">
-      <div className="mindmap-wrapper-fullpage">
+    <div className={`${visualStyle}-mindmap-container-fullpage`}>
+      <div className={`${visualStyle}-mindmap-wrapper-fullpage`}>
         {/* Controls */}
         <MindmapControls 
+          visualStyle={visualStyle}
           onZoomIn={handlers.handleZoomIn}
           onZoomOut={handlers.handleZoomOut}
           onResetView={handlers.handleResetView}
         />
 
         {/* Instructions */}
-        <div className="mindmap-instructions">
+        <div className={`${visualStyle}-mindmap-instructions`}>
           <p>Trascina per spostare • Doppio clic per modificare • Rotella per zoom</p>
         </div>
 
         {/* Main Canvas */}
         <div 
           ref={canvasRef}
-          className="mindmap-canvas-fullpage"
+          className={`${visualStyle}-mindmap-canvas-fullpage`}
           onMouseDown={handlers.handleCanvasMouseDown}
           style={{
             overflow: 'hidden',
@@ -98,14 +113,14 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
             >
               <defs>
                 <marker
-                  id="arrowhead"
+                  id={`arrowhead-${visualStyle}`}
                   markerWidth="10"
                   markerHeight="10"
                   refX="9"
                   refY="3"
                   orient="auto"
                 >
-                  <polygon points="0 0, 10 3, 0 6" fill="#999" />
+                  <polygon points="0 0, 10 3, 0 6" fill={getConnectionColor()} />
                 </marker>
               </defs>
               
@@ -121,10 +136,11 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       y1={from.y}
                       x2={to.x}
                       y2={to.y}
-                      stroke="#ddd"
-                      strokeWidth="2"
-                      strokeDasharray="5,5"
-                      markerEnd="url(#arrowhead)"
+                      stroke={getConnectionColor()}
+                      strokeWidth={visualStyle === 'illustrated' || visualStyle === 'picasso' ? '3' : '2'}
+                      strokeDasharray={visualStyle === 'tech' ? '5,5' : visualStyle === 'illustrated' ? '10,5' : '5,5'}
+                      markerEnd={`url(#arrowhead-${visualStyle})`}
+                      opacity={visualStyle === 'tech' ? '0.6' : '0.5'}
                     />
                   </g>
                 );
@@ -144,10 +160,10 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                       y1={from.y}
                       x2={toX}
                       y2={toY}
-                      stroke="#2196f3"
+                      stroke={getConnectionColor()}
                       strokeWidth="3"
                       strokeDasharray="10,5"
-                      opacity="0.6"
+                      opacity="0.8"
                     />
                   );
                 })()
@@ -160,6 +176,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                 <MindmapNode
                   key={node.id}
                   node={node}
+                  visualStyle={visualStyle}
                   isEditing={editingNode === node.id}
                   isSelected={selectedNode === node.id}
                   isHovered={hoveredNode === node.id}
@@ -228,6 +245,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
                   <ConnectionLabel
                     key={connKey}
                     connection={conn}
+                    visualStyle={visualStyle}
                     midXPercent={midXPercent}
                     midYPercent={midYPercent}
                     isEditing={editingConnection === connKey}
@@ -249,6 +267,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
 
           {/* Minimap */}
           <MindmapMinimap 
+            visualStyle={visualStyle}
             nodes={nodes}
             connections={connections}
             zoom={zoom}
@@ -259,6 +278,7 @@ const MindMap = forwardRef(({ theme, showNodeDetails, showConnectionLabels, dyna
           {/* Node Customization Bar */}
           {dynamicMapEnabled && (
             <NodeCustomization
+              visualStyle={visualStyle}
               selectedNode={selectedNode}
               nodes={nodes}
               onColorChange={handlers.handleColorChange}

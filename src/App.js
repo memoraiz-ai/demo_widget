@@ -22,6 +22,7 @@ function App() {
   const [flashcardMode, setFlashcardMode] = useState('normal');
   const [quizStyle, setQuizStyle] = useState('playful');
   const [flashcardStyle, setFlashcardStyle] = useState('playful');
+  const [mindmapStyle, setMindmapStyle] = useState('playful');
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
   const [showNodeDetails, setShowNodeDetails] = useState(true);
@@ -91,8 +92,7 @@ function App() {
     } else if (currentPage === 'flashcard') {
       return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={timerEnabled} />;
     } else if (currentPage === 'mindmap') {
-      // Mindmap still uses theme for now since it wasn't part of the requirements
-      return <Mindmap ref={mindmapRef} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
+      return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
     }
     return renderQuiz();
   };
@@ -136,6 +136,8 @@ function App() {
           setQuizStyle={setQuizStyle}
           flashcardStyle={flashcardStyle}
           setFlashcardStyle={setFlashcardStyle}
+          mindmapStyle={mindmapStyle}
+          setMindmapStyle={setMindmapStyle}
           visualStyles={visualStyles}
           timerEnabled={timerEnabled}
           setTimerEnabled={setTimerEnabled}
