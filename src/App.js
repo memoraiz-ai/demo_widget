@@ -5,6 +5,8 @@ import { SingleQuiz, MultiQuiz, TrueFalseQuiz, OutlinedQuiz } from './components
 import SidePanel from './components/SidePanel';
 import Flashcard from './components/Flashcard';
 import Mindmap from './components/Mindmap';
+import Podcast from './components/Podcast';
+import ExportView from './components/ExportView';
 
 // Define color palettes
 const colorPalettes = {
@@ -86,6 +88,11 @@ function App() {
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
+  const [podcastTranscript, setPodcastTranscript] = useState('none');
+  const [podcastVoice, setPodcastVoice] = useState('uomo');
+  const [podcastMultispeaker, setPodcastMultispeaker] = useState(false);
+  const [showExportView, setShowExportView] = useState(false);
+  const [exportData, setExportData] = useState(null);
   const flashcardRef = useRef(null);
   const mindmapRef = useRef(null);
   const previousFeedbackStateRef = useRef(true); // Usa ref per non triggerare re-render
@@ -95,6 +102,62 @@ function App() {
     if (flashcardRef.current && flashcardRef.current.shuffleFlashcards) {
       flashcardRef.current.shuffleFlashcards();
     }
+  };
+
+  const handleExport = () => {
+    const quizTypeNames = {
+      'single': 'Risposta Singola',
+      'multi': 'Risposta Multipla',
+      'truefalse': 'Vero/Falso',
+      'outlined': 'Riquadri Contornati'
+    };
+
+    const flashcardModeNames = {
+      'normal': 'Domanda classica',
+      'fillblank': 'Riempi lo spazio',
+      'mix': 'Mix'
+    };
+
+    const data = {
+      exportDate: new Date().toLocaleString('it-IT', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }),
+      quiz: {
+        funzionalità: quizTypeNames[quizType] || quizType,
+        stile: colorPalettes[colorPalette].name,
+        dettagli: {
+          timer: timerEnabled,
+          feedbackImmediato: immediateFeedbackEnabled
+        }
+      },
+      flashcard: {
+        funzionalità: flashcardModeNames[flashcardMode] || flashcardMode,
+        stile: colorPalettes[colorPalette].name,
+        dettagli: {
+          timer: timerEnabled
+        }
+      },
+      mindmap: {
+        funzionalità: dynamicMapEnabled ? 'Dinamica' : 'Statica',
+        stile: colorPalettes[colorPalette].name,
+        dettagli: {
+          dettagliNodo: showNodeDetails,
+          etichetteRelazioni: showConnectionLabels
+        }
+      }
+    };
+
+    setExportData(data);
+    setShowExportView(true);
+  };
+
+  const handleBackFromExport = () => {
+    setShowExportView(false);
   };
 
   // Update theme when color palette changes
@@ -150,12 +213,18 @@ function App() {
   };
 
   const renderContent = () => {
+    if (showExportView && exportData) {
+      return <ExportView exportData={exportData} onBack={handleBackFromExport} />;
+    }
+    
     if (currentPage === 'quiz') {
       return renderQuiz();
     } else if (currentPage === 'flashcard') {
       return <Flashcard ref={flashcardRef} theme={currentTheme} mode={flashcardMode} timerEnabled={timerEnabled} />;
     } else if (currentPage === 'mindmap') {
       return <Mindmap ref={mindmapRef} theme={currentTheme} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
+    } else if (currentPage === 'podcast') {
+      return <Podcast theme={currentTheme} />;
     }
     return renderQuiz();
   };
@@ -178,51 +247,68 @@ function App() {
     }}>
       <div className="app-container">
         <div className="main-content">
-          <div className="navigation-buttons">
-            <button
-              className={`nav-button ${currentPage === 'quiz' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('quiz')}
-            >
-              Quiz
-            </button>
-            <button
-              className={`nav-button ${currentPage === 'flashcard' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('flashcard')}
-            >
-              Flashcard
-            </button>
-            <button
-              className={`nav-button ${currentPage === 'mindmap' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('mindmap')}
-            >
-              Mindmap
-            </button>
-          </div>
+          {!showExportView && (
+            <div className="navigation-buttons">
+              <button
+                className={`nav-button ${currentPage === 'quiz' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('quiz')}
+              >
+                Quiz
+              </button>
+              <button
+                className={`nav-button ${currentPage === 'flashcard' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('flashcard')}
+              >
+                Flashcard
+              </button>
+              <button
+                className={`nav-button ${currentPage === 'mindmap' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('mindmap')}
+              >
+                Mindmap
+              </button>
+              <button
+                className={`nav-button ${currentPage === 'podcast' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('podcast')}
+              >
+                Podcast
+              </button>
+            </div>
+          )}
           <div className="content-container">
             {renderContent()}
           </div>
         </div>
-        <SidePanel
-          currentPage={currentPage}
-          quizType={quizType}
-          setQuizType={setQuizType}
-          flashcardMode={flashcardMode}
-          setFlashcardMode={setFlashcardMode}
-          onShuffle={handleShuffle}
-          colorPalette={colorPalette}
-          setColorPalette={setColorPalette}
-          colorPalettes={colorPalettes}
-          timerEnabled={timerEnabled}
-          setTimerEnabled={setTimerEnabled}
-          immediateFeedbackEnabled={immediateFeedbackEnabled}
-          setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
-          showNodeDetails={showNodeDetails}
-          setShowNodeDetails={setShowNodeDetails}
-          showConnectionLabels={showConnectionLabels}
-          setShowConnectionLabels={setShowConnectionLabels}
-          dynamicMapEnabled={dynamicMapEnabled}
-          setDynamicMapEnabled={setDynamicMapEnabled}
-        />
+        {!showExportView && (
+          <SidePanel
+            currentPage={currentPage}
+            quizType={quizType}
+            setQuizType={setQuizType}
+            flashcardMode={flashcardMode}
+            setFlashcardMode={setFlashcardMode}
+            onShuffle={handleShuffle}
+            colorPalette={colorPalette}
+            setColorPalette={setColorPalette}
+            colorPalettes={colorPalettes}
+            timerEnabled={timerEnabled}
+            setTimerEnabled={setTimerEnabled}
+            immediateFeedbackEnabled={immediateFeedbackEnabled}
+            setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
+            showNodeDetails={showNodeDetails}
+            setShowNodeDetails={setShowNodeDetails}
+            showConnectionLabels={showConnectionLabels}
+            setShowConnectionLabels={setShowConnectionLabels}
+            dynamicMapEnabled={dynamicMapEnabled}
+            setDynamicMapEnabled={setDynamicMapEnabled}
+            podcastTranscript={podcastTranscript}
+            setPodcastTranscript={setPodcastTranscript}
+            podcastVoice={podcastVoice}
+            setPodcastVoice={setPodcastVoice}
+            podcastMultispeaker={podcastMultispeaker}
+            setPodcastMultispeaker={setPodcastMultispeaker}
+            onExport={handleExport}
+          />
+        )}
       </div>
     </div>
   );
