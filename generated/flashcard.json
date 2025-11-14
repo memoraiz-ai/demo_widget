@@ -1,0 +1,52 @@
+{
+  "flashcards": [
+    {
+      "id": 1,
+      "type": "classic",
+      "front": "Perché, dal punto di vista dei linguisti, il termine «Quechua» è più rilevante di «Inca» nello studio di questa civiltà?",
+      "back": "Perché mentre l’impero degli Inca è scomparso, le lingue quechua sono tuttora parlate da milioni di persone in Perù e Sud America, rendendo «Quechua» una categoria viva e centrale per descrivere quelle popolazioni."
+    },
+    {
+      "id": 2,
+      "type": "classic",
+      "front": "Quali sono i principali elementi tecnologici e materiali che, secondo il testo, mancavano agli Inca nonostante la vastità del loro impero?",
+      "back": "Non conoscevano l’uso del ferro e dell’acciaio, non usavano la ruota, non avevano animali da tiro, non possedevano la scrittura e praticamente non avevano moneta."
+    },
+    {
+      "id": 3,
+      "type": "classic",
+      "front": "In che modo gli Inca utilizzavano l’oro e quale significato simbolico gli attribuivano?",
+      "back": "L’oro era considerato il simbolo del sole, chiamato «lacrime del sole», privo di valore economico in sé. Veniva usato per rivestire il Tempio del Sole e per oggetti rituali; il sovrano, figlio del sole, mangiava in piatti d’oro e solo i nobili potevano indossare gioielli d’oro."
+    },
+    {
+      "id": 4,
+      "type": "classic",
+      "front": "Come si intrecciano potere politico e culto religioso nel progetto architettonico di siti come Sacsayhuaman o Choquequirao, secondo il testo?",
+      "back": "Le grandi opere come Sacsayhuaman e Choquequirao mostrano una combinazione di dominio e religione: mura e architetture rappresentano divinità (fulmine, acqua, puma), si integrano nel paesaggio sacro (waka) e creano scenari cerimoniali pensati per esibire il potere dell’Inca e della religione di Stato."
+    },
+    {
+      "id": 5,
+      "type": "cloze",
+      "front": "Il sovrano Pachacutec si autoproclamò figlio del dio del sole, ______.",
+      "back": "Inti"
+    },
+    {
+      "id": 6,
+      "type": "cloze",
+      "front": "La grande fortezza di ______, circondata da mura alte 8 metri e lunghe 600, era addirittura più grande di Machu Picchu.",
+      "back": "Kuelap"
+    },
+    {
+      "id": 7,
+      "type": "cloze",
+      "front": "Il sistema di cordicelle colorate a nodi usato per registrare tributi, produzione e popolazione nell’impero era chiamato ______.",
+      "back": "khipu"
+    },
+    {
+      "id": 8,
+      "type": "cloze",
+      "front": "Gli Inca chiamavano i loro santuari naturali, come sorgenti, rocce e montagne sacre in cui si manifestava il divino, con il termine ______.",
+      "back": "waka"
+    }
+  ]
+}

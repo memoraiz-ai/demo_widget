@@ -1,0 +1,436 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "question": "Che cosa indicava originariamente il termine «Inca» nel contesto dell'impero andino descritto?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Il popolo comune che abitava l’altopiano di Cusco",
+          "is_correct": false,
+          "explanation": "Il popolo comune era chiamato Quechua; «Inca» non indicava la gente comune."
+        },
+        {
+          "id": "B",
+          "text": "L’intero insieme delle popolazioni assoggettate all’impero",
+          "is_correct": false,
+          "explanation": "Le popolazioni assoggettate erano molte e con nomi diversi; «Inca» non è un etnonimo generale."
+        },
+        {
+          "id": "C",
+          "text": "Il titolo del sovrano e dell’élite dominante dell’impero",
+          "is_correct": true,
+          "explanation": "Nel testo si precisa che «Inca» era il titolo del sovrano e della classe dirigente, non del popolo comune."
+        },
+        {
+          "id": "D",
+          "text": "Una specifica provincia amministrativa nella regione di Cusco",
+          "is_correct": false,
+          "explanation": "Non viene mai usato come nome di provincia, ma come titolo politico-religioso."
+        },
+        {
+          "id": "E",
+          "text": "Il nome della capitale sacra dell’impero",
+          "is_correct": false,
+          "explanation": "La capitale era Cusco, non «Inca»."
+        },
+        {
+          "id": "F",
+          "text": "Il nome della lingua ufficiale parlata nell’impero",
+          "is_correct": false,
+          "explanation": "La lingua viene indicata come Quechua, non come Inca."
+        },
+        {
+          "id": "G",
+          "text": "Un termine dato dagli spagnoli dopo la conquista",
+          "is_correct": false,
+          "explanation": "Gli spagnoli diffusero l’uso di chiamare «Incas» tutte le popolazioni, ma il termine esisteva già come titolo del sovrano."
+        },
+        {
+          "id": "H",
+          "text": "Il nome del sistema religioso centrato sul culto del sole",
+          "is_correct": false,
+          "explanation": "Il termine riguarda la figura del sovrano e dell’élite, non il sistema religioso nel suo complesso."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Qual è l’interpretazione più accreditata oggi, fra quelle citate, sul ruolo di Machu Picchu nell’impero?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Era la leggendaria città perduta di Vilcabamba, ultimo rifugio armato contro gli spagnoli",
+          "is_correct": false,
+          "explanation": "Questa era l’ipotesi iniziale di Bingham, poi scartata: si è capito che Machu Picchu non è Vilcabamba."
+        },
+        {
+          "id": "B",
+          "text": "Era unicamente un osservatorio astronomico sacerdotale senza funzioni residenziali",
+          "is_correct": false,
+          "explanation": "L’ipotesi di osservatorio legato a un ordine religioso femminile viene citata ma oggi è considerata poco seguita."
+        },
+        {
+          "id": "C",
+          "text": "Era una città oracolare esclusivamente abitata da donne consacrate",
+          "is_correct": false,
+          "explanation": "L’idea di una città-oracolo femminile è esplicitamente presentata come ipotesi superata."
+        },
+        {
+          "id": "D",
+          "text": "Era la capitale originaria dell’impero, poi sostituita da Cusco",
+          "is_correct": false,
+          "explanation": "La capitale dell’impero è sempre indicata come Cusco, non Machu Picchu."
+        },
+        {
+          "id": "E",
+          "text": "Era una grande proprietà imperiale, una residenza di campagna dell’Inca con numerosi servitori e artigiani",
+          "is_correct": true,
+          "explanation": "Il testo afferma che oggi Machu Picchu è verosimilmente interpretata come una grande proprietà dell’imperatore, una sorta di residenza di campagna."
+        },
+        {
+          "id": "F",
+          "text": "Era principalmente un enorme deposito di khipu e archivi amministrativi",
+          "is_correct": false,
+          "explanation": "I khipu sono associati alla burocrazia imperiale, ma non si dice che Machu Picchu fosse un archivio centrale."
+        },
+        {
+          "id": "G",
+          "text": "Era il principale centro metallurgico per la lavorazione dell’oro dell’impero",
+          "is_correct": false,
+          "explanation": "Lavorazione dell’oro e artigiani specializzati vengono collegati soprattutto a Chan Chan e Cusco, non a Machu Picchu."
+        },
+        {
+          "id": "H",
+          "text": "Era una base militare fortificata sul confine settentrionale dell’impero",
+          "is_correct": false,
+          "explanation": "Nel testo non è descritta come base militare di frontiera, ma come complesso residenziale e cerimoniale."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "Quale funzione dei khipu è descritta come centrale e certa nel funzionamento dell’impero?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Registrare con precisione tributi, produzione e popolazione tramite valori numerici codificati nei nodi",
+          "is_correct": true,
+          "explanation": "Il testo sottolinea che i khipu servivano a gestire tasse, produzione e popolazione come strumento di calcolo contabile e amministrativo."
+        },
+        {
+          "id": "B",
+          "text": "Servire come talismani personali di protezione per i guerrieri",
+          "is_correct": false,
+          "explanation": "Non vengono descritti come amuleti individuali, ma come strumenti di registrazione controllati da funzionari."
+        },
+        {
+          "id": "C",
+          "text": "Sostituire completamente qualunque forma di rituale religioso",
+          "is_correct": false,
+          "explanation": "I khipu sono associati all’amministrazione, non sostituiscono i rituali religiosi e i culti."
+        },
+        {
+          "id": "D",
+          "text": "Codificare formule magiche recitate dai sacerdoti durante i sacrifici",
+          "is_correct": false,
+          "explanation": "Si accenna a storie e informazioni storiche, non a formule magiche rituali."
+        },
+        {
+          "id": "E",
+          "text": "Conservare esclusivamente racconti mitologici e leggende di fondazione",
+          "is_correct": false,
+          "explanation": "Le cronache spagnole suggeriscono che potessero contenere storie, ma la funzione esplicitamente descritta come certa è quella contabile."
+        },
+        {
+          "id": "F",
+          "text": "Segnalare confini territoriali lungo le strade imperiali",
+          "is_correct": false,
+          "explanation": "I khipu non vengono citati come marcatori fisici del territorio, ma come archivi portatili di dati."
+        },
+        {
+          "id": "G",
+          "text": "Decorare palazzi e templi come semplici ornamenti colorati",
+          "is_correct": false,
+          "explanation": "Le cordicelle colorate avevano significato informativo; non sono presentate come mera decorazione."
+        },
+        {
+          "id": "H",
+          "text": "Contrassegnare il rango nobiliare attraverso il numero di nodi indossati",
+          "is_correct": false,
+          "explanation": "Il rango nobiliare è descritto tramite oro e altri simboli, non tramite il numero di nodi dei khipu."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "Perché, secondo il sistema ereditario descritto, ogni nuovo imperatore doveva lanciarsi in nuove conquiste territoriali?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Per ottenere la legittimazione religiosa diretta dell’oracolo di Pachacamac",
+          "is_correct": false,
+          "explanation": "L’oracolo conferisce prestigio, ma la necessità di conquistare nuovi territori è legata alla gestione di beni e potere, non solo all’oracolo."
+        },
+        {
+          "id": "B",
+          "text": "Per sostituire i vecchi khipu con nuovi registri, validi solo sotto il suo regno",
+          "is_correct": false,
+          "explanation": "I khipu sono archivi di dati, ma non è menzionata alcuna regola che imponga di rifarli a ogni regno."
+        },
+        {
+          "id": "C",
+          "text": "Per rafforzare il culto del sole costruendo nuovi templi Inti in ogni provincia",
+          "is_correct": false,
+          "explanation": "La costruzione di templi del sole è importante, ma non è presentata come la ragione strutturale dell’obbligo di conquistare nuovi territori."
+        },
+        {
+          "id": "D",
+          "text": "Per evitare che le province appena annesse potessero tornare indipendenti",
+          "is_correct": false,
+          "explanation": "Il controllo delle province è rilevante, ma la motivazione specifica data nel testo è legata all’eredità dei beni del predecessore."
+        },
+        {
+          "id": "E",
+          "text": "Per mantenere attive le grandi armate, che altrimenti si sarebbero rivoltate",
+          "is_correct": false,
+          "explanation": "Non viene citato il rischio di rivolta delle armate come motivo principale del sistema ereditario."
+        },
+        {
+          "id": "F",
+          "text": "Per avere il diritto di essere imbalsamato come mummia e partecipare alle feste dopo la morte",
+          "is_correct": false,
+          "explanation": "La mummificazione riguarda lo status imperiale, ma non è condizionata esplicitamente all’aver conquistato nuovi territori."
+        },
+        {
+          "id": "G",
+          "text": "Per dimostrare in battaglia la discendenza diretta dal dio del sole",
+          "is_correct": false,
+          "explanation": "La discendenza divina legittima il potere, ma la logica economico-politica del sistema ereditario va oltre la sola dimostrazione in battaglia."
+        },
+        {
+          "id": "H",
+          "text": "Perché non ereditava le ricchezze e i territori del predecessore, rimasti alla mummia e al suo clan, e doveva garantire beni propri al proprio clan",
+          "is_correct": true,
+          "explanation": "Il testo spiega che la mummia del sovrano continuava a possedere i territori conquistati; il nuovo imperatore ereditava solo l’apparato di potere e doveva conquistare nuovi territori per il proprio clan."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Come viene descritta la strategia religiosa e politica degli Inca nel santuario di Pachacamac?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Distrussero subito ogni tempio preesistente per sostituirlo con uno dedicato a Pachacamac",
+          "is_correct": false,
+          "explanation": "Il testo evidenzia che il culto preincaico di Pachacamac fu preservato, non cancellato all’inizio."
+        },
+        {
+          "id": "B",
+          "text": "Proibirono qualsiasi pellegrinaggio, trasformando l’area in esclusiva base militare",
+          "is_correct": false,
+          "explanation": "Pachacamac viene invece trasformato in un grande centro di pellegrinaggio, una «Mecca delle Ande»."
+        },
+        {
+          "id": "C",
+          "text": "Convertirono il sito in un laboratorio agricolo per sperimentare nuove varietà di patate",
+          "is_correct": false,
+          "explanation": "Gli esperimenti agricoli vengono associati a Moray, non a Pachacamac."
+        },
+        {
+          "id": "D",
+          "text": "Mantennero il culto del dio locale, ma edificarono un tempio del sole sopraelevato per affermare la supremazia di Inti e il controllo inca sul santuario",
+          "is_correct": true,
+          "explanation": "Il testo spiega che costruirono, nel punto più alto, un tempio del sole sopra il tempio del dio locale, rendendo evidente il nuovo equilibrio di potere."
+        },
+        {
+          "id": "E",
+          "text": "Trasformarono il complesso in un mausoleo esclusivo per le mummie dei sovrani",
+          "is_correct": false,
+          "explanation": "Non viene menzionato come luogo di sepoltura dei sovrani, ma come santuario oracolare e centro di pellegrinaggio."
+        },
+        {
+          "id": "F",
+          "text": "Utilizzarono Pachacamac solo come deposito di oggetti votivi confiscati",
+          "is_correct": false,
+          "explanation": "Gli oggetti votivi ritrovati sono offerte dei pellegrini, non un magazzino di confische."
+        },
+        {
+          "id": "G",
+          "text": "Lo dedicarono esclusivamente alla venerazione delle costellazioni legate al lama (Yakana)",
+          "is_correct": false,
+          "explanation": "Yakana e la sua costellazione vengono associati a Choquequirao, non a Pachacamac."
+        },
+        {
+          "id": "H",
+          "text": "Lo usarono temporaneamente come capitale amministrativa al posto di Cusco",
+          "is_correct": false,
+          "explanation": "Pachacamac è presentato come santuario religioso di ampia risonanza, non come capitale politica dell’impero."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "Quale fu l’impatto delle epidemie (morbillo, vaiolo, influenza) sull’impero prima e durante la crisi di Huayna Capac?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Colpirono solo le popolazioni costiere, risparmiando l’élite imperiale e gli altipiani",
+          "is_correct": false,
+          "explanation": "Il testo sottolinea che non si fermarono nemmeno davanti a Huayna Capac, colpendo anche l’élite."
+        },
+        {
+          "id": "B",
+          "text": "Decimarono decine di migliaia di nativi, mandarono in crisi l’impero e contribuirono alla successiva guerra di successione",
+          "is_correct": true,
+          "explanation": "Le epidemie arrivarono dal Messico, causarono moltissime morti, l’impero precipitò in una crisi profonda e la morte di Huayna Capac senza erede aprì una guerra fratricida."
+        },
+        {
+          "id": "C",
+          "text": "Furono rapidamente contenute grazie ai progressi della chirurgia cranica precolombiana",
+          "is_correct": false,
+          "explanation": "Le capacità chirurgiche riguardano traumi cranici, non la cura delle epidemie."
+        },
+        {
+          "id": "D",
+          "text": "Non ebbero alcun effetto sulla struttura politica dell’impero, che rimase stabile",
+          "is_correct": false,
+          "explanation": "L’impero viene descritto come precipitato in una crisi profonda, con vaste aree quasi spopolate."
+        },
+        {
+          "id": "E",
+          "text": "Indussero gli Inca ad abbandonare completamente i sacrifici umani",
+          "is_correct": false,
+          "explanation": "Al contrario, l’interpretazione religiosa delle malattie portò a sacrifici, inclusi quelli di bambini nella Capac Cocha."
+        },
+        {
+          "id": "F",
+          "text": "Costrinsero gli Inca a trasferire la capitale da Cusco a Quito",
+          "is_correct": false,
+          "explanation": "Quito diventa seconda capitale per motivi militari e di controllo di un’area ribelle, non è un trasferimento forzato dovuto alle epidemie."
+        },
+        {
+          "id": "G",
+          "text": "Causarono solo un leggero calo demografico senza conseguenze politiche",
+          "is_correct": false,
+          "explanation": "Si parla di decine di migliaia di morti e di crisi profonda: le conseguenze furono pesanti."
+        },
+        {
+          "id": "H",
+          "text": "Colpirono esclusivamente i bambini scelti per la Capac Cocha",
+          "is_correct": false,
+          "explanation": "I bambini della Capac Cocha vengono sacrificati in un contesto rituale, non come vittime dirette delle epidemie."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "Quale ipotesi sulla funzione della «striscia di buche» viene specificamente collegata alla vicinanza con Tambo Colorado?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Che fosse un campo di addestramento militare per eserciti provenienti dagli altipiani",
+          "is_correct": false,
+          "explanation": "Non viene proposta come area di esercitazione militare."
+        },
+        {
+          "id": "B",
+          "text": "Che le buche fossero tombe individuali per guerrieri caduti in battaglia",
+          "is_correct": false,
+          "explanation": "Le buche vengono osservate come strutture ripetute e regolari, non come tombe."
+        },
+        {
+          "id": "C",
+          "text": "Che servisse come gigantesco calendario solare scolpito nel deserto",
+          "is_correct": false,
+          "explanation": "Si menzionano anche ipotesi astronomiche, ma l’argomento legato a Tambo Colorado è di tipo amministrativo-tributario."
+        },
+        {
+          "id": "D",
+          "text": "Che fosse il luogo dove venivano selezionati i bambini per la Capac Cocha",
+          "is_correct": false,
+          "explanation": "I sacrifici dei bambini vengono collegati al vulcano di Yuyayaco, non alla striscia di buche."
+        },
+        {
+          "id": "E",
+          "text": "Che rappresentasse un diagramma sacro delle tre parti dell’universo incaico",
+          "is_correct": false,
+          "explanation": "Non viene esplicitata alcuna lettura cosmologica di questo tipo nel testo."
+        },
+        {
+          "id": "F",
+          "text": "Che fosse un grande serbatoio idrico sotterraneo per l’irrigazione dei campi",
+          "is_correct": false,
+          "explanation": "Non si parla di acqua o irrigazione in relazione alle buche, ma di conteggio e misurazione."
+        },
+        {
+          "id": "G",
+          "text": "Che costituisse un luogo per il conteggio e la registrazione dei tributi agricoli legato al centro amministrativo di Tambo Colorado",
+          "is_correct": true,
+          "explanation": "L’archeologo ipotizza che, data la posizione sulla via obbligata verso Tambo Colorado, le buche servissero a contare e registrare tributi agricoli."
+        },
+        {
+          "id": "H",
+          "text": "Che servisse a delimitare il confine tra l’impero e i territori dei Chimù",
+          "is_correct": false,
+          "explanation": "La striscia di buche è descritta come sito unico vicino a Tambo Colorado, non come confine con il regno Chimù."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Come viene interpretata, dal punto di vista religioso, la scelta delle famiglie di offrire i figli per il rituale della Capac Cocha?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Come una pena imposta alle famiglie colpevoli di essersi ribellate all’impero",
+          "is_correct": false,
+          "explanation": "Non viene presentata come punizione politica: i bambini sono descritti come «eletti», non come figli di ribelli."
+        },
+        {
+          "id": "B",
+          "text": "Come un modo per liberarsi di bocche da sfamare in periodi di carestia",
+          "is_correct": false,
+          "explanation": "Il testo non collega la Capac Cocha a esigenze economiche di sussistenza, ma a un sacrificio di massimo valore simbolico."
+        },
+        {
+          "id": "C",
+          "text": "Come un sacrificio dovuto esclusivamente per garantire buoni raccolti di patate",
+          "is_correct": false,
+          "explanation": "La Capac Cocha è presentata come rituale legato al bene del sovrano e dello Stato, non solo alle patate."
+        },
+        {
+          "id": "D",
+          "text": "Come una punizione riservata a bambini affetti da malattie considerate impure",
+          "is_correct": false,
+          "explanation": "I bambini appaiono ben nutriti e selezionati come prescelti, non come malati da punire."
+        },
+        {
+          "id": "E",
+          "text": "Come un modo per evitare che i bambini partecipassero alle guerre di conquista future",
+          "is_correct": false,
+          "explanation": "Il testo non collega il sacrificio alla prospettiva di arruolamento militare."
+        },
+        {
+          "id": "F",
+          "text": "Come un grande onore, perché il figlio diventava una divinità ed era sacrificato per il bene del sovrano e dello Stato",
+          "is_correct": true,
+          "explanation": "Si afferma che le famiglie erano felici: il figlio, eletto alla Capac Cocha, sarebbe diventato una divinità e il sacrificio serviva al bene del sovrano e dello Stato."
+        },
+        {
+          "id": "G",
+          "text": "Come un espediente per ottenere un riscatto in oro dalle autorità imperiali",
+          "is_correct": false,
+          "explanation": "Il tema del riscatto in oro riguarda Atahualpa e Pizarro, non la Capac Cocha."
+        },
+        {
+          "id": "H",
+          "text": "Come un rito segreto non riconosciuto ufficialmente dalla religione inca",
+          "is_correct": false,
+          "explanation": "La Capac Cocha viene definita la cerimonia rituale più importante per la cultura inca, quindi tutt’altro che marginale o segreta."
+        }
+      ]
+    }
+  ]
+}
