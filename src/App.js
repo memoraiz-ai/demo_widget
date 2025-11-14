@@ -87,7 +87,9 @@ function App() {
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
   const flashcardRef = useRef(null);
-const mindmapRef = useRef(null);
+  const mindmapRef = useRef(null);
+  const previousFeedbackStateRef = useRef(true); // Usa ref per non triggerare re-render
+  const previousQuizTypeRef = useRef('single'); // Traccia il tipo di quiz precedente
 
   const handleShuffle = () => {
     if (flashcardRef.current && flashcardRef.current.shuffleFlashcards) {
@@ -99,6 +101,30 @@ const mindmapRef = useRef(null);
   React.useEffect(() => {
     setCurrentTheme(colorPalettes[colorPalette]);
   }, [colorPalette]);
+
+  // Gestione feedback immediato per quiz con risposta multipla
+  React.useEffect(() => {
+    const prevQuizType = previousQuizTypeRef.current;
+    
+    // Quando passiamo a 'multi' da un altro tipo
+    if (quizType === 'multi' && prevQuizType !== 'multi') {
+      // Salva lo stato corrente e disattiva feedback immediato
+      previousFeedbackStateRef.current = immediateFeedbackEnabled;
+      setImmediateFeedbackEnabled(false);
+    } 
+    // Quando usciamo da 'multi' verso un altro tipo
+    else if (quizType !== 'multi' && prevQuizType === 'multi') {
+      // Ripristina lo stato precedente
+      setImmediateFeedbackEnabled(previousFeedbackStateRef.current);
+    }
+    // Quando NON siamo in 'multi', aggiorna il valore salvato se l'utente cambia il toggle
+    else if (quizType !== 'multi') {
+      previousFeedbackStateRef.current = immediateFeedbackEnabled;
+    }
+    
+    // Aggiorna il tipo di quiz precedente
+    previousQuizTypeRef.current = quizType;
+  }, [quizType, immediateFeedbackEnabled]);
 
   const renderQuiz = () => {
     const commonProps = {
