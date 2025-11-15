@@ -55,7 +55,10 @@ const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConn
       corporate: '#94a3b8',
       tech: '#06b6d4',
       illustrated: '#111042',
-      picasso: '#292524'
+      picasso: '#292524',
+      schoolr: '#FF7B7B',
+      plai: '#E63946',
+      studenti: '#7CB342'
     };
     return colors[visualStyle] || colors.playful;
   };

@@ -77,6 +77,7 @@ const MindmapNode = ({
               onStopEditing();
             }
           }}
+          className={`${visualStyle}-mindmap-node-text`}
           style={{
             width: '100%',
             minHeight: '1rem',
@@ -99,38 +100,44 @@ const MindmapNode = ({
           }}
         />
       ) : (
-        <div style={{ 
-          fontSize: '0.875rem', 
-          color: '#1f2937', 
-          textAlign: 'center',
-          fontFamily: "'Poppins', sans-serif",
-          whiteSpace: 'normal',
-          wordWrap: 'break-word',
-          overflowWrap: 'break-word'
-        }}>
+        <div 
+          className={`${visualStyle}-mindmap-node-text`}
+          style={{ 
+            fontSize: '0.875rem', 
+            color: '#1f2937', 
+            textAlign: 'center',
+            fontFamily: "'Poppins', sans-serif",
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word'
+          }}
+        >
           {node.text}
         </div>
       )}
 
       {/* Icon badge */}
       {node.icon && (
-        <div style={{
-          position: 'absolute',
-          top: '-0.75rem',
-          left: '-0.75rem',
-          fontSize: '1.1rem',
-          lineHeight: 1,
-          background: 'white',
-          borderRadius: '50%',
-          width: '1.7rem',
-          height: '1.7rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.15)',
-          border: '2px solid white',
-          zIndex: 10
-        }}>
+        <div 
+          className={`${visualStyle}-mindmap-node-icon`}
+          style={{
+            position: 'absolute',
+            top: '-0.75rem',
+            left: '-0.75rem',
+            fontSize: '1.1rem',
+            lineHeight: 1,
+            background: 'white',
+            borderRadius: '50%',
+            width: '1.7rem',
+            height: '1.7rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.15)',
+            border: '2px solid white',
+            zIndex: 10
+          }}
+        >
           {node.icon}
         </div>
       )}
@@ -149,6 +156,7 @@ const MindmapNode = ({
       {dynamicMapEnabled && (
         <button
           onClick={onDelete}
+          className={`delete-node-btn ${visualStyle}-mindmap-delete-btn`}
           style={{
             position: 'absolute',
             top: '-0.5rem',
@@ -166,7 +174,6 @@ const MindmapNode = ({
             justifyContent: 'center',
             transition: 'opacity 0.2s ease'
           }}
-          className="delete-node-btn"
         >
           ×
         </button>
@@ -175,6 +182,7 @@ const MindmapNode = ({
       {/* Connection handle */}
       {dynamicMapEnabled && isSelected && (
         <div
+          className={`${visualStyle}-mindmap-connection-handle`}
           style={{
             position: 'absolute',
             left: '50%',
