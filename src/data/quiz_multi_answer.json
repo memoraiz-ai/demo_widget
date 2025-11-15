@@ -1,0 +1,438 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "question": "Quali caratteristiche rendono singolare l'impero inca rispetto ad altri grandi imperi, secondo l'inizio del documentario?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Era un impero molto antico, esistente da diversi secoli prima di Cristo",
+          "is_correct": false,
+          "explanation": "Il documentario sottolinea che l'impero inca non era antico: esisteva da forse un secolo quando arrivarono gli spagnoli."
+        },
+        {
+          "id": "B",
+          "text": "Viene descritto come un impero \"feudale e socialista\" in cui tutto era proprietà dell'Inca",
+          "is_correct": true,
+          "explanation": "All'inizio si dice che l'impero viene descritto come \"feudale e socialista\": tutto era proprietà del sovrano e non esisteva praticamente proprietà privata."
+        },
+        {
+          "id": "C",
+          "text": "Fu amministrato senza conoscere l'uso del ferro o dell'acciaio",
+          "is_correct": true,
+          "explanation": "Il narratore sottolinea che l'impero era amministrato senza ferro o acciaio, a differenza delle civiltà europee."
+        },
+        {
+          "id": "D",
+          "text": "Era privo di ruota, di animali da tiro e praticamente senza moneta",
+          "is_correct": true,
+          "explanation": "Si afferma esplicitamente che non conoscevano la ruota, non avevano animali da tiro e vivevano praticamente senza moneta."
+        },
+        {
+          "id": "E",
+          "text": "Si basava su moneta metallica usata quotidianamente nei mercati",
+          "is_correct": false,
+          "explanation": "Il documentario insiste sul fatto che gli Inca vivevano quasi senza moneta e che gli scambi erano regolati dagli ordini dell'imperatore, non da mercati monetari."
+        },
+        {
+          "id": "F",
+          "text": "Esisteva da più di mezzo millennio quando arrivarono gli spagnoli",
+          "is_correct": false,
+          "explanation": "Si dice chiaramente che l'impero esisteva da forse un secolo, quindi non da molti secoli."
+        },
+        {
+          "id": "G",
+          "text": "Conosceva la scrittura alfabetica ma la usava solo nelle cerimonie religiose",
+          "is_correct": false,
+          "explanation": "Una delle peculiarità ricordate è che gli Inca governavano un impero vastissimo senza conoscere la scrittura."
+        },
+        {
+          "id": "H",
+          "text": "Era uno dei più piccoli imperi della storia dal punto di vista territoriale",
+          "is_correct": false,
+          "explanation": "Al contrario: viene presentato come uno dei più grandi imperi della storia umana dal punto di vista territoriale."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Secondo il documentario, quali affermazioni descrivono correttamente l'uso dei nomi «Inca» e «Quechua» e l'effetto della conquista spagnola?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Gli spagnoli, arrivando, fissarono l'abitudine di chiamare \"Incas\" tutte le popolazioni dell'impero",
+          "is_correct": true,
+          "explanation": "Si spiega che gli spagnoli, scoprendo che l'impero era degli Inca, diffusero l'uso di chiamare così tutte le popolazioni soggette."
+        },
+        {
+          "id": "B",
+          "text": "Nell'immaginario collettivo moderno è rimasta l'idea degli \"Incas\" come popolo, benché originariamente il termine indicasse il sovrano e l'élite",
+          "is_correct": true,
+          "explanation": "Il narratore osserva che per abitudine diciamo \"gli Incas\" come se fosse un popolo, ma nel documentario si chiarisce che era il titolo del sovrano e della classe dirigente."
+        },
+        {
+          "id": "C",
+          "text": "Per i linguisti la parola centrale oggi è \"Quechua\", perché le lingue quechua sono ancora parlate da milioni di persone",
+          "is_correct": true,
+          "explanation": "Si dice che, dal punto di vista dei linguisti, la parola importante è Quechua, perché le lingue quechua sono tuttora parlate da milioni di persone."
+        },
+        {
+          "id": "D",
+          "text": "Il nome \"Inca\" indicava in origine le comunità contadine comuni",
+          "is_correct": false,
+          "explanation": "Viene detto il contrario: la gente comune era chiamata Quechua, mentre Inca era il sovrano e l'élite dominante."
+        },
+        {
+          "id": "E",
+          "text": "Dopo la conquista spagnola le lingue quechua scomparvero rapidamente",
+          "is_correct": false,
+          "explanation": "Il documentario sottolinea che le lingue quechua sono tuttora vive e diffuse, quindi non scomparvero dopo la conquista."
+        },
+        {
+          "id": "F",
+          "text": "Gli stessi Inca usavano già la forma spagnola plurale \"Incas\" prima dell'arrivo degli europei",
+          "is_correct": false,
+          "explanation": "La forma \"Incas\" è chiaramente di origine spagnola; non viene mai suggerito che fosse usata prima dagli stessi Inca."
+        },
+        {
+          "id": "G",
+          "text": "Il termine \"Quechua\" è un'invenzione degli storici del Novecento",
+          "is_correct": false,
+          "explanation": "Il documentario indica che Quechua è il nome con cui quelle popolazioni chiamavano la propria lingua, non una creazione recente degli storici."
+        },
+        {
+          "id": "H",
+          "text": "Nel documentario si suggerisce di abbandonare completamente il termine \"Inca\" negli studi storici",
+          "is_correct": false,
+          "explanation": "Non si propone di abbandonare il termine, ma di usarlo con precisione distinguendo tra élite inca e popolazioni quechua."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "In che modo, secondo il documentario, l'architettura inca di luoghi come Machu Picchu e Choquequirao esprimeva il rapporto tra sacro e paesaggio?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La scelta dei luoghi per nuovi insediamenti dipendeva spesso dalla presenza di un luogo sacro (waka) nel paesaggio",
+          "is_correct": true,
+          "explanation": "Si spiega che gli Inca sviluppano una cultura basata sul concetto di waka, luoghi sacri nel paesaggio, e che l'ubicazione degli insediamenti era determinata dalla presenza di questi luoghi."
+        },
+        {
+          "id": "B",
+          "text": "Le costruzioni erano pensate per imporsi sulla natura, cancellando il paesaggio circostante",
+          "is_correct": false,
+          "explanation": "Viene detto l'opposto: gli edifici si adattavano alla natura, non si imponevano su di essa."
+        },
+        {
+          "id": "C",
+          "text": "Gli Inca evitavano di costruire in prossimità di montagne sacre per timore di profanarle",
+          "is_correct": false,
+          "explanation": "Nel documentario, al contrario, le montagne sacre e i ghiacciai sono spesso al centro della scelta del sito e della scenografia."
+        },
+        {
+          "id": "D",
+          "text": "A Choquequirao venne spianata la cima di una montagna per creare una piattaforma da cui dominare il panorama",
+          "is_correct": true,
+          "explanation": "Si racconta che Pachacutec fece rimuovere e spianare la cima di una montagna per ricavarne una grande piattaforma panoramica."
+        },
+        {
+          "id": "E",
+          "text": "Il mosaico sulla parete di Choquequirao raffigura conquistadores spagnoli a cavallo",
+          "is_correct": false,
+          "explanation": "Il mosaico raffigura 24 figure di lama in ardesia bianca, legate all'animale sacro Yakana, non cavalieri spagnoli."
+        },
+        {
+          "id": "F",
+          "text": "I calcoli astronomici mostrano che a Choquequirao il sole al solstizio sorge dietro il ghiacciaio Yanacocha",
+          "is_correct": true,
+          "explanation": "Il documentario cita studi astronomici che dimostrano l'allineamento del sorgere del sole al solstizio con il ghiacciaio Yanacocha."
+        },
+        {
+          "id": "G",
+          "text": "I siti religiosi venivano scelti esclusivamente per la loro fertilità agricola",
+          "is_correct": false,
+          "explanation": "La scelta dei luoghi è legata soprattutto al sacro e al paesaggio simbolico, non solo alla fertilità dei campi."
+        },
+        {
+          "id": "H",
+          "text": "Le cerimonie ignoravano completamente l'ambiente circostante, che non aveva ruolo nelle ritualità",
+          "is_correct": false,
+          "explanation": "Si insiste sul fatto che il fulcro delle cerimonie comunicava con l'intero paesaggio; l'ambiente circostante è parte integrante del rito."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "Quali elementi caratterizzano, secondo il documentario, la conquista del regno costiero dei Chimù da parte degli Inca?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La strategia generale dell'impero si riassumeva in \"cooperazione o guerra, sottomissione o morte\"",
+          "is_correct": true,
+          "explanation": "La voce narrante sintetizza così il modo in cui gli Inca si presentavano ai regni vicini prima di passare alle armi."
+        },
+        {
+          "id": "B",
+          "text": "Molti capi tribù rinunciarono al proprio potere in cambio dei privilegi offerti dagli Inca",
+          "is_correct": true,
+          "explanation": "Nel documentario si spiega che di fronte alla superiorità militare molti capi accettarono di sottomettersi ottenendo privilegi."
+        },
+        {
+          "id": "C",
+          "text": "La capitale Chimù, Chan Chan, fu conquistata dopo un lungo assedio in cui gli Inca tagliarono gli approvvigionamenti d'acqua",
+          "is_correct": true,
+          "explanation": "Si racconta che i Chimù resistettero per dieci anni finché gli Inca tagliarono l'acqua alla loro capitale."
+        },
+        {
+          "id": "D",
+          "text": "Dopo la resa, Chan Chan fu rasa completamente al suolo per cancellarne ogni traccia materiale",
+          "is_correct": false,
+          "explanation": "Il documentario presenta Chan Chan come sito archeologico visitabile; non si dice che fu completamente distrutta."
+        },
+        {
+          "id": "E",
+          "text": "Gli Inca erano poco interessati alle capacità artigianali dei Chimù",
+          "is_correct": false,
+          "explanation": "Al contrario, viene sottolineato che gli Inca erano molto interessati a orafi, ceramisti e grandi costruttori Chimù."
+        },
+        {
+          "id": "F",
+          "text": "Gli orafi dei Chimù vennero trasferiti a Cusco per adornare palazzi e templi inca",
+          "is_correct": true,
+          "explanation": "Si dice esplicitamente che gli orafi dei Chimù furono portati a Cusco per lavorare ai palazzi e ai templi dell'élite inca."
+        },
+        {
+          "id": "G",
+          "text": "Gli Inca rinunciarono a imporre tributi ai Chimù per non destabilizzare la regione",
+          "is_correct": false,
+          "explanation": "Non viene citata alcuna rinuncia al tributo; al contrario, i popoli sottomessi diventano soggetti a cui imporre tributi."
+        },
+        {
+          "id": "H",
+          "text": "La conquista dei Chimù è presentata come un episodio marginale e poco significativo",
+          "is_correct": false,
+          "explanation": "La conquista dei Chimù è narrata come un momento importante per l'acquisizione di artigiani e ricchezze, non come un dettaglio marginale."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Quali affermazioni descrivono correttamente il ruolo dei khipu nella gestione dell'impero inca?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Erano cordicelle annodate che registravano in forma numerica tributi, produzione e popolazione",
+          "is_correct": true,
+          "explanation": "Il documentario spiega che i khipu servivano a tenere traccia di tasse, produzione e popolazione per l'amministrazione dell'impero."
+        },
+        {
+          "id": "B",
+          "text": "Costituivano uno strumento di calcolo contabile usato sistematicamente nel governo dell'impero",
+          "is_correct": true,
+          "explanation": "Si afferma che gli Inca, pur non avendo scrittura, usarono in modo sistematico i khipu come perfetto strumento di calcolo per la gestione contabile e amministrativa."
+        },
+        {
+          "id": "C",
+          "text": "Le cronache spagnole affermano che oggi sappiamo leggere perfettamente tutte le storie contenute nei khipu",
+          "is_correct": false,
+          "explanation": "Il narratore sottolinea che pur sapendo che i khipu potevano contenere storie, oggi non siamo più in grado di leggerle."
+        },
+        {
+          "id": "D",
+          "text": "Servivano soprattutto come ornamenti colorati privi di significato informativo",
+          "is_correct": false,
+          "explanation": "Al contrario, sono descritti come una sorta di banca dati, non come semplice decorazione."
+        },
+        {
+          "id": "E",
+          "text": "Solo una ristretta élite di \"maestri dei nodi\", tra gli uomini più potenti dello Stato, sapeva leggerli",
+          "is_correct": true,
+          "explanation": "Si dice che l'arte di leggere e annodare i khipu era riservata a pochi funzionari, i maestri dei nodi, considerati tra gli uomini più potenti."
+        },
+        {
+          "id": "F",
+          "text": "Ogni cordicella rappresentava esclusivamente formule magiche e incantesimi",
+          "is_correct": false,
+          "explanation": "Il loro uso principale è amministrativo; le cronache suggeriscono storie e informazioni storiche, non formule magiche."
+        },
+        {
+          "id": "G",
+          "text": "Il documentario afferma che non esistevano khipu centrali che riassumessero i dati degli altri",
+          "is_correct": false,
+          "explanation": "Si parla invece di un khipu reale che riassumeva le informazioni di khipu più piccoli destinati all'archivio centrale di Cusco."
+        },
+        {
+          "id": "H",
+          "text": "Con l'arrivo dei conquistadores il sistema dei khipu venne adottato dagli spagnoli al posto della scrittura alfabetica",
+          "is_correct": false,
+          "explanation": "Non c'è traccia di un'adozione spagnola dei khipu; i conquistadores impongono la propria scrittura e distruggono molti elementi della cultura inca."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "Come gli Inca gestirono il santuario di Pachacamac dopo aver annesso la regione, secondo il documentario?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Preservarono l'antico culto del dio Pachacamac, considerato creatore e potente oracolo",
+          "is_correct": true,
+          "explanation": "Il direttore degli scavi spiega che Pachacamac era già un santuario importantissimo e che gli Inca ne mantennero la sacralità."
+        },
+        {
+          "id": "B",
+          "text": "Nel punto più alto del complesso costruirono un tempio del sole dedicato a Inti, sopra il tempio del dio locale",
+          "is_correct": true,
+          "explanation": "Si sottolinea che gli Inca edificarono un tempio del sole sopraelevato, che si ergeva al di sopra del tempio del dio locale, evidenziando la supremazia di Inti."
+        },
+        {
+          "id": "C",
+          "text": "Trasformarono Pachacamac in un grande centro di pellegrinaggio, una sorta di \"Mecca delle Ande\"",
+          "is_correct": true,
+          "explanation": "Il sito viene descritto come un luogo verso cui giungevano migliaia di pellegrini ogni anno, definito proprio \"Mecca delle Ande\"."
+        },
+        {
+          "id": "D",
+          "text": "Chiusero il santuario al culto e lo usarono solo come base militare",
+          "is_correct": false,
+          "explanation": "È il contrario di quanto riportato: Pachacamac resta un grande santuario religioso, non solo una caserma."
+        },
+        {
+          "id": "E",
+          "text": "Rispettarono tutte le antiche tombe preincaiche, che non vennero mai profanate durante le nuove costruzioni",
+          "is_correct": false,
+          "explanation": "Gli archeologi mostrano ossa sparse e tombe distrutte: gli Inca profanarono sepolture che non consideravano proprie."
+        },
+        {
+          "id": "F",
+          "text": "Gli scavi non hanno trovato offerte provenienti da regioni lontane dell'impero",
+          "is_correct": false,
+          "explanation": "Sono invece stati recuperati oggetti e materiali provenienti da luoghi lontani, prova dell'importanza del pellegrinaggio."
+        },
+        {
+          "id": "G",
+          "text": "Per gli Inca Pachacamac rimase un santuario marginale, poco rilevante nella loro cosmologia",
+          "is_correct": false,
+          "explanation": "Viene definito un luogo speciale nella cosmologia inca e un santuario tra i più sacri del continente."
+        },
+        {
+          "id": "H",
+          "text": "Il luogo fu abbandonato molto prima dell'arrivo degli spagnoli e non ebbe ruolo nella conquista",
+          "is_correct": false,
+          "explanation": "Pachacamac era attivo al momento dell'arrivo degli spagnoli, che saccheggiarono il santuario e distrussero l'idolo davanti alla folla."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "Quali effetti delle epidemie di vaiolo, morbillo e influenza sono descritti nel documentario per il periodo di Huayna Capac?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Le epidemie arrivarono in Perù dal Messico prima ancora dei conquistadores",
+          "is_correct": true,
+          "explanation": "Si dice che il vaiolo, il morbillo e l'influenza giunsero in Perù dal Messico molto prima dell'arrivo fisico degli spagnoli."
+        },
+        {
+          "id": "B",
+          "text": "Causarono la morte di decine di migliaia di nativi e fecero precipitare l'impero in una crisi profonda",
+          "is_correct": true,
+          "explanation": "Il documentario parla di decine di migliaia di morti e di un impero precipitato in una profonda crisi."
+        },
+        {
+          "id": "C",
+          "text": "Non toccarono l'élite imperiale: Huayna Capac fu risparmiato dalle malattie",
+          "is_correct": false,
+          "explanation": "Si specifica che le epidemie non si fermarono nemmeno davanti a Huayna Capac, che morì senza aver nominato un erede."
+        },
+        {
+          "id": "D",
+          "text": "La morte di Huayna Capac senza erede designato contribuì allo scoppio di una guerra fratricida tra i suoi figli",
+          "is_correct": true,
+          "explanation": "Viene detto che la morte di Huayna Capac senza erede aprì una guerra di successione fra i figli che lacerò l'impero."
+        },
+        {
+          "id": "E",
+          "text": "Le epidemie causarono solo un lieve calo demografico, senza conseguenze politiche rilevanti",
+          "is_correct": false,
+          "explanation": "L'impatto viene descritto come devastante, con vaste aree quasi spopolate e forti conseguenze politiche."
+        },
+        {
+          "id": "F",
+          "text": "Secondo il documentario, le malattie furono interpretate come segno che l'universo aveva perso il proprio equilibrio",
+          "is_correct": true,
+          "explanation": "Si afferma che nelle antiche culture peruviane la malattia indicava un disequilibrio cosmico da ristabilire, spesso tramite sacrifici."
+        },
+        {
+          "id": "G",
+          "text": "Le epidemie spinsero gli Inca ad abbandonare completamente i sacrifici umani",
+          "is_correct": false,
+          "explanation": "Al contrario, la crisi viene collegata alla pratica della Capac Cocha, con sacrifici umani, anche di bambini."
+        },
+        {
+          "id": "H",
+          "text": "Gli Inca reagirono trasferendo la capitale a Quito unicamente per motivi sanitari",
+          "is_correct": false,
+          "explanation": "Quito viene indicata come seconda capitale per controllare meglio un'area ribelle, non come misura sanitaria contro le epidemie."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Quali elementi del rituale della Capac Cocha riguardano i bambini sacrificati sul vulcano Yuyayaco, secondo il documentario?",
+      "options": [
+        {
+          "id": "A",
+          "text": "I bambini scelti erano considerati \"eletti\" e il loro sacrificio era per il bene del sovrano e dello Stato",
+          "is_correct": true,
+          "explanation": "Si afferma che per la religione inca quei bambini erano eletti, sacrificati agli dèi per il bene del sovrano e dello Stato."
+        },
+        {
+          "id": "B",
+          "text": "Le famiglie vivevano la scelta come una punizione umiliante",
+          "is_correct": false,
+          "explanation": "Il documentario dice che le famiglie erano felici, perché il figlio sarebbe diventato una divinità; non si parla di punizione."
+        },
+        {
+          "id": "C",
+          "text": "La loro vita cambiava già un anno prima del sacrificio: lasciavano la famiglia, venivano vestiti con abiti suntuosi e nutriti con cura",
+          "is_correct": true,
+          "explanation": "Si racconta che un anno prima della morte sacrificale i bambini lasciavano la famiglia e venivano vestiti con abiti riccamente decorati e ben nutriti."
+        },
+        {
+          "id": "D",
+          "text": "Le analisi dei capelli mostrano che prima della morte non ricevettero mai coca o alcol",
+          "is_correct": false,
+          "explanation": "Le analisi rivelano il contrario: ai bambini furono somministrate massicce dosi di coca e alcol prima del sacrificio."
+        },
+        {
+          "id": "E",
+          "text": "Venivano sacrificati in battaglia come giovani guerrieri sul campo",
+          "is_correct": false,
+          "explanation": "I bambini non muoiono in battaglia; vengono portati in processione fino alla cima del vulcano e sepolti in piccole tombe."
+        },
+        {
+          "id": "F",
+          "text": "Le mummie furono ritrovate in fondo a una grotta umida nella foresta amazzonica",
+          "is_correct": false,
+          "explanation": "I corpi sono stati trovati quasi a 7000 metri di quota sul vulcano Yuyayaco, non in una grotta amazzonica."
+        },
+        {
+          "id": "G",
+          "text": "Secondo il documentario, i bambini probabilmente morirono addormentandosi lentamente per il freddo e per le sostanze che avevano assunto",
+          "is_correct": true,
+          "explanation": "Si dice che i bambini vennero posti nelle tombe e morirono addormentandosi, a causa di alcol, coca e del freddo estremo."
+        },
+        {
+          "id": "H",
+          "text": "Per gli Inca la morte di questi bambini era considerata la fine definitiva della loro esistenza",
+          "is_correct": false,
+          "explanation": "Viene precisato che per loro la morte non era la fine ma un inizio: il bambino diventava una divinità."
+        }
+      ]
+    }
+  ]
+}
+
+

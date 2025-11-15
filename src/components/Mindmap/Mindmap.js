@@ -2,7 +2,6 @@ import React, { forwardRef } from 'react';
 import { useMindmapState } from './hooks/useMindmapState';
 import { useMindmapHandlers } from './hooks/useMindmapHandlers';
 import { getNodeCenter } from './utils/mindmapUtils';
-import { nodeInfoData } from './data/nodeInfoData';
 import MindmapControls from './components/MindmapControls';
 import MindmapNode from './components/MindmapNode';
 import ConnectionLabel from './components/ConnectionLabel';
@@ -186,7 +185,11 @@ const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConn
                   isDragged={draggedNode === node.id}
                   isConnectionTarget={connectionTarget === node.id}
                   showNodeDetails={showNodeDetails}
-                  nodeInfo={nodeInfoData[node.id]}
+                  nodeInfo={node.description ? { 
+                    title: node.text,
+                    description: node.description,
+                    extract: '' 
+                  } : null}
                   dynamicMapEnabled={dynamicMapEnabled}
                   justDraggedRef={justDraggedRef}
                   onMouseDown={(e) => dynamicMapEnabled && handlers.handleMouseDown(e, node.id)}

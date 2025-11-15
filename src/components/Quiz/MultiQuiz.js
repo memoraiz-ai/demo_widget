@@ -1,33 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
+import quizMultiData from '../../data/quiz_multi_answer.json';
 
-const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeedbackEnabled = false }) => {
+const MultiQuiz = ({
+  visualStyle = 'playful',
+  timerEnabled = true,
+  immediateFeedbackEnabled = false,
+  answersCount = 4,
+  correctPoints = 1,
+  incorrectPoints = -1
+}) => {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [score, setScore] = useState(125);
-  const [currentQuestion, setCurrentQuestion] = useState(8);
-  const [totalQuestions] = useState(10);
-  const [pointsAwarded, setPointsAwarded] = useState(false);
+  const [score, setScore] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const questions = quizMultiData.quiz || [];
+  const [totalQuestions] = useState(questions.length || 0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(8);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
-  const questionVariants = [
-    "Quali dei seguenti sono giganti gassosi nel nostro sistema solare?",
-    "Seleziona tutti i pianeti giganti gassosi del nostro sistema solare:",
-    "Identifica quali di questi pianeti sono giganti gassosi nel nostro sistema solare:"
-  ];
   const [currentQuestionIndex] = useState(0);
-  const answers = [
-    "Giove",
-    "Saturno",
-    "Marte",
-    "Nettuno",
-    "Terra"
-  ];
 
-  const correctAnswers = ["Giove", "Saturno", "Nettuno"];
+  const currentQuestionData = useMemo(() => {
+    if (!questions.length) return null;
+    const index = (currentQuestion - 1) % questions.length;
+    return questions[index];
+  }, [questions, currentQuestion]);
+
+  const { questionText, answers, correctAnswers } = useMemo(() => {
+    if (!currentQuestionData) {
+      return {
+        questionText: 'Nessuna domanda disponibile.',
+        answers: [],
+        correctAnswers: []
+      };
+    }
+
+    const baseQuestion = currentQuestionData.question;
+    const allOptions = currentQuestionData.options || [];
+
+    const correctOpts = allOptions.filter((o) => o.is_correct);
+    const incorrectOpts = allOptions.filter((o) => !o.is_correct);
+
+    const maxAnswers = Math.max(Math.min(answersCount, allOptions.length), 2);
+
+    const picked = [];
+
+    // At least one correct
+    if (correctOpts.length) {
+      const idx = Math.floor(Math.random() * correctOpts.length);
+      picked.push(correctOpts[idx]);
+    }
+
+    // At least one incorrect (if exists)
+    if (incorrectOpts.length) {
+      const idx = Math.floor(Math.random() * incorrectOpts.length);
+      picked.push(incorrectOpts[idx]);
+    } else if (correctOpts.length > 1 && picked.length === 1) {
+      // If no incorrects exist but multiple corrects, add another correct
+      const remainingCorrect = correctOpts.filter(
+        (c) => c.id !== picked[0].id
+      );
+      if (remainingCorrect.length) {
+        const idx = Math.floor(Math.random() * remainingCorrect.length);
+        picked.push(remainingCorrect[idx]);
+      }
+    }
+
+    const remainingPool = allOptions.filter(
+      (opt) => !picked.some((p) => p.id === opt.id)
+    );
+
+    while (picked.length < maxAnswers && remainingPool.length) {
+      const idx = Math.floor(Math.random() * remainingPool.length);
+      picked.push(remainingPool[idx]);
+      remainingPool.splice(idx, 1);
+    }
+
+    // Shuffle picked answers
+    for (let i = picked.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [picked[i], picked[j]] = [picked[j], picked[i]];
+    }
+
+    const correctTexts = picked.filter((opt) => opt.is_correct).map((o) => o.text);
+
+    return {
+      questionText: baseQuestion,
+      answers: picked.map((opt) => opt.text),
+      correctAnswers: correctTexts
+    };
+  }, [currentQuestionData, answersCount]);
 
   const toggleAnswer = (answer) => {
+    if (showFeedback) return;
     const newSelected = selectedAnswers.includes(answer)
       ? selectedAnswers.filter(a => a !== answer)
       : [...selectedAnswers, answer];
@@ -35,14 +101,26 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
   };
 
   const checkAnswer = () => {
-    if (selectedAnswers.length === 0) return;
-    setShowFeedback(true);
-    const correctCount = selectedAnswers.filter(answer => correctAnswers.includes(answer)).length;
-    const isCorrect = selectedAnswers.length === correctAnswers.length && correctCount === correctAnswers.length;
-    if (isCorrect && !pointsAwarded) {
-      setScore(prev => prev + 50);
-      setPointsAwarded(true);
+    if (selectedAnswers.length === 0 || !answers.length) return;
+
+    let delta = 0;
+    let questionCorrectCount = 0;
+
+    selectedAnswers.forEach(answer => {
+      if (correctAnswers.includes(answer)) {
+        delta += correctPoints;
+        questionCorrectCount += 1;
+      } else {
+        delta += incorrectPoints;
+      }
+    });
+
+    if (questionCorrectCount > 0) {
+      setCorrectAnswersCount(prev => prev + questionCorrectCount);
     }
+
+    setScore(prev => prev + delta);
+    setShowFeedback(true);
   };
 
   const nextQuestion = () => {
@@ -52,7 +130,6 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
     }
     setSelectedAnswers([]);
     setShowFeedback(false);
-    setPointsAwarded(false);
     setCurrentQuestion(prev => prev + 1);
   };
 
@@ -61,7 +138,6 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
     setShowFeedback(false);
     setScore(0);
     setCurrentQuestion(1);
-    setPointsAwarded(false);
     setQuizCompleted(false);
     setCorrectAnswersCount(0);
   };
@@ -312,7 +388,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
             <div className="playful-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
           </div>
 
-          <h3 className="playful-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+          <h3 className="playful-quiz-question">{questionText}</h3>
           <p className="playful-quiz-instruction">Select all that apply</p>
 
           <div className="playful-quiz-options">
@@ -375,7 +451,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
           <div className="tech-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
         </div>
 
-        <h3 className="tech-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+        <h3 className="tech-quiz-question">{questionText}</h3>
         <p className="tech-quiz-instruction">// select_all_correct()</p>
 
         <div className="tech-quiz-options">
@@ -432,7 +508,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
           <div className="corporate-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
         </div>
 
-        <h3 className="corporate-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+        <h3 className="corporate-quiz-question">{questionText}</h3>
         <p className="corporate-quiz-instruction">Select all correct answers</p>
 
         <div className="corporate-quiz-options">
@@ -488,7 +564,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
         </div>
 
         <div className="illustrated-quiz-question-box">
-          <h3 className="illustrated-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+          <h3 className="illustrated-quiz-question">{questionText}</h3>
           <p className="illustrated-quiz-instruction">✨ Select all correct answers!</p>
         </div>
 
@@ -559,7 +635,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
             <div className="picasso-quiz-question-shadow"></div>
             <div className="picasso-quiz-question-box">
               <div className="picasso-quiz-question-border"></div>
-              <h3 className="picasso-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+              <h3 className="picasso-quiz-question">{questionText}</h3>
               <p className="picasso-quiz-instruction">Select multiple</p>
             </div>
           </div>
@@ -626,7 +702,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
           <div className="schoolr-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
         </div>
 
-        <h3 className="schoolr-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+        <h3 className="schoolr-quiz-question">{questionText}</h3>
         <p className="schoolr-quiz-instruction">Seleziona tutte le risposte corrette</p>
 
         <div className="schoolr-quiz-options">
@@ -684,7 +760,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
           <div className="plai-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
         </div>
 
-        <h3 className="plai-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+        <h3 className="plai-quiz-question">{questionText}</h3>
         <p className="plai-quiz-instruction">Select all correct answers</p>
 
         <div className="plai-quiz-options">
@@ -741,7 +817,7 @@ const MultiQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeed
           </div>
         </div>
 
-        <h3 className="studenti-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+        <h3 className="studenti-quiz-question">{questionText}</h3>
         <p className="studenti-quiz-instruction">Seleziona tutte le risposte corrette</p>
 
         <div className="studenti-quiz-options">

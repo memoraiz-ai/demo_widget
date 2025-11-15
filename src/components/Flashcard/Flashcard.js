@@ -1,29 +1,22 @@
-import React, { useState, useImperativeHandle, useEffect } from 'react';
+import React, { useState, useImperativeHandle, useEffect, useMemo } from 'react';
 import { RotateCw, ChevronLeft, ChevronRight, Code2, Clock } from 'lucide-react';
-
-const normalFlashcards = [
-  {
-    question: "Qual è il pianeta più grande del nostro sistema solare?",
-    answer: "Giove"
-  },
-  {
-    question: "Qual è la capitale della Francia?",
-    answer: "Parigi"
-  },
-  {
-    question: "Chi ha dipinto la Gioconda?",
-    answer: "Leonardo da Vinci"
-  },
-  {
-    question: "Qual è il simbolo chimico dell'oro?",
-    answer: "Au"
-  }
-];
+import flashcardData from '../../data/flashcard.json';
 
 const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', timerEnabled = true, timerDuration = 300 }, ref) => {
+  const jsonFlashcards = flashcardData.flashcards || [];
+  const mappedFlashcards = useMemo(
+    () =>
+      jsonFlashcards.map((card) => ({
+        ...card,
+        question: card.front || card.question || '',
+        answer: card.back || card.answer || ''
+      })),
+    []
+  );
+
   const [currentCard, setCurrentCard] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [flashcards, setFlashcards] = useState(normalFlashcards);
+  const [flashcards, setFlashcards] = useState(mappedFlashcards);
   const [timeRemaining, setTimeRemaining] = useState(timerDuration);
   const [isFinished, setIsFinished] = useState(false);
 
@@ -62,7 +55,10 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
   }, [timerDuration]);
 
   const totalCards = flashcards.length;
-  const currentFlashcard = flashcards[currentCard];
+  const currentFlashcard = useMemo(() => {
+    if (!flashcards.length) return null;
+    return flashcards[currentCard] || flashcards[0];
+  }, [flashcards, currentCard]);
 
   const handlePrevious = () => {
     if (currentCard > 0) {

@@ -1,34 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
+import trueFalseData from '../../data/quiz_true_false.json';
 
-const TrueFalseQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeedbackEnabled = true }) => {
+const TrueFalseQuiz = ({
+  visualStyle = 'playful',
+  timerEnabled = true,
+  immediateFeedbackEnabled = true,
+  correctPoints = 1,
+  incorrectPoints = -1
+}) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [score, setScore] = useState(125);
-  const [currentQuestion, setCurrentQuestion] = useState(8);
-  const [totalQuestions] = useState(10);
-  const [pointsAwarded, setPointsAwarded] = useState(false);
+  const [score, setScore] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const questions = trueFalseData.quiz || [];
+  const [totalQuestions] = useState(questions.length || 0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(8);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
-  const questionVariants = [
-    "Giove è il pianeta più grande del nostro sistema solare.",
-    "Giove è il pianeta più grande del nostro sistema solare?",
-    "Giove detiene il primato di essere il pianeta più grande del nostro sistema solare."
-  ];
   const [currentQuestionIndex] = useState(0);
-  const correctAnswer = true;
+
+  const currentQuestionData = useMemo(() => {
+    if (!questions.length) return null;
+    const index = (currentQuestion - 1) % questions.length;
+    return questions[index];
+  }, [questions, currentQuestion]);
+
+  const questionVariants = useMemo(() => {
+    if (!currentQuestionData) {
+      return ['Nessuna affermazione disponibile.'];
+    }
+    const statement = currentQuestionData.statement;
+    return [statement, statement, statement];
+  }, [currentQuestionData]);
+
+  const correctAnswer = currentQuestionData ? !!currentQuestionData.is_true : true;
 
   const selectAnswer = (isTrue) => {
+    if (selectedAnswer !== null) return;
+
     setSelectedAnswer(isTrue);
+
+    const isCorrect = isTrue === correctAnswer;
+    const delta = isCorrect ? correctPoints : incorrectPoints;
+
+    setScore(prev => prev + delta);
+    if (isCorrect) {
+      setCorrectAnswersCount(prev => prev + 1);
+    }
 
     if (immediateFeedbackEnabled) {
       setTimeout(() => {
         setShowFeedback(true);
-        if (isTrue === correctAnswer && !pointsAwarded) {
-          setScore(prev => prev + 25);
-          setPointsAwarded(true);
-        }
       }, 300);
     } else {
       setShowFeedback(false);
@@ -42,7 +65,6 @@ const TrueFalseQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediate
     }
     setSelectedAnswer(null);
     setShowFeedback(false);
-    setPointsAwarded(false);
     setCurrentQuestion(prev => prev + 1);
   };
 
@@ -51,7 +73,6 @@ const TrueFalseQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediate
     setShowFeedback(false);
     setScore(0);
     setCurrentQuestion(1);
-    setPointsAwarded(false);
     setQuizCompleted(false);
     setCorrectAnswersCount(0);
   };

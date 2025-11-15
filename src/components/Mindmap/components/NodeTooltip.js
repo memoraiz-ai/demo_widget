@@ -57,22 +57,25 @@ const NodeTooltip = ({ nodeId, nodeInfo, nodeColor, isSelected }) => {
       
       {nodeInfo.description && (
         <div style={{ 
-          marginBottom: '0.5rem',
-          fontStyle: 'italic',
-          color: '#555',
-          fontSize: '0.85rem'
+          marginBottom: nodeInfo.extract ? '0.5rem' : '0',
+          color: '#333',
+          fontSize: '0.875rem',
+          lineHeight: '1.6'
         }}>
           {nodeInfo.description}
         </div>
       )}
       
-      <div style={{ 
-        color: '#666',
-        lineHeight: '1.5',
-        textAlign: 'justify'
-      }}>
-        {nodeInfo.extract}
-      </div>
+      {nodeInfo.extract && (
+        <div style={{ 
+          color: '#666',
+          lineHeight: '1.5',
+          textAlign: 'justify',
+          fontSize: '0.85rem'
+        }}>
+          {nodeInfo.extract}
+        </div>
+      )}
     </div>
   );
 };

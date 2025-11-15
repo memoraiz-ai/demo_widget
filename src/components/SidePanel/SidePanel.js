@@ -5,6 +5,12 @@ const SidePanel = ({
   currentPage, 
   quizType, 
   setQuizType, 
+  answersCount,
+  setAnswersCount,
+  correctPoints,
+  setCorrectPoints,
+  incorrectPoints,
+  setIncorrectPoints,
   quizStyle, 
   setQuizStyle,
   flashcardStyle,
@@ -109,6 +115,32 @@ const SidePanel = ({
           <div className="sidepanel-section">
             <h3 className="section-title">Dettagli</h3>
             <div className="details">
+              {(quizType === 'single' || quizType === 'multi') && (
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Numero di risposte</span>
+                    <select
+                      className="timer-duration-select"
+                      value={answersCount}
+                      onChange={(e) => setAnswersCount(Number(e.target.value))}
+                      style={{
+                        padding: '0.5rem',
+                        borderRadius: '0.375rem',
+                        border: '1px solid #e0e0e0',
+                        fontSize: '0.875rem',
+                        fontFamily: 'Geist, sans-serif'
+                      }}
+                    >
+                      {[2,3,4,5,6,7,8].map((n) => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className="detail-description">
+                    Scegli quante opzioni di risposta mostrare per ogni domanda
+                  </p>
+                </div>
+              )}
               <div className="detail-item">
                 <div className="detail-header">
                   <span className="detail-title">Timer</span>
@@ -173,6 +205,50 @@ const SidePanel = ({
                 </div>
                 <p className="detail-description">
                   Mostra un feedback immediato quando si seleziona una risposta
+                </p>
+              </div>
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Punti risposta corretta</span>
+                  <input
+                    type="number"
+                    className="timer-duration-select"
+                    value={correctPoints}
+                    onChange={(e) => setCorrectPoints(Number(e.target.value))}
+                    style={{
+                      width: '5rem',
+                      padding: '0.5rem',
+                      borderRadius: '0.375rem',
+                      border: '1px solid #e0e0e0',
+                      fontSize: '0.875rem',
+                      fontFamily: 'Geist, sans-serif'
+                    }}
+                  />
+                </div>
+                <p className="detail-description">
+                  Punti da aggiungere al punteggio per ogni risposta corretta
+                </p>
+              </div>
+              <div className="detail-item">
+                <div className="detail-header">
+                  <span className="detail-title">Punti risposta errata</span>
+                  <input
+                    type="number"
+                    className="timer-duration-select"
+                    value={incorrectPoints}
+                    onChange={(e) => setIncorrectPoints(Number(e.target.value))}
+                    style={{
+                      width: '5rem',
+                      padding: '0.5rem',
+                      borderRadius: '0.375rem',
+                      border: '1px solid #e0e0e0',
+                      fontSize: '0.875rem',
+                      fontFamily: 'Geist, sans-serif'
+                    }}
+                  />
+                </div>
+                <p className="detail-description">
+                  Punti da sottrarre dal punteggio per ogni risposta errata
                 </p>
               </div>
             </div>
@@ -474,6 +550,9 @@ const SidePanel = ({
               setQuizType('single');
               setImmediateFeedbackEnabled(true);
               setQuizStyle('playful');
+              setAnswersCount(4);
+              setCorrectPoints(1);
+              setIncorrectPoints(-1);
             } else if (currentPage === 'flashcard') {
               setFlashcardMode('normal');
               setFlashcardStyle('playful');

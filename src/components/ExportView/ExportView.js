@@ -115,15 +115,21 @@ const ExportView = ({ exportData, onBack }) => {
     const timerEnabled = quizConfig.timerEnabled ?? true;
     const timerDuration = quizConfig.timerDuration ?? 300;
     const immediateFeedbackEnabled = quizConfig.immediateFeedbackEnabled ?? true;
+    const answersCount = quizConfig.answersCount ?? 4;
+    const correctPoints = quizConfig.correctPoints ?? 1;
+    const incorrectPoints = quizConfig.incorrectPoints ?? -1;
 
     const commonProps = {
       visualStyle: style,
       timerEnabled,
       timerDuration,
-      immediateFeedbackEnabled
+      immediateFeedbackEnabled,
+      answersCount,
+      correctPoints,
+      incorrectPoints
     };
 
-    const quizKey = `export-quiz-${type}-${style}-${timerEnabled}-${timerDuration}-${immediateFeedbackEnabled}`;
+    const quizKey = `export-quiz-${type}-${style}-${timerEnabled}-${timerDuration}-${immediateFeedbackEnabled}-${answersCount}-${correctPoints}-${incorrectPoints}`;
 
     switch (type) {
       case 'single':

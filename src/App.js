@@ -37,6 +37,9 @@ function App() {
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [timerDuration, setTimerDuration] = useState(300); // 5 minutes default
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
+  const [answersCount, setAnswersCount] = useState(4); // Default number of answers for single/multi choice
+  const [correctPoints, setCorrectPoints] = useState(1); // Default points for correct answers
+  const [incorrectPoints, setIncorrectPoints] = useState(-1); // Default points for incorrect answers
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
@@ -131,7 +134,10 @@ function App() {
           style: quizStyle,
           timerEnabled,
           timerDuration,
-          immediateFeedbackEnabled
+          immediateFeedbackEnabled,
+          answersCount,
+          correctPoints,
+          incorrectPoints
         },
         flashcard: {
           mode: flashcardMode,
@@ -201,7 +207,10 @@ function App() {
       visualStyle: quizStyle,
       timerEnabled,
       timerDuration,
-      immediateFeedbackEnabled
+      immediateFeedbackEnabled,
+      answersCount,
+      correctPoints,
+      incorrectPoints
     };
 
     const quizKey = `quiz-${immediateFeedbackEnabled}`; // Reset quiz when immediate feedback changes
@@ -303,6 +312,12 @@ function App() {
                 podcastMultispeaker={podcastMultispeaker}
                 setPodcastMultispeaker={setPodcastMultispeaker}
                 onExport={handleExport}
+                answersCount={answersCount}
+                setAnswersCount={setAnswersCount}
+                correctPoints={correctPoints}
+                setCorrectPoints={setCorrectPoints}
+                incorrectPoints={incorrectPoints}
+                setIncorrectPoints={setIncorrectPoints}
                 quizStyle={quizStyle}
                 setQuizStyle={setQuizStyle}
                 flashcardStyle={flashcardStyle}

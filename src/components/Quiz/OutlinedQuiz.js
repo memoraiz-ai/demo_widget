@@ -1,42 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
+import quizData from '../../data/quiz.json';
 
-const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeedbackEnabled = true }) => {
+const OutlinedQuiz = ({
+  visualStyle = 'playful',
+  timerEnabled = true,
+  immediateFeedbackEnabled = true,
+  answersCount = 4,
+  correctPoints = 1,
+  incorrectPoints = -1
+}) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [score, setScore] = useState(125);
-  const [currentQuestion, setCurrentQuestion] = useState(8);
-  const [totalQuestions] = useState(10);
-  const [pointsAwarded, setPointsAwarded] = useState(false);
+  const [score, setScore] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const questions = quizData.quiz || [];
+  const [totalQuestions] = useState(questions.length || 0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(8);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
-  const questionVariants = [
-    "Il pianeta più grande del nostro sistema solare è _______.",
-    "Quale pianeta detiene il titolo di più grande nel nostro sistema solare?",
-    "Identifica il pianeta più grande che orbita nel nostro sistema solare."
-  ];
   const [currentQuestionIndex] = useState(0);
-  const answers = [
-    "Terra",
-    "Giove",
-    "Saturno",
-    "Marte",
-    "Nettuno"
-  ];
 
-  const correctAnswer = "Giove";
+  const currentQuestionData = useMemo(() => {
+    if (!questions.length) return null;
+    const index = (currentQuestion - 1) % questions.length;
+    return questions[index];
+  }, [questions, currentQuestion]);
+
+  const { questionVariants, answers, correctAnswer } = useMemo(() => {
+    if (!currentQuestionData) {
+      return {
+        questionVariants: ['Nessuna domanda disponibile.'],
+        answers: [],
+        correctAnswer: null
+      };
+    }
+
+    const baseQuestion = currentQuestionData.question;
+    const variants = [baseQuestion, baseQuestion, baseQuestion];
+
+    const allOptions = currentQuestionData.options || [];
+    const correctOptions = allOptions.filter((o) => o.is_correct);
+    const incorrectOptions = allOptions.filter((o) => !o.is_correct);
+
+    const effectiveCorrectOptions = correctOptions.length ? correctOptions : (allOptions[0] ? [allOptions[0]] : []);
+    const maxAnswers = Math.max(Math.min(answersCount, allOptions.length), 2);
+
+    const pickedAnswers = [];
+
+    if (effectiveCorrectOptions.length) {
+      const correctOpt = effectiveCorrectOptions[Math.floor(Math.random() * effectiveCorrectOptions.length)];
+      pickedAnswers.push(correctOpt);
+    }
+
+    const remainingIncorrect = incorrectOptions.filter(
+      (opt) => !pickedAnswers.some((p) => p.id === opt.id)
+    );
+
+    while (pickedAnswers.length < maxAnswers && remainingIncorrect.length) {
+      const idx = Math.floor(Math.random() * remainingIncorrect.length);
+      pickedAnswers.push(remainingIncorrect[idx]);
+      remainingIncorrect.splice(idx, 1);
+    }
+
+    while (pickedAnswers.length < maxAnswers) {
+      const allPool = allOptions.filter(
+        (opt) => !pickedAnswers.some((p) => p.id === opt.id)
+      );
+      if (!allPool.length) break;
+      const idx = Math.floor(Math.random() * allPool.length);
+      pickedAnswers.push(allPool[idx]);
+    }
+
+    for (let i = pickedAnswers.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pickedAnswers[i], pickedAnswers[j]] = [pickedAnswers[j], pickedAnswers[i]];
+    }
+
+    const correct = pickedAnswers.find((opt) => opt.is_correct) || pickedAnswers[0] || null;
+
+    return {
+      questionVariants: variants,
+      answers: pickedAnswers.map((opt) => opt.text),
+      correctAnswer: correct ? correct.text : null
+    };
+  }, [currentQuestionData, answersCount]);
 
   const selectAnswer = (answer) => {
+    if (selectedAnswer !== null) return;
+
     setSelectedAnswer(answer);
+
+    const isCorrect = answer === correctAnswer;
+    const delta = isCorrect ? correctPoints : incorrectPoints;
+
+    setScore(prev => prev + delta);
+    if (isCorrect) {
+      setCorrectAnswersCount(prev => prev + 1);
+    }
 
     if (immediateFeedbackEnabled) {
       setTimeout(() => {
         setShowFeedback(true);
-        if (answer === correctAnswer && !pointsAwarded) {
-          setScore(prev => prev + 25);
-          setPointsAwarded(true);
-        }
       }, 300);
     } else {
       setShowFeedback(false);
@@ -50,7 +115,6 @@ const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateF
     }
     setSelectedAnswer(null);
     setShowFeedback(false);
-    setPointsAwarded(false);
     setCurrentQuestion(prev => prev + 1);
   };
 
@@ -59,7 +123,6 @@ const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateF
     setShowFeedback(false);
     setScore(0);
     setCurrentQuestion(1);
-    setPointsAwarded(false);
     setQuizCompleted(false);
     setCorrectAnswersCount(0);
   };

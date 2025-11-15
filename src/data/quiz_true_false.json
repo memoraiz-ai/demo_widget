@@ -1,0 +1,54 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "statement": "Nel sistema ereditario inca descritto nel documentario, il nuovo imperatore non ereditava le ricchezze e i territori del predecessore, che restavano alla mummia e al suo clan.",
+      "is_true": true,
+      "explanation": "Si spiega che la mummia del sovrano continuava a possedere i territori conquistati; il nuovo Inca ereditava solo l'apparato di potere e doveva conquistare nuovi territori per il proprio clan."
+    },
+    {
+      "id": 2,
+      "statement": "Per gli Inca, secondo il documentario, l'oro era considerato soprattutto le \"lacrime del sole\" e aveva un valore simbolico e religioso più che economico.",
+      "is_true": true,
+      "explanation": "L'oro è definito simbolo del sole, chiamato anche \"lacrime del sole\"; viene usato per rivestire il Tempio del Sole e per i piatti del sovrano, non come moneta."
+    },
+    {
+      "id": 3,
+      "statement": "La \"striscia di buche\" vicino a Tambo Colorado è descritta come un sito unico, che potrebbe essere stato usato per il conteggio e la registrazione dei tributi agricoli.",
+      "is_true": true,
+      "explanation": "L'archeologo Stanish osserva che il sito è unico e ipotizza, dato il legame con Tambo Colorado e la posizione sulla via obbligata, che potesse servire a contare e registrare tributi agricoli."
+    },
+    {
+      "id": 4,
+      "statement": "Gli Inca conoscevano la scrittura alfabetica ma preferivano usare solo i khipu per ragioni religiose.",
+      "is_true": false,
+      "explanation": "Il documentario sottolinea che gli Inca non conoscevano la scrittura e usarono i khipu come alternativa per registrare numeri e informazioni amministrative."
+    },
+    {
+      "id": 5,
+      "statement": "Il santuario di Pachacamac fu trasformato dagli Inca in un importante centro di pellegrinaggio sotto il loro controllo, senza cancellare il culto preesistente.",
+      "is_true": true,
+      "explanation": "Gli Inca preservarono il culto del dio locale ma costruirono sopra un tempio del sole e resero il sito una vera \"Mecca delle Ande\", controllando così un luogo sacro di enorme prestigio."
+    },
+    {
+      "id": 6,
+      "statement": "I Chachapoya, chiamati \"guerrieri della nebbia\", riuscirono a respingere definitivamente gli Inca grazie alle loro fortezze montane.",
+      "is_true": false,
+      "explanation": "Il documentario mostra che, nonostante la grandezza della fortezza di Kuelap, i Chachapoya furono sconfitti; sono stati ritrovati numerosi scheletri maschili con segni di battaglia."
+    },
+    {
+      "id": 7,
+      "statement": "Machu Picchu è oggi interpretata nel documentario soprattutto come una grande proprietà imperiale, una sorta di residenza di campagna dell'Inca con servitori e artigiani.",
+      "is_true": true,
+      "explanation": "L'ospite risponde alla domanda di Adelina dicendo che l'ipotesi oggi più seguita vede Machu Picchu come una grande proprietà dell'imperatore, una specie di residenza di campagna."
+    },
+    {
+      "id": 8,
+      "statement": "Atahualpa riuscì a salvarsi dopo aver pagato il riscatto in oro richiesto da Pizarro, e visse in esilio fino alla vecchiaia.",
+      "is_true": false,
+      "explanation": "Si racconta che, nonostante il riscatto riempito d'oro, Atahualpa fu condannato a morte con un processo farsa e giustiziato dagli spagnoli a Cajamarca."
+    }
+  ]
+}
+
+
