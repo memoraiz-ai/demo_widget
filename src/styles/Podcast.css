@@ -1,0 +1,940 @@
+/* ===========================
+   PLAYFUL STYLE - Podcast
+   =========================== */
+
+.playful-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.playful-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.playful-podcast-header {
+  text-align: center;
+}
+
+.playful-podcast-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025rem;
+  color: #2d3748;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.playful-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.125rem;
+  margin: 0;
+  color: #4a5568;
+}
+
+.playful-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.playful-podcast-cover {
+  flex-shrink: 0;
+}
+
+.playful-cover-image {
+  width: 14rem;
+  height: 14rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+  color: white;
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.playful-cover-image:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.playful-podcast-info {
+  flex: 1;
+}
+
+.playful-episode-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #2d3748;
+}
+
+.playful-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #4a5568;
+}
+
+.playful-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #718096;
+}
+
+.playful-podcast-player {
+  background: white;
+  border: 3px solid #667eea;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+}
+
+.playful-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.playful-play-pause-btn {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.playful-play-pause-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.playful-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.playful-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.playful-progress-slider {
+  width: 100%;
+  height: 0.5rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e2e8f0;
+  border-radius: 0.25rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.playful-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.playful-progress-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.playful-progress-slider::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+}
+
+/* ===========================
+   TECH STYLE - Podcast
+   =========================== */
+
+.tech-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: #0a0e27;
+}
+
+.tech-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tech-podcast-header {
+  text-align: center;
+}
+
+.tech-podcast-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 0.05rem;
+  color: #00ff88;
+  text-transform: uppercase;
+}
+
+.tech-podcast-subtitle {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.875rem;
+  margin: 0;
+  color: #8b9dc3;
+  letter-spacing: 0.1rem;
+}
+
+.tech-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: #1a1f3a;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #00ff88;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.tech-podcast-cover {
+  flex-shrink: 0;
+}
+
+.tech-cover-image {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(135deg, #00ff88 0%, #00b8ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  color: #0a0e27;
+  border: 2px solid #00ff88;
+}
+
+.tech-podcast-info {
+  flex: 1;
+}
+
+.tech-episode-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.tech-episode-description {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #8b9dc3;
+}
+
+.tech-episode-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #00ff88;
+}
+
+.tech-podcast-player {
+  background: #1a1f3a;
+  border: 1px solid #00ff88;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.tech-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tech-play-pause-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.25rem;
+  border: 2px solid #00ff88;
+  background: transparent;
+  color: #00ff88;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tech-play-pause-btn:hover {
+  background: #00ff88;
+  color: #0a0e27;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+}
+
+.tech-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.875rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #00ff88;
+}
+
+.tech-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.tech-progress-slider {
+  width: 100%;
+  height: 0.25rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #2a3150;
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.tech-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0;
+  background: #00ff88;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+}
+
+.tech-progress-slider::-moz-range-thumb {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0;
+  background: #00ff88;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+}
+
+/* ===========================
+   CORPORATE STYLE - Podcast
+   =========================== */
+
+.corporate-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.corporate-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.corporate-podcast-header {
+  text-align: center;
+}
+
+.corporate-podcast-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025rem;
+  color: #1a1a1a;
+}
+
+.corporate-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  color: #666666;
+}
+
+.corporate-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.corporate-podcast-cover {
+  flex-shrink: 0;
+}
+
+.corporate-cover-image {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #003366 0%, #004488 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+  color: white;
+}
+
+.corporate-podcast-info {
+  flex: 1;
+}
+
+.corporate-episode-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #1a1a1a;
+}
+
+.corporate-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #666666;
+}
+
+.corporate-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #999999;
+}
+
+.corporate-podcast-player {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.corporate-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.corporate-play-pause-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.25rem;
+  border: none;
+  background: #003366;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.corporate-play-pause-btn:hover {
+  background: #004488;
+  box-shadow: 0 2px 8px rgba(0, 51, 102, 0.3);
+}
+
+.corporate-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.875rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+.corporate-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.corporate-progress-slider {
+  width: 100%;
+  height: 0.375rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e0e0e0;
+  border-radius: 0.25rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.corporate-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #003366;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.corporate-progress-slider::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #003366;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ===========================
+   PICASSO STYLE - Podcast
+   =========================== */
+
+.picasso-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #fffacd 0%, #ffd700 50%, #ff6347 100%);
+}
+
+.picasso-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.picasso-podcast-header {
+  text-align: center;
+  transform: rotate(-1deg);
+}
+
+.picasso-podcast-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.05rem;
+  color: #000000;
+  text-shadow: 3px 3px 0 #ff6347, -2px -2px 0 #4169e1;
+}
+
+.picasso-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.125rem;
+  margin: 0;
+  color: #000000;
+  font-weight: 600;
+}
+
+.picasso-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2rem;
+  border-radius: 0;
+  border: 5px solid #000000;
+  box-shadow: 10px 10px 0 #ff6347, -10px -10px 0 #4169e1;
+  transform: rotate(1deg);
+}
+
+.picasso-podcast-cover {
+  flex-shrink: 0;
+}
+
+.picasso-cover-image {
+  width: 14rem;
+  height: 14rem;
+  border-radius: 0;
+  background: linear-gradient(45deg, #ff6347 0%, #ffd700 50%, #4169e1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 8px 8px 0 #000000;
+  color: white;
+  border: 4px solid #000000;
+  transform: rotate(-3deg);
+}
+
+.picasso-podcast-info {
+  flex: 1;
+}
+
+.picasso-episode-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 900;
+  margin: 0 0 1rem 0;
+  color: #000000;
+  text-decoration: underline;
+  text-decoration-color: #ff6347;
+  text-decoration-thickness: 3px;
+}
+
+.picasso-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #000000;
+  font-weight: 500;
+}
+
+.picasso-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #000000;
+  font-weight: 700;
+}
+
+.picasso-podcast-player {
+  background: #fffacd;
+  border: 5px solid #000000;
+  border-radius: 0;
+  padding: 2rem;
+  box-shadow: 8px 8px 0 #4169e1;
+  transform: rotate(-1deg);
+}
+
+.picasso-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.picasso-play-pause-btn {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 4px solid #000000;
+  background: #ff6347;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.picasso-play-pause-btn:hover {
+  transform: scale(1.1) rotate(-5deg);
+  background: #ffd700;
+  color: #000000;
+}
+
+.picasso-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1.125rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #000000;
+  font-weight: 900;
+}
+
+.picasso-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.picasso-progress-slider {
+  width: 100%;
+  height: 0.75rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.picasso-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0;
+  background: #4169e1;
+  cursor: pointer;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.picasso-progress-slider::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0;
+  background: #4169e1;
+  cursor: pointer;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0 #000000;
+}
+
+/* ===========================
+   ILLUSTRATED STYLE - Podcast
+   =========================== */
+
+.illustrated-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+}
+
+.illustrated-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.illustrated-podcast-header {
+  text-align: center;
+}
+
+.illustrated-podcast-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025rem;
+  color: #2d3436;
+}
+
+.illustrated-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  color: #636e72;
+}
+
+.illustrated-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  border: 3px solid #2d3436;
+  box-shadow: 0 8px 0 #2d3436;
+}
+
+.illustrated-podcast-cover {
+  flex-shrink: 0;
+}
+
+.illustrated-cover-image {
+  width: 13rem;
+  height: 13rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 0 #2d3436;
+  color: white;
+  border: 3px solid #2d3436;
+}
+
+.illustrated-podcast-info {
+  flex: 1;
+}
+
+.illustrated-episode-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #2d3436;
+}
+
+.illustrated-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #636e72;
+}
+
+.illustrated-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.8125rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #636e72;
+}
+
+.illustrated-podcast-player {
+  background: white;
+  border: 3px solid #2d3436;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  box-shadow: 0 6px 0 #2d3436;
+}
+
+.illustrated-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.illustrated-play-pause-btn {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: 3px solid #2d3436;
+  background: #74b9ff;
+  color: #2d3436;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 0 #2d3436;
+}
+
+.illustrated-play-pause-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #2d3436;
+}
+
+.illustrated-play-pause-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #2d3436;
+}
+
+.illustrated-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.9375rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #2d3436;
+  font-weight: 600;
+}
+
+.illustrated-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.illustrated-progress-slider {
+  width: 100%;
+  height: 0.5rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #dfe6e9;
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+  border: 2px solid #2d3436;
+}
+
+.illustrated-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: #74b9ff;
+  cursor: pointer;
+  border: 2px solid #2d3436;
+  box-shadow: 0 2px 0 #2d3436;
+}
+
+.illustrated-progress-slider::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: #74b9ff;
+  cursor: pointer;
+  border: 2px solid #2d3436;
+  box-shadow: 0 2px 0 #2d3436;
+}

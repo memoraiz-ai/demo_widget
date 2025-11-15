@@ -11,6 +11,8 @@ const SidePanel = ({
   setFlashcardStyle,
   mindmapStyle,
   setMindmapStyle,
+  podcastStyle,
+  setPodcastStyle,
   visualStyles, 
   timerEnabled, 
   setTimerEnabled, 
@@ -24,19 +26,36 @@ const SidePanel = ({
   showConnectionLabels,
   setShowConnectionLabels,
   dynamicMapEnabled,
-  setDynamicMapEnabled
+  setDynamicMapEnabled,
+  podcastTranscript,
+  setPodcastTranscript,
+  podcastVoice,
+  setPodcastVoice,
+  podcastMultispeaker,
+  setPodcastMultispeaker,
+  onExport
 }) => {
   const quizTypes = [
     { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
     { id: 'multi', name: 'Risposta Multipla', icon: '☑️', description: 'Seleziona tutte le opzioni corrette' },
     { id: 'truefalse', name: 'Vero/Falso', icon: '✅', description: 'Scelta binaria semplice' },
-    { id: 'outlined', name: 'Riquadri Contornati', icon: '📦', description: 'Selezione basata su schede' }
+    // { id: 'outlined', name: 'Riquadri Contornati', icon: '📦', description: 'Selezione basata su schede' }
   ];
 
   const flashcardModes = [
     { id: 'normal', name: 'Domanda classica', icon: '❓', description: 'Domande e risposte standard' },
     { id: 'fillblank', name: 'Riempi lo spazio', icon: '📝', description: 'Completa le frasi con la parola mancante' },
     { id: 'mix', name: 'Mix', icon: '🔄', description: 'Combinazione di modalità diverse' }
+  ];
+
+  const podcastTranscripts = [
+    { id: 'simple', name: 'Attiva Transcript', icon: '📄', description: 'Genera il transcript del podcast' },
+    { id: 'none', name: 'Disattiva Transcript', icon: '🚫', description: 'Nessun transcript' },
+  ];
+
+  const mindmapModes = [
+    { id: 'dynamic', name: 'Mappa Dinamica', icon: '✨', description: 'Modifica nodi, colori e connessioni' },
+    { id: 'static', name: 'Mappa Statica', icon: '🗺️', description: 'Visualizza la mappa senza modifiche' },
   ];
 
   return (
@@ -164,30 +183,26 @@ const SidePanel = ({
               </div>
             </div>
           </div>
-        ) : currentPage === 'mindmap' ? (
+        ) : null}
+        
+        {currentPage === 'mindmap' && (
           <>
             <div className="sidepanel-section">
               <h3 className="section-title">Funzionalità</h3>
-              <div className="details">
-                <div className="detail-item">
-                  <div className="detail-header">
-                    <span className="detail-title">Mappa Dinamica</span>
-                    <div className="toggle-switch">
-                      <input
-                        type="checkbox"
-                        id="dynamic-map-toggle"
-                        checked={dynamicMapEnabled}
-                        onChange={(e) => setDynamicMapEnabled(e.target.checked)}
-                      />
-                      <label htmlFor="dynamic-map-toggle" className="toggle-label">
-                        <span className="toggle-slider"></span>
-                      </label>
+              <div className="quiz-types">
+                {mindmapModes.map((mode) => (
+                  <div
+                    key={mode.id}
+                    className={`quiz-type-card ${(mode.id === 'dynamic' && dynamicMapEnabled) || (mode.id === 'static' && !dynamicMapEnabled) ? 'active' : ''}`}
+                    onClick={() => setDynamicMapEnabled(mode.id === 'dynamic')}
+                  >
+                    <div className="quiz-type-header">
+                      <span className="quiz-type-icon">{mode.icon}</span>
+                      <span className="quiz-type-name">{mode.name}</span>
                     </div>
+                    <p className="quiz-type-description">{mode.description}</p>
                   </div>
-                  <p className="detail-description">
-                    Abilita la modifica della mappa: spostamento nodi, cambio colori, aggiunta/rimozione elementi
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
             
@@ -213,29 +228,99 @@ const SidePanel = ({
                     Mostra informazioni dettagliate quando passi il mouse sopra un nodo
                   </p>
                 </div>
-              <div className="detail-item">
-                <div className="detail-header">
-                  <span className="detail-title">Mostra etichette relazioni</span>
-                  <div className="toggle-switch">
-                    <input
-                      type="checkbox"
-                      id="connection-labels-toggle"
-                      checked={showConnectionLabels}
-                      onChange={(e) => setShowConnectionLabels(e.target.checked)}
-                    />
-                    <label htmlFor="connection-labels-toggle" className="toggle-label">
-                      <span className="toggle-slider"></span>
-                    </label>
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Mostra etichette relazioni</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="connection-labels-toggle"
+                        checked={showConnectionLabels}
+                        onChange={(e) => setShowConnectionLabels(e.target.checked)}
+                      />
+                      <label htmlFor="connection-labels-toggle" className="toggle-label">
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
                   </div>
+                  <p className="detail-description">
+                    Mostra le etichette delle connessioni tra i nodi
+                  </p>
                 </div>
-                <p className="detail-description">
-                  Mostra le etichette delle connessioni tra i nodi
-                </p>
               </div>
             </div>
-          </div>
           </>
-        ) : null}
+        )}
+
+        {currentPage === 'podcast' && (
+          <>
+            <div className="sidepanel-section">
+              <h3 className="section-title">Funzionalità</h3>
+              <div className="quiz-types">
+                {podcastTranscripts.map((transcript) => (
+                  <div
+                    key={transcript.id}
+                    className={`quiz-type-card ${podcastTranscript === transcript.id ? 'active' : ''}`}
+                    onClick={() => setPodcastTranscript(transcript.id)}
+                  >
+                    <div className="quiz-type-header">
+                      <span className="quiz-type-icon">{transcript.icon}</span>
+                      <span className="quiz-type-name">{transcript.name}</span>
+                    </div>
+                    <p className="quiz-type-description">{transcript.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="sidepanel-section">
+              <h3 className="section-title">Dettagli</h3>
+              <div className="details">
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Voce</span>
+                    <div className="voice-selector">
+                      <button 
+                        className={`voice-btn ${podcastVoice === 'uomo' ? 'active' : ''}`}
+                        onClick={() => setPodcastVoice('uomo')}
+                      >
+                        Uomo
+                      </button>
+                      <button 
+                        className={`voice-btn ${podcastVoice === 'donna' ? 'active' : ''}`}
+                        onClick={() => setPodcastVoice('donna')}
+                      >
+                        Donna
+                      </button>
+                    </div>
+                  </div>
+                  <p className="detail-description">
+                    Seleziona il tipo di voce per il podcast
+                  </p>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Multispeaker</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="multispeaker-toggle"
+                        checked={podcastMultispeaker}
+                        onChange={(e) => setPodcastMultispeaker(e.target.checked)}
+                      />
+                      <label htmlFor="multispeaker-toggle" className="toggle-label">
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <p className="detail-description">
+                    Abilita voci multiple per il podcast
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="sidepanel-section">
           <h3 className="section-title">Stile</h3>
@@ -246,7 +331,8 @@ const SidePanel = ({
                 className={`quiz-type-card ${
                   (currentPage === 'quiz' && quizStyle === key) || 
                   (currentPage === 'flashcard' && flashcardStyle === key) ||
-                  (currentPage === 'mindmap' && mindmapStyle === key) ? 'active' : ''
+                  (currentPage === 'mindmap' && mindmapStyle === key) ||
+                  (currentPage === 'podcast' && podcastStyle === key) ? 'active' : ''
                 }`}
                 onClick={() => {
                   if (currentPage === 'quiz') {
@@ -255,6 +341,8 @@ const SidePanel = ({
                     setFlashcardStyle(key);
                   } else if (currentPage === 'mindmap') {
                     setMindmapStyle(key);
+                  } else if (currentPage === 'podcast') {
+                    setPodcastStyle(key);
                   }
                 }}
               >
@@ -286,7 +374,7 @@ const SidePanel = ({
             <div className="stat-item">
               <span className="stat-label">Pagina corrente</span>
               <span className="stat-value">
-                {currentPage === 'quiz' ? 'Quiz' : currentPage === 'flashcard' ? 'Flashcard' : 'Mindmap'}
+                {currentPage === 'quiz' ? 'Quiz' : currentPage === 'flashcard' ? 'Flashcard' : currentPage === 'mindmap' ? 'Mindmap' : 'Podcast'}
               </span>
             </div>
             <div className="stat-item">
@@ -297,7 +385,9 @@ const SidePanel = ({
                   : currentPage === 'flashcard'
                   ? flashcardModes.find(m => m.id === flashcardMode)?.name
                   : currentPage === 'mindmap'
-                  ? (dynamicMapEnabled ? 'Dinamica' : 'Statica')
+                  ? mindmapModes.find(m => (m.id === 'dynamic' && dynamicMapEnabled) || (m.id === 'static' && !dynamicMapEnabled))?.name
+                  : currentPage === 'podcast'
+                  ? podcastTranscripts.find(t => t.id === podcastTranscript)?.name
                   : 'N/A'
                 }
               </span>
@@ -313,7 +403,7 @@ const SidePanel = ({
             <div className="stat-item">
               <span className="stat-label">Opzioni disponibili</span>
               <span className="stat-value">
-                {currentPage === 'quiz' ? '4 Quiz' : currentPage === 'flashcard' ? '3 Modalità' : '1 Pagina'}
+                {currentPage === 'quiz' ? '4 Quiz' : currentPage === 'flashcard' ? '3 Modalità' : currentPage === 'mindmap' ? '2 Modalità' : '3 Transcript'}
               </span>
             </div>
           </div>
@@ -337,7 +427,13 @@ const SidePanel = ({
             }
             setTimerEnabled(true);
           }}>
-            Reset Impostazioni
+            Reset
+          </button>
+          <button className="export-button" onClick={onExport}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Esporta
           </button>
         </div>
       </div>
