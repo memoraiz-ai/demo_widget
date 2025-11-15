@@ -938,3 +938,557 @@
   border: 2px solid #2d3436;
   box-shadow: 0 2px 0 #2d3436;
 }
+
+/* ===========================
+   SCHOOLR STYLE - Podcast
+   =========================== */
+
+.schoolr-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #FFF5F5 0%, #FED7D7 100%);
+}
+
+.schoolr-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.schoolr-podcast-header {
+  text-align: center;
+}
+
+.schoolr-podcast-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025rem;
+  color: #1E293B;
+}
+
+.schoolr-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  color: #64748B;
+}
+
+.schoolr-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 40px rgba(255, 123, 123, 0.15);
+}
+
+.schoolr-podcast-cover {
+  flex-shrink: 0;
+}
+
+.schoolr-cover-image {
+  width: 13rem;
+  height: 13rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #FFE0E0 0%, #FFD0D0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(255, 123, 123, 0.3);
+  color: #FF7B7B;
+  border: none;
+}
+
+.schoolr-podcast-info {
+  flex: 1;
+}
+
+.schoolr-episode-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #1E293B;
+}
+
+.schoolr-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #64748B;
+}
+
+.schoolr-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.8125rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #64748B;
+}
+
+.schoolr-podcast-player {
+  background: white;
+  border-radius: 2rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(255, 123, 123, 0.15);
+}
+
+.schoolr-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.schoolr-play-pause-btn {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #FF7B7B 0%, #FF9B9B 100%);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(255, 123, 123, 0.3);
+}
+
+.schoolr-play-pause-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(255, 123, 123, 0.4);
+}
+
+.schoolr-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.9375rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #334155;
+  font-weight: 600;
+}
+
+.schoolr-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.schoolr-progress-slider {
+  width: 100%;
+  height: 0.5rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #F1F5F9;
+  border-radius: 1rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.schoolr-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF7B7B 0%, #FF9B9B 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 123, 123, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.schoolr-progress-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.schoolr-progress-slider::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF7B7B 0%, #FF9B9B 100%);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 12px rgba(255, 123, 123, 0.4);
+}
+
+/* ===========================
+   PLAI STYLE - Podcast
+   =========================== */
+
+.plai-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: white;
+}
+
+.plai-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.plai-podcast-header {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.plai-podcast-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025rem;
+  color: #2D3142;
+}
+
+.plai-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  color: #6B7280;
+}
+
+.plai-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2.5rem;
+  border: 2px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.plai-podcast-cover {
+  flex-shrink: 0;
+}
+
+.plai-cover-image {
+  width: 12rem;
+  height: 12rem;
+  background: #E63946;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+}
+
+.plai-podcast-info {
+  flex: 1;
+}
+
+.plai-episode-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #2D3142;
+  letter-spacing: -0.01em;
+}
+
+.plai-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #6B7280;
+}
+
+.plai-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.plai-podcast-player {
+  background: white;
+  border: 2px solid #E5E7EB;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.plai-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.plai-play-pause-btn {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0;
+  border: none;
+  background: #E63946;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.plai-play-pause-btn:hover {
+  background: #D62839;
+}
+
+.plai-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.9375rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #2D3142;
+  font-weight: 500;
+}
+
+.plai-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.plai-progress-slider {
+  width: 100%;
+  height: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #E5E7EB;
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.plai-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0;
+  background: #E63946;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.plai-progress-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.plai-progress-slider::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0;
+  background: #E63946;
+  cursor: pointer;
+  border: none;
+}
+
+/* ===========================
+   STUDENTI STYLE - Podcast
+   =========================== */
+
+.studenti-podcast-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-y: auto;
+  background: #FFF8E7;
+}
+
+.studenti-podcast-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.studenti-podcast-header {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e8dcc0;
+}
+
+.studenti-podcast-title {
+  font-family: Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.studenti-podcast-subtitle {
+  font-family: 'Geist', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  color: #6a6a6a;
+}
+
+.studenti-podcast-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid #e8dcc0;
+}
+
+.studenti-podcast-cover {
+  flex-shrink: 0;
+}
+
+.studenti-cover-image {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 0.5rem;
+  background: #7CB342;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: 1px solid #e8dcc0;
+}
+
+.studenti-podcast-info {
+  flex: 1;
+}
+
+.studenti-episode-title {
+  font-family: Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.studenti-episode-description {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  color: #4a4a4a;
+}
+
+.studenti-episode-meta {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #6a6a6a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.studenti-podcast-player {
+  background: white;
+  border: 2px solid #e8dcc0;
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.studenti-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.studenti-play-pause-btn {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: none;
+  background: #7CB342;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.studenti-play-pause-btn:hover {
+  background: #689F38;
+}
+
+.studenti-time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.875rem;
+  min-width: 3rem;
+  text-align: center;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.studenti-progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.studenti-progress-slider {
+  width: 100%;
+  height: 0.375rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e8dcc0;
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.studenti-progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #7CB342;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.studenti-progress-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.studenti-progress-slider::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #7CB342;
+  cursor: pointer;
+  border: none;
+}

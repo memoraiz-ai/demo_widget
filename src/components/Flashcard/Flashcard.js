@@ -1,5 +1,5 @@
-import React, { useState, useImperativeHandle } from 'react';
-import { RotateCw, ChevronLeft, ChevronRight, Code2 } from 'lucide-react';
+import React, { useState, useImperativeHandle, useEffect } from 'react';
+import { RotateCw, ChevronLeft, ChevronRight, Code2, Clock } from 'lucide-react';
 
 const normalFlashcards = [
   {
@@ -20,10 +20,12 @@ const normalFlashcards = [
   }
 ];
 
-const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', timerEnabled = true }, ref) => {
+const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', timerEnabled = true, timerDuration = 300 }, ref) => {
   const [currentCard, setCurrentCard] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [flashcards, setFlashcards] = useState(normalFlashcards);
+  const [timeRemaining, setTimeRemaining] = useState(timerDuration);
+  const [isFinished, setIsFinished] = useState(false);
 
   useImperativeHandle(ref, () => ({
     shuffleFlashcards: () => {
@@ -31,8 +33,33 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
       setFlashcards(shuffled);
       setCurrentCard(0);
       setIsFlipped(false);
+      setTimeRemaining(timerDuration);
+      setIsFinished(false);
     }
   }));
+
+  // Timer countdown effect
+  useEffect(() => {
+    if (timerEnabled && timeRemaining > 0 && !isFinished) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            setIsFinished(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timerEnabled, timeRemaining, isFinished]);
+
+  // Reset timer when duration changes
+  useEffect(() => {
+    setTimeRemaining(timerDuration);
+    setIsFinished(false);
+  }, [timerDuration]);
 
   const totalCards = flashcards.length;
   const currentFlashcard = flashcards[currentCard];
@@ -55,6 +82,42 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
     setIsFlipped(!isFlipped);
   };
 
+  const handleRestart = () => {
+    setCurrentCard(0);
+    setIsFlipped(false);
+    setTimeRemaining(timerDuration);
+    setIsFinished(false);
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Render finished screen
+  if (isFinished) {
+    return (
+      <div className={`${visualStyle}-flashcard-wrapper`}>
+        <div className={`${visualStyle}-flashcard-container`}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2 style={{ marginBottom: '1rem' }}>Time's Up! ⏰</h2>
+            <p style={{ marginBottom: '1.5rem' }}>
+              You reviewed {currentCard + 1} out of {totalCards} flashcards
+            </p>
+            <button 
+              onClick={handleRestart}
+              className={`${visualStyle}-flashcard-nav-btn`}
+              style={{ margin: '0 auto' }}
+            >
+              Start Over
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!currentFlashcard || totalCards === 0) {
     return (
       <div className={`${visualStyle}-flashcard-wrapper`}>
@@ -74,6 +137,12 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
             <div className="playful-flashcard-counter">
               Card {currentCard + 1} / {totalCards}
             </div>
+            {timerEnabled && (
+              <div className={`playful-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="playful-flashcard-flip-btn">
               <RotateCw className="playful-flashcard-icon" />
             </button>
@@ -142,6 +211,12 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
               <Code2 className="tech-flashcard-icon-code" />
               <span>[{currentCard + 1}/{totalCards}]</span>
             </div>
+            {timerEnabled && (
+              <div className={`tech-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="tech-flashcard-flip-btn">
               <RotateCw className="tech-flashcard-icon" />
             </button>
@@ -209,6 +284,12 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
             <div className="corporate-flashcard-counter">
               Card {currentCard + 1} of {totalCards}
             </div>
+            {timerEnabled && (
+              <div className={`corporate-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="corporate-flashcard-flip-btn">
               <RotateCw className="corporate-flashcard-icon" />
             </button>
@@ -274,11 +355,19 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
         <div className="illustrated-flashcard-container">
           <div className="illustrated-flashcard-header">
             <div className="illustrated-flashcard-counter-wrapper">
-              <div className="illustrated-flashcard-star-icon">⭐</div>
+              <div className="illustrated-flashcard-star-icon">
+                <img src="/dubbioso:pensieroso.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              </div>
               <div className="illustrated-flashcard-counter">
                 Card {currentCard + 1} / {totalCards}
               </div>
             </div>
+            {timerEnabled && (
+              <div className={`illustrated-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="illustrated-flashcard-flip-btn">
               <RotateCw className="illustrated-flashcard-icon" />
             </button>
@@ -294,7 +383,6 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
             >
               <div className="illustrated-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
                 <div className="illustrated-flashcard-front-content">
-                  <div className="illustrated-flashcard-emoji">⭐</div>
                   <p className="illustrated-flashcard-text-front">{currentFlashcard.question}</p>
                   <div className="illustrated-flashcard-hint">Click to flip!</div>
                 </div>
@@ -302,7 +390,9 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
 
               <div className="illustrated-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
                 <div className="illustrated-flashcard-back-content">
-                  <div className="illustrated-flashcard-emoji">💡</div>
+                  <div className="illustrated-flashcard-emoji">
+                    <img src="/controllo.png" alt="" style={{ width: '6rem', height: '6rem', objectFit: 'contain' }} />
+                  </div>
                   <p className="illustrated-flashcard-text-back">{currentFlashcard.answer}</p>
                 </div>
               </div>
@@ -331,7 +421,6 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
                 className={`illustrated-flashcard-dot ${index === currentCard ? 'illustrated-flashcard-dot-active' : 'illustrated-flashcard-dot-inactive'}`}
               />
             ))}
-            <span className="illustrated-flashcard-star-running">⭐</span>
           </div>
         </div>
       </div>
@@ -357,6 +446,15 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
                 <span>{currentCard + 1} / {totalCards}</span>
               </div>
             </div>
+            {timerEnabled && (
+              <div className={`picasso-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <div className="picasso-timer-shadow"></div>
+                <div className="picasso-timer-content">
+                  <Clock />
+                  <span>{formatTime(timeRemaining)}</span>
+                </div>
+              </div>
+            )}
             <button onClick={handleFlip} className="picasso-flashcard-flip-btn-wrapper">
               <div className="picasso-flashcard-flip-btn-shadow"></div>
               <div className="picasso-flashcard-flip-btn">
@@ -451,6 +549,12 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
             <div className="schoolr-flashcard-counter">
               Scheda {currentCard + 1} di {totalCards}
             </div>
+            {timerEnabled && (
+              <div className={`schoolr-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="schoolr-flashcard-flip-btn">
               <RotateCw className="schoolr-flashcard-icon" />
             </button>
@@ -519,6 +623,13 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
               <div className="plai-flashcard-counter-label">Flashcard Study</div>
               <div className="plai-flashcard-counter">Card {currentCard + 1} of {totalCards}</div>
             </div>
+            {timerEnabled && (
+              <div className={`plai-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <span className="plai-timer-label">Time</span>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="plai-flashcard-flip-btn">
               <RotateCw className="plai-flashcard-icon" />
             </button>
@@ -590,6 +701,12 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
                 <div className="studenti-flashcard-counter">{currentCard + 1} di {totalCards}</div>
               </div>
             </div>
+            {timerEnabled && (
+              <div className={`studenti-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <button onClick={handleFlip} className="studenti-flashcard-flip-btn">
               <RotateCw className="studenti-flashcard-icon" />
             </button>

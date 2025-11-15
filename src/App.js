@@ -30,6 +30,7 @@ function App() {
   const [mindmapStyle, setMindmapStyle] = useState('playful');
   const [podcastStyle, setPodcastStyle] = useState('playful');
   const [timerEnabled, setTimerEnabled] = useState(true);
+  const [timerDuration, setTimerDuration] = useState(300); // 5 minutes default
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
@@ -153,6 +154,7 @@ function App() {
     const commonProps = {
       visualStyle: quizStyle,
       timerEnabled,
+      timerDuration,
       immediateFeedbackEnabled
     };
 
@@ -180,7 +182,7 @@ function App() {
     if (currentPage === 'quiz') {
       return renderQuiz();
     } else if (currentPage === 'flashcard') {
-      return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={timerEnabled} />;
+      return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={timerEnabled} timerDuration={timerDuration} />;
     } else if (currentPage === 'mindmap') {
       return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
     } else if (currentPage === 'podcast') {
@@ -238,6 +240,8 @@ function App() {
                 // colorPalettes={colorPalettes}
                 timerEnabled={timerEnabled}
                 setTimerEnabled={setTimerEnabled}
+                timerDuration={timerDuration}
+                setTimerDuration={setTimerDuration}
                 immediateFeedbackEnabled={immediateFeedbackEnabled}
                 setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
                 showNodeDetails={showNodeDetails}

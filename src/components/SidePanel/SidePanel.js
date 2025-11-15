@@ -15,7 +15,9 @@ const SidePanel = ({
   setPodcastStyle,
   visualStyles, 
   timerEnabled, 
-  setTimerEnabled, 
+  setTimerEnabled,
+  timerDuration,
+  setTimerDuration,
   immediateFeedbackEnabled, 
   setImmediateFeedbackEnabled, 
   flashcardMode, 
@@ -126,6 +128,34 @@ const SidePanel = ({
                   Abilita o disabilita il timer per le domande del quiz
                 </p>
               </div>
+              {timerEnabled && (
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Durata Timer</span>
+                    <select 
+                      className="timer-duration-select"
+                      value={timerDuration}
+                      onChange={(e) => setTimerDuration(Number(e.target.value))}
+                      style={{
+                        padding: '0.5rem',
+                        borderRadius: '0.375rem',
+                        border: '1px solid #e0e0e0',
+                        fontSize: '0.875rem',
+                        fontFamily: 'Geist, sans-serif'
+                      }}
+                    >
+                      <option value={60}>1 minuto</option>
+                      <option value={180}>3 minuti</option>
+                      <option value={300}>5 minuti</option>
+                      <option value={600}>10 minuti</option>
+                      <option value={900}>15 minuti</option>
+                    </select>
+                  </div>
+                  <p className="detail-description">
+                    Scegli per quanto tempo il timer deve contare alla rovescia
+                  </p>
+                </div>
+              )}
               <div className="detail-item">
                 <div className="detail-header">
                   <span className="detail-title">Feedback Immediato</span>
@@ -170,6 +200,34 @@ const SidePanel = ({
                   Abilita o disabilita il timer per le flashcard
                 </p>
               </div>
+              {timerEnabled && (
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Durata Timer</span>
+                    <select 
+                      className="timer-duration-select"
+                      value={timerDuration}
+                      onChange={(e) => setTimerDuration(Number(e.target.value))}
+                      style={{
+                        padding: '0.5rem',
+                        borderRadius: '0.375rem',
+                        border: '1px solid #e0e0e0',
+                        fontSize: '0.875rem',
+                        fontFamily: 'Geist, sans-serif'
+                      }}
+                    >
+                      <option value={60}>1 minuto</option>
+                      <option value={180}>3 minuti</option>
+                      <option value={300}>5 minuti</option>
+                      <option value={600}>10 minuti</option>
+                      <option value={900}>15 minuti</option>
+                    </select>
+                  </div>
+                  <p className="detail-description">
+                    Scegli per quanto tempo il timer deve contare alla rovescia
+                  </p>
+                </div>
+              )}
               <div className="detail-item">
                 <div className="detail-header">
                   <span className="detail-title">Mescola Flashcard</span>

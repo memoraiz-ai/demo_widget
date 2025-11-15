@@ -1297,9 +1297,18 @@
   margin-bottom: 1.5rem;
 }
 
-.illustrated-quiz-star-icon {
+.illustrated-quiz-star {
   width: 4rem;
   height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.illustrated-quiz-star-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .illustrated-quiz-badges {
@@ -1436,6 +1445,7 @@
   width: 2rem;
   height: 2rem;
   display: inline-block;
+  object-fit: contain;
 }
 
 .illustrated-quiz-result-container {
@@ -1466,6 +1476,15 @@
   z-index: 10;
   text-align: center;
   margin-bottom: 1.5rem;
+}
+
+.illustrated-quiz-result-icon {
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .illustrated-quiz-result-star {
@@ -1559,6 +1578,9 @@
 .illustrated-flashcard-star-icon {
   width: 3rem;
   height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .illustrated-flashcard-counter {
@@ -1629,6 +1651,15 @@
   box-shadow: 6px 6px 0px 0px rgba(17, 16, 66, 1);
   backface-visibility: hidden;
   transform: rotateY(180deg);
+}
+
+.illustrated-flashcard-emoji {
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .illustrated-flashcard-content-star {
@@ -1725,11 +1756,7 @@
   background: rgba(67, 166, 207, 0.3);
 }
 
-.illustrated-flashcard-star-running {
-  width: 2rem;
-  height: 2rem;
-  margin-left: 0.5rem;
-}
+/* Removed - star-running element no longer used in illustrated flashcards */
 
 /* ======================
    PICASSO STYLE
@@ -4106,6 +4133,343 @@
 
 .studenti-flashcard-dot-inactive:hover {
   background: #7CB342;
+}
+
+/* ======================
+   TIMER STYLES
+   ====================== */
+
+/* Playful Timer */
+.playful-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2rem;
+  color: white;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+}
+
+.playful-timer.warning {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.5);
+  animation: playful-pulse 1s ease-in-out infinite;
+}
+
+@keyframes playful-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.playful-timer svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Tech Timer */
+.tech-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  border-radius: 0.25rem;
+  color: #00ff88;
+  font-family: 'Geist Mono', monospace;
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.tech-timer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+  animation: tech-scanline 2s linear infinite;
+}
+
+@keyframes tech-scanline {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.tech-timer.warning {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+  animation: tech-glow 1s ease-in-out infinite;
+}
+
+@keyframes tech-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+  }
+}
+
+.tech-timer svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  z-index: 1;
+}
+
+.tech-timer span {
+  z-index: 1;
+}
+
+/* Corporate Timer */
+.corporate-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #003366;
+  border-radius: 0.5rem;
+  color: #003366;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.corporate-timer.warning {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.corporate-timer svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* Illustrated Timer */
+.illustrated-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 3px solid #2d3436;
+  border-radius: 1rem;
+  color: #2d3436;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 0 #2d3436;
+  transition: all 0.3s ease;
+}
+
+.illustrated-timer.warning {
+  background: #fee;
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 4px 0 #ef4444;
+  animation: illustrated-bounce 0.5s ease-in-out infinite;
+}
+
+@keyframes illustrated-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 #ef4444;
+  }
+}
+
+.illustrated-timer svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* Picasso Timer */
+.picasso-timer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.picasso-timer-shadow {
+  position: absolute;
+  inset: 0;
+  background: rgb(41, 37, 36);
+  transform: translateX(0.25rem) translateY(0.25rem);
+  transition: all 0.3s ease;
+}
+
+.picasso-timer-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ffd700 0%, #ff6347 100%);
+  border: 4px solid rgb(41, 37, 36);
+  color: rgb(28, 25, 23);
+  font-family: 'Geist', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.picasso-timer.warning .picasso-timer-content {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  animation: picasso-shake 0.5s ease-in-out infinite;
+}
+
+.picasso-timer.warning .picasso-timer-shadow {
+  background: #7f1d1d;
+  transform: translateX(0.5rem) translateY(0.5rem);
+}
+
+@keyframes picasso-shake {
+  0%, 100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+.picasso-timer svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Schoolr Timer */
+.schoolr-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #FFE0E0 0%, #FFD0D0 100%);
+  border-radius: 2rem;
+  color: #FF7B7B;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  box-shadow: 0 8px 24px rgba(255, 123, 123, 0.3);
+  transition: all 0.3s ease;
+}
+
+.schoolr-timer.warning {
+  background: linear-gradient(135deg, #fee 0%, #fecaca 100%);
+  color: #ef4444;
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+  animation: schoolr-pulse 1s ease-in-out infinite;
+}
+
+@keyframes schoolr-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.schoolr-timer svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* Plai Timer */
+.plai-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 2px solid #E5E7EB;
+  color: #2D3142;
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.plai-timer-label {
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 0.25rem;
+}
+
+.plai-timer.warning {
+  border-color: #E63946;
+  background: #FEF2F2;
+  color: #E63946;
+}
+
+.plai-timer.warning .plai-timer-label {
+  color: #E63946;
+}
+
+.plai-timer svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* Studenti Timer */
+.studenti-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: #FFF8E7;
+  border: 3px solid #f59e0b;
+  border-radius: 0.5rem;
+  color: #78350f;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+  transition: all 0.3s ease;
+}
+
+.studenti-timer.warning {
+  background: #fef2f2;
+  border-color: #ef4444;
+  border-width: 4px;
+  color: #991b1b;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.studenti-timer svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* ======================

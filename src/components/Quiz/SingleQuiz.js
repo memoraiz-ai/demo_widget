@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckCircle2, XCircle, Terminal, Clock } from 'lucide-react';
 
-const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeedbackEnabled = true }) => {
+const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, timerDuration = 300, immediateFeedbackEnabled = true }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [score, setScore] = useState(125);
@@ -10,6 +10,29 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
   const [pointsAwarded, setPointsAwarded] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(8);
+  const [timeRemaining, setTimeRemaining] = useState(timerDuration);
+
+  // Timer countdown effect
+  useEffect(() => {
+    if (timerEnabled && timeRemaining > 0 && !quizCompleted) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            setQuizCompleted(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timerEnabled, timeRemaining, quizCompleted]);
+
+  // Reset timer when duration changes
+  useEffect(() => {
+    setTimeRemaining(timerDuration);
+  }, [timerDuration]);
 
   const questionVariants = [
     "Il pianeta più grande del nostro sistema solare è _______.",
@@ -62,6 +85,13 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
     setPointsAwarded(false);
     setQuizCompleted(false);
     setCorrectAnswersCount(0);
+    setTimeRemaining(timerDuration);
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const getOptionClass = (answer) => {
@@ -162,7 +192,9 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
       return (
         <div className="illustrated-quiz-result-container">
           <div className="illustrated-quiz-result-inner">
-            <div className="illustrated-quiz-result-icon">💡</div>
+            <div className="illustrated-quiz-result-icon">
+              <img src="/super.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
             <h2 className="illustrated-quiz-result-title">Quiz Complete!</h2>
             <div className="illustrated-quiz-result-score-box">
               <p className="illustrated-quiz-result-score-text">
@@ -489,6 +521,19 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
             <div className="playful-quiz-badge">
               Question {currentQuestion}/{totalQuestions}
             </div>
+            {timerEnabled && (
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.5rem',
+                fontSize: '1rem',
+                fontWeight: '600',
+                color: timeRemaining < 60 ? '#ef4444' : '#667eea'
+              }}>
+                <Clock size={20} />
+                {formatTime(timeRemaining)}
+              </div>
+            )}
             <div className="playful-quiz-score">
               Score: {score}
             </div>
@@ -544,6 +589,12 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
           <div className="tech-quiz-counter">
             [{currentQuestion}/{totalQuestions}]
           </div>
+          {timerEnabled && (
+            <div className={`tech-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="tech-quiz-score-wrapper">
             <span>SCORE:</span>
             <span className="tech-quiz-score-badge">{score}</span>
@@ -594,6 +645,12 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
           <div className="corporate-quiz-label">
             Question {currentQuestion} of {totalQuestions}
           </div>
+          {timerEnabled && (
+            <div className={`corporate-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="corporate-quiz-score-wrapper">
             <span>Score:</span>
             <span className="corporate-quiz-score-badge">{score}</span>
@@ -641,11 +698,19 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
     return (
       <div className="illustrated-quiz-container">
         <div className="illustrated-quiz-header">
-          <div className="illustrated-quiz-star">⭐</div>
+          <div className="illustrated-quiz-star">
+            <img src="/dubbioso:pensieroso.png" alt="" className="illustrated-quiz-star-icon" />
+          </div>
           <div className="illustrated-quiz-badges">
             <div className="illustrated-quiz-badge">
               Q {currentQuestion}/{totalQuestions}
             </div>
+            {timerEnabled && (
+              <div className={`illustrated-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <div className="illustrated-quiz-score-badge">
               Score: {score}
             </div>
@@ -678,18 +743,18 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
           })}
         </div>
 
-        {selectedAnswer !== null && (
-          <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
-            {currentQuestion < totalQuestions ? (
-              <>
-                Next Question
-                <span className="illustrated-quiz-star-running">⭐</span>
-              </>
-            ) : (
-              'See Results'
-            )}
-          </button>
-        )}
+          {selectedAnswer !== null && (
+            <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
+              {currentQuestion < totalQuestions ? (
+                <>
+                  Next Question
+                  <img src="/corre.png" alt="" className="illustrated-quiz-star-running" />
+                </>
+              ) : (
+                'See Results'
+              )}
+            </button>
+          )}
       </div>
     );
   }
@@ -765,7 +830,9 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
-                marginBottom: '2rem'
+                marginBottom: '2rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
               }}
             >
               <div style={{ position: 'relative' }}>
@@ -788,6 +855,16 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
                   <span>Q {currentQuestion}/{totalQuestions}</span>
                 </div>
               </div>
+
+              {timerEnabled && (
+                <div className={`picasso-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                  <div className="picasso-timer-shadow"></div>
+                  <div className="picasso-timer-content">
+                    <Clock />
+                    <span>{formatTime(timeRemaining)}</span>
+                  </div>
+                </div>
+              )}
 
               <div style={{ position: 'relative' }}>
                 <div
@@ -960,6 +1037,12 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
           <div className="schoolr-quiz-badge">
             Domanda {currentQuestion} di {totalQuestions}
           </div>
+          {timerEnabled && (
+            <div className={`schoolr-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="schoolr-quiz-score-badge">
             Punteggio: {score}
           </div>
@@ -1014,6 +1097,13 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
               Current Score: <span className="plai-quiz-score">{score}</span>
             </div>
           </div>
+          {timerEnabled && (
+            <div className={`plai-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <span className="plai-timer-label">Time</span>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
         </div>
 
         <div className="plai-quiz-progress-bar">
@@ -1064,6 +1154,12 @@ const SingleQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFee
               <div className="studenti-quiz-count">{currentQuestion} di {totalQuestions}</div>
             </div>
           </div>
+          {timerEnabled && (
+            <div className={`studenti-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="studenti-quiz-score-badge">
             <span className="studenti-quiz-score-label">Punteggio:</span>
             <span className="studenti-quiz-score">{score}</span>
