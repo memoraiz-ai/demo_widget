@@ -40,6 +40,7 @@ export const useMindmapHandlers = (state) => {
     if (e.detail === 2) return; // Prevent drag on double click
     
     const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
     if (!canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
     
@@ -98,11 +99,17 @@ export const useMindmapHandlers = (state) => {
       const newXpercent = (newXpx / rect.width) * 100;
       const newYpercent = (newYpx / rect.height) * 100;
       
-      setNodes(nodes.map(node => 
-        node.id === draggedNode 
-          ? { ...node, x: Math.max(0, Math.min(100, newXpercent)), y: Math.max(0, Math.min(100, newYpercent)) }
-          : node
-      ));
+      setNodes(prevNodes =>
+        prevNodes.map(node =>
+          node.id === draggedNode
+            ? {
+                ...node,
+                x: Math.max(0, Math.min(100, newXpercent)),
+                y: Math.max(0, Math.min(100, newYpercent))
+              }
+            : node
+        )
+      );
     } else if (draggingConnection) {
       // Update dragging connection position
       setDraggingConnection({
@@ -221,34 +228,51 @@ export const useMindmapHandlers = (state) => {
 
   // Node handlers
   const handleNodeTextChange = (nodeId, newText) => {
-    setNodes(nodes.map(node => 
-      node.id === nodeId ? { ...node, text: newText } : node
-    ));
+    setNodes(prevNodes =>
+      prevNodes.map(node =>
+        node.id === nodeId ? { ...node, text: newText } : node
+      )
+    );
   };
 
   const handleColorChange = (nodeId, newColor) => {
-    setNodes(nodes.map(node => 
-      node.id === nodeId ? { ...node, color: newColor } : node
-    ));
+    setNodes(prevNodes =>
+      prevNodes.map(node =>
+        node.id === nodeId ? { ...node, color: newColor } : node
+      )
+    );
   };
 
   const handleIconChange = (nodeId, newIcon) => {
-    setNodes(nodes.map(node => 
-      node.id === nodeId ? { ...node, icon: newIcon } : node
-    ));
+    setNodes(prevNodes =>
+      prevNodes.map(node =>
+        node.id === nodeId ? { ...node, icon: newIcon } : node
+      )
+    );
   };
 
   const addNode = () => {
     const position = findFreePosition(nodes);
+
+    // Generate a unique string id that won't conflict with existing ids
+    const existingIds = new Set(nodes.map(n => String(n.id)));
+    let counter = 1;
+    let newId = `custom-${counter}`;
+    while (existingIds.has(newId)) {
+      counter += 1;
+      newId = `custom-${counter}`;
+    }
+
     const newNode = {
-      id: Math.max(...nodes.map(n => n.id)) + 1,
+      id: newId,
       text: 'Nuovo nodo',
       x: position.x,
       y: position.y,
       color: '#f5f5f5',
-      icon: '📌'
+      // Default to a generic icon name compatible with lucide-react mapping
+      icon: 'Lightbulb'
     };
-    setNodes([...nodes, newNode]);
+    setNodes(prevNodes => [...prevNodes, newNode]);
   };
 
   const deleteNode = (nodeId) => {

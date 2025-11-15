@@ -7,15 +7,58 @@ import mindmapData from '../../../data/mindmap.json';
 export const useMindmapState = () => {
   const initialNodes = useMemo(() => {
     const jsonNodes = mindmapData.nodes || [];
-    return jsonNodes.map((node) => ({
-      id: node.id,
-      text: node.data?.label || '',
-      x: node.position?.x ?? 0,
-      y: node.position?.y ?? 0,
-      color: node.data?.color || '#e0f2fe',
-      icon: node.data?.icon || '🧠',
-      description: node.data?.description || ''
+    if (!jsonNodes.length) return [];
+
+    // Extract original positions from JSON (they may be outside 0-100 range)
+    const positions = jsonNodes.map((node) => ({
+      x: typeof node.position?.x === 'number' ? node.position.x : 0,
+      y: typeof node.position?.y === 'number' ? node.position.y : 0
     }));
+
+    // Compute radial distance from the origin (0,0) used in the JSON
+    const radii = positions.map((p) => Math.sqrt(p.x * p.x + p.y * p.y));
+    const maxRadius = Math.max(...radii) || 1;
+
+    // How far from the center the outermost nodes can go (in % of canvas)
+    const MAX_RADIUS_PERCENT = 49;
+    // Exponent closer to 1.0 preserves distances better, giving longer edges
+    const RADIAL_EXPONENT = 0.95;
+
+    const toPercentCoordinates = (x, y) => {
+      const r = Math.sqrt(x * x + y * y);
+      if (r === 0) {
+        // Root node stays exactly at the center
+        return { x: 50, y: 50 };
+      }
+
+      const angle = Math.atan2(y, x);
+      const normalizedRadius =
+        Math.pow(r / maxRadius, RADIAL_EXPONENT) * MAX_RADIUS_PERCENT;
+
+      const px = 50 + normalizedRadius * Math.cos(angle);
+      const py = 50 + normalizedRadius * Math.sin(angle);
+
+      // Keep some margin so nodes are not cut off at the edges
+      const margin = 2;
+      return {
+        x: Math.max(margin, Math.min(100 - margin, px)),
+        y: Math.max(margin, Math.min(100 - margin, py))
+      };
+    };
+
+    return jsonNodes.map((node, index) => {
+      const pos = positions[index];
+      const { x, y } = toPercentCoordinates(pos.x, pos.y);
+      return {
+        id: node.id,
+        text: node.data?.label || '',
+        x,
+        y,
+        color: node.data?.color || '#e0f2fe',
+        icon: node.data?.icon || '🧠',
+        description: node.data?.description || ''
+      };
+    });
   }, []);
 
   const initialConnections = useMemo(() => {

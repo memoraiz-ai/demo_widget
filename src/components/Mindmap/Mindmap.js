@@ -73,11 +73,6 @@ const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConn
           onResetView={handlers.handleResetView}
         />
 
-        {/* Instructions */}
-        <div className={`${visualStyle}-mindmap-instructions`}>
-          <p>Trascina per spostare • Doppio clic per modificare • Rotella per zoom</p>
-        </div>
-
         {/* Main Canvas */}
         <div 
           ref={canvasRef}
@@ -88,6 +83,10 @@ const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConn
             position: 'relative'
           }}
         >
+          {/* Instructions overlayed on top of the canvas */}
+          <div className={`${visualStyle}-mindmap-instructions`}>
+            <p>Trascina per spostare • Doppio clic per modificare • Rotella per zoom</p>
+          </div>
           {/* Background grid */}
           <div style={{ 
             position: 'absolute',

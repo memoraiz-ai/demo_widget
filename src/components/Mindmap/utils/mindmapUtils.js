@@ -24,8 +24,14 @@ export const darkenColor = (color, amount = 40) => {
  * @returns {{x: number, y: number}} Center coordinates
  */
 export const getNodeCenter = (nodeId, nodes, canvasRect) => {
+  if (!Array.isArray(nodes) || !canvasRect) {
+    return { x: 0, y: 0 };
+  }
+
   const node = nodes.find(n => n.id === nodeId);
-  if (!node || !canvasRect) return { x: 0, y: 0 };
+  if (!node) {
+    return { x: 0, y: 0 };
+  }
   
   return { 
     x: (node.x / 100) * canvasRect.width, 

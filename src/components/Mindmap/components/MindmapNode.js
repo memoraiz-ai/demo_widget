@@ -1,6 +1,76 @@
 import React from 'react';
 import NodeTooltip from './NodeTooltip';
 import { darkenColor } from '../utils/mindmapUtils';
+import {
+  History,
+  Map,
+  User,
+  Church,
+  Building2,
+  LayoutDashboard,
+  Flag,
+  Lightbulb,
+  Network,
+  BarChart,
+  Users,
+  FlaskConical,
+  Star,
+  BookOpen,
+  Leaf,
+  Landmark,
+  Drama,
+  Castle,
+  Mountain,
+  Home,
+  File,
+  Backpack,
+  TreePine,
+  Circle,
+  Ship,
+  Ambulance,
+  Shield,
+  Bell,
+  Camera,
+  Brain,
+  Sparkles
+} from 'lucide-react';
+
+// Icon mapping from string names to lucide-react components
+const iconMap = {
+  'History': History,
+  'Map': Map,
+  'Person': User,
+  'User': User,
+  'Church': Church,
+  'Building2': Building2,
+  'LayoutDashboard': LayoutDashboard,
+  'Flag': Flag,
+  'Lightbulb': Lightbulb,
+  'Network': Network,
+  'BarChart': BarChart,
+  'Users': Users,
+  'Science': FlaskConical,
+  'Concept': Sparkles,
+  'Star': Star,
+  'BookOpen': BookOpen,
+  'Nature': Leaf,
+  'Museum': Landmark,
+  'Drama': Drama,
+  'Palace': Castle,
+  'Castle': Castle,
+  'Mountain': Mountain,
+  'Home': Home,
+  'File': File,
+  'Backpack': Backpack,
+  'TreePine': TreePine,
+  'Circle': Circle,
+  'Ship': Ship,
+  'Ambulance': Ambulance,
+  'Shield': Shield,
+  'Bell': Bell,
+  'Camera': Camera,
+  'Brain': Brain
+};
 
 /**
  * Individual node component in the mindmap
@@ -117,30 +187,33 @@ const MindmapNode = ({
       )}
 
       {/* Icon badge */}
-      {node.icon && (
-        <div 
-          className={`${visualStyle}-mindmap-node-icon`}
-          style={{
-            position: 'absolute',
-            top: '-0.75rem',
-            left: '-0.75rem',
-            fontSize: '1.1rem',
-            lineHeight: 1,
-            background: 'white',
-            borderRadius: '50%',
-            width: '1.7rem',
-            height: '1.7rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.15)',
-            border: '2px solid white',
-            zIndex: 10
-          }}
-        >
-          {node.icon}
-        </div>
-      )}
+      {node.icon && (() => {
+        const IconComponent = iconMap[node.icon];
+        return IconComponent ? (
+          <div 
+            className={`${visualStyle}-mindmap-node-icon`}
+            style={{
+              position: 'absolute',
+              top: '-0.75rem',
+              left: '-0.75rem',
+              fontSize: '1.1rem',
+              lineHeight: 1,
+              background: 'white',
+              borderRadius: '50%',
+              width: '1.7rem',
+              height: '1.7rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.15)',
+              border: '2px solid white',
+              zIndex: 10
+            }}
+          >
+            <IconComponent size={16} strokeWidth={2} />
+          </div>
+        ) : null;
+      })()}
 
       {/* Tooltip */}
       {showNodeDetails && isHovered && nodeInfo && (

@@ -4,7 +4,7 @@ import React from 'react';
  * Minimap component showing overview of all nodes and current viewport
  */
 const MindmapMinimap = ({ visualStyle = 'playful', nodes, connections, zoom, pan, canvasRect }) => {
-  if (!canvasRect) return null;
+  if (!canvasRect || !nodes || nodes.length === 0) return null;
 
   const padding = 50;
   const allX = nodes.map(n => n.x);
@@ -13,8 +13,8 @@ const MindmapMinimap = ({ visualStyle = 'playful', nodes, connections, zoom, pan
   const maxX = Math.max(...allX) + padding;
   const minY = Math.min(...allY) - padding;
   const maxY = Math.max(...allY) + padding;
-  const width = maxX - minX;
-  const height = maxY - minY;
+  const width = maxX - minX || 1;
+  const height = maxY - minY || 1;
   
   const scaleX = 192 / width;
   const scaleY = 128 / height;
