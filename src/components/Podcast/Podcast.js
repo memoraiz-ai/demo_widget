@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import '../../styles/Podcast.css';
 
-const Podcast = ({ theme }) => {
+const Podcast = ({ visualStyle = 'playful' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
+
+  const prefix = visualStyle;
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -46,39 +48,36 @@ const Podcast = ({ theme }) => {
   };
 
   return (
-    <div className="podcast-container">
-      <div className="podcast-wrapper">
-        <div className="podcast-header">
-          <h1 className="podcast-title" style={{ color: theme.popoverForeground }}>
+    <div className={`${prefix}-podcast-container`}>
+      <div className={`${prefix}-podcast-wrapper`}>
+        <div className={`${prefix}-podcast-header`}>
+          <h1 className={`${prefix}-podcast-title`}>
             Podcast - Astronomia
           </h1>
-          <p className="podcast-subtitle" style={{ color: theme.foreground }}>
+          <p className={`${prefix}-podcast-subtitle`}>
             Esplora l'universo attraverso contenuti audio coinvolgenti
           </p>
         </div>
 
-        <div className="podcast-content">
-          <div className="podcast-cover">
-            <div className="cover-image" style={{ 
-              backgroundColor: theme.primary,
-              border: `4px solid ${theme.cardBorder}`
-            }}>
+        <div className={`${prefix}-podcast-content`}>
+          <div className={`${prefix}-podcast-cover`}>
+            <div className={`${prefix}-cover-image`}>
               <svg width="120" height="120" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke={theme.primaryForeground} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 6v6l4 2" stroke={theme.primaryForeground} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="12" cy="12" r="2" fill={theme.primaryForeground}/>
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
               </svg>
             </div>
           </div>
 
-          <div className="podcast-info">
-            <h2 className="episode-title" style={{ color: theme.popoverForeground }}>
+          <div className={`${prefix}-podcast-info`}>
+            <h2 className={`${prefix}-episode-title`}>
               Episodio 1: Il Sistema Solare
             </h2>
-            <p className="episode-description" style={{ color: theme.foreground }}>
+            <p className={`${prefix}-episode-description`}>
               Un viaggio attraverso i pianeti del nostro sistema solare, dalle loro caratteristiche uniche alle ultime scoperte scientifiche.
             </p>
-            <div className="episode-meta" style={{ color: theme.foreground }}>
+            <div className={`${prefix}-episode-meta`}>
               <span>Durata: 15:30</span>
               <span>•</span>
               <span>Pubblicato: 14 Nov 2025</span>
@@ -86,10 +85,7 @@ const Podcast = ({ theme }) => {
           </div>
         </div>
 
-        <div className="podcast-player" style={{ 
-          backgroundColor: theme.background,
-          borderColor: theme.cardBorder 
-        }}>
+        <div className={`${prefix}-podcast-player`}>
           <audio
             ref={audioRef}
             onTimeUpdate={handleTimeUpdate}
@@ -100,14 +96,10 @@ const Podcast = ({ theme }) => {
             Il tuo browser non supporta l'elemento audio.
           </audio>
 
-          <div className="player-controls">
+          <div className={`${prefix}-player-controls`}>
             <button 
-              className="play-pause-btn" 
+              className={`${prefix}-play-pause-btn`}
               onClick={togglePlayPause}
-              style={{ 
-                backgroundColor: theme.primary,
-                color: theme.primaryForeground 
-              }}
             >
               {isPlaying ? (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -121,25 +113,22 @@ const Podcast = ({ theme }) => {
               )}
             </button>
 
-            <div className="time-display" style={{ color: theme.foreground }}>
+            <div className={`${prefix}-time-display`}>
               {formatTime(currentTime)}
             </div>
 
-            <div className="progress-container">
+            <div className={`${prefix}-progress-container`}>
               <input
                 type="range"
                 min="0"
                 max="100"
                 value={duration ? (currentTime / duration) * 100 : 0}
                 onChange={handleSeek}
-                className="progress-slider"
-                style={{
-                  background: `linear-gradient(to right, ${theme.primary} 0%, ${theme.primary} ${duration ? (currentTime / duration) * 100 : 0}%, ${theme.muted} ${duration ? (currentTime / duration) * 100 : 0}%, ${theme.muted} 100%)`
-                }}
+                className={`${prefix}-progress-slider`}
               />
             </div>
 
-            <div className="time-display" style={{ color: theme.foreground }}>
+            <div className={`${prefix}-time-display`}>
               {formatTime(duration)}
             </div>
           </div>

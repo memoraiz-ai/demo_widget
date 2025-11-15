@@ -11,6 +11,8 @@ const SidePanel = ({
   setFlashcardStyle,
   mindmapStyle,
   setMindmapStyle,
+  podcastStyle,
+  setPodcastStyle,
   visualStyles, 
   timerEnabled, 
   setTimerEnabled, 
@@ -329,7 +331,8 @@ const SidePanel = ({
                 className={`quiz-type-card ${
                   (currentPage === 'quiz' && quizStyle === key) || 
                   (currentPage === 'flashcard' && flashcardStyle === key) ||
-                  (currentPage === 'mindmap' && mindmapStyle === key) ? 'active' : ''
+                  (currentPage === 'mindmap' && mindmapStyle === key) ||
+                  (currentPage === 'podcast' && podcastStyle === key) ? 'active' : ''
                 }`}
                 onClick={() => {
                   if (currentPage === 'quiz') {
@@ -338,6 +341,8 @@ const SidePanel = ({
                     setFlashcardStyle(key);
                   } else if (currentPage === 'mindmap') {
                     setMindmapStyle(key);
+                  } else if (currentPage === 'podcast') {
+                    setPodcastStyle(key);
                   }
                 }}
               >

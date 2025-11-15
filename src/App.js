@@ -25,6 +25,7 @@ function App() {
   const [quizStyle, setQuizStyle] = useState('playful');
   const [flashcardStyle, setFlashcardStyle] = useState('playful');
   const [mindmapStyle, setMindmapStyle] = useState('playful');
+  const [podcastStyle, setPodcastStyle] = useState('playful');
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
   const [showNodeDetails, setShowNodeDetails] = useState(true);
@@ -77,7 +78,7 @@ function App() {
       }),
       quiz: {
         funzionalità: quizTypeNames[quizType] || quizType,
-        stile: colorPalettes[colorPalette].name,
+        stile: visualStyles[quizStyle].name,
         dettagli: {
           timer: timerEnabled,
           feedbackImmediato: immediateFeedbackEnabled
@@ -85,14 +86,14 @@ function App() {
       },
       flashcard: {
         funzionalità: flashcardModeNames[flashcardMode] || flashcardMode,
-        stile: colorPalettes[colorPalette].name,
+        stile: visualStyles[flashcardStyle].name,
         dettagli: {
           timer: timerEnabled
         }
       },
       mindmap: {
         funzionalità: dynamicMapEnabled ? 'Dinamica' : 'Statica',
-        stile: colorPalettes[colorPalette].name,
+        stile: visualStyles[mindmapStyle].name,
         dettagli: {
           dettagliNodo: showNodeDetails,
           etichetteRelazioni: showConnectionLabels
@@ -100,7 +101,7 @@ function App() {
       },
       podcast: {
         funzionalità: podcastTranscriptNames[podcastTranscript] || podcastTranscript,
-        stile: colorPalettes[colorPalette].name,
+        stile: visualStyles[podcastStyle].name,
         dettagli: {
           voce: podcastVoice,
           multispeaker: podcastMultispeaker
@@ -117,9 +118,9 @@ function App() {
   };
 
   // Update theme when color palette changes
-  React.useEffect(() => {
-    setCurrentTheme(colorPalettes[colorPalette]);
-  }, [colorPalette]);
+//   React.useEffect(() => {
+//     setCurrentTheme(visualStyles[quizStyle]);
+//   }, [quizStyle]);
 
   // Gestione feedback immediato per quiz con risposta multipla
   React.useEffect(() => {
@@ -179,6 +180,8 @@ function App() {
       return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={timerEnabled} />;
     } else if (currentPage === 'mindmap') {
       return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
+    } else if (currentPage === 'podcast') {
+      return <Podcast visualStyle={podcastStyle} />;
     }
     return renderQuiz();
   };
@@ -220,59 +223,43 @@ function App() {
           </div>
         </div>
         {!showExportView && (
-          <SidePanel
-            currentPage={currentPage}
-            quizType={quizType}
-            setQuizType={setQuizType}
-            flashcardMode={flashcardMode}
-            setFlashcardMode={setFlashcardMode}
-            onShuffle={handleShuffle}
-            colorPalette={colorPalette}
-            setColorPalette={setColorPalette}
-            colorPalettes={colorPalettes}
-            timerEnabled={timerEnabled}
-            setTimerEnabled={setTimerEnabled}
-            immediateFeedbackEnabled={immediateFeedbackEnabled}
-            setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
-            showNodeDetails={showNodeDetails}
-            setShowNodeDetails={setShowNodeDetails}
-            showConnectionLabels={showConnectionLabels}
-            setShowConnectionLabels={setShowConnectionLabels}
-            dynamicMapEnabled={dynamicMapEnabled}
-            setDynamicMapEnabled={setDynamicMapEnabled}
-            podcastTranscript={podcastTranscript}
-            setPodcastTranscript={setPodcastTranscript}
-            podcastVoice={podcastVoice}
-            setPodcastVoice={setPodcastVoice}
-            podcastMultispeaker={podcastMultispeaker}
-            setPodcastMultispeaker={setPodcastMultispeaker}
-            onExport={handleExport}
-          />
-        //           <SidePanel
-        //   currentPage={currentPage}
-        //   quizType={quizType}
-        //   setQuizType={setQuizType}
-        //   flashcardMode={flashcardMode}
-        //   setFlashcardMode={setFlashcardMode}
-        //   onShuffle={handleShuffle}
-        //   quizStyle={quizStyle}
-        //   setQuizStyle={setQuizStyle}
-        //   flashcardStyle={flashcardStyle}
-        //   setFlashcardStyle={setFlashcardStyle}
-        //   mindmapStyle={mindmapStyle}
-        //   setMindmapStyle={setMindmapStyle}
-        //   visualStyles={visualStyles}
-        //   timerEnabled={timerEnabled}
-        //   setTimerEnabled={setTimerEnabled}
-        //   immediateFeedbackEnabled={immediateFeedbackEnabled}
-        //   setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
-        //   showNodeDetails={showNodeDetails}
-        //   setShowNodeDetails={setShowNodeDetails}
-        //   showConnectionLabels={showConnectionLabels}
-        //   setShowConnectionLabels={setShowConnectionLabels}
-        //   dynamicMapEnabled={dynamicMapEnabled}
-        //   setDynamicMapEnabled={setDynamicMapEnabled}
-        // />
+            <SidePanel
+                currentPage={currentPage}
+                quizType={quizType}
+                setQuizType={setQuizType}
+                flashcardMode={flashcardMode}
+                setFlashcardMode={setFlashcardMode}
+                onShuffle={handleShuffle}
+                // colorPalette={colorPalette}
+                // setColorPalette={setColorPalette}
+                // colorPalettes={colorPalettes}
+                timerEnabled={timerEnabled}
+                setTimerEnabled={setTimerEnabled}
+                immediateFeedbackEnabled={immediateFeedbackEnabled}
+                setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
+                showNodeDetails={showNodeDetails}
+                setShowNodeDetails={setShowNodeDetails}
+                showConnectionLabels={showConnectionLabels}
+                setShowConnectionLabels={setShowConnectionLabels}
+                dynamicMapEnabled={dynamicMapEnabled}
+                setDynamicMapEnabled={setDynamicMapEnabled}
+                podcastTranscript={podcastTranscript}
+                setPodcastTranscript={setPodcastTranscript}
+                podcastVoice={podcastVoice}
+                setPodcastVoice={setPodcastVoice}
+                podcastMultispeaker={podcastMultispeaker}
+                setPodcastMultispeaker={setPodcastMultispeaker}
+                onExport={handleExport}
+                quizStyle={quizStyle}
+                setQuizStyle={setQuizStyle}
+                flashcardStyle={flashcardStyle}
+                setFlashcardStyle={setFlashcardStyle}
+                mindmapStyle={mindmapStyle}
+                setMindmapStyle={setMindmapStyle}
+                podcastStyle={podcastStyle}
+                setPodcastStyle={setPodcastStyle}
+                visualStyles={visualStyles}
+            />
         )}
       </div>
     </div>

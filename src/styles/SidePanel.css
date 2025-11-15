@@ -277,6 +277,7 @@ input:checked + .toggle-label .toggle-slider {
 .sidepanel-footer {
   margin-top: auto;
   padding-top: 1.5rem;
+  padding-bottom: 1rem;
   border-top: 0.0625rem solid var(--card-border);
   display: flex;
   gap: 0.75rem;
