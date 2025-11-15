@@ -1,18 +1,22 @@
+/* Export page layout */
+
 .export-view-container {
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background: var(--background);
-  padding: 2rem;
+  height: 100vh;
+  padding: 1.75rem 2rem;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .export-view-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid var(--card-border);
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--card-border);
 }
 
 .header-left {
@@ -25,46 +29,59 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--muted);
-  border: 1px solid var(--muted-border);
-  border-radius: 0.5rem;
-  color: var(--foreground);
+  padding: 0.5rem 1rem;
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  color: #111827;
   cursor: pointer;
-  font-family: 'Geist', sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .back-button:hover {
-  background: var(--card-border);
+  background: #d1d5db;
   transform: translateX(-2px);
 }
 
+.export-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
 .export-title {
-  font-family: 'Geist', sans-serif;
-  font-size: 2rem;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.4rem;
   font-weight: 600;
-  color: var(--popover-foreground);
+  color: #0f172a;
+  margin: 0;
+}
+
+.export-subtitle {
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.8rem;
+  color: #6b7280;
   margin: 0;
 }
 
 .header-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .action-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
-  font-family: 'Geist', sans-serif;
-  font-size: 0.875rem;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.8rem;
   font-weight: 500;
   transition: all 0.2s ease;
 }
@@ -75,9 +92,9 @@
 }
 
 .copy-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
 }
 
 .download-btn {
@@ -86,64 +103,333 @@
 }
 
 .download-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
 }
 
-.export-view-content {
+.export-view-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(320px, 0.9fr);
+  gap: 1.5rem;
+  min-height: 0;
+}
+
+.export-view-body.sidebar-collapsed {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.export-main-column {
   display: flex;
   flex-direction: column;
+  gap: 1.25rem;
+  min-height: 0;
 }
 
-.json-viewer {
-  background: var(--background);
-  border: 2px solid var(--card-border);
+.export-video-card,
+.export-transcript-card,
+.export-mindmap-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid var(--card-border);
+  padding: 1rem 1.25rem 1.25rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+.export-video-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.export-section-title {
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.export-section-subtitle {
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0.15rem 0 0;
+}
+
+.export-video-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'Geist Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.export-video-wrapper {
+  background: radial-gradient(circle at center, #020617 0%, #020617 40%, #000000 100%);
+  border-radius: 0.9rem;
+  overflow: hidden;
+  border: 1px solid #020617;
+}
+
+.export-video {
+  width: 100%;
+  max-height: 430px;
+  display: block;
+  background: #000000;
+}
+
+/* Transcript */
+
+.export-transcript-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.export-transcript-list {
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.export-transcript-row {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0.7rem 0.95rem;
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.82rem;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.15s ease, border-left-color 0.15s ease;
+}
+
+.export-transcript-row:last-child {
+  border-bottom: none;
+}
+
+.export-transcript-row:hover {
+  background: #eef2ff;
+}
+
+.export-transcript-row.active {
+  background: #e0ecff;
+  border-left: 3px solid var(--primary);
+}
+
+.export-transcript-time {
+  font-family: 'Geist Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.export-transcript-text {
+  color: #111827;
+}
+
+/* Mindmap card */
+
+.export-mindmap-header {
+  margin-bottom: 0.75rem;
+}
+
+.export-mindmap-body {
   border-radius: 0.75rem;
   overflow: hidden;
-  height: calc(100vh - 200px);
+  background: #f9fafb;
+  padding: 0.5rem;
+  min-height: 500px;
+  height: 600px;
 }
 
-.json-content {
-  padding: 1.5rem;
-  margin: 0;
-  overflow: auto;
+/* Ensure mindmap wrapper fills the space */
+.export-mindmap-body > div {
+  width: 100%;
   height: 100%;
 }
 
-.json-content code {
-  font-family: 'Geist Mono', 'Courier New', monospace;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--foreground);
+/* Fix mindmap instructions positioning in export view */
+.export-mindmap-body [class*='-mindmap-instructions'] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin-bottom: 0.75rem;
+  display: inline-block;
 }
 
-/* Scrollbar Styling */
-.json-content::-webkit-scrollbar,
+/* Sidebar */
+
+.export-sidebar {
+  position: relative;
+  background: #020617;
+  border-radius: 1rem;
+  border: 1px solid #111827;
+  padding: 0.75rem 0.75rem 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  min-width: 0;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.55);
+}
+
+.export-sidebar.collapsed {
+  width: 3rem;
+  padding: 0.5rem;
+  justify-content: center;
+}
+
+.export-sidebar-toggle {
+  border: none;
+  background: #0f172a;
+  color: #e5e7eb;
+  width: 2.25rem;
+  min-width: 2.25rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #1f2937;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.export-sidebar-toggle:hover {
+  background: #111827;
+  transform: translateX(-1px);
+}
+
+.export-sidebar-toggle-icon {
+  display: inline-block;
+  font-size: 0.9rem;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.export-sidebar-toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.export-sidebar-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.export-sidebar-tabs {
+  display: inline-flex;
+  align-self: flex-start;
+  background: #020617;
+  border-radius: 999px;
+  padding: 0.15rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 0 0 1px #1e293b;
+}
+
+.export-sidebar-tab {
+  border: none;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: transparent;
+  color: #9ca3af;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.export-sidebar-tab.active {
+  background: #0f172a;
+  color: #f9fafb;
+}
+
+.export-sidebar-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Scale down quiz and flashcard components in sidebar for better fit */
+.export-sidebar-content > * {
+  transform: scale(0.65);
+  transform-origin: top center;
+  width: 153.846%; /* 100% / 0.65 to compensate for scale */
+  margin-bottom: -35%; /* Reduce extra white space from scaling */
+}
+
+/* Scrollbars */
+
+.export-transcript-list::-webkit-scrollbar,
+.export-sidebar-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.export-transcript-list::-webkit-scrollbar-track,
+.export-sidebar-content::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+.export-transcript-list::-webkit-scrollbar-thumb,
+.export-sidebar-content::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 999px;
+}
+
+.export-transcript-list::-webkit-scrollbar-thumb:hover,
+.export-sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
 .export-view-container::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
 }
 
-.json-content::-webkit-scrollbar-track,
 .export-view-container::-webkit-scrollbar-track {
-  background: var(--muted);
-  border-radius: 4px;
+  background: #e5e7eb;
 }
 
-.json-content::-webkit-scrollbar-thumb,
 .export-view-container::-webkit-scrollbar-thumb {
-  background: var(--muted-border);
-  border-radius: 4px;
-}
-
-.json-content::-webkit-scrollbar-thumb:hover,
-.export-view-container::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: #9ca3af;
+  border-radius: 999px;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
+  .export-view-container {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .export-view-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .export-sidebar {
+    margin-top: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
   .export-view-container {
     padding: 1rem;
   }
@@ -151,28 +437,21 @@
   .export-view-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .header-actions {
     width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .action-btn {
-    flex: 1;
-    justify-content: center;
+    padding-inline: 0.9rem;
   }
 
   .export-title {
-    font-size: 1.5rem;
-  }
-
-  .json-content {
-    font-size: 0.75rem;
-    padding: 1rem;
-  }
-
-  .json-viewer {
-    height: calc(100vh - 250px);
+    font-size: 1.15rem;
   }
 }
+

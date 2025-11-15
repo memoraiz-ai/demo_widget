@@ -27,6 +27,10 @@
   gap: 0;
 }
 
+.app.export-mode .app-container {
+  grid-template-columns: 1fr;
+}
+
 .main-content {
   display: flex;
   flex-direction: column;

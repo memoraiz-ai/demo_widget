@@ -9,6 +9,11 @@ import Mindmap from './components/Mindmap';
 import Podcast from './components/Podcast';
 import ExportView from './components/ExportView';
 
+// Static content used when exporting the configuration
+import quizData from './data/quiz.json';
+import flashcardData from './data/flashcard.json';
+import transcriptData from './data/transcript.json';
+
 // Define visual styles
 const visualStyles = {
   playful: { name: 'Playful' },
@@ -53,63 +58,104 @@ function App() {
 
   const handleExport = () => {
     const quizTypeNames = {
-      'single': 'Risposta Singola',
-      'multi': 'Risposta Multipla',
-      'truefalse': 'Vero/Falso',
-      'outlined': 'Riquadri Contornati'
+      single: 'Risposta Singola',
+      multi: 'Risposta Multipla',
+      truefalse: 'Vero/Falso',
+      outlined: 'Riquadri Contornati'
     };
 
     const flashcardModeNames = {
-      'normal': 'Domanda classica',
-      'fillblank': 'Riempi lo spazio',
-      'mix': 'Mix'
+      normal: 'Domanda classica',
+      fillblank: 'Riempi lo spazio',
+      mix: 'Mix'
     };
 
     const podcastTranscriptNames = {
-      'none': 'Nessuno',
-      'simple': 'Semplice',
-      'detailed': 'Dettagliato'
+      none: 'Nessuno',
+      simple: 'Semplice',
+      detailed: 'Dettagliato'
     };
 
+    const exportDate = new Date().toLocaleString('it-IT', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    // Structured export object used both for JSON download
+    // and for configuring the ExportView page
     const data = {
-      exportDate: new Date().toLocaleString('it-IT', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      }),
-      quiz: {
-        funzionalità: quizTypeNames[quizType] || quizType,
-        stile: visualStyles[quizStyle].name,
-        dettagli: {
-          timer: timerEnabled,
-          feedbackImmediato: immediateFeedbackEnabled
+      exportMetadata: {
+        exportDate,
+        source: 'MemorAIz – Custom widget demo'
+      },
+      summary: {
+        quiz: {
+          funzionalità: quizTypeNames[quizType] || quizType,
+          stile: visualStyles[quizStyle].name,
+          dettagli: {
+            timer: timerEnabled,
+            feedbackImmediato: immediateFeedbackEnabled
+          }
+        },
+        flashcard: {
+          funzionalità: flashcardModeNames[flashcardMode] || flashcardMode,
+          stile: visualStyles[flashcardStyle].name,
+          dettagli: {
+            timer: timerEnabled
+          }
+        },
+        mindmap: {
+          funzionalità: dynamicMapEnabled ? 'Dinamica' : 'Statica',
+          stile: visualStyles[mindmapStyle].name,
+          dettagli: {
+            dettagliNodo: showNodeDetails,
+            etichetteRelazioni: showConnectionLabels
+          }
+        },
+        podcast: {
+          funzionalità: podcastTranscriptNames[podcastTranscript] || podcastTranscript,
+          stile: visualStyles[podcastStyle].name,
+          dettagli: {
+            voce: podcastVoice,
+            multispeaker: podcastMultispeaker
+          }
         }
       },
-      flashcard: {
-        funzionalità: flashcardModeNames[flashcardMode] || flashcardMode,
-        stile: visualStyles[flashcardStyle].name,
-        dettagli: {
-          timer: timerEnabled
-        }
-      },
-      mindmap: {
-        funzionalità: dynamicMapEnabled ? 'Dinamica' : 'Statica',
-        stile: visualStyles[mindmapStyle].name,
-        dettagli: {
-          dettagliNodo: showNodeDetails,
-          etichetteRelazioni: showConnectionLabels
-        }
-      },
-      podcast: {
-        funzionalità: podcastTranscriptNames[podcastTranscript] || podcastTranscript,
-        stile: visualStyles[podcastStyle].name,
-        dettagli: {
-          voce: podcastVoice,
+      config: {
+        quiz: {
+          type: quizType,
+          style: quizStyle,
+          timerEnabled,
+          timerDuration,
+          immediateFeedbackEnabled
+        },
+        flashcard: {
+          mode: flashcardMode,
+          style: flashcardStyle,
+          timerEnabled,
+          timerDuration
+        },
+        mindmap: {
+          style: mindmapStyle,
+          showNodeDetails,
+          showConnectionLabels,
+          dynamicMapEnabled
+        },
+        podcast: {
+          style: podcastStyle,
+          transcript: podcastTranscript,
+          voice: podcastVoice,
           multispeaker: podcastMultispeaker
         }
+      },
+      content: {
+        quiz: quizData.quiz,
+        flashcards: flashcardData.flashcards,
+        transcript: transcriptData
       }
     };
 
@@ -192,7 +238,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className={`app ${showExportView ? 'export-mode' : ''}`}>
       <div className="app-container">
         <div className="main-content">
           {!showExportView && (
