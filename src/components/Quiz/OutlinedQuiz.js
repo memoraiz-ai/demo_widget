@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
 
 const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateFeedbackEnabled = true }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -7,56 +8,22 @@ const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateF
   const [currentQuestion, setCurrentQuestion] = useState(8);
   const [totalQuestions] = useState(10);
   const [pointsAwarded, setPointsAwarded] = useState(false);
-  const [timer, setTimer] = useState(45);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [startTime] = useState(Date.now());
-  const [endTime, setEndTime] = useState(null);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(8);
-
-  useEffect(() => {
-    if (!timerEnabled || quizCompleted) return;
-    
-    const interval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          setQuizCompleted(true);
-          setEndTime(Date.now());
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [timerEnabled, currentQuestion, quizCompleted]);
-
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const formatElapsedTime = () => {
-    const elapsed = Math.floor(((endTime || Date.now()) - startTime) / 1000);
-    const mins = Math.floor(elapsed / 60);
-    const secs = elapsed % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const questionVariants = [
     "Il pianeta più grande del nostro sistema solare è _______.",
     "Quale pianeta detiene il titolo di più grande nel nostro sistema solare?",
     "Identifica il pianeta più grande che orbita nel nostro sistema solare."
   ];
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState([
+  const [currentQuestionIndex] = useState(0);
+  const answers = [
     "Terra",
     "Giove",
     "Saturno",
     "Marte",
     "Nettuno"
-  ]);
+  ];
 
   const correctAnswer = "Giove";
 
@@ -79,14 +46,12 @@ const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateF
   const nextQuestion = () => {
     if (currentQuestion >= totalQuestions) {
       setQuizCompleted(true);
-      setEndTime(Date.now());
       return;
     }
     setSelectedAnswer(null);
     setShowFeedback(false);
     setPointsAwarded(false);
     setCurrentQuestion(prev => prev + 1);
-    setTimer(45);
   };
 
   const restartQuiz = () => {
@@ -95,16 +60,14 @@ const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateF
     setScore(0);
     setCurrentQuestion(1);
     setPointsAwarded(false);
-    setTimer(45);
     setQuizCompleted(false);
-    setEndTime(null);
     setCorrectAnswersCount(0);
   };
 
   const getOptionClass = (answer) => {
     const prefix = visualStyle;
     if (!showFeedback) {
-      return selectedAnswer === answer
+      return selectedAnswer === answer 
         ? `${prefix}-quiz-option ${prefix}-quiz-option-selected`
         : `${prefix}-quiz-option ${prefix}-quiz-option-default`;
     }
@@ -119,366 +82,649 @@ const OutlinedQuiz = ({ visualStyle = 'playful', timerEnabled = true, immediateF
 
   const percentage = Math.round((correctAnswersCount / totalQuestions) * 100);
 
-  // Render End Quiz Component for Corporate Style
-  if (quizCompleted && visualStyle === 'corporate') {
-    return (
-      <div className="corporate-quiz-result-container">
-        <div className="corporate-quiz-result-inner">
-          <div className="corporate-quiz-result-title">Assessment Complete</div>
-          <div className="corporate-quiz-result-text">
-            Your score: <span className="corporate-quiz-result-score">{correctAnswersCount} / {totalQuestions}</span>
+  // Render End Quiz Components (same as other quiz types)
+  if (quizCompleted) {
+    if (visualStyle === 'playful') {
+      return (
+        <div className="playful-quiz-result-container">
+          <div className="playful-quiz-result-inner">
+            <div className="playful-quiz-result-emoji">🎉</div>
+            <h2 className="playful-quiz-result-title">Quiz Complete!</h2>
+            <p className="playful-quiz-result-text">
+              You scored <span className="playful-quiz-result-score">{correctAnswersCount}</span> out of <span className="playful-quiz-result-total">{totalQuestions}</span>
+            </p>
+            <button onClick={restartQuiz} className="playful-quiz-result-btn">
+              Try Again! 🔄
+            </button>
           </div>
-          <div className="corporate-quiz-performance-box">
-            <div className="corporate-quiz-performance-row">
-              <span className="corporate-quiz-performance-label">Performance</span>
-              <span className="corporate-quiz-performance-value">{percentage}%</span>
-            </div>
-            <div className="corporate-quiz-performance-bar">
-              <div className="corporate-quiz-performance-fill" style={{ width: `${percentage}%` }}></div>
-            </div>
-            <div className="corporate-quiz-performance-row" style={{ marginTop: '0.5rem' }}>
-              <span className="corporate-quiz-performance-label">Time Used</span>
-              <span className="corporate-quiz-performance-value">{formatElapsedTime()}</span>
-            </div>
-          </div>
-          <button className="corporate-quiz-restart-btn" onClick={restartQuiz}>
-            Retake Assessment
-          </button>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  // Render End Quiz Component for Tech Style
-  if (quizCompleted && visualStyle === 'tech') {
-    return (
-      <div className="tech-quiz-result-container">
-        <div className="tech-quiz-result-header">
-          <span>&gt;_</span>
-          <span className="tech-quiz-result-header-text">quiz_completed.log</span>
-        </div>
-        <div className="tech-quiz-result-inner">
-          <div className="tech-quiz-result-title">EXECUTION COMPLETE</div>
-          <div className="tech-quiz-result-box">
-            <div className="tech-quiz-result-label">&gt; Results:</div>
-            <div className="tech-quiz-result-row">
-              Score: <span className="tech-quiz-result-value">{correctAnswersCount} / {totalQuestions}</span>
-            </div>
-            <div className="tech-quiz-result-row">
-              Accuracy: <span className="tech-quiz-result-value">{percentage}%</span>
-            </div>
-            <div className="tech-quiz-result-row">
-              Time: <span className="tech-quiz-result-value">{formatElapsedTime()}</span>
-            </div>
-            <div className="tech-quiz-result-row">
-              Status: <span className={percentage === 100 ? "tech-quiz-result-status-perfect" : "tech-quiz-result-status-complete"}>
-                {percentage === 100 ? 'PERFECT' : 'COMPLETE'}
-              </span>
-            </div>
+    if (visualStyle === 'tech') {
+      return (
+        <div className="tech-quiz-result-container">
+          <div className="tech-quiz-result-header">
+            <Terminal className="tech-quiz-result-icon" />
+            <span>quiz_completed.log</span>
           </div>
-          <button className="tech-quiz-restart-btn" onClick={restartQuiz}>
-            &gt; RESTART
-          </button>
+          <div className="tech-quiz-result-border">
+            <h2 className="tech-quiz-result-title">EXECUTION COMPLETE</h2>
+            <div className="tech-quiz-result-box">
+              <div className="tech-quiz-result-label">&gt; Results:</div>
+              <div className="tech-quiz-result-row">
+                Score: <span className="tech-quiz-result-value">{score}</span> / {totalQuestions}
+              </div>
+              <div className="tech-quiz-result-row">
+                Accuracy: <span className="tech-quiz-result-value">{percentage}%</span>
+              </div>
+              <div className="tech-quiz-result-row">
+                Status:{' '}
+                <span className={percentage === 100 ? 'tech-quiz-result-status-perfect' : 'tech-quiz-result-status-complete'}>
+                  {percentage === 100 ? 'PERFECT' : 'COMPLETE'}
+                </span>
+              </div>
+            </div>
+            <button onClick={restartQuiz} className="tech-quiz-result-btn">
+              &gt; RESTART
+            </button>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  // Render End Quiz Component for Illustrated Style
-  if (quizCompleted && visualStyle === 'illustrated') {
-    return (
-      <div className="illustrated-quiz-result-container">
-        <div className="illustrated-quiz-result-bg"></div>
-        <div className="illustrated-quiz-result-inner">
-          <div className="illustrated-quiz-result-star">💡</div>
-          <div className="illustrated-quiz-result-title">Quiz Complete!</div>
-          <div className="illustrated-quiz-result-score-box">
-            <div className="illustrated-quiz-result-score-text">
-              Score: {correctAnswersCount} / {totalQuestions}
+    if (visualStyle === 'corporate') {
+      return (
+        <div className="corporate-quiz-result-container">
+          <div className="corporate-quiz-result-border">
+            <h2 className="corporate-quiz-result-title">Assessment Complete</h2>
+            <p className="corporate-quiz-result-text">
+              Your score: <span className="corporate-quiz-result-score">{score}</span> / {totalQuestions}
+            </p>
+            <div className="corporate-quiz-result-performance">
+              <div className="corporate-quiz-result-performance-row">
+                <span>Performance</span>
+                <span>{percentage}%</span>
+              </div>
+              <div className="corporate-quiz-result-progress-bar">
+                <div className="corporate-quiz-result-progress-fill" style={{ width: `${percentage}%` }} />
+              </div>
             </div>
-          </div>
-          <div style={{ marginBottom: '1rem', color: '#111042', fontSize: '1.125rem' }}>
-            <div>Accuracy: <strong>{percentage}%</strong></div>
-            <div>Time Used: <strong>{formatElapsedTime()}</strong></div>
+            <button onClick={restartQuiz} className="corporate-quiz-result-btn">
+              Retake Assessment
+            </button>
           </div>
         </div>
-        <button className="illustrated-quiz-restart-btn" onClick={restartQuiz}>
-          Try Again!
-        </button>
-      </div>
-    );
-  }
+      );
+    }
 
-  // Render End Quiz Component for Picasso Style
-  if (quizCompleted && visualStyle === 'picasso') {
-    return (
-      <div className="picasso-quiz-result-wrapper">
-        <div className="picasso-quiz-result-deco-1"></div>
-        <div className="picasso-quiz-result-deco-2"></div>
-        <div className="picasso-quiz-result-container">
-          <div className="picasso-quiz-result-bg-1"></div>
-          <div className="picasso-quiz-result-bg-2"></div>
-          <div className="picasso-quiz-result-inner">
+    if (visualStyle === 'illustrated') {
+      return (
+        <div className="illustrated-quiz-result-container">
+          <div className="illustrated-quiz-result-inner">
+            <div className="illustrated-quiz-result-icon">💡</div>
+            <h2 className="illustrated-quiz-result-title">Quiz Complete!</h2>
+            <div className="illustrated-quiz-result-score-box">
+              <p className="illustrated-quiz-result-score-text">
+                Score: <span className="illustrated-quiz-result-score">{score}</span> / {totalQuestions}
+              </p>
+            </div>
+            <button onClick={restartQuiz} className="illustrated-quiz-result-btn">
+              Try Again!
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (visualStyle === 'picasso') {
+      return (
+        <div className="picasso-quiz-result-wrapper">
+          <div className="picasso-quiz-result-deco-1"></div>
+          <div className="picasso-quiz-result-deco-2"></div>
+          <div className="picasso-quiz-result-container">
             <div className="picasso-quiz-result-header">
               <div className="picasso-quiz-result-title-wrapper">
-                <div className="picasso-quiz-result-title-bg"></div>
-                <div className="picasso-quiz-result-title-box">
-                  <div className="picasso-quiz-result-title">Complete!</div>
-                </div>
+                <div className="picasso-quiz-result-title-shadow"></div>
+                <div className="picasso-quiz-result-title">Complete!</div>
               </div>
             </div>
             <div className="picasso-quiz-result-score-wrapper">
-              <div className="picasso-quiz-result-score-outer">
-                <div className="picasso-quiz-result-score-shadow"></div>
-                <div className="picasso-quiz-result-score-box">
-                  <div className="picasso-quiz-result-score-content">
-                    <div className="picasso-quiz-result-score-icon">
-                      <div className="picasso-quiz-result-score-number">{correctAnswersCount}</div>
-                    </div>
-                    <div>
-                      <div className="picasso-quiz-result-score-label">Your Score</div>
-                      <div className="picasso-quiz-result-score-value">{correctAnswersCount} / {totalQuestions}</div>
-                      <div className="picasso-quiz-result-score-label">Accuracy: {percentage}%</div>
-                      <div className="picasso-quiz-result-score-label">Time: {formatElapsedTime()}</div>
-                    </div>
-                  </div>
+              <div className="picasso-quiz-result-score-shadow"></div>
+              <div className="picasso-quiz-result-score-box">
+                <div className="picasso-quiz-result-score-icon">{score}</div>
+                <div>
+                  <div className="picasso-quiz-result-score-label">Your Score</div>
+                  <div className="picasso-quiz-result-score-value">{score} / {totalQuestions}</div>
                 </div>
               </div>
             </div>
-            <div className="picasso-quiz-result-restart-wrapper">
-              <div className="picasso-quiz-result-restart-shadow"></div>
-              <button className="picasso-quiz-result-restart-btn" onClick={restartQuiz}>
-                Try Again
+            <button onClick={restartQuiz} className="picasso-quiz-result-btn">
+              Try Again
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (visualStyle === 'schoolr') {
+      return (
+        <div className="schoolr-quiz-result-container">
+          <div className="schoolr-quiz-result-inner">
+            <div className="schoolr-quiz-result-icon">
+              <CheckCircle2 className="schoolr-quiz-result-icon-svg" />
+            </div>
+            <h2 className="schoolr-quiz-result-title">Ottimo lavoro!</h2>
+            <p className="schoolr-quiz-result-text">
+              Hai risposto correttamente a <span className="schoolr-quiz-result-score">{score}</span> su {totalQuestions} domande
+            </p>
+            <div className="schoolr-quiz-result-circle">
+              <div className="schoolr-quiz-result-percentage">{percentage}%</div>
+              <div className="schoolr-quiz-result-label">Punteggio</div>
+            </div>
+            <button onClick={restartQuiz} className="schoolr-quiz-result-btn">
+              Riprova
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (visualStyle === 'plai') {
+      return (
+        <div className="plai-quiz-result-container">
+          <div className="plai-quiz-result-inner">
+            <h2 className="plai-quiz-result-title">Assessment Complete</h2>
+            <p className="plai-quiz-result-subtitle">Your performance summary</p>
+            <div className="plai-quiz-result-stats">
+              <div className="plai-quiz-result-stat">
+                <div className="plai-quiz-result-stat-value">{score}</div>
+                <div className="plai-quiz-result-stat-label">Correct Answers</div>
+                <div className="plai-quiz-result-stat-sub">Out of {totalQuestions} questions</div>
+              </div>
+              <div className="plai-quiz-result-stat">
+                <div className="plai-quiz-result-stat-value">{percentage}%</div>
+                <div className="plai-quiz-result-stat-label">Success Rate</div>
+                <div className="plai-quiz-result-stat-sub">Performance measure</div>
+              </div>
+              <div className="plai-quiz-result-stat">
+                <div className="plai-quiz-result-stat-value">{totalQuestions}</div>
+                <div className="plai-quiz-result-stat-label">Total Questions</div>
+                <div className="plai-quiz-result-stat-sub">Assessment completed</div>
+              </div>
+            </div>
+            <button onClick={restartQuiz} className="plai-quiz-result-btn">
+              Retake Assessment
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (visualStyle === 'studenti') {
+      return (
+        <div className="studenti-quiz-result-container">
+          <div className="studenti-quiz-result-inner">
+            <div className="studenti-quiz-result-icon">
+              <CheckCircle2 className="studenti-quiz-result-icon-svg" />
+            </div>
+            <h2 className="studenti-quiz-result-title">Complimenti! Hai completato il quiz</h2>
+            <p className="studenti-quiz-result-text">
+              Hai dimostrato una buona preparazione rispondendo correttamente a <strong className="studenti-quiz-result-score">{score}</strong> domande su {totalQuestions}
+            </p>
+            <div className="studenti-quiz-result-score-box">
+              <div className="studenti-quiz-result-stat">
+                <div className="studenti-quiz-result-stat-value">{score}/{totalQuestions}</div>
+                <div className="studenti-quiz-result-stat-label">Risposte corrette</div>
+              </div>
+              <div className="studenti-quiz-result-divider"></div>
+              <div className="studenti-quiz-result-stat">
+                <div className="studenti-quiz-result-stat-value">{percentage}%</div>
+                <div className="studenti-quiz-result-stat-label">Percentuale</div>
+              </div>
+            </div>
+            <button onClick={restartQuiz} className="studenti-quiz-result-btn">
+              Ricomincia il quiz
+            </button>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // Active Quiz Rendering - Same structure as SingleQuiz
+  if (visualStyle === 'playful') {
+    return (
+      <div className="playful-quiz-container">
+        <div className="playful-quiz-inner">
+          <div className="playful-quiz-header">
+            <div className="playful-quiz-badge">
+              Question {currentQuestion}/{totalQuestions}
+            </div>
+            <div className="playful-quiz-score">
+              Score: {score}
+            </div>
+          </div>
+          
+          <div className="playful-quiz-progress-bar">
+            <div className="playful-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
+          </div>
+
+          <h3 className="playful-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+
+          <div className="playful-quiz-options">
+            {answers.map((answer, index) => {
+              const isSelected = selectedAnswer === answer;
+              const isCorrect = answer === correctAnswer;
+              const showCorrect = selectedAnswer !== null && isCorrect;
+              const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                  disabled={selectedAnswer !== null}
+                  className={getOptionClass(answer)}
+                >
+                  <span>{answer}</span>
+                  {showCorrect && <CheckCircle2 className="playful-quiz-icon" />}
+                  {showIncorrect && <XCircle className="playful-quiz-icon" />}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedAnswer !== null && (
+            <button onClick={nextQuestion} className="playful-quiz-next-btn">
+              {currentQuestion < totalQuestions ? 'Next Question →' : 'See Results 🎯'}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (visualStyle === 'tech') {
+    return (
+      <div className="tech-quiz-container">
+        <div className="tech-quiz-header-top">
+          <Terminal className="tech-quiz-icon-terminal" />
+          <span>quiz.execute()</span>
+        </div>
+
+        <div className="tech-quiz-header">
+          <div className="tech-quiz-counter">
+            [{currentQuestion}/{totalQuestions}]
+          </div>
+          <div className="tech-quiz-score-wrapper">
+            <span>SCORE:</span>
+            <span className="tech-quiz-score-badge">{score}</span>
+          </div>
+        </div>
+
+        <div className="tech-quiz-progress-bar">
+          <div className="tech-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
+        </div>
+
+        <h3 className="tech-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+
+        <div className="tech-quiz-options">
+          {answers.map((answer, index) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === correctAnswer;
+            const showCorrect = selectedAnswer !== null && isCorrect;
+            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+            return (
+              <button
+                key={index}
+                onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                disabled={selectedAnswer !== null}
+                className={getOptionClass(answer)}
+              >
+                <span>&gt; {answer}</span>
+                {showCorrect && <CheckCircle2 className="tech-quiz-icon" />}
+                {showIncorrect && <XCircle className="tech-quiz-icon" />}
               </button>
+            );
+          })}
+        </div>
+
+        {selectedAnswer !== null && (
+          <button onClick={nextQuestion} className="tech-quiz-next-btn">
+            {currentQuestion < totalQuestions ? '> NEXT_QUESTION()' : '> SHOW_RESULTS()'}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (visualStyle === 'corporate') {
+    return (
+      <div className="corporate-quiz-container">
+        <div className="corporate-quiz-header">
+          <div className="corporate-quiz-label">
+            Question {currentQuestion} of {totalQuestions}
+          </div>
+          <div className="corporate-quiz-score-wrapper">
+            <span>Score:</span>
+            <span className="corporate-quiz-score-badge">{score}</span>
+          </div>
+        </div>
+
+        <div className="corporate-quiz-progress-bar">
+          <div className="corporate-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
+        </div>
+
+        <h3 className="corporate-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+
+        <div className="corporate-quiz-options">
+          {answers.map((answer, index) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === correctAnswer;
+            const showCorrect = selectedAnswer !== null && isCorrect;
+            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+            return (
+              <button
+                key={index}
+                onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                disabled={selectedAnswer !== null}
+                className={getOptionClass(answer)}
+              >
+                <span>{answer}</span>
+                {showCorrect && <CheckCircle2 className="corporate-quiz-icon" />}
+                {showIncorrect && <XCircle className="corporate-quiz-icon" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {selectedAnswer !== null && (
+          <button onClick={nextQuestion} className="corporate-quiz-next-btn">
+            {currentQuestion < totalQuestions ? 'Continue' : 'View Results'}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (visualStyle === 'illustrated') {
+    return (
+      <div className="illustrated-quiz-container">
+        <div className="illustrated-quiz-header">
+          <div className="illustrated-quiz-star">⭐</div>
+          <div className="illustrated-quiz-badges">
+            <div className="illustrated-quiz-badge">
+              Q {currentQuestion}/{totalQuestions}
+            </div>
+            <div className="illustrated-quiz-score-badge">
+              Score: {score}
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
 
-  // Render End Quiz Component for Playful Style (default)
-  if (quizCompleted) {
-    return (
-      <div className="playful-quiz-container">
-        <div className="playful-quiz-inner" style={{ textAlign: 'center' }}>
-          <div className="playful-quiz-result-emoji">🎉</div>
-          <div className="playful-quiz-result-title">Quiz Complete!</div>
-          <div className="playful-quiz-result-text">
-            Score: <span className="playful-quiz-result-score">{correctAnswersCount}</span> / <span className="playful-quiz-result-total">{totalQuestions}</span>
-          </div>
-          <div className="playful-quiz-result-text">
-            Accuracy: <span className="playful-quiz-result-score">{percentage}%</span>
-          </div>
-          <div className="playful-quiz-result-text">
-            Time Used: <span className="playful-quiz-result-score">{formatElapsedTime()}</span>
-          </div>
-          <button className="playful-quiz-restart-btn" onClick={restartQuiz}>
-            Try Again!
-          </button>
+        <div className="illustrated-quiz-question-box">
+          <h3 className="illustrated-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
         </div>
+
+        <div className="illustrated-quiz-options">
+          {answers.map((answer, index) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === correctAnswer;
+            const showCorrect = selectedAnswer !== null && isCorrect;
+            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+            return (
+              <button
+                key={index}
+                onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                disabled={selectedAnswer !== null}
+                className={getOptionClass(answer)}
+              >
+                <span>{answer}</span>
+                {showCorrect && <CheckCircle2 className="illustrated-quiz-icon" />}
+                {showIncorrect && <XCircle className="illustrated-quiz-icon" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {selectedAnswer !== null && (
+          <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
+            {currentQuestion < totalQuestions ? (
+              <>
+                Next Question
+                <span className="illustrated-quiz-star-running">⭐</span>
+              </>
+            ) : (
+              'See Results'
+            )}
+          </button>
+        )}
       </div>
     );
   }
 
-  // Render for Picasso style
   if (visualStyle === 'picasso') {
     return (
       <div className="picasso-quiz-wrapper">
         <div className="picasso-quiz-deco-1"></div>
         <div className="picasso-quiz-deco-2"></div>
         <div className="picasso-quiz-container">
-          <div className="picasso-quiz-bg-1"></div>
-          <div className="picasso-quiz-bg-2"></div>
           <div className="picasso-quiz-top-border"></div>
-          <div className="picasso-quiz-inner">
-            <div className="picasso-quiz-header">
-              <div className="picasso-quiz-badge-wrapper">
-                <div className="picasso-quiz-badge-shadow"></div>
-                <div className="picasso-quiz-badge picasso-quiz-question-badge">
-                  Question {currentQuestion}/{totalQuestions}
-                </div>
-              </div>
-              {timerEnabled && (
-                <div className="picasso-quiz-timer-wrapper">
-                  <div className="picasso-quiz-timer-shadow"></div>
-                  <div className="picasso-quiz-timer">
-                    <svg className="picasso-quiz-timer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span className="picasso-quiz-timer-text">{formatTime(timer)}</span>
-                  </div>
-                </div>
-              )}
-              <div className="picasso-quiz-badge-wrapper">
-                <div className="picasso-quiz-score-shadow"></div>
-                <div className="picasso-quiz-badge picasso-quiz-score-badge">
-                  Score: {score}
-                </div>
-              </div>
+          
+          <div className="picasso-quiz-header">
+            <div className="picasso-quiz-badge-wrapper">
+              <div className="picasso-quiz-badge-shadow"></div>
+              <div className="picasso-quiz-badge">Q {currentQuestion}/{totalQuestions}</div>
             </div>
+            <div className="picasso-quiz-badge-wrapper">
+              <div className="picasso-quiz-badge-shadow"></div>
+              <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
+            </div>
+          </div>
 
-            <div className="picasso-quiz-question-wrapper">
-              <div className="picasso-quiz-question-bg"></div>
-              <div className="picasso-quiz-question-box">
-                <div className="picasso-quiz-question-line"></div>
-                <div className="picasso-quiz-question">
-                  {questionVariants[currentQuestionIndex]}
+          <div className="picasso-quiz-question-wrapper">
+            <div className="picasso-quiz-question-shadow"></div>
+            <div className="picasso-quiz-question-box">
+              <div className="picasso-quiz-question-border"></div>
+              <h3 className="picasso-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+            </div>
+          </div>
+
+          <div className="picasso-quiz-options">
+            {answers.map((answer, index) => {
+              const isSelected = selectedAnswer === answer;
+              const isCorrect = answer === correctAnswer;
+              const showCorrect = selectedAnswer !== null && isCorrect;
+              const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+              return (
+                <div key={index} className="picasso-quiz-option-wrapper">
+                  <div className="picasso-quiz-option-shadow"></div>
+                  <button
+                    onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                    disabled={selectedAnswer !== null}
+                    className={getOptionClass(answer)}
+                  >
+                    <span>{answer}</span>
+                    {showCorrect && <CheckCircle2 className="picasso-quiz-icon" />}
+                    {showIncorrect && <XCircle className="picasso-quiz-icon" />}
+                  </button>
                 </div>
-              </div>
-            </div>
+              );
+            })}
+          </div>
 
-            <div className="picasso-quiz-options">
-              {answers.map((answer, index) => {
-                const isCorrect = showFeedback && answer === correctAnswer;
-                const isIncorrect = showFeedback && answer === selectedAnswer && answer !== correctAnswer;
-                return (
-                  <div key={index} className="picasso-quiz-option-wrapper">
-                    <div className={`picasso-quiz-option-shadow ${
-                      isCorrect ? 'picasso-quiz-option-shadow-correct' :
-                      isIncorrect ? 'picasso-quiz-option-shadow-incorrect' :
-                      'picasso-quiz-option-shadow-default'
-                    }`}></div>
-                    <button
-                      className={getOptionClass(answer)}
-                      onClick={() => !showFeedback && selectAnswer(answer)}
-                    >
-                      <span>{answer}</span>
-                      {showFeedback && answer === correctAnswer && <span>✓</span>}
-                      {showFeedback && answer === selectedAnswer && answer !== correctAnswer && <span>✗</span>}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="picasso-quiz-next-btn-wrapper">
-              <div className="picasso-quiz-next-btn-shadow"></div>
-              <button
-                className="picasso-quiz-next-btn"
-                onClick={nextQuestion}
-              >
-                Next Question
+          {selectedAnswer !== null && (
+            <div className="picasso-quiz-btn-wrapper">
+              <div className="picasso-quiz-btn-shadow"></div>
+              <button onClick={nextQuestion} className="picasso-quiz-next-btn">
+                {currentQuestion < totalQuestions ? 'Next Question' : 'View Results'}
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Render for Illustrated style
-  if (visualStyle === 'illustrated') {
-    return (
-      <div className="illustrated-quiz-container">
-        <div className="illustrated-quiz-bg-image"></div>
-        <div className="illustrated-quiz-inner">
-          <div className="illustrated-quiz-header">
-            <div className="illustrated-quiz-star-icon">⭐</div>
-            <div className="illustrated-quiz-badges">
-              <div className="illustrated-quiz-question-badge">
-                Question {currentQuestion}/{totalQuestions}
-              </div>
-              {timerEnabled && (
-                <div className="illustrated-quiz-timer">
-                  <svg className="illustrated-quiz-timer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                  <span className="illustrated-quiz-timer-text">{formatTime(timer)}</span>
-                </div>
-              )}
-              <div className="illustrated-quiz-score-badge">
-                Score: {score}
-              </div>
-            </div>
-          </div>
-
-          <div className="illustrated-quiz-question-wrapper">
-            <div className="illustrated-quiz-question-box">
-              <div className="illustrated-quiz-question">
-                {questionVariants[currentQuestionIndex]}
-              </div>
-            </div>
-          </div>
-
-          <div className="illustrated-quiz-options">
-            {answers.map((answer, index) => (
-              <button
-                key={index}
-                className={getOptionClass(answer)}
-                onClick={() => !showFeedback && selectAnswer(answer)}
-              >
-                <span>{answer}</span>
-                {showFeedback && answer === correctAnswer && <span>✓</span>}
-                {showFeedback && answer === selectedAnswer && answer !== correctAnswer && <span>✗</span>}
-              </button>
-            ))}
-          </div>
-
-          <button
-            className="illustrated-quiz-next-btn"
-            onClick={nextQuestion}
-          >
-            <span>Next Question</span>
-            <span className="illustrated-quiz-star-running">⭐</span>
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Default render for simpler styles
-  return (
-    <div className={`${visualStyle}-quiz-container`}>
-      <div className={`${visualStyle}-quiz-inner`}>
-        <div className={`${visualStyle}-quiz-header`}>
-          <div className={`${visualStyle}-quiz-question-badge`}>
-            Question {currentQuestion}/{totalQuestions}
-          </div>
-          {timerEnabled && (
-            <div className={`${visualStyle}-quiz-timer`}>
-              <svg className={`${visualStyle}-quiz-timer-icon`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <span className={`${visualStyle}-quiz-timer-text`}>{formatTime(timer)}</span>
             </div>
           )}
-          <div className={`${visualStyle}-quiz-score-badge`}>
-            Score: {score}
+        </div>
+      </div>
+    );
+  }
+
+  if (visualStyle === 'schoolr') {
+    return (
+      <div className="schoolr-quiz-container">
+        <div className="schoolr-quiz-header">
+          <div className="schoolr-quiz-badge">
+            Domanda {currentQuestion} di {totalQuestions}
+          </div>
+          <div className="schoolr-quiz-score-badge">
+            Punteggio: {score}
           </div>
         </div>
 
-        <div className={`${visualStyle}-quiz-question`}>
-          {questionVariants[currentQuestionIndex]}
+        <div className="schoolr-quiz-progress-bar">
+          <div className="schoolr-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
         </div>
 
-        <div className={`${visualStyle}-quiz-options`}>
-          {answers.map((answer, index) => (
-            <button
-              key={index}
-              className={getOptionClass(answer)}
-              onClick={() => !showFeedback && selectAnswer(answer)}
-            >
-              <span>{answer}</span>
-              {showFeedback && answer === correctAnswer && <span>✓</span>}
-              {showFeedback && answer === selectedAnswer && answer !== correctAnswer && <span>✗</span>}
-            </button>
-          ))}
+        <h3 className="schoolr-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+
+        <div className="schoolr-quiz-options">
+          {answers.map((answer, index) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === correctAnswer;
+            const showCorrect = selectedAnswer !== null && isCorrect;
+            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+            return (
+              <button
+                key={index}
+                onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                disabled={selectedAnswer !== null}
+                className={getOptionClass(answer)}
+              >
+                <span>{answer}</span>
+                {showCorrect && <CheckCircle2 className="schoolr-quiz-icon" />}
+                {showIncorrect && <XCircle className="schoolr-quiz-icon" />}
+              </button>
+            );
+          })}
         </div>
 
-        <button
-          className={`${visualStyle}-quiz-next-btn`}
-          onClick={nextQuestion}
-        >
-          Next Question
-        </button>
+        {selectedAnswer !== null && (
+          <button onClick={nextQuestion} className="schoolr-quiz-next-btn">
+            {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi risultati'}
+          </button>
+        )}
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (visualStyle === 'plai') {
+    return (
+      <div className="plai-quiz-container">
+        <div className="plai-quiz-header">
+          <div>
+            <div className="plai-quiz-label">
+              Question {currentQuestion} of {totalQuestions}
+            </div>
+            <div className="plai-quiz-score-label">
+              Current Score: <span className="plai-quiz-score">{score}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="plai-quiz-progress-bar">
+          <div className="plai-quiz-progress-fill" style={{ width: `${((currentQuestion) / totalQuestions) * 100}%` }} />
+        </div>
+
+        <h3 className="plai-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+
+        <div className="plai-quiz-options">
+          {answers.map((answer, index) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === correctAnswer;
+            const showCorrect = selectedAnswer !== null && isCorrect;
+            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+            return (
+              <button
+                key={index}
+                onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                disabled={selectedAnswer !== null}
+                className={getOptionClass(answer)}
+              >
+                <span>{answer}</span>
+                {showCorrect && <CheckCircle2 className="plai-quiz-icon" />}
+                {showIncorrect && <XCircle className="plai-quiz-icon" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {selectedAnswer !== null && (
+          <button onClick={nextQuestion} className="plai-quiz-next-btn">
+            {currentQuestion < totalQuestions ? 'Continue to Next Question' : 'View Results'}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (visualStyle === 'studenti') {
+    return (
+      <div className="studenti-quiz-container">
+        <div className="studenti-quiz-header">
+          <div className="studenti-quiz-counter-wrapper">
+            <div className="studenti-quiz-number">{currentQuestion}</div>
+            <div>
+              <div className="studenti-quiz-label">Domanda</div>
+              <div className="studenti-quiz-count">{currentQuestion} di {totalQuestions}</div>
+            </div>
+          </div>
+          <div className="studenti-quiz-score-badge">
+            <span className="studenti-quiz-score-label">Punteggio:</span>
+            <span className="studenti-quiz-score">{score}</span>
+          </div>
+        </div>
+
+        <h3 className="studenti-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
+
+        <div className="studenti-quiz-options">
+          {answers.map((answer, index) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === correctAnswer;
+            const showCorrect = selectedAnswer !== null && isCorrect;
+            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+            return (
+              <button
+                key={index}
+                onClick={() => selectedAnswer === null && selectAnswer(answer)}
+                disabled={selectedAnswer !== null}
+                className={getOptionClass(answer)}
+              >
+                <div className="studenti-quiz-option-content">
+                  <div className="studenti-quiz-option-letter">{String.fromCharCode(65 + index)}</div>
+                  <span>{answer}</span>
+                </div>
+                {showCorrect && <CheckCircle2 className="studenti-quiz-icon" />}
+                {showIncorrect && <XCircle className="studenti-quiz-icon" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {selectedAnswer !== null && (
+          <button onClick={nextQuestion} className="studenti-quiz-next-btn">
+            {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi i risultati'}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // Default fallback
+  return <div>Unknown style</div>;
 };
 
 export default OutlinedQuiz;
-

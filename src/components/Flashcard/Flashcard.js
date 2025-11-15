@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle } from 'react';
+import { RotateCw, ChevronLeft, ChevronRight, Code2 } from 'lucide-react';
 
 const normalFlashcards = [
   {
@@ -64,121 +65,201 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
     );
   }
 
-  // Render for Picasso style with complex structure
-  if (visualStyle === 'picasso') {
+  // Render for Playful style
+  if (visualStyle === 'playful') {
     return (
-      <div className="picasso-flashcard-wrapper">
-        <div className="picasso-flashcard-deco-1"></div>
-        <div className="picasso-flashcard-deco-2"></div>
-        <div className="picasso-flashcard-deco-3"></div>
-        <div className="picasso-flashcard-container">
-          <div className="picasso-flashcard-top-border"></div>
-          <div className="picasso-flashcard-header">
-            <div className="picasso-flashcard-counter-wrapper">
-              <div className="picasso-flashcard-counter-box-wrapper">
-                <div className="picasso-flashcard-counter-shadow"></div>
-                <div className="picasso-flashcard-counter-box">
-                  <div className="picasso-flashcard-counter-dot"></div>
-                  <span className="picasso-flashcard-counter-text">
-                    {currentCard + 1} / {totalCards}
-                  </span>
-                </div>
-              </div>
+      <div className="playful-flashcard-wrapper">
+        <div className="playful-flashcard-container">
+          <div className="playful-flashcard-header">
+            <div className="playful-flashcard-counter">
+              Card {currentCard + 1} / {totalCards}
             </div>
-            <div className="picasso-flashcard-flip-btn-wrapper">
-              <div className="picasso-flashcard-flip-btn-shadow"></div>
-              <button className="picasso-flashcard-flip-btn" onClick={handleFlip}>
-                <span className="picasso-flashcard-flip-icon">⟲</span>
-              </button>
-            </div>
+            <button onClick={handleFlip} className="playful-flashcard-flip-btn">
+              <RotateCw className="playful-flashcard-icon" />
+            </button>
           </div>
 
-          <div className="picasso-flashcard-card-area" onClick={handleFlip}>
+          <div className="playful-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
             <div 
-              className="picasso-flashcard-card"
-              style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+              className="playful-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
             >
-              <div className="picasso-flashcard-front-wrapper">
-                <div className="picasso-flashcard-front-inner">
-                  <div className="picasso-flashcard-front-shadow"></div>
-                  <div className="picasso-flashcard-front">
-                    <div className="picasso-flashcard-front-deco-1"></div>
-                    <div className="picasso-flashcard-front-deco-2"></div>
-                    <div className="picasso-flashcard-front-content">
-                      <div className="picasso-flashcard-front-icon-wrapper">
-                        <div className="picasso-flashcard-front-icon-inner">
-                          <div className="picasso-flashcard-front-icon-bg"></div>
-                          <div className="picasso-flashcard-front-icon">
-                            <span className="picasso-flashcard-front-icon-text">?</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="picasso-flashcard-front-question">{currentFlashcard.question}</div>
-                      <div className="picasso-flashcard-front-hint">Click to reveal</div>
-                    </div>
-                  </div>
+              <div className="playful-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="playful-flashcard-front-content">
+                  <div className="playful-flashcard-emoji">🤔</div>
+                  <p className="playful-flashcard-text-front">{currentFlashcard.question}</p>
+                  <p className="playful-flashcard-hint">Click to flip!</p>
                 </div>
               </div>
-              <div className="picasso-flashcard-back-wrapper">
-                <div className="picasso-flashcard-back-inner">
-                  <div className="picasso-flashcard-back-shadow"></div>
-                  <div className="picasso-flashcard-back">
-                    <div className="picasso-flashcard-back-deco-1"></div>
-                    <div className="picasso-flashcard-back-deco-2"></div>
-                    <div className="picasso-flashcard-back-content">
-                      <div className="picasso-flashcard-back-icon">
-                        <span className="picasso-flashcard-back-icon-text">!</span>
-                      </div>
-                      <div className="picasso-flashcard-back-answer-wrapper">
-                        <div className="picasso-flashcard-back-answer-bg"></div>
-                        <div className="picasso-flashcard-back-answer">{currentFlashcard.answer}</div>
-                      </div>
-                    </div>
-                  </div>
+
+              <div className="playful-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="playful-flashcard-back-content">
+                  <div className="playful-flashcard-emoji">💡</div>
+                  <p className="playful-flashcard-text-back">{currentFlashcard.answer}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="picasso-flashcard-nav">
-            <div className="picasso-flashcard-nav-btn-wrapper">
-              <div className="picasso-flashcard-nav-btn-shadow"></div>
-              <button
-                className="picasso-flashcard-nav-btn picasso-flashcard-nav-btn-prev"
-                onClick={handlePrevious}
-                disabled={currentCard === 0}
-              >
-                <span>←</span>
-                <span>Previous</span>
-              </button>
-            </div>
-            <div className="picasso-flashcard-nav-btn-wrapper">
-              <div className="picasso-flashcard-nav-btn-shadow"></div>
-              <button
-                className="picasso-flashcard-nav-btn picasso-flashcard-nav-btn-next"
-                onClick={handleNext}
-                disabled={currentCard === totalCards - 1}
-              >
-                <span>Next</span>
-                <span>→</span>
-              </button>
-            </div>
+          <div className="playful-flashcard-nav">
+            <button onClick={handlePrevious} className="playful-flashcard-nav-btn playful-flashcard-nav-btn-prev">
+              <ChevronLeft className="playful-flashcard-icon" />
+              Previous
+            </button>
+            <button onClick={handleNext} className="playful-flashcard-nav-btn playful-flashcard-nav-btn-next">
+              Next
+              <ChevronRight className="playful-flashcard-icon" />
+            </button>
           </div>
 
-          <div className="picasso-flashcard-dots">
+          <div className="playful-flashcard-dots">
             {flashcards.map((_, index) => (
-              <div key={index} className="picasso-flashcard-dot-wrapper">
-                <div className="picasso-flashcard-dot-shadow"></div>
-                <button
-                  className={`picasso-flashcard-dot ${
-                    index === currentCard ? 'picasso-flashcard-dot-active' : 'picasso-flashcard-dot-inactive'
-                  }`}
-                  onClick={() => {
-                    setCurrentCard(index);
-                    setIsFlipped(false);
-                  }}
-                />
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentCard(index);
+                  setIsFlipped(false);
+                }}
+                className={`playful-flashcard-dot ${index === currentCard ? 'playful-flashcard-dot-active' : 'playful-flashcard-dot-inactive'}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Render for Tech style
+  if (visualStyle === 'tech') {
+    return (
+      <div className="tech-flashcard-wrapper">
+        <div className="tech-flashcard-container">
+          <div className="tech-flashcard-header">
+            <div className="tech-flashcard-counter">
+              <Code2 className="tech-flashcard-icon-code" />
+              <span>[{currentCard + 1}/{totalCards}]</span>
+            </div>
+            <button onClick={handleFlip} className="tech-flashcard-flip-btn">
+              <RotateCw className="tech-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="tech-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
+            <div 
+              className="tech-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              <div className="tech-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="tech-flashcard-front-content">
+                  <div className="tech-flashcard-label">{'> '} QUERY</div>
+                  <p className="tech-flashcard-text-front">{currentFlashcard.question}</p>
+                  <p className="tech-flashcard-hint">// click to execute</p>
+                </div>
               </div>
+
+              <div className="tech-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="tech-flashcard-back-content">
+                  <div className="tech-flashcard-label">{'> '} RESPONSE</div>
+                  <p className="tech-flashcard-text-back">{currentFlashcard.answer}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="tech-flashcard-nav">
+            <button onClick={handlePrevious} className="tech-flashcard-nav-btn tech-flashcard-nav-btn-prev">
+              <ChevronLeft className="tech-flashcard-icon" />
+              PREV
+            </button>
+            <button onClick={handleNext} className="tech-flashcard-nav-btn tech-flashcard-nav-btn-next">
+              NEXT
+              <ChevronRight className="tech-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="tech-flashcard-dots">
+            {flashcards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentCard(index);
+                  setIsFlipped(false);
+                }}
+                className={`tech-flashcard-dot ${index === currentCard ? 'tech-flashcard-dot-active' : 'tech-flashcard-dot-inactive'}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Render for Corporate style
+  if (visualStyle === 'corporate') {
+    return (
+      <div className="corporate-flashcard-wrapper">
+        <div className="corporate-flashcard-container">
+          <div className="corporate-flashcard-header">
+            <div className="corporate-flashcard-counter">
+              Card {currentCard + 1} of {totalCards}
+            </div>
+            <button onClick={handleFlip} className="corporate-flashcard-flip-btn">
+              <RotateCw className="corporate-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="corporate-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
+            <div 
+              className="corporate-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              <div className="corporate-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="corporate-flashcard-front-content">
+                  <div className="corporate-flashcard-label">Question</div>
+                  <p className="corporate-flashcard-text-front">{currentFlashcard.question}</p>
+                  <p className="corporate-flashcard-hint">Click to reveal answer</p>
+                </div>
+              </div>
+
+              <div className="corporate-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="corporate-flashcard-back-content">
+                  <div className="corporate-flashcard-label-back">Answer</div>
+                  <p className="corporate-flashcard-text-back">{currentFlashcard.answer}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="corporate-flashcard-nav">
+            <button onClick={handlePrevious} className="corporate-flashcard-nav-btn corporate-flashcard-nav-btn-prev">
+              <ChevronLeft className="corporate-flashcard-icon" />
+              Previous
+            </button>
+            <button onClick={handleNext} className="corporate-flashcard-nav-btn corporate-flashcard-nav-btn-next">
+              Next
+              <ChevronRight className="corporate-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="corporate-flashcard-dots">
+            {flashcards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentCard(index);
+                  setIsFlipped(false);
+                }}
+                className={`corporate-flashcard-dot ${index === currentCard ? 'corporate-flashcard-dot-active' : 'corporate-flashcard-dot-inactive'}`}
+              />
             ))}
           </div>
         </div>
@@ -195,51 +276,47 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
             <div className="illustrated-flashcard-counter-wrapper">
               <div className="illustrated-flashcard-star-icon">⭐</div>
               <div className="illustrated-flashcard-counter">
-                {currentCard + 1} / {totalCards}
+                Card {currentCard + 1} / {totalCards}
               </div>
             </div>
-            <button className="illustrated-flashcard-flip-btn" onClick={handleFlip}>
-              ⟲
+            <button onClick={handleFlip} className="illustrated-flashcard-flip-btn">
+              <RotateCw className="illustrated-flashcard-icon" />
             </button>
           </div>
 
-          <div className="illustrated-flashcard-card-area" onClick={handleFlip}>
+          <div className="illustrated-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
             <div 
               className="illustrated-flashcard-card"
-              style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
             >
-              <div className="illustrated-flashcard-front">
-                <div style={{ textAlign: 'center' }}>
-                  <div className="illustrated-flashcard-content-star">⭐</div>
-                  <div className="illustrated-flashcard-text-front">{currentFlashcard.question}</div>
-                  <div className="illustrated-flashcard-hint">Click to reveal</div>
+              <div className="illustrated-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="illustrated-flashcard-front-content">
+                  <div className="illustrated-flashcard-emoji">⭐</div>
+                  <p className="illustrated-flashcard-text-front">{currentFlashcard.question}</p>
+                  <div className="illustrated-flashcard-hint">Click to flip!</div>
                 </div>
               </div>
-              <div className="illustrated-flashcard-back">
-                <div style={{ textAlign: 'center' }}>
-                  <div className="illustrated-flashcard-text-back">{currentFlashcard.answer}</div>
+
+              <div className="illustrated-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="illustrated-flashcard-back-content">
+                  <div className="illustrated-flashcard-emoji">💡</div>
+                  <p className="illustrated-flashcard-text-back">{currentFlashcard.answer}</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="illustrated-flashcard-nav">
-            <button
-              className="illustrated-flashcard-nav-btn illustrated-flashcard-nav-btn-prev"
-              onClick={handlePrevious}
-              disabled={currentCard === 0}
-            >
-              <span>←</span>
-              <span>Previous</span>
+            <button onClick={handlePrevious} className="illustrated-flashcard-nav-btn illustrated-flashcard-nav-btn-prev">
+              <ChevronLeft className="illustrated-flashcard-icon" />
+              Previous
             </button>
-            <button
-              className="illustrated-flashcard-nav-btn illustrated-flashcard-nav-btn-next"
-              onClick={handleNext}
-              disabled={currentCard === totalCards - 1}
-            >
-              <span>Next</span>
-              <span>→</span>
-              <span className="illustrated-flashcard-star-running">⭐</span>
+            <button onClick={handleNext} className="illustrated-flashcard-nav-btn illustrated-flashcard-nav-btn-next">
+              Next
+              <ChevronRight className="illustrated-flashcard-icon" />
             </button>
           </div>
 
@@ -247,13 +324,183 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
             {flashcards.map((_, index) => (
               <button
                 key={index}
-                className={`illustrated-flashcard-dot ${
-                  index === currentCard ? 'illustrated-flashcard-dot-active' : 'illustrated-flashcard-dot-inactive'
-                }`}
                 onClick={() => {
                   setCurrentCard(index);
                   setIsFlipped(false);
                 }}
+                className={`illustrated-flashcard-dot ${index === currentCard ? 'illustrated-flashcard-dot-active' : 'illustrated-flashcard-dot-inactive'}`}
+              />
+            ))}
+            <span className="illustrated-flashcard-star-running">⭐</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Render for Picasso style
+  if (visualStyle === 'picasso') {
+    return (
+      <div className="picasso-flashcard-wrapper">
+        <div className="picasso-flashcard-deco-1"></div>
+        <div className="picasso-flashcard-deco-2"></div>
+        <div className="picasso-flashcard-deco-3"></div>
+        
+        <div className="picasso-flashcard-container">
+          <div className="picasso-flashcard-top-border"></div>
+          
+          <div className="picasso-flashcard-header">
+            <div className="picasso-flashcard-counter-wrapper">
+              <div className="picasso-flashcard-counter-shadow"></div>
+              <div className="picasso-flashcard-counter">
+                <div className="picasso-flashcard-counter-dot"></div>
+                <span>{currentCard + 1} / {totalCards}</span>
+              </div>
+            </div>
+            <button onClick={handleFlip} className="picasso-flashcard-flip-btn-wrapper">
+              <div className="picasso-flashcard-flip-btn-shadow"></div>
+              <div className="picasso-flashcard-flip-btn">
+                <RotateCw className="picasso-flashcard-icon" />
+              </div>
+            </button>
+          </div>
+
+          <div className="picasso-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
+            <div 
+              className="picasso-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              <div className="picasso-flashcard-front-wrapper" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="picasso-flashcard-front-shadow"></div>
+                <div className="picasso-flashcard-front">
+                  <div className="picasso-flashcard-front-deco-1"></div>
+                  <div className="picasso-flashcard-front-deco-2"></div>
+                  <div className="picasso-flashcard-front-content">
+                    <div className="picasso-flashcard-front-icon-wrapper">
+                      <div className="picasso-flashcard-front-icon-shadow"></div>
+                      <div className="picasso-flashcard-front-icon">?</div>
+                    </div>
+                    <p className="picasso-flashcard-front-text">{currentFlashcard.question}</p>
+                    <div className="picasso-flashcard-front-hint">Click to reveal</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="picasso-flashcard-back-wrapper" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="picasso-flashcard-back-shadow"></div>
+                <div className="picasso-flashcard-back">
+                  <div className="picasso-flashcard-back-deco-1"></div>
+                  <div className="picasso-flashcard-back-deco-2"></div>
+                  <div className="picasso-flashcard-back-content">
+                    <div className="picasso-flashcard-back-icon">!</div>
+                    <div className="picasso-flashcard-back-answer-wrapper">
+                      <div className="picasso-flashcard-back-answer-bg"></div>
+                      <p className="picasso-flashcard-back-answer">{currentFlashcard.answer}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="picasso-flashcard-nav">
+            <div className="picasso-flashcard-nav-btn-wrapper">
+              <div className="picasso-flashcard-nav-btn-shadow"></div>
+              <button onClick={handlePrevious} className="picasso-flashcard-nav-btn picasso-flashcard-nav-btn-prev">
+                <ChevronLeft className="picasso-flashcard-icon" />
+                <span>Previous</span>
+              </button>
+            </div>
+            <div className="picasso-flashcard-nav-btn-wrapper">
+              <div className="picasso-flashcard-nav-btn-shadow"></div>
+              <button onClick={handleNext} className="picasso-flashcard-nav-btn picasso-flashcard-nav-btn-next">
+                <span>Next</span>
+                <ChevronRight className="picasso-flashcard-icon" />
+              </button>
+            </div>
+          </div>
+
+          <div className="picasso-flashcard-dots">
+            {flashcards.map((_, index) => (
+              <div key={index} className="picasso-flashcard-dot-wrapper">
+                <div className="picasso-flashcard-dot-shadow"></div>
+                <button
+                  onClick={() => {
+                    setCurrentCard(index);
+                    setIsFlipped(false);
+                  }}
+                  className={`picasso-flashcard-dot ${index === currentCard ? 'picasso-flashcard-dot-active' : 'picasso-flashcard-dot-inactive'}`}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Render for Schoolr style
+  if (visualStyle === 'schoolr') {
+    return (
+      <div className="schoolr-flashcard-wrapper">
+        <div className="schoolr-flashcard-container">
+          <div className="schoolr-flashcard-header">
+            <div className="schoolr-flashcard-counter">
+              Scheda {currentCard + 1} di {totalCards}
+            </div>
+            <button onClick={handleFlip} className="schoolr-flashcard-flip-btn">
+              <RotateCw className="schoolr-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="schoolr-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
+            <div 
+              className="schoolr-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              <div className="schoolr-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="schoolr-flashcard-front-content">
+                  <div className="schoolr-flashcard-question-icon">?</div>
+                  <p className="schoolr-flashcard-text-front">{currentFlashcard.question}</p>
+                  <div className="schoolr-flashcard-hint">Clicca per scoprire la risposta</div>
+                </div>
+              </div>
+
+              <div className="schoolr-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="schoolr-flashcard-back-content">
+                  <div className="schoolr-flashcard-answer-icon">💡</div>
+                  <p className="schoolr-flashcard-text-back">{currentFlashcard.answer}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="schoolr-flashcard-nav">
+            <button onClick={handlePrevious} className="schoolr-flashcard-nav-btn schoolr-flashcard-nav-btn-prev">
+              <ChevronLeft className="schoolr-flashcard-icon" />
+              Precedente
+            </button>
+            <button onClick={handleNext} className="schoolr-flashcard-nav-btn schoolr-flashcard-nav-btn-next">
+              Successivo
+              <ChevronRight className="schoolr-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="schoolr-flashcard-dots">
+            {flashcards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentCard(index);
+                  setIsFlipped(false);
+                }}
+                className={`schoolr-flashcard-dot ${index === currentCard ? 'schoolr-flashcard-dot-active' : 'schoolr-flashcard-dot-inactive'}`}
               />
             ))}
           </div>
@@ -262,84 +509,150 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
     );
   }
 
-  // Default render for simpler styles (playful, tech, corporate)
-  return (
-    <div className={`${visualStyle}-flashcard-wrapper`}>
-      <div className={`${visualStyle}-flashcard-container`}>
-        <div className={`${visualStyle}-flashcard-header`}>
-          <div className={`${visualStyle}-flashcard-counter`}>
-            {currentCard + 1} / {totalCards}
-          </div>
-          <button 
-            className={`${visualStyle}-flashcard-flip-btn`}
-            onClick={handleFlip}
-          >
-            ⟲
-          </button>
-        </div>
-
-        <div className={`${visualStyle}-flashcard-card-area`} onClick={handleFlip}>
-          <div 
-            className={`${visualStyle}-flashcard-card`}
-            style={{
-              transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
-            }}
-          >
-            <div className={`${visualStyle}-flashcard-front`}>
-              <div style={{ textAlign: 'center' }}>
-                <div className={`${visualStyle}-flashcard-text-front`}>
-                  {currentFlashcard.question}
-                </div>
-                <div className={`${visualStyle}-flashcard-hint`}>
-                  Click to reveal
-                </div>
-              </div>
+  // Render for PLAI style
+  if (visualStyle === 'plai') {
+    return (
+      <div className="plai-flashcard-wrapper">
+        <div className="plai-flashcard-container">
+          <div className="plai-flashcard-header">
+            <div className="plai-flashcard-counter-wrapper">
+              <div className="plai-flashcard-counter-label">Flashcard Study</div>
+              <div className="plai-flashcard-counter">Card {currentCard + 1} of {totalCards}</div>
             </div>
-            <div className={`${visualStyle}-flashcard-back`}>
-              <div style={{ textAlign: 'center' }}>
-                <div className={`${visualStyle}-flashcard-text-back`}>
-                  {currentFlashcard.answer}
-                </div>
-              </div>
-            </div>
+            <button onClick={handleFlip} className="plai-flashcard-flip-btn">
+              <RotateCw className="plai-flashcard-icon" />
+            </button>
           </div>
-        </div>
 
-        <div className={`${visualStyle}-flashcard-nav`}>
-          <button
-            className={`${visualStyle}-flashcard-nav-btn ${visualStyle}-flashcard-nav-btn-prev`}
-            onClick={handlePrevious}
-            disabled={currentCard === 0}
-          >
-            <span>←</span>
-            <span>Previous</span>
-          </button>
-          <button
-            className={`${visualStyle}-flashcard-nav-btn ${visualStyle}-flashcard-nav-btn-next`}
-            onClick={handleNext}
-            disabled={currentCard === totalCards - 1}
-          >
-            <span>Next</span>
-            <span>→</span>
-          </button>
-        </div>
-
-        <div className={`${visualStyle}-flashcard-dots`}>
-          {flashcards.map((_, index) => (
-            <button
-              key={index}
-              className={
-                index === currentCard
-                  ? `${visualStyle}-flashcard-dot ${visualStyle}-flashcard-dot-active`
-                  : `${visualStyle}-flashcard-dot ${visualStyle}-flashcard-dot-inactive`
-              }
-              onClick={() => {
-                setCurrentCard(index);
-                setIsFlipped(false);
+          <div className="plai-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
+            <div 
+              className="plai-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
               }}
-            />
-          ))}
+            >
+              <div className="plai-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="plai-flashcard-front-content">
+                  <div className="plai-flashcard-label">Question</div>
+                  <p className="plai-flashcard-text-front">{currentFlashcard.question}</p>
+                  <div className="plai-flashcard-hint">Click to reveal answer</div>
+                </div>
+              </div>
+
+              <div className="plai-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="plai-flashcard-back-content">
+                  <div className="plai-flashcard-label-back">Answer</div>
+                  <p className="plai-flashcard-text-back">{currentFlashcard.answer}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="plai-flashcard-nav">
+            <button onClick={handlePrevious} className="plai-flashcard-nav-btn plai-flashcard-nav-btn-prev">
+              <ChevronLeft className="plai-flashcard-icon" />
+              Previous
+            </button>
+            <button onClick={handleNext} className="plai-flashcard-nav-btn plai-flashcard-nav-btn-next">
+              Next
+              <ChevronRight className="plai-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="plai-flashcard-dots">
+            {flashcards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentCard(index);
+                  setIsFlipped(false);
+                }}
+                className={`plai-flashcard-dot ${index === currentCard ? 'plai-flashcard-dot-active' : 'plai-flashcard-dot-inactive'}`}
+              />
+            ))}
+          </div>
         </div>
+      </div>
+    );
+  }
+
+  // Render for Studenti style
+  if (visualStyle === 'studenti') {
+    return (
+      <div className="studenti-flashcard-wrapper">
+        <div className="studenti-flashcard-container">
+          <div className="studenti-flashcard-header">
+            <div className="studenti-flashcard-counter-wrapper">
+              <div className="studenti-flashcard-number">{currentCard + 1}</div>
+              <div className="studenti-flashcard-counter-text">
+                <div className="studenti-flashcard-label">Scheda di studio</div>
+                <div className="studenti-flashcard-counter">{currentCard + 1} di {totalCards}</div>
+              </div>
+            </div>
+            <button onClick={handleFlip} className="studenti-flashcard-flip-btn">
+              <RotateCw className="studenti-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="studenti-flashcard-card-area" onClick={handleFlip} style={{ perspective: '1000px' }}>
+            <div 
+              className="studenti-flashcard-card"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              <div className="studenti-flashcard-front" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="studenti-flashcard-front-content">
+                  <div className="studenti-flashcard-question-label">Domanda</div>
+                  <h3 className="studenti-flashcard-text-front">{currentFlashcard.question}</h3>
+                  <div className="studenti-flashcard-hint">Clicca per vedere la risposta</div>
+                </div>
+              </div>
+
+              <div className="studenti-flashcard-back" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="studenti-flashcard-back-content">
+                  <div className="studenti-flashcard-answer-label">Risposta</div>
+                  <p className="studenti-flashcard-text-back">{currentFlashcard.answer}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="studenti-flashcard-nav">
+            <button onClick={handlePrevious} className="studenti-flashcard-nav-btn studenti-flashcard-nav-btn-prev">
+              <ChevronLeft className="studenti-flashcard-icon" />
+              Precedente
+            </button>
+            <button onClick={handleNext} className="studenti-flashcard-nav-btn studenti-flashcard-nav-btn-next">
+              Successiva
+              <ChevronRight className="studenti-flashcard-icon" />
+            </button>
+          </div>
+
+          <div className="studenti-flashcard-dots">
+            {flashcards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentCard(index);
+                  setIsFlipped(false);
+                }}
+                className={`studenti-flashcard-dot ${index === currentCard ? 'studenti-flashcard-dot-active' : 'studenti-flashcard-dot-inactive'}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Default fallback (should not reach here)
+  return (
+    <div className="playful-flashcard-wrapper">
+      <div className="playful-flashcard-container">
+        <p>Unknown visual style</p>
       </div>
     </div>
   );

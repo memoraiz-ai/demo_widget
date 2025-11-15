@@ -13,7 +13,10 @@ const visualStyles = {
   tech: { name: 'Tech' },
   corporate: { name: 'Corporate' },
   picasso: { name: 'Picasso' },
-  illustrated: { name: 'Illustrated' }
+  illustrated: { name: 'Illustrated' },
+  schoolr: { name: 'Schoolr' },
+  plai: { name: 'PLAI' },
+  studenti: { name: 'Studenti' }
 };
 
 function App() {
