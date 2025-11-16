@@ -46,6 +46,8 @@ function App() {
   const [podcastTranscript, setPodcastTranscript] = useState('simple');
   const [podcastVoice, setPodcastVoice] = useState('uomo');
   const [podcastMultispeaker, setPodcastMultispeaker] = useState(true);
+  const [podcastBackgroundMusic, setPodcastBackgroundMusic] = useState(true);
+  const [podcastLanguage, setPodcastLanguage] = useState('italian');
   const [showExportView, setShowExportView] = useState(false);
   const [exportData, setExportData] = useState(null);
   const flashcardRef = useRef(null);
@@ -124,7 +126,9 @@ function App() {
           stile: visualStyles[podcastStyle].name,
           dettagli: {
             voce: podcastVoice,
-            multispeaker: podcastMultispeaker
+            multispeaker: podcastMultispeaker,
+            musicaSottofondo: podcastBackgroundMusic,
+            lingua: podcastLanguage
           }
         }
       },
@@ -155,7 +159,9 @@ function App() {
           style: podcastStyle,
           transcript: podcastTranscript,
           voice: podcastVoice,
-          multispeaker: podcastMultispeaker
+          multispeaker: podcastMultispeaker,
+          backgroundMusic: podcastBackgroundMusic,
+          language: podcastLanguage
         }
       },
       content: {
@@ -241,7 +247,7 @@ function App() {
     } else if (currentPage === 'mindmap') {
       return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
     } else if (currentPage === 'podcast') {
-      return <Podcast visualStyle={podcastStyle} />;
+      return <Podcast visualStyle={podcastStyle} backgroundMusic={podcastBackgroundMusic} language={podcastLanguage} />;
     }
     return renderQuiz();
   };
@@ -311,6 +317,10 @@ function App() {
                 setPodcastVoice={setPodcastVoice}
                 podcastMultispeaker={podcastMultispeaker}
                 setPodcastMultispeaker={setPodcastMultispeaker}
+                podcastBackgroundMusic={podcastBackgroundMusic}
+                setPodcastBackgroundMusic={setPodcastBackgroundMusic}
+                podcastLanguage={podcastLanguage}
+                setPodcastLanguage={setPodcastLanguage}
                 onExport={handleExport}
                 answersCount={answersCount}
                 setAnswersCount={setAnswersCount}

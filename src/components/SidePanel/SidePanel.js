@@ -41,6 +41,10 @@ const SidePanel = ({
   setPodcastVoice,
   podcastMultispeaker,
   setPodcastMultispeaker,
+  podcastBackgroundMusic,
+  setPodcastBackgroundMusic,
+  podcastLanguage,
+  setPodcastLanguage,
   onExport
 }) => {
   const quizTypes = [
@@ -451,6 +455,50 @@ const SidePanel = ({
                     Abilita voci multiple per il podcast
                   </p>
                 </div>
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Musica di sottofondo</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="background-music-toggle"
+                        checked={podcastBackgroundMusic}
+                        onChange={(e) => setPodcastBackgroundMusic(e.target.checked)}
+                      />
+                      <label htmlFor="background-music-toggle" className="toggle-label">
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <p className="detail-description">
+                    Attiva la musica di sottofondo durante il podcast
+                  </p>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Lingua</span>
+                    <select
+                      className="timer-duration-select"
+                      value={podcastLanguage}
+                      onChange={(e) => setPodcastLanguage(e.target.value)}
+                      style={{
+                        padding: '0.5rem',
+                        borderRadius: '0.375rem',
+                        border: '1px solid #e0e0e0',
+                        fontSize: '0.875rem',
+                        fontFamily: 'Geist, sans-serif'
+                      }}
+                    >
+                      <option value="italian">Italiano</option>
+                      <option value="brazilian">Português Brasileiro</option>
+                      <option value="english">Inglese</option>
+                      <option value="chinese">Cinese</option>
+                    </select>
+                  </div>
+                  <p className="detail-description">
+                    Seleziona la lingua per il podcast
+                  </p>
+                </div>
               </div>
             </div>
           </>
@@ -561,6 +609,13 @@ const SidePanel = ({
               setShowNodeDetails(true);
               setShowConnectionLabels(true);
               setDynamicMapEnabled(true);
+            } else if (currentPage === 'podcast') {
+              setPodcastStyle('playful');
+              setPodcastTranscript('simple');
+              setPodcastVoice('uomo');
+              setPodcastMultispeaker(true);
+              setPodcastBackgroundMusic(true);
+              setPodcastLanguage('italian');
             }
             setTimerEnabled(true);
           }}>

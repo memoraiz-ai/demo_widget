@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import '../../styles/Podcast.css';
 
-const Podcast = ({ visualStyle = 'playful' }) => {
+const Podcast = ({ visualStyle = 'playful', backgroundMusic = true, language = 'italian' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
