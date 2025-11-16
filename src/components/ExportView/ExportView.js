@@ -285,7 +285,8 @@ const ExportView = ({ exportData, onBack }) => {
       </div>
 
       <div className="export-view-body">
-        <div className="export-main-column">
+        {/* First Row: Video + Learning Tools */}
+        <div className="export-first-row">
           <div className="export-video-card">
             <div className="export-video-header">
               <div>
@@ -314,7 +315,41 @@ const ExportView = ({ exportData, onBack }) => {
             </div>
           </div>
 
-          {/* Content Tabs */}
+          <aside className="export-sidebar" aria-label="Learning tools">
+            <div className="export-sidebar-header">
+              <h2 className="export-sidebar-title">Learning Tools</h2>
+              <p className="export-sidebar-subtitle">Testa la tua comprensione</p>
+            </div>
+            
+            <div className="export-tools-tabs" role="tablist">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'quiz'}
+                className={`export-tools-tab ${activeTab === 'quiz' ? 'active' : ''}`}
+                onClick={() => setActiveTab('quiz')}
+              >
+                Quizzes
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'flashcard'}
+                className={`export-tools-tab ${activeTab === 'flashcard' ? 'active' : ''}`}
+                onClick={() => setActiveTab('flashcard')}
+              >
+                Flashcards
+              </button>
+            </div>
+            
+            <div className="export-sidebar-content">
+              {activeTab === 'quiz' ? renderQuiz() : renderFlashcard()}
+            </div>
+          </aside>
+        </div>
+
+        {/* Second Row: Full-width Content Tabs */}
+        <div className="export-second-row">
           <div className="export-content-tabs" role="tablist">
             <button
               type="button"
@@ -345,7 +380,6 @@ const ExportView = ({ exportData, onBack }) => {
             </button>
           </div>
 
-          {/* Content Area */}
           <div className="export-content-area">
             {activeContentTab === 'transcript' && (
               <div className="export-transcript-card">
@@ -453,38 +487,6 @@ const ExportView = ({ exportData, onBack }) => {
             )}
           </div>
         </div>
-
-        <aside className="export-sidebar" aria-label="Learning tools">
-          <div className="export-sidebar-header">
-            <h2 className="export-sidebar-title">Learning Tools</h2>
-            <p className="export-sidebar-subtitle">Testa la tua comprensione</p>
-          </div>
-          
-          <div className="export-tools-tabs" role="tablist">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'quiz'}
-              className={`export-tools-tab ${activeTab === 'quiz' ? 'active' : ''}`}
-              onClick={() => setActiveTab('quiz')}
-            >
-              Quizzes
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'flashcard'}
-              className={`export-tools-tab ${activeTab === 'flashcard' ? 'active' : ''}`}
-              onClick={() => setActiveTab('flashcard')}
-            >
-              Flashcards
-            </button>
-          </div>
-          
-          <div className="export-sidebar-content">
-            {activeTab === 'quiz' ? renderQuiz() : renderFlashcard()}
-          </div>
-        </aside>
       </div>
     </div>
   );

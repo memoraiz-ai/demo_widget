@@ -594,7 +594,34 @@ duration: number
 - **Audio player** (matches podcast style from main app)
 - **Interactive transcript** with click-to-seek
 - **Mindmap visualization**
-- **Side panel** with Quiz and Flashcard previews
+- **Learning Tools panel** with Quiz and Flashcard previews
+
+**Layout Structure** (Two-Row Layout):
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Export View Header                       │
+│              [Back] Title  [Copy JSON] [Download]           │
+└─────────────────────────────────────────────────────────────┘
+┌────────────────────────────┬────────────────────────────────┐
+│                            │                                │
+│      Video Player          │     Learning Tools             │
+│                            │   ┌──────────────────────┐     │
+│  [Video with Controls]     │   │ Quiz | Flashcard     │     │
+│                            │   └──────────────────────┘     │
+│                            │   [Interactive Preview]         │
+│                            │                                │
+└────────────────────────────┴────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│         [Transcript | Audio Player | Mind Map]              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│              Content Area (Full Width)                      │
+│         • Transcript with auto-scroll                       │
+│         • Audio player with controls                        │
+│         • Interactive mindmap                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **Props**:
 ```javascript
@@ -618,12 +645,28 @@ audioDuration: number
 
 // UI
 activeTab: 'quiz' | 'flashcard'
-sidebarCollapsed: boolean
+activeContentTab: 'transcript' | 'audio' | 'mindmap'
 ```
+
+**Key Layout Features**:
+- **First Row**: Video player (left) and Learning Tools panel (right) displayed side-by-side
+  - Video takes ~60% width, Learning Tools takes ~40% width
+  - Both cards have equal height, aligned at the top
+  - Learning Tools panel has internal scrolling for quiz/flashcard content
+- **Second Row**: Full-width tabbed content area
+  - Tabs for Transcript, Audio Player, and Mind Map
+  - Content stretches across entire page width
+  - Each tab shows its respective content card
+
+**Learning Tools Panel**:
+- Styled to match other cards on the page (white background, subtle shadow)
+- Features Quiz/Flashcard tab switcher
+- Content area scrolls vertically (no page-level scroll)
+- Displays interactive quiz or flashcard preview based on selected tab
 
 **Audio Player Details**:
 - The audio player uses the same visual style (`podcastStyle`) selected in the main application
-- It's positioned below the transcript section
+- Located in the second row as a full-width tab option
 - Loads audio from: `https://cdn.memoraiz.com/audio/schoolr/course-summaries/es/31363-103.mp3`
 - Reuses podcast CSS classes for consistent styling across all 8 visual themes
 - Features: play/pause, time display, progress slider, seek functionality
@@ -1373,9 +1416,39 @@ The codebase is **well-organized** with clear separation of concerns and consist
 
 ## 📝 Recent Changes
 
-### November 16, 2025 - Audio Player in ExportView
-- Added audio player component to ExportView page
-- Audio player positioned below transcript section
+### November 16, 2025 - ExportView Layout Restructure and Styling Updates
+
+#### Layout Restructure (Two-Row Design)
+- **Restructured ExportView layout** from sidebar-based to two-row grid layout:
+  - **First row**: Video player (left) and Learning Tools panel (right) side-by-side
+  - **Second row**: Full-width tabbed content area (Transcript/Audio/Mindmap)
+- Updated CSS grid structure:
+  - `.export-view-body`: Changed from grid to flex column layout
+  - `.export-first-row`: Grid with `1.5fr` (video) and `1.3fr` (learning tools)
+  - `.export-second-row`: Full-width flex column for tabbed content
+- Removed sticky positioning from Learning Tools panel
+- Learning Tools panel now has fixed height matching video player height
+
+#### Styling Updates (Learning Tools Panel)
+- **Restyled Learning Tools sidebar** to match page aesthetic:
+  - Changed from dark theme (`#020617` background) to light theme (`#ffffff`)
+  - Updated borders to use `var(--card-border)` (`#dfe1e6`)
+  - Reduced shadow intensity: `rgba(15, 23, 42, 0.06)` instead of `0.55`
+  - Adjusted header border to light gray: `#e5e7eb`
+- **Updated text colors** for light background:
+  - Title: `#111827` (dark gray)
+  - Subtitle: `#6b7280` (medium gray)
+- **Redesigned tabs** to match content tabs style:
+  - Light background: `#f9fafb`
+  - Border: `#e5e7eb`
+  - Active state: `#f3f4f6` background with `#111827` text
+- **Updated scrollbar styling** for light theme:
+  - Track: `#f3f4f6`
+  - Thumb: `#d1d5db`
+  - Thumb hover: `#9ca3af`
+
+#### Audio Player Integration
+- Audio player component positioned in second row as tab option
 - Matches podcast visual style selected in main application
 - Plays audio from: `https://cdn.memoraiz.com/audio/schoolr/course-summaries/es/31363-103.mp3`
 - Reuses existing podcast CSS classes for all 8 visual themes

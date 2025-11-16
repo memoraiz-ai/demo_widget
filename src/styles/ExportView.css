@@ -110,17 +110,25 @@
 
 .export-view-body {
   flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(320px, 0.9fr);
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   min-height: 0;
 }
 
-.export-main-column {
+/* First Row: Video + Learning Tools side by side */
+.export-first-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(420px, 1.3fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Second Row: Full-width content tabs */
+.export-second-row {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  min-height: 0;
 }
 
 .export-video-card,
@@ -319,45 +327,41 @@
   margin-top: 0;
 }
 
-/* Sticky Learning Tools Sidebar */
+/* Learning Tools Sidebar */
 
 .export-sidebar {
-  position: sticky;
-  top: 1.5rem;
-  align-self: start;
-  height: fit-content;
-  max-height: calc(100vh - 3rem);
-  overflow: auto;
-  background: #020617;
+  height: 100%;
+  background: #ffffff;
   border-radius: 1rem;
-  border: 1px solid #111827;
-  padding: 1rem;
+  border: 1px solid var(--card-border);
+  padding: 1rem 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.55);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
 }
 
 .export-sidebar-header {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #1e293b;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .export-sidebar-title {
   font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #f9fafb;
+  color: #111827;
   margin: 0;
 }
 
 .export-sidebar-subtitle {
   font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: #6b7280;
   margin: 0;
 }
 
@@ -367,43 +371,47 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
-  background: #0f172a;
-  border-radius: 999px;
-  padding: 0.25rem;
-  box-shadow: 0 0 0 1px #1e293b;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .export-tools-tab {
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 999px;
+  border-radius: 0.5rem;
   background: transparent;
-  color: #9ca3af;
+  color: #6b7280;
   font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 .export-tools-tab:hover {
-  color: #d1d5db;
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .export-tools-tab.active {
-  background: #1e293b;
-  color: #f9fafb;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: #f3f4f6;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .export-sidebar-content {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 0.25rem 0.25rem 0.25rem 0.5rem;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  background: #ffffff;
 }
 
 /* Scale down quiz and flashcard components in sidebar for better fit */
@@ -424,18 +432,18 @@
 
 .export-transcript-list::-webkit-scrollbar-track,
 .export-sidebar-content::-webkit-scrollbar-track {
-  background: #e5e7eb;
+  background: #f3f4f6;
 }
 
 .export-transcript-list::-webkit-scrollbar-thumb,
 .export-sidebar-content::-webkit-scrollbar-thumb {
-  background: #9ca3af;
+  background: #d1d5db;
   border-radius: 999px;
 }
 
 .export-transcript-list::-webkit-scrollbar-thumb:hover,
 .export-sidebar-content::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  background: #9ca3af;
 }
 
 .export-view-container::-webkit-scrollbar {
@@ -458,14 +466,12 @@
     padding: 1.25rem 1.25rem 1.5rem;
   }
 
-  .export-view-body {
+  .export-first-row {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .export-sidebar {
-    position: sticky;
-    top: 1rem;
-    margin-top: 0.75rem;
+    max-height: 600px;
   }
 }
 
