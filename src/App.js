@@ -247,7 +247,7 @@ function App() {
     } else if (currentPage === 'mindmap') {
       return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
     } else if (currentPage === 'podcast') {
-      return <Podcast visualStyle={podcastStyle} backgroundMusic={podcastBackgroundMusic} language={podcastLanguage} />;
+      return <Podcast visualStyle={podcastStyle} backgroundMusic={podcastBackgroundMusic} language={podcastLanguage} voice={podcastVoice} multispeaker={podcastMultispeaker} />;
     }
     return renderQuiz();
   };

@@ -1,13 +1,51 @@
 import React, { useState, useRef } from 'react';
 import '../../styles/Podcast.css';
 
-const Podcast = ({ visualStyle = 'playful', backgroundMusic = true, language = 'italian' }) => {
+// Base URL for podcast audio files
+const AUDIO_BASE_URL = 'https://cdn.memoraiz.com/audio/PLAI/';
+
+// Language mapping
+const languageMap = {
+  italian: 'italian',
+  brazilian: 'brazilian',
+  english: 'english',
+  chinese: 'chinese',
+};
+
+// Helper function to build podcast audio URL
+function buildPodcastAudioUrl(options) {
+  const langKey = languageMap[options.language] || 'english';
+  let voiceType;
+  
+  if (options.multispeaker) {
+    voiceType = 'dialogue';
+  } else if (options.voice === 'uomo') {
+    voiceType = 'male';
+  } else if (options.voice === 'donna') {
+    voiceType = 'female';
+  } else {
+    voiceType = 'male';
+  }
+  
+  const bgmSuffix = options.backgroundMusic ? '_with_bgm' : '';
+  return AUDIO_BASE_URL + langKey + '_' + voiceType + bgmSuffix + '.mp3';
+}
+
+const Podcast = ({ visualStyle = 'playful', backgroundMusic = true, language = 'italian', voice = 'uomo', multispeaker = true }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
   const prefix = visualStyle;
+  
+  // Generate dynamic audio URL based on user selections
+  const audioUrl = buildPodcastAudioUrl({
+    language,
+    voice,
+    multispeaker,
+    backgroundMusic,
+  });
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -92,7 +130,7 @@ const Podcast = ({ visualStyle = 'playful', backgroundMusic = true, language = '
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={() => setIsPlaying(false)}
           >
-            <source src="your-audio-file.mp3" type="audio/mpeg" />
+            <source src={audioUrl} type="audio/mpeg" />
             Il tuo browser non supporta l'elemento audio.
           </audio>
 

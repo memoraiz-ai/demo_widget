@@ -5,6 +5,36 @@ import { SingleQuiz, MultiQuiz, TrueFalseQuiz, OutlinedQuiz } from '../Quiz';
 import Flashcard from '../Flashcard';
 import Mindmap from '../Mindmap';
 
+// Base URL for podcast audio files
+const AUDIO_BASE_URL = 'https://cdn.memoraiz.com/audio/PLAI/';
+
+// Language mapping
+const languageMap = {
+  italian: 'italian',
+  brazilian: 'brazilian',
+  english: 'english',
+  chinese: 'chinese',
+};
+
+// Helper function to build podcast audio URL from config
+function buildPodcastAudioUrl(options) {
+  const langKey = languageMap[options.language] || 'english';
+  let voiceType;
+  
+  if (options.multispeaker) {
+    voiceType = 'dialogue';
+  } else if (options.voice === 'uomo') {
+    voiceType = 'male';
+  } else if (options.voice === 'donna') {
+    voiceType = 'female';
+  } else {
+    voiceType = 'male';
+  }
+  
+  const bgmSuffix = options.backgroundMusic ? '_with_bgm' : '';
+  return AUDIO_BASE_URL + langKey + '_' + voiceType + bgmSuffix + '.mp3';
+}
+
 const ExportView = ({ exportData, onBack }) => {
   const videoRef = useRef(null);
   const audioRef = useRef(null);
@@ -432,7 +462,12 @@ const ExportView = ({ exportData, onBack }) => {
                 onLoadedMetadata={handleAudioLoadedMetadata}
                 onEnded={() => setIsAudioPlaying(false)}
               >
-                <source src="https://cdn.memoraiz.com/audio/schoolr/course-summaries/es/31363-103.mp3" type="audio/mpeg" />
+                <source src={buildPodcastAudioUrl({
+                  language: podcastConfig.language || 'italian',
+                  voice: podcastConfig.voice || 'uomo',
+                  multispeaker: podcastConfig.multispeaker ?? true,
+                  backgroundMusic: podcastConfig.backgroundMusic ?? true,
+                })} type="audio/mpeg" />
                 Il tuo browser non supporta l'elemento audio.
               </audio>
 

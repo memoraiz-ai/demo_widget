@@ -554,13 +554,25 @@ deleteConnection            // Remove connection
 
 ### Podcast Component
 
-**Purpose**: Audio player UI (demonstration, no actual audio file)
+**Purpose**: Audio player with dynamic audio URL generation based on user selections
+
+**Props**:
+```javascript
+{
+  visualStyle: string,        // Visual theme (playful, tech, etc.)
+  backgroundMusic: boolean,   // Enable/disable background music
+  language: string,           // italian, brazilian, english, chinese
+  voice: string,              // uomo (male), donna (female)
+  multispeaker: boolean       // Enable dialogue mode
+}
+```
 
 **Features**:
 - Play/Pause toggle
 - Progress slider
 - Time formatting
 - Episode metadata display
+- **Dynamic audio URL generation** based on user selections
 
 **State**:
 ```javascript
@@ -569,13 +581,32 @@ currentTime: number
 duration: number
 ```
 
+**Dynamic Audio URL**:
+The component generates audio URLs dynamically using the pattern:
+```
+https://cdn.memoraiz.com/audio/PLAI/{language}_{voiceType}{_with_bgm}.mp3
+```
+
+Where:
+- `language`: italian, brazilian, english, or chinese
+- `voiceType`: 
+  - `dialogue` if multispeaker is enabled
+  - `male` if single speaker with voice="uomo"
+  - `female` if single speaker with voice="donna"
+- `_with_bgm`: appended only if backgroundMusic is enabled
+
+**Examples**:
+- Italian, male, no BGM: `italian_male.mp3`
+- Brazilian, dialogue, with BGM: `brazilian_dialogue_with_bgm.mp3`
+- English, female, with BGM: `english_female_with_bgm.mp3`
+
 **Audio Element**:
 ```jsx
 <audio ref={audioRef} 
   onTimeUpdate={handleTimeUpdate}
   onLoadedMetadata={handleLoadedMetadata}
   onEnded={() => setIsPlaying(false)}>
-  <source src="your-audio-file.mp3" type="audio/mpeg" />
+  <source src={audioUrl} type="audio/mpeg" />
 </audio>
 ```
 
@@ -667,7 +698,8 @@ activeContentTab: 'transcript' | 'audio' | 'mindmap'
 **Audio Player Details**:
 - The audio player uses the same visual style (`podcastStyle`) selected in the main application
 - Located in the second row as a full-width tab option
-- Loads audio from: `https://cdn.memoraiz.com/audio/schoolr/course-summaries/es/31363-103.mp3`
+- **Dynamically loads audio** based on podcast configuration (language, voice, multispeaker, backgroundMusic)
+- Uses the same URL generation logic as the main Podcast component
 - Reuses podcast CSS classes for consistent styling across all 8 visual themes
 - Features: play/pause, time display, progress slider, seek functionality
 
@@ -1415,6 +1447,36 @@ The codebase is **well-organized** with clear separation of concerns and consist
 ---
 
 ## 📝 Recent Changes
+
+### November 16, 2025 - Dynamic Audio URL Implementation
+
+#### Podcast Component Enhancement
+- **Extended props** to accept `voice` and `multispeaker` in addition to existing props
+- **Implemented dynamic audio URL generation**:
+  - Base URL: `https://cdn.memoraiz.com/audio/PLAI/`
+  - URL pattern: `{language}_{voiceType}{_with_bgm}.mp3`
+  - Supports 4 languages: italian, brazilian, english, chinese
+  - Voice types: dialogue (multispeaker), male (uomo), female (donna)
+  - Background music suffix: `_with_bgm` when enabled
+- **Removed hardcoded audio placeholder** (`your-audio-file.mp3`)
+- Added helper function `buildPodcastAudioUrl()` for URL generation
+
+#### App.js Updates
+- **Updated Podcast component usage** to pass `voice` and `multispeaker` props
+- Ensures all podcast configuration values flow from SidePanel selections to component
+
+#### ExportView Component Enhancement
+- **Implemented matching dynamic audio URL logic** for consistency
+- **Removed hardcoded schoolr audio URL** (`https://cdn.memoraiz.com/audio/schoolr/course-summaries/es/31363-103.mp3`)
+- Added same helper function `buildPodcastAudioUrl()` as Podcast component
+- Audio player now respects exported podcast configuration
+
+#### Adding New Languages or Voice Types
+To add support for new languages or voice types:
+1. **Update `languageMap`** in both `Podcast.js` and `ExportView.js`
+2. **Ensure audio files exist** at CDN following naming convention
+3. **Update SidePanel.js** to include new language option in dropdown
+4. **Test all combinations** to verify URL generation
 
 ### November 16, 2025 - ExportView Layout Restructure and Styling Updates
 
