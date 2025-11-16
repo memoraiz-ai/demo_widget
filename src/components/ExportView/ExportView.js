@@ -1,18 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../styles/ExportView.css';
+import '../../styles/Podcast.css';
 import { SingleQuiz, MultiQuiz, TrueFalseQuiz, OutlinedQuiz } from '../Quiz';
 import Flashcard from '../Flashcard';
 import Mindmap from '../Mindmap';
 
 const ExportView = ({ exportData, onBack }) => {
   const videoRef = useRef(null);
+  const audioRef = useRef(null);
   const transcriptRefs = useRef([]);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(-1);
   const [activeTab, setActiveTab] = useState('quiz');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activeContentTab, setActiveContentTab] = useState('transcript');
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
   const safeExportData = exportData || {};
   const jsonString = JSON.stringify(safeExportData, null, 2);
 
@@ -20,6 +25,7 @@ const ExportView = ({ exportData, onBack }) => {
   const quizConfig = safeExportData?.config?.quiz || {};
   const flashcardConfig = safeExportData?.config?.flashcard || {};
   const mindmapConfig = safeExportData?.config?.mindmap || {};
+  const podcastConfig = safeExportData?.config?.podcast || {};
   const exportDate = safeExportData?.exportMetadata?.exportDate;
 
   const handleCopyToClipboard = () => {
@@ -70,6 +76,46 @@ const ExportView = ({ exportData, onBack }) => {
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+
+  // Audio player handlers
+  const toggleAudioPlayPause = () => {
+    if (audioRef.current) {
+      if (isAudioPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsAudioPlaying(!isAudioPlaying);
+    }
+  };
+
+  const handleAudioTimeUpdate = () => {
+    if (audioRef.current) {
+      setAudioCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleAudioLoadedMetadata = () => {
+    if (audioRef.current) {
+      setAudioDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleAudioSeek = (e) => {
+    const seekTime = (e.target.value / 100) * audioDuration;
+    if (audioRef.current) {
+      audioRef.current.currentTime = seekTime;
+      setAudioCurrentTime(seekTime);
+    }
+  };
+
+  // Pause audio when leaving audio tab
+  useEffect(() => {
+    if (audioRef.current && activeContentTab !== 'audio') {
+      audioRef.current.pause();
+      setIsAudioPlaying(false);
+    }
+  }, [activeContentTab]);
 
   // Highlight and auto-scroll current transcript segment
   useEffect(() => {
@@ -238,7 +284,7 @@ const ExportView = ({ exportData, onBack }) => {
         </div>
       </div>
 
-      <div className={`export-view-body ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      <div className="export-view-body">
         <div className="export-main-column">
           <div className="export-video-card">
             <div className="export-video-header">
@@ -268,7 +314,41 @@ const ExportView = ({ exportData, onBack }) => {
             </div>
           </div>
 
-          <div className="export-transcript-card">
+          {/* Content Tabs */}
+          <div className="export-content-tabs" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'transcript'}
+              className={`export-content-tab ${activeContentTab === 'transcript' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('transcript')}
+            >
+              Transcript
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'audio'}
+              className={`export-content-tab ${activeContentTab === 'audio' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('audio')}
+            >
+              Audio Player
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'mindmap'}
+              className={`export-content-tab ${activeContentTab === 'mindmap' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('mindmap')}
+            >
+              Mind Map
+            </button>
+          </div>
+
+          {/* Content Area */}
+          <div className="export-content-area">
+            {activeContentTab === 'transcript' && (
+              <div className="export-transcript-card">
             <div className="export-transcript-header">
               <div>
                 <h2 className="export-section-title">Transcript</h2>
@@ -298,52 +378,112 @@ const ExportView = ({ exportData, onBack }) => {
                 );
               })}
             </div>
-          </div>
+              </div>
+            )}
 
-          <div className="export-mindmap-card">
+            {activeContentTab === 'audio' && (
+              <div className="export-audio-card">
+            <div className="export-audio-header">
+              <div>
+                <h2 className="export-section-title">Audio Player</h2>
+                <p className="export-section-subtitle">
+                  Ascolta la lezione in formato audio
+                </p>
+              </div>
+            </div>
+            <div className={`${podcastConfig.style || 'playful'}-podcast-player`} style={{ background: 'transparent', padding: '1rem 0' }}>
+              <audio
+                ref={audioRef}
+                onTimeUpdate={handleAudioTimeUpdate}
+                onLoadedMetadata={handleAudioLoadedMetadata}
+                onEnded={() => setIsAudioPlaying(false)}
+              >
+                <source src="https://cdn.memoraiz.com/audio/schoolr/course-summaries/es/31363-103.mp3" type="audio/mpeg" />
+                Il tuo browser non supporta l'elemento audio.
+              </audio>
+
+              <div className={`${podcastConfig.style || 'playful'}-player-controls`}>
+                <button 
+                  className={`${podcastConfig.style || 'playful'}-play-pause-btn`}
+                  onClick={toggleAudioPlayPause}
+                >
+                  {isAudioPlaying ? (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                      <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                    </svg>
+                  ) : (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M8 5v14l11-7z" fill="currentColor"/>
+                    </svg>
+                  )}
+                </button>
+
+                <div className={`${podcastConfig.style || 'playful'}-time-display`}>
+                  {formatTime(audioCurrentTime)}
+                </div>
+
+                <div className={`${podcastConfig.style || 'playful'}-progress-container`}>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={audioDuration ? (audioCurrentTime / audioDuration) * 100 : 0}
+                    onChange={handleAudioSeek}
+                    className={`${podcastConfig.style || 'playful'}-progress-slider`}
+                  />
+                </div>
+
+                <div className={`${podcastConfig.style || 'playful'}-time-display`}>
+                  {formatTime(audioDuration)}
+                </div>
+              </div>
+            </div>
+              </div>
+            )}
+
+            {activeContentTab === 'mindmap' && (
+              <div className="export-mindmap-card">
             <div className="export-mindmap-header">
               <h2 className="export-section-title">Mind Map</h2>
               <p className="export-section-subtitle">Visual concept overview</p>
             </div>
             <div className="export-mindmap-body">{renderMindmap()}</div>
+              </div>
+            )}
           </div>
         </div>
 
-        <aside className={`export-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
-          <button
-            type="button"
-            className="export-sidebar-toggle"
-            onClick={() => setSidebarCollapsed((prev) => !prev)}
-            aria-label={sidebarCollapsed ? 'Espandi sidebar' : 'Comprimi sidebar'}
-          >
-            <span className={`export-sidebar-toggle-icon ${sidebarCollapsed ? 'rotated' : ''}`}>
-              ▸
-            </span>
-          </button>
-
-          {!sidebarCollapsed && (
-            <div className="export-sidebar-inner">
-              <div className="export-sidebar-tabs">
-                <button
-                  type="button"
-                  className={`export-sidebar-tab ${activeTab === 'quiz' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('quiz')}
-                >
-                  Quizzes
-                </button>
-                <button
-                  type="button"
-                  className={`export-sidebar-tab ${activeTab === 'flashcard' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('flashcard')}
-                >
-                  Flashcards
-                </button>
-              </div>
-              <div className="export-sidebar-content">
-                {activeTab === 'quiz' ? renderQuiz() : renderFlashcard()}
-              </div>
-            </div>
-          )}
+        <aside className="export-sidebar" aria-label="Learning tools">
+          <div className="export-sidebar-header">
+            <h2 className="export-sidebar-title">Learning Tools</h2>
+            <p className="export-sidebar-subtitle">Testa la tua comprensione</p>
+          </div>
+          
+          <div className="export-tools-tabs" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'quiz'}
+              className={`export-tools-tab ${activeTab === 'quiz' ? 'active' : ''}`}
+              onClick={() => setActiveTab('quiz')}
+            >
+              Quizzes
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'flashcard'}
+              className={`export-tools-tab ${activeTab === 'flashcard' ? 'active' : ''}`}
+              onClick={() => setActiveTab('flashcard')}
+            >
+              Flashcards
+            </button>
+          </div>
+          
+          <div className="export-sidebar-content">
+            {activeTab === 'quiz' ? renderQuiz() : renderFlashcard()}
+          </div>
         </aside>
       </div>
     </div>

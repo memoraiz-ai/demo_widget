@@ -116,10 +116,6 @@
   min-height: 0;
 }
 
-.export-view-body.sidebar-collapsed {
-  grid-template-columns: minmax(0, 1fr) auto;
-}
-
 .export-main-column {
   display: flex;
   flex-direction: column;
@@ -129,6 +125,7 @@
 
 .export-video-card,
 .export-transcript-card,
+.export-audio-card,
 .export-mindmap-card {
   background: #ffffff;
   border-radius: 1rem;
@@ -186,6 +183,15 @@
 /* Transcript */
 
 .export-transcript-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* Audio player */
+
+.export-audio-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -272,90 +278,122 @@
   display: inline-block;
 }
 
-/* Sidebar */
+/* Content Tabs (below video) */
+
+.export-content-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.export-content-tab {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.15s ease;
+}
+
+.export-content-tab:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.export-content-tab.active {
+  background: #f3f4f6;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.export-content-area {
+  margin-top: 0;
+}
+
+/* Sticky Learning Tools Sidebar */
 
 .export-sidebar {
-  position: relative;
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  height: fit-content;
+  max-height: calc(100vh - 3rem);
+  overflow: auto;
   background: #020617;
   border-radius: 1rem;
   border: 1px solid #111827;
-  padding: 0.75rem 0.75rem 0.75rem 0.5rem;
+  padding: 1rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.75rem;
-  min-width: 0;
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.55);
 }
 
-.export-sidebar.collapsed {
-  width: 3rem;
-  padding: 0.5rem;
-  justify-content: center;
-}
-
-.export-sidebar-toggle {
-  border: none;
-  background: #0f172a;
-  color: #e5e7eb;
-  width: 2.25rem;
-  min-width: 2.25rem;
-  border-radius: 999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 0 0 1px #1f2937;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.export-sidebar-toggle:hover {
-  background: #111827;
-  transform: translateX(-1px);
-}
-
-.export-sidebar-toggle-icon {
-  display: inline-block;
-  font-size: 0.9rem;
-  transform-origin: center;
-  transition: transform 0.2s ease;
-}
-
-.export-sidebar-toggle-icon.rotated {
-  transform: rotate(180deg);
-}
-
-.export-sidebar-inner {
-  flex: 1;
+.export-sidebar-header {
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  gap: 0.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #1e293b;
 }
 
-.export-sidebar-tabs {
-  display: inline-flex;
-  align-self: flex-start;
-  background: #020617;
+.export-sidebar-title {
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f9fafb;
+  margin: 0;
+}
+
+.export-sidebar-subtitle {
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Tools tabs (Quiz/Flashcards) */
+
+.export-tools-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background: #0f172a;
   border-radius: 999px;
-  padding: 0.15rem;
-  margin-bottom: 0.75rem;
+  padding: 0.25rem;
   box-shadow: 0 0 0 1px #1e293b;
 }
 
-.export-sidebar-tab {
+.export-tools-tab {
   border: none;
-  padding: 0.35rem 0.9rem;
+  padding: 0.5rem 1rem;
   border-radius: 999px;
   background: transparent;
   color: #9ca3af;
   font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.export-sidebar-tab.active {
-  background: #0f172a;
+.export-tools-tab:hover {
+  color: #d1d5db;
+}
+
+.export-tools-tab.active {
+  background: #1e293b;
   color: #f9fafb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .export-sidebar-content {
@@ -425,6 +463,8 @@
   }
 
   .export-sidebar {
+    position: sticky;
+    top: 1rem;
     margin-top: 0.75rem;
   }
 }
