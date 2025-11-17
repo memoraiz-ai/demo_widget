@@ -20,9 +20,9 @@ export const useMindmapState = () => {
     const maxRadius = Math.max(...radii) || 1;
 
     // How far from the center the outermost nodes can go (in % of canvas)
-    const MAX_RADIUS_PERCENT = 49;
+    const MAX_RADIUS_PERCENT = 50;
     // Exponent closer to 1.0 preserves distances better, giving longer edges
-    const RADIAL_EXPONENT = 0.95;
+    const RADIAL_EXPONENT = 1;
 
     const toPercentCoordinates = (x, y) => {
       const r = Math.sqrt(x * x + y * y);
@@ -39,7 +39,7 @@ export const useMindmapState = () => {
       const py = 50 + normalizedRadius * Math.sin(angle);
 
       // Keep some margin so nodes are not cut off at the edges
-      const margin = 2;
+      const margin = 3;
       return {
         x: Math.max(margin, Math.min(100 - margin, px)),
         y: Math.max(margin, Math.min(100 - margin, py))

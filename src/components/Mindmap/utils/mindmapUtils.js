@@ -76,12 +76,28 @@ export const findFreePosition = (nodes) => {
 /**
  * Available icons for nodes
  */
-export const availableIcons = ['🏛️', '📍', '📜', '🗺️', '📚', '🔧', '⭐', '🎯'];
+export const availableIcons = [
+  'History',
+  'Map',
+  'User',
+  'Church',
+  'Building2',
+  'LayoutDashboard',
+  'Flag',
+  'Lightbulb'
+];
 
 /**
  * Available colors for nodes (9 pastel colors)
  */
 export const availableColors = [
-  '#e8f5e9', '#e0f7fa', '#e8eaf6', '#fff3e0', 
-  '#ffebee', '#fce4ec', '#f3e5f5', '#e1f5fe', '#fff9c4'
+  '#1f77b4',
+  '#ff7f0e',
+  '#2ca02c',
+  '#d62728',
+  '#9467bd',
+  '#8c564b',
+  '#e377c2',
+  '#7f7f7f',
+  '#1186f7',
 ];

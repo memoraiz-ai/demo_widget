@@ -1,10 +1,80 @@
 import React from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, History, Map, User, Church, Building2, LayoutDashboard, Flag, Lightbulb } from 'lucide-react';
 import { availableColors, availableIcons } from '../utils/mindmapUtils';
 
 /**
  * Component for node customization (colors and icons) and adding new nodes
  */
+const iconComponentMap = {
+  History,
+  Map,
+  User,
+  Church,
+  Building2,
+  LayoutDashboard,
+  Flag,
+  Lightbulb
+};
+
+const addButtonStyles = {
+  playful: {
+    background: '#7c3aed',
+    color: '#fff',
+    borderRadius: '9999px',
+    border: 'none',
+    fontFamily: "'Poppins', sans-serif"
+  },
+  tech: {
+    background: '#0f172a',
+    color: '#67e8f9',
+    borderRadius: '0.5rem',
+    border: '1px solid #67e8f9',
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+  },
+  corporate: {
+    background: '#fff',
+    color: '#2563eb',
+    borderRadius: '0.75rem',
+    border: '1px solid #cbd5f5',
+    fontFamily: "'Inter', sans-serif"
+  },
+  illustrated: {
+    background: '#ff8c00',
+    color: '#111042',
+    borderRadius: '1rem',
+    border: '3px solid #111042',
+    fontFamily: "'Fredoka', sans-serif"
+  },
+  picasso: {
+    background: '#fef3c7',
+    color: '#111',
+    borderRadius: '0.25rem',
+    border: '3px solid #111',
+    fontFamily: "'Kalam', cursive"
+  },
+  schoolr: {
+    background: '#ff7b7b',
+    color: '#fff',
+    borderRadius: '0.85rem',
+    border: 'none',
+    fontFamily: "'Nunito', sans-serif"
+  },
+  plai: {
+    background: '#111042',
+    color: '#fefce8',
+    borderRadius: '0.5rem',
+    border: 'none',
+    fontFamily: "'Space Grotesk', sans-serif"
+  },
+  studenti: {
+    background: '#7cb342',
+    color: '#fff',
+    borderRadius: '0.5rem',
+    border: 'none',
+    fontFamily: "'Montserrat', sans-serif"
+  }
+};
+
 const NodeCustomization = ({ 
   visualStyle = 'playful',
   selectedNode, 
@@ -50,24 +120,15 @@ const NodeCustomization = ({
             className={`add-node-btn ${visualStyle}-add-node-btn`}
             style={{
               padding: '0.75rem 1.5rem',
-              border: visualStyle === 'illustrated' || visualStyle === 'picasso' ? undefined : 'none',
-              fontFamily: visualStyle === 'tech' ? 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' : "'Poppins', sans-serif",
-              fontWeight: 500,
-              fontSize: '0.875rem',
+              fontWeight: 600,
+              fontSize: '0.9rem',
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
-              animation: 'fadeInScale 0.3s ease-out'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-0.25rem) scale(1.05)';
-              e.currentTarget.style.boxShadow = '0 0.5rem 1.5rem rgba(0, 0, 0, 0.25)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0) scale(1)';
-              e.currentTarget.style.boxShadow = '0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)';
+              transition: 'all 0.3s ease',
+              animation: 'fadeInScale 0.3s ease-out',
+              ...(addButtonStyles[visualStyle] || addButtonStyles.playful)
             }}
           >
             <Plus size={18} />
@@ -83,7 +144,7 @@ const NodeCustomization = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.5rem',
+            gap: '0.25rem',
             animation: 'slideUp 0.3s ease-out'
           }}
         >
@@ -108,7 +169,11 @@ const NodeCustomization = ({
               display: 'flex',
               gap: '0.25rem',
               padding: '0.5rem',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: 'rgba(255,255,255,0.9)',
+              borderRadius: '0.75rem',
+              boxShadow: '0 0.5rem 1.5rem rgba(0,0,0,0.15)',
+              border: '1px solid rgba(0,0,0,0.08)'
             }}
             onClick={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
@@ -124,7 +189,7 @@ const NodeCustomization = ({
                   width: '1.5rem',
                   height: '1.5rem',
                   backgroundColor: color,
-                  border: selectedNodeObj?.color === color ? '2px solid #333' : '1px solid #ddd',
+                  border: selectedNodeObj?.color === color ? '2px solid #111' : '1px solid rgba(0,0,0,0.15)',
                   borderRadius: '50%',
                   cursor: 'pointer',
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease'
@@ -147,24 +212,30 @@ const NodeCustomization = ({
               display: 'flex',
               gap: '0.25rem',
               padding: '0.5rem',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: 'rgba(255,255,255,0.9)',
+              borderRadius: '0.75rem',
+              boxShadow: '0 0.5rem 1.5rem rgba(0,0,0,0.15)',
+              border: '1px solid rgba(0,0,0,0.08)'
             }}
             onClick={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
           >
-            {availableIcons.map(icon => (
+            {availableIcons.map(iconKey => {
+              const IconComponent = iconComponentMap[iconKey];
+              return (
               <button
-                key={icon}
+                key={iconKey}
                 onClick={(e) => {
                   e.stopPropagation();
-                  onIconChange(selectedNode, icon);
+                  onIconChange(selectedNode, iconKey);
                 }}
                 style={{
                   width: '1.75rem',
                   height: '1.75rem',
                   fontSize: '1rem',
-                  background: selectedNodeObj?.icon === icon ? '#e3f2fd' : 'transparent',
-                  border: selectedNodeObj?.icon === icon ? '2px solid #2196f3' : '1px solid #ddd',
+                  background: selectedNodeObj?.icon === iconKey ? '#e3f2fd' : 'transparent',
+                  border: selectedNodeObj?.icon === iconKey ? '2px solid #2196f3' : '1px solid #ddd',
                   borderRadius: '0.25rem',
                   cursor: 'pointer',
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
@@ -181,9 +252,10 @@ const NodeCustomization = ({
                   e.target.style.boxShadow = 'none';
                 }}
               >
-                {icon}
+                {IconComponent ? <IconComponent size={16} /> : iconKey}
               </button>
-            ))}
+            );
+            })}
           </div>
         </div>
       )}
