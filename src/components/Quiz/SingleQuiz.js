@@ -769,7 +769,7 @@ const SingleQuiz = ({
       <div className="illustrated-quiz-container">
         <div className="illustrated-quiz-header">
           <div className="illustrated-quiz-star">
-            <img src="/dubbioso:pensieroso.png" alt="" className="illustrated-quiz-star-icon" />
+            <img src="/dubbioso_pensieroso.png" alt="" className="illustrated-quiz-star-icon" />
           </div>
           <div className="illustrated-quiz-badges">
             <div className="illustrated-quiz-badge">

@@ -352,7 +352,7 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
           <div className="illustrated-flashcard-header">
             <div className="illustrated-flashcard-counter-wrapper">
               <div className="illustrated-flashcard-star-icon">
-                <img src="/dubbioso:pensieroso.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                <img src="/dubbioso_pensieroso.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </div>
               <div className="illustrated-flashcard-counter">
                 Card {currentCard + 1} / {totalCards}
