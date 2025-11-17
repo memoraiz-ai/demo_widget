@@ -175,17 +175,26 @@
 }
 
 .export-video-wrapper {
-  background: radial-gradient(circle at center, #020617 0%, #020617 40%, #000000 100%);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
   border-radius: 0.9rem;
   overflow: hidden;
   border: 1px solid #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .export-video {
   width: 100%;
-  max-height: 430px;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  border-radius: 0;
   display: block;
-  background: #000000;
+  aspect-ratio: 16 / 9;
 }
 
 /* Transcript */
@@ -407,11 +416,23 @@
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  padding: 0.25rem 0 0.25rem 0 !important;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   background: #ffffff;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+}
+
+/* Remove scaling and make quiz/flashcard fill sidebar width */
+.export-sidebar-content > * {
+  transform: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 0 !important;
+  min-width: 0 !important;
+  box-sizing: border-box;
 }
 
 /* Scale down quiz and flashcard components in sidebar for better fit */
@@ -420,6 +441,32 @@
   transform-origin: top center;
   width: 153.846%; /* 100% / 0.65 to compensate for scale */
   margin-bottom: -35%; /* Reduce extra white space from scaling */
+}
+
+/* Make quiz/flashcard much larger and visible */
+.export-large-content {
+  min-height: 480px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.export-large-content > * {
+  width: 100%;
+  max-width: 600px;
+  min-height: 420px;
+  font-size: 1.15rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1100px) {
+  .export-large-content > * {
+    max-width: 100%;
+    min-height: 320px;
+    font-size: 1rem;
+  }
 }
 
 /* Scrollbars */

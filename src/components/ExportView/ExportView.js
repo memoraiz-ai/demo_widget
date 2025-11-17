@@ -274,43 +274,10 @@ const ExportView = ({ exportData, onBack }) => {
           </button>
           <div className="export-header-text">
             <h1 className="export-title">MemorAIz – Custom widget demo</h1>
-            {exportDate && (
+            {/* {exportDate && (
               <p className="export-subtitle">Configurazione esportata il {exportDate}</p>
-            )}
+            )} */}
           </div>
-        </div>
-        <div className="header-actions">
-          <button className="action-btn copy-btn" onClick={handleCopyToClipboard}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M8 4v12a2 2 0 002 2h8a2 2 0 002-2V7.242a2 2 0 00-.602-1.43L16.083 2.57A2 2 0 0014.685 2H10a2 2 0 00-2 2z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16 18v2a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 012-2h2"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Copia JSON
-          </button>
-          <button className="action-btn download-btn" onClick={handleDownload}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Scarica JSON
-          </button>
         </div>
       </div>
 
@@ -318,7 +285,8 @@ const ExportView = ({ exportData, onBack }) => {
         {/* First Row: Video + Learning Tools */}
         <div className="export-first-row">
           <div className="export-video-card">
-            <div className="export-video-header">
+            {/* <div className="export-video-wrapper export-video-16-9"> */}
+                <div className="export-video-header">
               <div>
                 <h2 className="export-section-title">Educational Video Player</h2>
                 <p className="export-section-subtitle">
@@ -346,11 +314,6 @@ const ExportView = ({ exportData, onBack }) => {
           </div>
 
           <aside className="export-sidebar" aria-label="Learning tools">
-            <div className="export-sidebar-header">
-              <h2 className="export-sidebar-title">Learning Tools</h2>
-              <p className="export-sidebar-subtitle">Testa la tua comprensione</p>
-            </div>
-            
             <div className="export-tools-tabs" role="tablist">
               <button
                 type="button"
@@ -371,8 +334,7 @@ const ExportView = ({ exportData, onBack }) => {
                 Flashcards
               </button>
             </div>
-            
-            <div className="export-sidebar-content">
+            <div className="export-sidebar-content export-large-content">
               {activeTab === 'quiz' ? renderQuiz() : renderFlashcard()}
             </div>
           </aside>
