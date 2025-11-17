@@ -51,12 +51,13 @@ const SingleQuiz = ({
     return questions[index];
   }, [questions, currentQuestion]);
 
-  const { questionVariants, answers, correctAnswer } = useMemo(() => {
+  const { questionVariants, answers, correctAnswer, answerExplanations } = useMemo(() => {
     if (!currentQuestionData) {
       return {
         questionVariants: ['Nessuna domanda disponibile.'],
         answers: [],
-        correctAnswer: null
+        correctAnswer: null,
+        answerExplanations: {}
       };
     }
 
@@ -110,10 +111,16 @@ const SingleQuiz = ({
 
     const correct = pickedAnswers.find((opt) => opt.is_correct) || pickedAnswers[0] || null;
 
+    const explanationMap = pickedAnswers.reduce((acc, opt) => {
+      acc[opt.text] = opt.explanation || '';
+      return acc;
+    }, {});
+
     return {
       questionVariants: variants,
       answers: pickedAnswers.map((opt) => opt.text),
-      correctAnswer: correct ? correct.text : null
+      correctAnswer: correct ? correct.text : null,
+      answerExplanations: explanationMap
     };
   }, [currentQuestionData, answersCount]);
   const selectAnswer = (answer) => {
@@ -162,6 +169,26 @@ const SingleQuiz = ({
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const explanationText =
+    selectedAnswer !== null && answerExplanations[selectedAnswer]
+      ? answerExplanations[selectedAnswer]
+      : '';
+  const shouldShowExplanation =
+    immediateFeedbackEnabled && selectedAnswer !== null && explanationText;
+
+  const ExplanationBlock = () => {
+    if (!shouldShowExplanation) return null;
+    return (
+      <div className={`quiz-explanation quiz-explanation-${visualStyle}`}>
+        <div className="quiz-explanation-title">
+          <span>💡</span>
+          Spiegazione
+        </div>
+        <p className="quiz-explanation-text">{explanationText}</p>
+      </div>
+    );
   };
 
   const getOptionClass = (answer) => {
@@ -592,14 +619,7 @@ const SingleQuiz = ({
               Question {currentQuestion}/{totalQuestions}
             </div>
             {timerEnabled && (
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '0.5rem',
-                fontSize: '1rem',
-                fontWeight: '600',
-                color: timeRemaining < 60 ? '#ef4444' : '#667eea'
-              }}>
+              <div className={`playful-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
                 <Clock size={20} />
                 {formatTime(timeRemaining)}
               </div>
@@ -636,6 +656,8 @@ const SingleQuiz = ({
               );
             })}
           </div>
+
+          <ExplanationBlock />
 
           {selectedAnswer !== null && (
             <button onClick={nextQuestion} className="playful-quiz-next-btn">
@@ -699,6 +721,8 @@ const SingleQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="tech-quiz-next-btn">
             {currentQuestion < totalQuestions ? '> NEXT_QUESTION()' : '> SHOW_RESULTS()'}
@@ -754,6 +778,8 @@ const SingleQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="corporate-quiz-next-btn">
@@ -812,6 +838,8 @@ const SingleQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
           {selectedAnswer !== null && (
             <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
@@ -1059,34 +1087,16 @@ const SingleQuiz = ({
               })}
             </div>
 
+            <ExplanationBlock />
+
             {/* Next button with shadow */}
             {selectedAnswer !== null && (
-              <div
-                style={{
-                  width: '100%',
-                  position: 'relative'
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'rgb(41, 37, 36)',
-                    transform: 'translateX(0.25rem) translateY(0.25rem)'
-                  }}
-                />
+              <div className="picasso-quiz-next-btn-wrapper">
+                <div className="picasso-quiz-next-btn-shadow" />
                 <button
                   type="button"
                   onClick={nextQuestion}
-                  style={{
-                    position: 'relative',
-                    background:
-                      'linear-gradient(to right, rgb(244, 63, 94), rgb(251, 113, 133))',
-                    border: '4px solid rgb(41, 37, 36)',
-                    padding: '1rem 2rem',
-                    color: 'rgb(28, 25, 23)',
-                    cursor: 'pointer'
-                  }}
+                  className="picasso-quiz-next-btn"
                 >
                   {currentQuestion < totalQuestions
                     ? 'Next Question'
@@ -1146,6 +1156,8 @@ const SingleQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="schoolr-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi risultati'}
@@ -1203,6 +1215,8 @@ const SingleQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="plai-quiz-next-btn">
@@ -1262,6 +1276,8 @@ const SingleQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="studenti-quiz-next-btn">

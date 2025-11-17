@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
-import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { CheckCircle2, XCircle, Terminal, Clock } from 'lucide-react';
 import trueFalseData from '../../data/quiz_true_false.json';
 
 const TrueFalseQuiz = ({
   visualStyle = 'playful',
   timerEnabled = true,
+  timerDuration = 300,
   immediateFeedbackEnabled = true,
   correctPoints = 1,
   incorrectPoints = -1
@@ -17,6 +18,7 @@ const TrueFalseQuiz = ({
   const [totalQuestions] = useState(questions.length || 0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(timerDuration);
 
   const [currentQuestionIndex] = useState(0);
 
@@ -75,6 +77,7 @@ const TrueFalseQuiz = ({
     setCurrentQuestion(1);
     setQuizCompleted(false);
     setCorrectAnswersCount(0);
+    setTimeRemaining(timerDuration);
   };
 
   const getOptionClass = (answerValue) => {
@@ -94,6 +97,48 @@ const TrueFalseQuiz = ({
   };
 
   const percentage = Math.round((correctAnswersCount / totalQuestions) * 100);
+  const explanationText = currentQuestionData?.explanation || '';
+  const shouldShowExplanation =
+    immediateFeedbackEnabled && selectedAnswer !== null && explanationText;
+
+  const ExplanationBlock = () => {
+    if (!shouldShowExplanation) return null;
+    return (
+      <div className={`quiz-explanation quiz-explanation-${visualStyle}`}>
+        <div className="quiz-explanation-title">
+          <span>💡</span>
+          Spiegazione
+        </div>
+        <p className="quiz-explanation-text">{explanationText}</p>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    if (timerEnabled && timeRemaining > 0 && !quizCompleted) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            setQuizCompleted(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timerEnabled, timeRemaining, quizCompleted]);
+
+  useEffect(() => {
+    setTimeRemaining(timerDuration);
+  }, [timerDuration]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   // Render End Quiz Components (same as other quiz types)
   if (quizCompleted) {
@@ -320,6 +365,12 @@ const TrueFalseQuiz = ({
             <div className="playful-quiz-badge">
               Question {currentQuestion}/{totalQuestions}
             </div>
+            {timerEnabled && (
+              <div className={`playful-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock size={20} />
+                {formatTime(timeRemaining)}
+              </div>
+            )}
             <div className="playful-quiz-score">
               Score: {score}
             </div>
@@ -353,6 +404,8 @@ const TrueFalseQuiz = ({
             })}
           </div>
 
+        <ExplanationBlock />
+
           {selectedAnswer !== null && (
             <button onClick={nextQuestion} className="playful-quiz-next-btn">
               {currentQuestion < totalQuestions ? 'Next Question →' : 'See Results 🎯'}
@@ -375,6 +428,12 @@ const TrueFalseQuiz = ({
           <div className="tech-quiz-counter">
             [{currentQuestion}/{totalQuestions}]
           </div>
+          {timerEnabled && (
+            <div className={`tech-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="tech-quiz-score-wrapper">
             <span>SCORE:</span>
             <span className="tech-quiz-score-badge">{score}</span>
@@ -409,6 +468,8 @@ const TrueFalseQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="tech-quiz-next-btn">
             {currentQuestion < totalQuestions ? '> NEXT_QUESTION()' : '> SHOW_RESULTS()'}
@@ -425,6 +486,12 @@ const TrueFalseQuiz = ({
           <div className="corporate-quiz-label">
             Question {currentQuestion} of {totalQuestions}
           </div>
+          {timerEnabled && (
+            <div className={`corporate-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="corporate-quiz-score-wrapper">
             <span>Score:</span>
             <span className="corporate-quiz-score-badge">{score}</span>
@@ -459,6 +526,8 @@ const TrueFalseQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="corporate-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue' : 'View Results'}
@@ -477,6 +546,12 @@ const TrueFalseQuiz = ({
             <div className="illustrated-quiz-badge">
               Q {currentQuestion}/{totalQuestions}
             </div>
+            {timerEnabled && (
+              <div className={`illustrated-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <div className="illustrated-quiz-score-badge">
               Score: {score}
             </div>
@@ -509,6 +584,8 @@ const TrueFalseQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
             {currentQuestion < totalQuestions ? (
@@ -538,6 +615,15 @@ const TrueFalseQuiz = ({
               <div className="picasso-quiz-badge-shadow"></div>
               <div className="picasso-quiz-badge">Q {currentQuestion}/{totalQuestions}</div>
             </div>
+          {timerEnabled && (
+            <div className={`picasso-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <div className="picasso-timer-shadow"></div>
+              <div className="picasso-timer-content">
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            </div>
+          )}
             <div className="picasso-quiz-badge-wrapper">
               <div className="picasso-quiz-badge-shadow"></div>
               <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
@@ -576,6 +662,8 @@ const TrueFalseQuiz = ({
             })}
           </div>
 
+        <ExplanationBlock />
+
           {selectedAnswer !== null && (
             <div className="picasso-quiz-btn-wrapper">
               <div className="picasso-quiz-btn-shadow"></div>
@@ -596,6 +684,12 @@ const TrueFalseQuiz = ({
           <div className="schoolr-quiz-badge">
             Domanda {currentQuestion} di {totalQuestions}
           </div>
+          {timerEnabled && (
+            <div className={`schoolr-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="schoolr-quiz-score-badge">
             Punteggio: {score}
           </div>
@@ -629,6 +723,8 @@ const TrueFalseQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="schoolr-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi risultati'}
@@ -650,6 +746,13 @@ const TrueFalseQuiz = ({
               Current Score: <span className="plai-quiz-score">{score}</span>
             </div>
           </div>
+          {timerEnabled && (
+            <div className={`plai-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <span className="plai-timer-label">Time</span>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
         </div>
 
         <div className="plai-quiz-progress-bar">
@@ -680,6 +783,8 @@ const TrueFalseQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="plai-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue to Next Question' : 'View Results'}
@@ -700,6 +805,12 @@ const TrueFalseQuiz = ({
               <div className="studenti-quiz-count">{currentQuestion} di {totalQuestions}</div>
             </div>
           </div>
+          {timerEnabled && (
+            <div className={`studenti-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="studenti-quiz-score-badge">
             <span className="studenti-quiz-score-label">Punteggio:</span>
             <span className="studenti-quiz-score">{score}</span>
@@ -732,6 +843,8 @@ const TrueFalseQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="studenti-quiz-next-btn">

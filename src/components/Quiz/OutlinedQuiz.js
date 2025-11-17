@@ -27,12 +27,13 @@ const OutlinedQuiz = ({
     return questions[index];
   }, [questions, currentQuestion]);
 
-  const { questionVariants, answers, correctAnswer } = useMemo(() => {
+  const { questionVariants, answers, correctAnswer, answerExplanations } = useMemo(() => {
     if (!currentQuestionData) {
       return {
         questionVariants: ['Nessuna domanda disponibile.'],
         answers: [],
-        correctAnswer: null
+        correctAnswer: null,
+        answerExplanations: {}
       };
     }
 
@@ -79,10 +80,16 @@ const OutlinedQuiz = ({
 
     const correct = pickedAnswers.find((opt) => opt.is_correct) || pickedAnswers[0] || null;
 
+    const explanationMap = pickedAnswers.reduce((acc, opt) => {
+      acc[opt.text] = opt.explanation || '';
+      return acc;
+    }, {});
+
     return {
       questionVariants: variants,
       answers: pickedAnswers.map((opt) => opt.text),
-      correctAnswer: correct ? correct.text : null
+      correctAnswer: correct ? correct.text : null,
+      answerExplanations: explanationMap
     };
   }, [currentQuestionData, answersCount]);
 
@@ -144,6 +151,26 @@ const OutlinedQuiz = ({
   };
 
   const percentage = Math.round((correctAnswersCount / totalQuestions) * 100);
+
+  const explanationText =
+    selectedAnswer !== null && answerExplanations[selectedAnswer]
+      ? answerExplanations[selectedAnswer]
+      : '';
+  const shouldShowExplanation =
+    immediateFeedbackEnabled && selectedAnswer !== null && explanationText;
+
+  const ExplanationBlock = () => {
+    if (!shouldShowExplanation) return null;
+    return (
+      <div className={`quiz-explanation quiz-explanation-${visualStyle}`}>
+        <div className="quiz-explanation-title">
+          <span>💡</span>
+          Spiegazione
+        </div>
+        <p className="quiz-explanation-text">{explanationText}</p>
+      </div>
+    );
+  };
 
   // Render End Quiz Components (same as other quiz types)
   if (quizCompleted) {
@@ -397,6 +424,8 @@ const OutlinedQuiz = ({
             })}
           </div>
 
+          <ExplanationBlock />
+
           {selectedAnswer !== null && (
             <button onClick={nextQuestion} className="playful-quiz-next-btn">
               {currentQuestion < totalQuestions ? 'Next Question →' : 'See Results 🎯'}
@@ -453,6 +482,8 @@ const OutlinedQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="tech-quiz-next-btn">
             {currentQuestion < totalQuestions ? '> NEXT_QUESTION()' : '> SHOW_RESULTS()'}
@@ -503,6 +534,8 @@ const OutlinedQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="corporate-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue' : 'View Results'}
@@ -552,6 +585,8 @@ const OutlinedQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
@@ -620,6 +655,8 @@ const OutlinedQuiz = ({
             })}
           </div>
 
+          <ExplanationBlock />
+
           {selectedAnswer !== null && (
             <div className="picasso-quiz-btn-wrapper">
               <div className="picasso-quiz-btn-shadow"></div>
@@ -673,6 +710,8 @@ const OutlinedQuiz = ({
           })}
         </div>
 
+        <ExplanationBlock />
+
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="schoolr-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi risultati'}
@@ -723,6 +762,8 @@ const OutlinedQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="plai-quiz-next-btn">
@@ -776,6 +817,8 @@ const OutlinedQuiz = ({
             );
           })}
         </div>
+
+        <ExplanationBlock />
 
         {selectedAnswer !== null && (
           <button onClick={nextQuestion} className="studenti-quiz-next-btn">

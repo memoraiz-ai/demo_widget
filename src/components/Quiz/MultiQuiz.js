@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
-import { CheckCircle2, XCircle, Terminal } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { CheckCircle2, XCircle, Terminal, Clock } from 'lucide-react';
 import quizMultiData from '../../data/quiz_multi_answer.json';
 
 const MultiQuiz = ({
   visualStyle = 'playful',
   timerEnabled = true,
+  timerDuration = 300,
   immediateFeedbackEnabled = false,
   answersCount = 4,
   correctPoints = 1,
@@ -18,6 +19,7 @@ const MultiQuiz = ({
   const [totalQuestions] = useState(questions.length || 0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(timerDuration);
 
   const [currentQuestionIndex] = useState(0);
 
@@ -140,6 +142,7 @@ const MultiQuiz = ({
     setCurrentQuestion(1);
     setQuizCompleted(false);
     setCorrectAnswersCount(0);
+    setTimeRemaining(timerDuration);
   };
 
   const getOptionClass = (answer) => {
@@ -159,6 +162,32 @@ const MultiQuiz = ({
   };
 
   const percentage = Math.round((correctAnswersCount / totalQuestions) * 100);
+
+  useEffect(() => {
+    if (timerEnabled && timeRemaining > 0 && !quizCompleted) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            setQuizCompleted(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timerEnabled, timeRemaining, quizCompleted]);
+
+  useEffect(() => {
+    setTimeRemaining(timerDuration);
+  }, [timerDuration]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   // Render End Quiz Components (same as SingleQuiz)
   if (quizCompleted) {
@@ -379,6 +408,12 @@ const MultiQuiz = ({
             <div className="playful-quiz-badge">
               Question {currentQuestion}/{totalQuestions}
             </div>
+            {timerEnabled && (
+              <div className={`playful-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock size={20} />
+                {formatTime(timeRemaining)}
+              </div>
+            )}
             <div className="playful-quiz-score">
               Score: {score}
             </div>
@@ -441,6 +476,12 @@ const MultiQuiz = ({
           <div className="tech-quiz-counter">
             [{currentQuestion}/{totalQuestions}]
           </div>
+          {timerEnabled && (
+            <div className={`tech-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="tech-quiz-score-wrapper">
             <span>SCORE:</span>
             <span className="tech-quiz-score-badge">{score}</span>
@@ -498,6 +539,12 @@ const MultiQuiz = ({
           <div className="corporate-quiz-label">
             Question {currentQuestion} of {totalQuestions}
           </div>
+          {timerEnabled && (
+            <div className={`corporate-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="corporate-quiz-score-wrapper">
             <span>Score:</span>
             <span className="corporate-quiz-score-badge">{score}</span>
@@ -557,6 +604,12 @@ const MultiQuiz = ({
             <div className="illustrated-quiz-badge">
               Q {currentQuestion}/{totalQuestions}
             </div>
+            {timerEnabled && (
+              <div className={`illustrated-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            )}
             <div className="illustrated-quiz-score-badge">
               Score: {score}
             </div>
@@ -625,6 +678,15 @@ const MultiQuiz = ({
               <div className="picasso-quiz-badge-shadow"></div>
               <div className="picasso-quiz-badge">Q {currentQuestion}/{totalQuestions}</div>
             </div>
+          {timerEnabled && (
+            <div className={`picasso-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <div className="picasso-timer-shadow"></div>
+              <div className="picasso-timer-content">
+                <Clock />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            </div>
+          )}
             <div className="picasso-quiz-badge-wrapper">
               <div className="picasso-quiz-badge-shadow"></div>
               <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
@@ -693,6 +755,12 @@ const MultiQuiz = ({
           <div className="schoolr-quiz-badge">
             Domanda {currentQuestion} di {totalQuestions}
           </div>
+          {timerEnabled && (
+            <div className={`schoolr-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="schoolr-quiz-score-badge">
             Punteggio: {score}
           </div>
@@ -754,6 +822,13 @@ const MultiQuiz = ({
               Current Score: <span className="plai-quiz-score">{score}</span>
             </div>
           </div>
+          {timerEnabled && (
+            <div className={`plai-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <span className="plai-timer-label">Time</span>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
         </div>
 
         <div className="plai-quiz-progress-bar">
@@ -811,6 +886,12 @@ const MultiQuiz = ({
               <div className="studenti-quiz-count">{currentQuestion} di {totalQuestions}</div>
             </div>
           </div>
+          {timerEnabled && (
+            <div className={`studenti-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
+              <Clock />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+          )}
           <div className="studenti-quiz-score-badge">
             <span className="studenti-quiz-score-label">Punteggio:</span>
             <span className="studenti-quiz-score">{score}</span>

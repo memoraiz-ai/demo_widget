@@ -51,12 +51,11 @@ const SidePanel = ({
     { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
     { id: 'multi', name: 'Risposta Multipla', icon: '☑️', description: 'Seleziona tutte le opzioni corrette' },
     { id: 'truefalse', name: 'Vero/Falso', icon: '✅', description: 'Scelta binaria semplice' },
-    // { id: 'outlined', name: 'Riquadri Contornati', icon: '📦', description: 'Selezione basata su schede' }
   ];
 
   const flashcardModes = [
-    { id: 'normal', name: 'Domanda classica', icon: '❓', description: 'Domande e risposte standard' },
-    { id: 'fillblank', name: 'Riempi lo spazio', icon: '📝', description: 'Completa le frasi con la parola mancante' },
+    { id: 'classic', name: 'Domanda classica', icon: '❓', description: 'Domande e risposte standard' },
+    { id: 'cloze', name: 'Riempi lo spazio', icon: '📝', description: 'Completa le frasi con la parola mancante' },
     { id: 'mix', name: 'Mix', icon: '🔄', description: 'Combinazione di modalità diverse' }
   ];
 
@@ -602,7 +601,7 @@ const SidePanel = ({
               setCorrectPoints(1);
               setIncorrectPoints(-1);
             } else if (currentPage === 'flashcard') {
-              setFlashcardMode('normal');
+              setFlashcardMode('classic');
               setFlashcardStyle('playful');
             } else if (currentPage === 'mindmap') {
               setMindmapStyle('playful');

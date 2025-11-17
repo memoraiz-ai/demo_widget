@@ -29,7 +29,7 @@ const visualStyles = {
 function App() {
   const [currentPage, setCurrentPage] = useState('quiz');
   const [quizType, setQuizType] = useState('single');
-  const [flashcardMode, setFlashcardMode] = useState('normal');
+  const [flashcardMode, setFlashcardMode] = useState('classic');
   const [quizStyle, setQuizStyle] = useState('playful');
   const [flashcardStyle, setFlashcardStyle] = useState('playful');
   const [mindmapStyle, setMindmapStyle] = useState('playful');
@@ -179,11 +179,6 @@ function App() {
     setShowExportView(false);
   };
 
-  // Update theme when color palette changes
-//   React.useEffect(() => {
-//     setCurrentTheme(visualStyles[quizStyle]);
-//   }, [quizStyle]);
-
   // Gestione feedback immediato per quiz con risposta multipla
   React.useEffect(() => {
     const prevQuizType = previousQuizTypeRef.current;
@@ -219,7 +214,7 @@ function App() {
       incorrectPoints
     };
 
-    const quizKey = `quiz-${immediateFeedbackEnabled}`; // Reset quiz when immediate feedback changes
+    const quizKey = `quiz-${quizType}`; // Reset quiz when quiz type changes
 
     switch (quizType) {
       case 'single':
@@ -296,9 +291,6 @@ function App() {
                 flashcardMode={flashcardMode}
                 setFlashcardMode={setFlashcardMode}
                 onShuffle={handleShuffle}
-                // colorPalette={colorPalette}
-                // setColorPalette={setColorPalette}
-                // colorPalettes={colorPalettes}
                 timerEnabled={timerEnabled}
                 setTimerEnabled={setTimerEnabled}
                 timerDuration={timerDuration}

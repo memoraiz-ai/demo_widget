@@ -1,12 +1,11 @@
-import React, { useState, useImperativeHandle, useEffect, useMemo } from 'react';
+import React, { useState, useImperativeHandle, useEffect, useMemo, useRef } from 'react';
 import { RotateCw, ChevronLeft, ChevronRight, Code2, Clock } from 'lucide-react';
 import flashcardData from '../../data/flashcard.json';
 
 const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', timerEnabled = true, timerDuration = 300 }, ref) => {
-  const jsonFlashcards = flashcardData.flashcards || [];
   const mappedFlashcards = useMemo(
     () =>
-      jsonFlashcards.map((card) => ({
+      (flashcardData.flashcards || []).map((card) => ({
         ...card,
         question: card.front || card.question || '',
         answer: card.back || card.answer || ''
@@ -14,11 +13,29 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
     []
   );
 
+  const filteredFlashcards = useMemo(() => {
+    switch (mode) {
+      case 'classic':
+        return mappedFlashcards.filter((card) => card.type === 'classic');
+      case 'cloze':
+        return mappedFlashcards.filter((card) => card.type === 'cloze');
+      case 'mix':
+        return mappedFlashcards.filter((card) => card.type === 'classic' || card.type === 'cloze');
+      default:
+        return mappedFlashcards;
+    }
+  }, [mappedFlashcards, mode]);
+
   const [currentCard, setCurrentCard] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [flashcards, setFlashcards] = useState(mappedFlashcards);
+  const [flashcards, setFlashcards] = useState(filteredFlashcards);
   const [timeRemaining, setTimeRemaining] = useState(timerDuration);
   const [isFinished, setIsFinished] = useState(false);
+  const timerDurationRef = useRef(timerDuration);
+
+  useEffect(() => {
+    timerDurationRef.current = timerDuration;
+  }, [timerDuration]);
 
   useImperativeHandle(ref, () => ({
     shuffleFlashcards: () => {
@@ -84,6 +101,14 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
     setTimeRemaining(timerDuration);
     setIsFinished(false);
   };
+
+  useEffect(() => {
+    setFlashcards(filteredFlashcards);
+    setCurrentCard(0);
+    setIsFlipped(false);
+    setTimeRemaining(timerDurationRef.current);
+    setIsFinished(false);
+  }, [filteredFlashcards]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -230,7 +255,7 @@ const Flashcard = React.forwardRef(({ visualStyle = 'playful', mode = 'normal', 
                 <div className="tech-flashcard-front-content">
                   <div className="tech-flashcard-label">{'> '} QUERY</div>
                   <p className="tech-flashcard-text-front">{currentFlashcard.question}</p>
-                  <p className="tech-flashcard-hint">// click to execute</p>
+                  <p className="tech-flashcard-hint">{'// click to execute'}</p>
                 </div>
               </div>
 
