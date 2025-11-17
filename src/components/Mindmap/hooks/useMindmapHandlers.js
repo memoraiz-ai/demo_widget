@@ -104,8 +104,8 @@ export const useMindmapHandlers = (state) => {
           node.id === draggedNode
             ? {
                 ...node,
-                x: Math.max(0, Math.min(100, newXpercent)),
-                y: Math.max(0, Math.min(100, newYpercent))
+                x: newXpercent,
+                y: newYpercent
               }
             : node
         )
