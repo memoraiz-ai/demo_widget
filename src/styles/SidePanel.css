@@ -53,8 +53,7 @@
 
 .quiz-type-card.active {
   border-color: var(--primary);
-  background: var(--primary);
-  color: var(--primary-foreground);
+  background: var(--background);
 }
 
 .quiz-type-header {
@@ -62,6 +61,10 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.25rem;
+}
+
+.quiz-type-header.no-icon {
+  gap: 0.25rem;
 }
 
 .quiz-type-icon {
@@ -76,6 +79,13 @@
   line-height: 1.25rem;
 }
 
+.style-logo {
+  height: 1.25rem;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .quiz-type-description {
   font-family: 'Geist', sans-serif;
   font-weight: 400;
@@ -87,7 +97,7 @@
 }
 
 .quiz-type-card.active .quiz-type-description {
-  color: var(--primary-foreground);
+  color: var(--foreground);
   opacity: 0.9;
 }
 

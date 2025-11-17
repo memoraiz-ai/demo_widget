@@ -69,6 +69,13 @@ const SidePanel = ({
     { id: 'static', name: 'Mappa Statica', icon: '🗺️', description: 'Visualizza la mappa senza modifiche' },
   ];
 
+  const styleLogos = {
+    illustrated: '/logos/memo.png',
+    schoolr: '/logos/schoolr.png',
+    plai: '/logos/plai.png',
+    studenti: '/logos/studenti.png'
+  };
+
   return (
     <div className="sidepanel">
       <div className="sidepanel-content">
@@ -506,46 +513,59 @@ const SidePanel = ({
         <div className="sidepanel-section">
           <h3 className="section-title">Stile</h3>
           <div className="quiz-types">
-            {Object.entries(visualStyles).map(([key, style]) => (
-              <div
-                key={key}
-                className={`quiz-type-card ${
-                  (currentPage === 'quiz' && quizStyle === key) || 
-                  (currentPage === 'flashcard' && flashcardStyle === key) ||
-                  (currentPage === 'mindmap' && mindmapStyle === key) ||
-                  (currentPage === 'podcast' && podcastStyle === key) ? 'active' : ''
-                }`}
-                onClick={() => {
-                  if (currentPage === 'quiz') {
-                    setQuizStyle(key);
-                  } else if (currentPage === 'flashcard') {
-                    setFlashcardStyle(key);
-                  } else if (currentPage === 'mindmap') {
-                    setMindmapStyle(key);
-                  } else if (currentPage === 'podcast') {
-                    setPodcastStyle(key);
-                  }
-                }}
-              >
-                <div className="quiz-type-header">
-                  <span className="quiz-type-icon">
-                    {key === 'playful' && '🎨'}
-                    {key === 'tech' && '💻'}
-                    {key === 'corporate' && '💼'}
-                    {key === 'picasso' && '🖼️'}
-                    {key === 'illustrated' && '✨'}
-                  </span>
-                  <span className="quiz-type-name">{style.name}</span>
+            {Object.entries(visualStyles).map(([key, style]) => {
+              const logoSrc = styleLogos[key];
+              const hasLogo = Boolean(logoSrc);
+
+              return (
+                <div
+                  key={key}
+                  className={`quiz-type-card ${
+                    (currentPage === 'quiz' && quizStyle === key) || 
+                    (currentPage === 'flashcard' && flashcardStyle === key) ||
+                    (currentPage === 'mindmap' && mindmapStyle === key) ||
+                    (currentPage === 'podcast' && podcastStyle === key) ? 'active' : ''
+                  }`}
+                  onClick={() => {
+                    if (currentPage === 'quiz') {
+                      setQuizStyle(key);
+                    } else if (currentPage === 'flashcard') {
+                      setFlashcardStyle(key);
+                    } else if (currentPage === 'mindmap') {
+                      setMindmapStyle(key);
+                    } else if (currentPage === 'podcast') {
+                      setPodcastStyle(key);
+                    }
+                  }}
+                >
+                <div className={`quiz-type-header ${hasLogo ? 'with-icon' : 'no-icon'}`}>
+                  {!hasLogo && (
+                    <span className="quiz-type-icon">
+                      {key === 'playful' && '🎨'}
+                      {key === 'tech' && '💻'}
+                      {key === 'corporate' && '💼'}
+                      {key === 'picasso' && '🖼️'}
+                      {key === 'illustrated' && '✨'}
+                    </span>
+                  )}
+                    {hasLogo ? (
+                      <img src={logoSrc} alt={style.name} className="style-logo" />
+                    ) : (
+                      <span className="quiz-type-name">{style.name}</span>
+                    )}
+                  </div>
+                  {!hasLogo && (
+                    <p className="quiz-type-description">
+                      {key === 'playful' && 'Colorato e divertente'}
+                      {key === 'tech' && 'Stile tecnologico scuro'}
+                      {key === 'corporate' && 'Professionale e pulito'}
+                      {key === 'picasso' && 'Artistico e creativo'}
+                      {key === 'illustrated' && 'Illustrato con bordi audaci'}
+                    </p>
+                  )}
                 </div>
-                <p className="quiz-type-description">
-                  {key === 'playful' && 'Colorato e divertente'}
-                  {key === 'tech' && 'Stile tecnologico scuro'}
-                  {key === 'corporate' && 'Professionale e pulito'}
-                  {key === 'picasso' && 'Artistico e creativo'}
-                  {key === 'illustrated' && 'Illustrato con bordi audaci'}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
