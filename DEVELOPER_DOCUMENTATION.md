@@ -623,9 +623,9 @@ Where:
 - Formatted configuration summary
 - **Video player** with synchronized transcript
 - **Audio player** (matches podcast style from main app)
-- **Interactive transcript** with click-to-seek
+- **Interactive transcript** with click-to-seek and auto-scroll
 - **Mindmap visualization**
-- **Learning Tools panel** with Quiz and Flashcard previews
+- **Learning Tools** with Quiz and Flashcard interactive previews
 
 **Layout Structure** (Two-Row Layout):
 ```
@@ -635,21 +635,22 @@ Where:
 └─────────────────────────────────────────────────────────────┘
 ┌────────────────────────────┬────────────────────────────────┐
 │                            │                                │
-│      Video Player          │     Learning Tools             │
-│                            │   ┌──────────────────────┐     │
-│  [Video with Controls]     │   │ Quiz | Flashcard     │     │
-│                            │   └──────────────────────┘     │
-│                            │   [Interactive Preview]         │
+│      Video Player          │     Transcript Sidebar         │
+│                            │                                │
+│  [Video with Controls]     │   [Auto-scrolling transcript]  │
+│                            │   Click segments to seek       │
+│                            │                                │
 │                            │                                │
 └────────────────────────────┴────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
-│         [Transcript | Audio Player | Mind Map]              │
+│      [Quiz | Flashcards | Audio Player | Mind Map]          │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │              Content Area (Full Width)                      │
-│         • Transcript with auto-scroll                       │
+│         • Interactive quiz with selected style              │
+│         • Interactive flashcards with selected mode         │
 │         • Audio player with controls                        │
-│         • Interactive mindmap                               │
+│         • Interactive mindmap visualization                 │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -675,25 +676,27 @@ audioCurrentTime: number
 audioDuration: number
 
 // UI
-activeTab: 'quiz' | 'flashcard'
-activeContentTab: 'transcript' | 'audio' | 'mindmap'
+activeContentTab: 'quiz' | 'flashcard' | 'audio' | 'mindmap'
 ```
 
 **Key Layout Features**:
-- **First Row**: Video player (left) and Learning Tools panel (right) displayed side-by-side
-  - Video takes ~60% width, Learning Tools takes ~40% width
+- **First Row**: Video player (left) and Transcript sidebar (right) displayed side-by-side
+  - Video takes ~60% width, Transcript takes ~40% width
   - Both cards have equal height, aligned at the top
-  - Learning Tools panel has internal scrolling for quiz/flashcard content
-- **Second Row**: Full-width tabbed content area
-  - Tabs for Transcript, Audio Player, and Mind Map
+  - Transcript sidebar has internal scrolling with auto-scroll based on video playback
+  - Active transcript segment is highlighted and auto-scrolls into view
+- **Second Row**: Full-width tabbed content area with 4 tabs
+  - Tabs for Quiz, Flashcards, Audio Player, and Mind Map
   - Content stretches across entire page width
   - Each tab shows its respective content card
+  - Quiz and Flashcard tabs display full interactive components with selected styles
 
-**Learning Tools Panel**:
+**Transcript Sidebar**:
 - Styled to match other cards on the page (white background, subtle shadow)
-- Features Quiz/Flashcard tab switcher
-- Content area scrolls vertically (no page-level scroll)
-- Displays interactive quiz or flashcard preview based on selected tab
+- Displays synchronized transcript segments with timestamps
+- Each segment is clickable to seek to that position in the video
+- Active segment is highlighted and automatically scrolls into view during playback
+- Scrollable list for long transcripts
 
 **Audio Player Details**:
 - The audio player uses the same visual style (`podcastStyle`) selected in the main application
@@ -1516,8 +1519,33 @@ To add support for new languages or voice types:
 - Reuses existing podcast CSS classes for all 8 visual themes
 - Includes full controls: play/pause, progress slider, time display
 
+### November 17, 2025 - ExportView Layout Reorganization
+
+#### Major Layout Changes
+- **Restructured ExportView component** to improve content organization:
+  - **First row**: Video player (left) and Transcript sidebar (right) side-by-side
+  - **Second row**: Full-width tabbed content area with 4 tabs (Quiz/Flashcards/Audio/Mindmap)
+- **Moved Transcript** from bottom tabs to sidebar next to video player
+  - Enables better synchronized viewing of video with transcript
+  - Maintains auto-scroll and click-to-seek functionality
+- **Moved Quiz and Flashcards** from sidebar to bottom tabs
+  - Provides more space for interactive quiz and flashcard components
+  - Full-width display improves readability and user experience
+  
+#### Component State Changes
+- **Removed** `activeTab` state variable (previously for Quiz/Flashcard toggle in sidebar)
+- **Updated** `activeContentTab` default value from 'transcript' to 'quiz'
+- **Updated** `activeContentTab` options to include: 'quiz' | 'flashcard' | 'audio' | 'mindmap'
+
+#### CSS Updates
+- **Removed** `.export-tools-tabs` and `.export-tools-tab` classes (no longer needed)
+- **Removed** `.export-sidebar-content` and `.export-large-content` scaling transforms
+- **Added** `.export-quiz-card` and `.export-flashcard-card` styles for bottom tabs
+- **Updated** `.export-sidebar` to accommodate transcript display with proper scrolling
+- **Added** responsive styles for quiz and flashcard cards in content area
+
 ---
 
-*Last Updated: November 16, 2025*
+*Last Updated: November 17, 2025*
 *Version: 1.0.1*
 

@@ -43,8 +43,7 @@ const ExportView = ({ exportData, onBack }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(-1);
-  const [activeTab, setActiveTab] = useState('quiz');
-  const [activeContentTab, setActiveContentTab] = useState('transcript');
+  const [activeContentTab, setActiveContentTab] = useState('quiz');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [audioCurrentTime, setAudioCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
@@ -282,11 +281,10 @@ const ExportView = ({ exportData, onBack }) => {
       </div>
 
       <div className="export-view-body">
-        {/* First Row: Video + Learning Tools */}
+        {/* First Row: Video + Transcript */}
         <div className="export-first-row">
           <div className="export-video-card">
-            {/* <div className="export-video-wrapper export-video-16-9"> */}
-                <div className="export-video-header">
+            <div className="export-video-header">
               <div>
                 <h2 className="export-section-title">Educational Video Player</h2>
                 <p className="export-section-subtitle">
@@ -313,68 +311,7 @@ const ExportView = ({ exportData, onBack }) => {
             </div>
           </div>
 
-          <aside className="export-sidebar" aria-label="Learning tools">
-            <div className="export-tools-tabs" role="tablist">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeTab === 'quiz'}
-                className={`export-tools-tab ${activeTab === 'quiz' ? 'active' : ''}`}
-                onClick={() => setActiveTab('quiz')}
-              >
-                Quizzes
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeTab === 'flashcard'}
-                className={`export-tools-tab ${activeTab === 'flashcard' ? 'active' : ''}`}
-                onClick={() => setActiveTab('flashcard')}
-              >
-                Flashcards
-              </button>
-            </div>
-            <div className="export-sidebar-content export-large-content">
-              {activeTab === 'quiz' ? renderQuiz() : renderFlashcard()}
-            </div>
-          </aside>
-        </div>
-
-        {/* Second Row: Full-width Content Tabs */}
-        <div className="export-second-row">
-          <div className="export-content-tabs" role="tablist">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeContentTab === 'transcript'}
-              className={`export-content-tab ${activeContentTab === 'transcript' ? 'active' : ''}`}
-              onClick={() => setActiveContentTab('transcript')}
-            >
-              Transcript
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeContentTab === 'audio'}
-              className={`export-content-tab ${activeContentTab === 'audio' ? 'active' : ''}`}
-              onClick={() => setActiveContentTab('audio')}
-            >
-              Audio Player
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeContentTab === 'mindmap'}
-              className={`export-content-tab ${activeContentTab === 'mindmap' ? 'active' : ''}`}
-              onClick={() => setActiveContentTab('mindmap')}
-            >
-              Mind Map
-            </button>
-          </div>
-
-          <div className="export-content-area">
-            {activeContentTab === 'transcript' && (
-              <div className="export-transcript-card">
+          <aside className="export-sidebar" aria-label="Transcript">
             <div className="export-transcript-header">
               <div>
                 <h2 className="export-section-title">Transcript</h2>
@@ -404,82 +341,136 @@ const ExportView = ({ exportData, onBack }) => {
                 );
               })}
             </div>
+          </aside>
+        </div>
+
+        {/* Second Row: Full-width Content Tabs */}
+        <div className="export-second-row">
+          <div className="export-content-tabs" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'quiz'}
+              className={`export-content-tab ${activeContentTab === 'quiz' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('quiz')}
+            >
+              Quiz
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'flashcard'}
+              className={`export-content-tab ${activeContentTab === 'flashcard' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('flashcard')}
+            >
+              Flashcards
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'audio'}
+              className={`export-content-tab ${activeContentTab === 'audio' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('audio')}
+            >
+              Audio Player
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeContentTab === 'mindmap'}
+              className={`export-content-tab ${activeContentTab === 'mindmap' ? 'active' : ''}`}
+              onClick={() => setActiveContentTab('mindmap')}
+            >
+              Mind Map
+            </button>
+          </div>
+
+          <div className="export-content-area">
+            {activeContentTab === 'quiz' && (
+              <div className="export-quiz-card">
+                {renderQuiz()}
+              </div>
+            )}
+
+            {activeContentTab === 'flashcard' && (
+              <div className="export-flashcard-card">
+                {renderFlashcard()}
               </div>
             )}
 
             {activeContentTab === 'audio' && (
               <div className="export-audio-card">
-            <div className="export-audio-header">
-              <div>
-                <h2 className="export-section-title">Audio Player</h2>
-                <p className="export-section-subtitle">
-                  Ascolta la lezione in formato audio
-                </p>
-              </div>
-            </div>
-            <div className={`${podcastConfig.style || 'playful'}-podcast-player`} style={{ background: 'transparent', padding: '1rem 0' }}>
-              <audio
-                ref={audioRef}
-                onTimeUpdate={handleAudioTimeUpdate}
-                onLoadedMetadata={handleAudioLoadedMetadata}
-                onEnded={() => setIsAudioPlaying(false)}
-              >
-                <source src={buildPodcastAudioUrl({
-                  language: podcastConfig.language || 'italian',
-                  voice: podcastConfig.voice || 'uomo',
-                  multispeaker: podcastConfig.multispeaker ?? true,
-                  backgroundMusic: podcastConfig.backgroundMusic ?? true,
-                })} type="audio/mpeg" />
-                Il tuo browser non supporta l'elemento audio.
-              </audio>
-
-              <div className={`${podcastConfig.style || 'playful'}-player-controls`}>
-                <button 
-                  className={`${podcastConfig.style || 'playful'}-play-pause-btn`}
-                  onClick={toggleAudioPlayPause}
-                >
-                  {isAudioPlaying ? (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
-                      <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
-                    </svg>
-                  ) : (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M8 5v14l11-7z" fill="currentColor"/>
-                    </svg>
-                  )}
-                </button>
-
-                <div className={`${podcastConfig.style || 'playful'}-time-display`}>
-                  {formatTime(audioCurrentTime)}
+                <div className="export-audio-header">
+                  <div>
+                    <h2 className="export-section-title">Audio Player</h2>
+                    <p className="export-section-subtitle">
+                      Ascolta la lezione in formato audio
+                    </p>
+                  </div>
                 </div>
+                <div className={`${podcastConfig.style || 'playful'}-podcast-player`} style={{ background: 'transparent', padding: '1rem 0' }}>
+                  <audio
+                    ref={audioRef}
+                    onTimeUpdate={handleAudioTimeUpdate}
+                    onLoadedMetadata={handleAudioLoadedMetadata}
+                    onEnded={() => setIsAudioPlaying(false)}
+                  >
+                    <source src={buildPodcastAudioUrl({
+                      language: podcastConfig.language || 'italian',
+                      voice: podcastConfig.voice || 'uomo',
+                      multispeaker: podcastConfig.multispeaker ?? true,
+                      backgroundMusic: podcastConfig.backgroundMusic ?? true,
+                    })} type="audio/mpeg" />
+                    Il tuo browser non supporta l'elemento audio.
+                  </audio>
 
-                <div className={`${podcastConfig.style || 'playful'}-progress-container`}>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={audioDuration ? (audioCurrentTime / audioDuration) * 100 : 0}
-                    onChange={handleAudioSeek}
-                    className={`${podcastConfig.style || 'playful'}-progress-slider`}
-                  />
-                </div>
+                  <div className={`${podcastConfig.style || 'playful'}-player-controls`}>
+                    <button 
+                      className={`${podcastConfig.style || 'playful'}-play-pause-btn`}
+                      onClick={toggleAudioPlayPause}
+                    >
+                      {isAudioPlaying ? (
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                          <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                        </svg>
+                      ) : (
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path d="M8 5v14l11-7z" fill="currentColor"/>
+                        </svg>
+                      )}
+                    </button>
 
-                <div className={`${podcastConfig.style || 'playful'}-time-display`}>
-                  {formatTime(audioDuration)}
+                    <div className={`${podcastConfig.style || 'playful'}-time-display`}>
+                      {formatTime(audioCurrentTime)}
+                    </div>
+
+                    <div className={`${podcastConfig.style || 'playful'}-progress-container`}>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={audioDuration ? (audioCurrentTime / audioDuration) * 100 : 0}
+                        onChange={handleAudioSeek}
+                        className={`${podcastConfig.style || 'playful'}-progress-slider`}
+                      />
+                    </div>
+
+                    <div className={`${podcastConfig.style || 'playful'}-time-display`}>
+                      {formatTime(audioDuration)}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
               </div>
             )}
 
             {activeContentTab === 'mindmap' && (
               <div className="export-mindmap-card">
-            <div className="export-mindmap-header">
-              <h2 className="export-section-title">Mind Map</h2>
-              <p className="export-section-subtitle">Visual concept overview</p>
-            </div>
-            <div className="export-mindmap-body">{renderMindmap()}</div>
+                <div className="export-mindmap-header">
+                  <h2 className="export-section-title">Mind Map</h2>
+                  <p className="export-section-subtitle">Visual concept overview</p>
+                </div>
+                <div className="export-mindmap-body">{renderMindmap()}</div>
               </div>
             )}
           </div>
