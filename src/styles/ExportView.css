@@ -394,6 +394,30 @@
   overflow-y: auto;
 }
 
+/* Keep timers inside export cards in normal document flow (don't overlay) */
+/* .export-flashcard-card .playful-timer,
+.export-flashcard-card .tech-timer,
+.export-flashcard-card .corporate-timer,
+.export-flashcard-card .illustrated-timer,
+.export-flashcard-card .picasso-timer,
+.export-flashcard-card .schoolr-timer,
+.export-flashcard-card .plai-timer,
+.export-flashcard-card .studenti-timer,
+.export-quiz-card .playful-timer,
+.export-quiz-card .tech-timer,
+.export-quiz-card .corporate-timer,
+.export-quiz-card .illustrated-timer,
+.export-quiz-card .picasso-timer,
+.export-quiz-card .schoolr-timer,
+.export-quiz-card .plai-timer,
+.export-quiz-card .studenti-timer {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  display: flex !important;
+} */
+
 /* Scrollbars */
 
 .export-transcript-list::-webkit-scrollbar {

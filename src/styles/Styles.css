@@ -308,6 +308,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  position: relative;
 }
 
 .playful-flashcard-counter {
@@ -782,6 +783,7 @@
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgb(226, 232, 240);
+  position: relative;
 }
 
 .corporate-flashcard-counter {
@@ -1215,6 +1217,7 @@
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgb(30, 41, 59);
+  position: relative;
 }
 
 .tech-flashcard-counter {
@@ -1685,6 +1688,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  position: relative;
 }
 
 .illustrated-flashcard-counter-wrapper {
@@ -2429,13 +2433,6 @@
   position: relative;
 }
 
-.picasso-flashcard-counter-shadow {
-  position: absolute;
-  inset: 0;
-  background: rgb(2, 132, 199);
-  transform: translateX(0.25rem) translateY(0.25rem);
-}
-
 .picasso-flashcard-counter-box {
   position: relative;
   background: rgb(56, 189, 248);
@@ -2451,6 +2448,7 @@
   height: 0.75rem;
   background: rgb(244, 63, 94);
   transform: rotate(45deg);
+  margin-left: 30%;
 }
 
 .picasso-flashcard-counter-text {
@@ -2467,10 +2465,6 @@
   background: rgb(41, 37, 36);
   transform: translateX(0.25rem) translateY(0.25rem);
   transition: transform 150ms;
-}
-
-.picasso-flashcard-flip-btn-shadow:hover {
-  transform: translateX(0.5rem) translateY(0.5rem);
 }
 
 .picasso-flashcard-flip-btn {
@@ -2752,10 +2746,12 @@
 
 .picasso-flashcard-nav-btn-prev {
   background: white;
+  width: 100%;
 }
 
 .picasso-flashcard-nav-btn-next {
   background: linear-gradient(to right, rgb(244, 63, 94), rgb(251, 191, 36));
+  width: 100%;
 }
 
 .picasso-flashcard-dots {
@@ -3061,6 +3057,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  position: relative;
 }
 
 .schoolr-flashcard-counter {
@@ -3502,6 +3499,7 @@
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #E5E7EB;
+  position: relative;
 }
 
 .plai-flashcard-counter-wrapper {
@@ -4030,6 +4028,7 @@
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 2px solid #e8dcc0;
+  position: relative;
 }
 
 .studenti-flashcard-counter-wrapper {
@@ -4095,6 +4094,17 @@
   height: 1.5rem;
 }
 
+.studenti-flashcard-header .studenti-timer,
+.illustrated-flashcard-header .illustrated-timer,
+.schoolr-flashcard-header .schoolr-timer,
+.plai-flashcard-header .plai-timer
+ {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
 .studenti-flashcard-card-area {
   position: relative;
   height: 20rem;
@@ -4276,7 +4286,7 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
   transition: all 0.3s ease;
   position: absolute;
-  left: 50%;
+  left: 50%;    
   transform: translateX(-50%);
 }
 
