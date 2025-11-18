@@ -112,6 +112,10 @@ const OutlinedQuiz = ({
       }, 300);
     } else {
       setShowFeedback(false);
+      // Auto-advance to next question when feedback is disabled
+      setTimeout(() => {
+        nextQuestion();
+      }, 200);
     }
   };
 
@@ -252,7 +256,9 @@ const OutlinedQuiz = ({
       return (
         <div className="illustrated-quiz-result-container">
           <div className="illustrated-quiz-result-inner">
-            <div className="illustrated-quiz-result-icon">💡</div>
+            <div className="illustrated-quiz-result-icon">
+              <img src="/super.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
             <h2 className="illustrated-quiz-result-title">Quiz Complete!</h2>
             <div className="illustrated-quiz-result-score-box">
               <p className="illustrated-quiz-result-score-text">
@@ -391,9 +397,11 @@ const OutlinedQuiz = ({
             <div className="playful-quiz-badge">
               Question {currentQuestion}/{totalQuestions}
             </div>
-            <div className="playful-quiz-score">
-              Score: {score}
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="playful-quiz-score">
+                Score: {score}
+              </div>
+            )}
           </div>
           
           <div className="playful-quiz-progress-bar">
@@ -406,8 +414,8 @@ const OutlinedQuiz = ({
             {answers.map((answer, index) => {
               const isSelected = selectedAnswer === answer;
               const isCorrect = answer === correctAnswer;
-              const showCorrect = selectedAnswer !== null && isCorrect;
-              const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+              const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+              const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
               return (
                 <button
@@ -426,7 +434,7 @@ const OutlinedQuiz = ({
 
           <ExplanationBlock />
 
-          {selectedAnswer !== null && (
+          {immediateFeedbackEnabled && selectedAnswer !== null && (
             <button onClick={nextQuestion} className="playful-quiz-next-btn">
               {currentQuestion < totalQuestions ? 'Next Question →' : 'See Results 🎯'}
             </button>
@@ -448,10 +456,12 @@ const OutlinedQuiz = ({
           <div className="tech-quiz-counter">
             [{currentQuestion}/{totalQuestions}]
           </div>
-          <div className="tech-quiz-score-wrapper">
-            <span>SCORE:</span>
-            <span className="tech-quiz-score-badge">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="tech-quiz-score-wrapper">
+              <span>SCORE:</span>
+              <span className="tech-quiz-score-badge">{score}</span>
+            </div>
+          )}
         </div>
 
         <div className="tech-quiz-progress-bar">
@@ -464,8 +474,8 @@ const OutlinedQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -484,7 +494,7 @@ const OutlinedQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="tech-quiz-next-btn">
             {currentQuestion < totalQuestions ? '> NEXT_QUESTION()' : '> SHOW_RESULTS()'}
           </button>
@@ -500,10 +510,12 @@ const OutlinedQuiz = ({
           <div className="corporate-quiz-label">
             Question {currentQuestion} of {totalQuestions}
           </div>
-          <div className="corporate-quiz-score-wrapper">
-            <span>Score:</span>
-            <span className="corporate-quiz-score-badge">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="corporate-quiz-score-wrapper">
+              <span>Score:</span>
+              <span className="corporate-quiz-score-badge">{score}</span>
+            </div>
+          )}
         </div>
 
         <div className="corporate-quiz-progress-bar">
@@ -516,8 +528,8 @@ const OutlinedQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -536,7 +548,7 @@ const OutlinedQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="corporate-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue' : 'View Results'}
           </button>
@@ -549,14 +561,18 @@ const OutlinedQuiz = ({
     return (
       <div className="illustrated-quiz-container">
         <div className="illustrated-quiz-header">
-          <div className="illustrated-quiz-star">⭐</div>
+          <div className="illustrated-quiz-star">
+            <img src="/dubbioso_pensieroso.png" alt="" className="illustrated-quiz-star-icon" />
+          </div>
           <div className="illustrated-quiz-badges">
             <div className="illustrated-quiz-badge">
               {currentQuestion}/{totalQuestions}
             </div>
-            <div className="illustrated-quiz-score-badge">
-              Score: {score}
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="illustrated-quiz-score-badge">
+                Score: {score}
+              </div>
+            )}
           </div>
         </div>
 
@@ -568,8 +584,8 @@ const OutlinedQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -588,12 +604,12 @@ const OutlinedQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
             {currentQuestion < totalQuestions ? (
               <>
                 Next Question
-                <span className="illustrated-quiz-star-running">⭐</span>
+                <img src="/corre.png" alt="" className="illustrated-quiz-star-running" />
               </>
             ) : (
               'See Results'
@@ -617,10 +633,12 @@ const OutlinedQuiz = ({
               <div className="picasso-quiz-badge-shadow"></div>
               <div className="picasso-quiz-badge">{currentQuestion}/{totalQuestions}</div>
             </div>
-            <div className="picasso-quiz-badge-wrapper">
-              <div className="picasso-quiz-badge-shadow"></div>
-              <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="picasso-quiz-badge-wrapper">
+                <div className="picasso-quiz-badge-shadow"></div>
+                <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
+              </div>
+            )}
           </div>
 
           <div className="picasso-quiz-question-wrapper">
@@ -635,8 +653,8 @@ const OutlinedQuiz = ({
             {answers.map((answer, index) => {
               const isSelected = selectedAnswer === answer;
               const isCorrect = answer === correctAnswer;
-              const showCorrect = selectedAnswer !== null && isCorrect;
-              const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+              const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+              const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
               return (
                 <div key={index} className="picasso-quiz-option-wrapper">
@@ -657,7 +675,7 @@ const OutlinedQuiz = ({
 
           <ExplanationBlock />
 
-          {selectedAnswer !== null && (
+          {immediateFeedbackEnabled && selectedAnswer !== null && (
             <div className="picasso-quiz-btn-wrapper">
               <div className="picasso-quiz-btn-shadow"></div>
               <button onClick={nextQuestion} className="picasso-quiz-next-btn">
@@ -677,9 +695,11 @@ const OutlinedQuiz = ({
           <div className="schoolr-quiz-badge">
             Domanda {currentQuestion} di {totalQuestions}
           </div>
-          <div className="schoolr-quiz-score-badge">
-            Punteggio: {score}
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="schoolr-quiz-score-badge">
+              Punteggio: {score}
+            </div>
+          )}
         </div>
 
         <div className="schoolr-quiz-progress-bar">
@@ -692,8 +712,8 @@ const OutlinedQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -712,7 +732,7 @@ const OutlinedQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="schoolr-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi risultati'}
           </button>
@@ -729,9 +749,11 @@ const OutlinedQuiz = ({
             <div className="plai-quiz-label">
               Question {currentQuestion} of {totalQuestions}
             </div>
-            <div className="plai-quiz-score-label">
-              Current Score: <span className="plai-quiz-score">{score}</span>
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="plai-quiz-score-label">
+                Current Score: <span className="plai-quiz-score">{score}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -745,8 +767,8 @@ const OutlinedQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -765,7 +787,7 @@ const OutlinedQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="plai-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue to Next Question' : 'View Results'}
           </button>
@@ -785,10 +807,12 @@ const OutlinedQuiz = ({
               <div className="studenti-quiz-count">{currentQuestion} di {totalQuestions}</div>
             </div>
           </div>
-          <div className="studenti-quiz-score-badge">
-            <span className="studenti-quiz-score-label">Punteggio:</span>
-            <span className="studenti-quiz-score">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="studenti-quiz-score-badge">
+              <span className="studenti-quiz-score-label">Punteggio:</span>
+              <span className="studenti-quiz-score">{score}</span>
+            </div>
+          )}
         </div>
 
         <h3 className="studenti-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
@@ -797,8 +821,8 @@ const OutlinedQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -820,7 +844,7 @@ const OutlinedQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="studenti-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi i risultati'}
           </button>

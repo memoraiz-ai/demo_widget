@@ -44,6 +44,8 @@ const SidePanel = ({
   setShowConnectionLabels,
   dynamicMapEnabled,
   setDynamicMapEnabled,
+  mindmapDetailLevel,
+  setMindmapDetailLevel,
   podcastTranscript,
   setPodcastTranscript,
   podcastVoice,
@@ -375,6 +377,30 @@ const SidePanel = ({
               <div className="details">
                 <div className="detail-item">
                   <div className="detail-header">
+                    <span className="detail-title">Livello di dettaglio</span>
+                    <select
+                      className="timer-duration-select"
+                      value={mindmapDetailLevel}
+                      onChange={(e) => setMindmapDetailLevel(e.target.value)}
+                      style={{
+                        padding: '0.5rem',
+                        borderRadius: '0.375rem',
+                        border: '1px solid #e0e0e0',
+                        fontSize: '0.875rem',
+                        fontFamily: 'Geist, sans-serif'
+                      }}
+                    >
+                      <option value="low">Basso</option>
+                      <option value="medium">Medio</option>
+                      <option value="high">Alto</option>
+                    </select>
+                  </div>
+                  <p className="detail-description">
+                    Scegli quanti livelli di nodi visualizzare nella mappa
+                  </p>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-header">
                     <span className="detail-title">Visualizza maggiori informazioni nodo</span>
                     <div className="toggle-switch">
                       <input
@@ -648,6 +674,7 @@ const SidePanel = ({
               setShowNodeDetails(true);
               setShowConnectionLabels(true);
               setDynamicMapEnabled(true);
+              setMindmapDetailLevel('high');
             } else if (currentPage === 'podcast') {
               setPodcastStyle('playful');
               setPodcastTranscript('simple');

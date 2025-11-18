@@ -141,7 +141,9 @@ const SingleQuiz = ({
         setShowFeedback(true);
       }, 300);
     } else {
-      setShowFeedback(false);
+      setTimeout(() => {
+        nextQuestion();
+      }, 500);
     }
   };
 
@@ -624,9 +626,11 @@ const SingleQuiz = ({
                 {formatTime(timeRemaining)}
               </div>
             )}
-            <div className="playful-quiz-score">
-              Score: {score}
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="playful-quiz-score">
+                Score: {score}
+              </div>
+            )}
           </div>
           
           <div className="playful-quiz-progress-bar">
@@ -639,8 +643,8 @@ const SingleQuiz = ({
             {answers.map((answer, index) => {
               const isSelected = selectedAnswer === answer;
               const isCorrect = answer === correctAnswer;
-              const showCorrect = selectedAnswer !== null && isCorrect;
-              const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+              const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+              const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
               return (
                 <button
@@ -659,7 +663,7 @@ const SingleQuiz = ({
 
           <ExplanationBlock />
 
-          {selectedAnswer !== null && (
+          {immediateFeedbackEnabled && selectedAnswer !== null && (
             <button onClick={nextQuestion} className="playful-quiz-next-btn">
               {currentQuestion < totalQuestions ? 'Next Question →' : 'See Results 🎯'}
             </button>
@@ -687,10 +691,12 @@ const SingleQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="tech-quiz-score-wrapper">
-            <span>SCORE:</span>
-            <span className="tech-quiz-score-badge">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="tech-quiz-score-wrapper">
+              <span>SCORE:</span>
+              <span className="tech-quiz-score-badge">{score}</span>
+            </div>
+          )}
         </div>
 
         <div className="tech-quiz-progress-bar">
@@ -703,8 +709,8 @@ const SingleQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -723,7 +729,7 @@ const SingleQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="tech-quiz-next-btn">
             {currentQuestion < totalQuestions ? '> NEXT_QUESTION()' : '> SHOW_RESULTS()'}
           </button>
@@ -745,10 +751,12 @@ const SingleQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="corporate-quiz-score-wrapper">
-            <span>Score:</span>
-            <span className="corporate-quiz-score-badge">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="corporate-quiz-score-wrapper">
+              <span>Score:</span>
+              <span className="corporate-quiz-score-badge">{score}</span>
+            </div>
+          )}
         </div>
 
         <div className="corporate-quiz-progress-bar">
@@ -761,8 +769,8 @@ const SingleQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -781,7 +789,7 @@ const SingleQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="corporate-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue' : 'View Results'}
           </button>
@@ -807,9 +815,11 @@ const SingleQuiz = ({
                 <span>{formatTime(timeRemaining)}</span>
               </div>
             )}
-            <div className="illustrated-quiz-score-badge">
-              Score: {score}
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="illustrated-quiz-score-badge">
+                Score: {score}
+              </div>
+            )}
           </div>
         </div>
 
@@ -821,8 +831,8 @@ const SingleQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -841,7 +851,7 @@ const SingleQuiz = ({
 
         <ExplanationBlock />
 
-          {selectedAnswer !== null && (
+          {immediateFeedbackEnabled && selectedAnswer !== null && (
             <button onClick={nextQuestion} className="illustrated-quiz-next-btn">
               {currentQuestion < totalQuestions ? (
                 <>
@@ -964,26 +974,28 @@ const SingleQuiz = ({
                 </div>
               )}
 
-              <div style={{ position: 'relative' }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'rgb(217, 119, 6)',
-                    transform: 'translateX(-0.25rem) translateY(0.25rem)'
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'relative',
-                    border: '3px solid rgb(41, 37, 36)',
-                    padding: '0.5rem 1rem',
-                    background: 'rgb(251, 191, 36)'
-                  }}
-                >
-                  <span>Score: {score}</span>
+              {immediateFeedbackEnabled && (
+                <div style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'rgb(217, 119, 6)',
+                      transform: 'translateX(-0.25rem) translateY(0.25rem)'
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'relative',
+                      border: '3px solid rgb(41, 37, 36)',
+                      padding: '0.5rem 1rem',
+                      background: 'rgb(251, 191, 36)'
+                    }}
+                  >
+                    <span>Score: {score}</span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Question box with colored edge */}
@@ -1042,9 +1054,9 @@ const SingleQuiz = ({
               {answers.map((answer, index) => {
                 const isSelected = selectedAnswer === answer;
                 const isCorrect = answer === correctAnswer;
-                const showCorrect = selectedAnswer !== null && isCorrect;
+                const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
                 const showIncorrect =
-                  selectedAnswer !== null && isSelected && !isCorrect;
+                  immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
                 return (
                   <div
@@ -1090,7 +1102,7 @@ const SingleQuiz = ({
             <ExplanationBlock />
 
             {/* Next button with shadow */}
-            {selectedAnswer !== null && (
+            {immediateFeedbackEnabled && selectedAnswer !== null && (
               <div className="picasso-quiz-next-btn-wrapper">
                 <div className="picasso-quiz-next-btn-shadow" />
                 <button
@@ -1123,9 +1135,11 @@ const SingleQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="schoolr-quiz-score-badge">
-            Punteggio: {score}
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="schoolr-quiz-score-badge">
+              Punteggio: {score}
+            </div>
+          )}
         </div>
 
         <div className="schoolr-quiz-progress-bar">
@@ -1138,8 +1152,8 @@ const SingleQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -1158,7 +1172,7 @@ const SingleQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="schoolr-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi risultati'}
           </button>
@@ -1175,9 +1189,11 @@ const SingleQuiz = ({
             <div className="plai-quiz-label">
               Question {currentQuestion} of {totalQuestions}
             </div>
-            <div className="plai-quiz-score-label">
-              Current Score: <span className="plai-quiz-score">{score}</span>
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="plai-quiz-score-label">
+                Current Score: <span className="plai-quiz-score">{score}</span>
+              </div>
+            )}
           </div>
           {timerEnabled && (
             <div className={`plai-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
@@ -1198,8 +1214,8 @@ const SingleQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -1218,7 +1234,7 @@ const SingleQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="plai-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Continue to Next Question' : 'View Results'}
           </button>
@@ -1244,10 +1260,12 @@ const SingleQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="studenti-quiz-score-badge">
-            <span className="studenti-quiz-score-label">Punteggio:</span>
-            <span className="studenti-quiz-score">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="studenti-quiz-score-badge">
+              <span className="studenti-quiz-score-label">Punteggio:</span>
+              <span className="studenti-quiz-score">{score}</span>
+            </div>
+          )}
         </div>
 
         <h3 className="studenti-quiz-question">{questionVariants[currentQuestionIndex]}</h3>
@@ -1256,8 +1274,8 @@ const SingleQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === correctAnswer;
-            const showCorrect = selectedAnswer !== null && isCorrect;
-            const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
 
             return (
               <button
@@ -1279,7 +1297,7 @@ const SingleQuiz = ({
 
         <ExplanationBlock />
 
-        {selectedAnswer !== null && (
+        {immediateFeedbackEnabled && selectedAnswer !== null && (
           <button onClick={nextQuestion} className="studenti-quiz-next-btn">
             {currentQuestion < totalQuestions ? 'Prossima domanda →' : 'Vedi i risultati'}
           </button>

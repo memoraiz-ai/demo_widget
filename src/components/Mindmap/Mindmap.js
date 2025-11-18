@@ -12,9 +12,9 @@ import MindmapMinimap from './components/MindmapMinimap';
  * Main Mindmap Component
  * A visual interactive mindmap with draggable nodes, connections, and customization
  */
-const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConnectionLabels, dynamicMapEnabled }, ref) => {
+const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConnectionLabels, dynamicMapEnabled, detailLevel = 'high' }, ref) => {
   // Initialize state
-  const state = useMindmapState();
+  const state = useMindmapState(detailLevel);
   
   // Initialize handlers
   const handlers = useMindmapHandlers(state);

@@ -212,6 +212,9 @@ Four distinct quiz types with customizable settings:
 
 #### Quiz Settings (via SidePanel)
 - **Timer**: Enable/disable with configurable duration (1-15 minutes)
+  - **Independent timer controls**: Quiz and Flashcard modes have separate timer settings
+  - Quiz timer applies only to quiz mode
+  - Flashcard timer applies only to flashcard mode
 - **Immediate Feedback**: Show instant answer validation
 - **Number of Answers**: 2-8 answer options (single/multi only)
 - **Scoring**:
@@ -232,6 +235,8 @@ Interactive flashcards with flip animation:
 
 #### Flashcard Settings
 - **Timer**: Enable/disable with configurable duration
+  - **Independent timer controls**: Separate from quiz timer
+  - Each mode (quiz/flashcard) maintains its own timer configuration
 - **Shuffle**: Randomize card order
 - **Visual Style**: 8 different themes
 - **Navigation**: Previous/Next buttons, dot indicators
@@ -312,8 +317,8 @@ currentPage: 'quiz' | 'flashcard' | 'mindmap' | 'podcast'
 // Quiz settings
 quizType: 'single' | 'multi' | 'truefalse' | 'outlined'
 quizStyle: string // Visual style
-timerEnabled: boolean
-timerDuration: number // in seconds
+quizTimerEnabled: boolean // Separate quiz timer control
+quizTimerDuration: number // Quiz timer in seconds
 immediateFeedbackEnabled: boolean
 answersCount: number // 2-8
 correctPoints: number
@@ -322,6 +327,12 @@ incorrectPoints: number
 // Flashcard settings
 flashcardMode: 'normal' | 'fillblank' | 'mix'
 flashcardStyle: string
+flashcardTimerEnabled: boolean // Separate flashcard timer control
+flashcardTimerDuration: number // Flashcard timer in seconds
+
+// Shared timer settings (fallback values)
+timerEnabled: boolean // Legacy/fallback timer enabled
+timerDuration: number // Legacy/fallback timer duration in seconds
 
 // Mindmap settings
 mindmapStyle: string
@@ -334,6 +345,8 @@ podcastStyle: string
 podcastTranscript: 'none' | 'simple' | 'detailed'
 podcastVoice: 'uomo' | 'donna'
 podcastMultispeaker: boolean
+podcastBackgroundMusic: boolean
+podcastLanguage: string // 'italian' | 'brazilian' | 'english' | 'chinese'
 
 // Export
 showExportView: boolean
@@ -1185,18 +1198,57 @@ if (mode === 'newmode') {
 
 ### Customizing Timer
 
+#### Modifying Timer Duration Options
+
 Modify in `SidePanel.js`:
 
 ```javascript
 <select 
-  value={timerDuration}
-  onChange={(e) => setTimerDuration(Number(e.target.value))}>
+  value={effectiveQuizTimerDuration} // or effectiveFlashcardTimerDuration
+  onChange={(e) => effectiveSetQuizTimerDuration(Number(e.target.value))}>
   <option value={60}>1 minuto</option>
   <option value={300}>5 minuti</option>
   <option value={600}>10 minuti</option>
   <option value={1800}>30 minuti</option> {/* NEW */}
 </select>
 ```
+
+#### Understanding Separate Timer Controls
+
+As of November 18, 2025, quiz and flashcard modes have **independent timer settings**:
+
+**In App.js**:
+```javascript
+// Separate state for each mode
+const [quizTimerEnabled, setQuizTimerEnabled] = useState(true);
+const [quizTimerDuration, setQuizTimerDuration] = useState(300);
+const [flashcardTimerEnabled, setFlashcardTimerEnabled] = useState(true);
+const [flashcardTimerDuration, setFlashcardTimerDuration] = useState(300);
+
+// Legacy shared state (used as fallback)
+const [timerEnabled, setTimerEnabled] = useState(true);
+const [timerDuration, setTimerDuration] = useState(300);
+```
+
+**In SidePanel.js**:
+```javascript
+// Compute effective values with graceful fallback
+const effectiveQuizTimerEnabled = 
+  typeof quizTimerEnabled !== 'undefined' ? quizTimerEnabled : timerEnabled;
+const effectiveQuizTimerDuration = 
+  typeof quizTimerDuration !== 'undefined' ? quizTimerDuration : timerDuration;
+
+// Same pattern for flashcard
+const effectiveFlashcardTimerEnabled = 
+  typeof flashcardTimerEnabled !== 'undefined' ? flashcardTimerEnabled : timerEnabled;
+const effectiveFlashcardTimerDuration = 
+  typeof flashcardTimerDuration !== 'undefined' ? flashcardTimerDuration : timerDuration;
+```
+
+**Benefits**:
+- Quiz can have a 5-minute timer while flashcards have a 10-minute timer
+- Settings persist independently when switching between modes
+- Backward compatible with older implementations
 
 ### Adding Mindmap Features
 
@@ -1375,10 +1427,12 @@ npm test
 | Add visual style | `App.js`, `Styles.css`, `SidePanel.js` |
 | Modify layout | `App.css` |
 | Add quiz type | `src/components/Quiz/`, `App.js`, `SidePanel.js` |
-| Change timer options | `SidePanel.js` |
+| Change timer options | `SidePanel.js`, `App.js` (for separate controls) |
+| Modify timer behavior | `App.js` (state), `SidePanel.js` (UI controls) |
 | Modify export format | `App.js` (handleExport) |
 | Change scoring | `SidePanel.js`, Quiz components |
 | Update mindmap interactions | `src/components/Mindmap/hooks/` |
+| Update podcast audio sources | `Podcast.js`, `ExportView.js` |
 
 ---
 
@@ -1430,6 +1484,8 @@ When modifying this codebase:
 6. **Respect data structure**: Don't break JSON file formats
 7. **Consider responsive design**: Test changes on mobile/tablet
 8. **Update this documentation**: Document any architectural changes
+9. **Separate timer controls**: Remember that Quiz and Flashcard have independent timers (quizTimerEnabled/Duration, flashcardTimerEnabled/Duration) with fallback to shared timer values
+10. **Graceful degradation**: When adding new features, implement fallback behavior for backward compatibility
 
 ---
 
@@ -1450,6 +1506,67 @@ The codebase is **well-organized** with clear separation of concerns and consist
 ---
 
 ## 📝 Recent Changes
+
+### November 18, 2025 - Separate Timer Controls and UI Improvements
+
+#### Separate Timer Controls for Quiz and Flashcard
+- **Implemented independent timer settings** for Quiz and Flashcard modes:
+  - Added new state variables: `quizTimerEnabled`, `quizTimerDuration`, `flashcardTimerEnabled`, `flashcardTimerDuration`
+  - Each learning mode can now have its own timer configuration
+  - Previous shared timer state (`timerEnabled`, `timerDuration`) still exists as fallback values
+  
+- **Updated App.js**:
+  - Added four new state variables for separate timer control
+  - Modified quiz rendering to use `quizTimerEnabled` and `quizTimerDuration`
+  - Modified flashcard rendering to use `flashcardTimerEnabled` and `flashcardTimerDuration`
+  - Export function updated to capture both timer configurations
+
+- **Updated SidePanel.js**:
+  - Added props for separate timer controls with graceful fallback
+  - Implemented effective timer values computation:
+    - Falls back to shared timer values if separate controls not provided
+    - Ensures backward compatibility
+  - Quiz mode uses `effectiveQuizTimerEnabled` and `effectiveQuizTimerDuration`
+  - Flashcard mode uses `effectiveFlashcardTimerEnabled` and `effectiveFlashcardTimerDuration`
+
+**Benefits**:
+- Users can now set different timer durations for quiz vs. flashcard study sessions
+- Improves flexibility for different learning scenarios
+- Backward compatible with existing code
+
+#### Quiz Counter Display Improvement
+- **Simplified question counter display** across all quiz components:
+  - Changed from "Q 1/10" format to "1 of 10" format
+  - Updated in `SingleQuiz.js`, `MultiQuiz.js`, `TrueFalseQuiz.js`, and `OutlinedQuiz.js`
+  - Affects Corporate and PLAI visual styles specifically
+  - Removed "Q" prefix for cleaner, more readable interface
+
+#### Timer Warning Styling
+- **Centered timer warning display**:
+  - Updated CSS for timer warning states (when time is running low)
+  - Improved visual feedback for time-critical moments
+  - Changes in `Styles.css`
+
+#### Quiz Icon Styling Fix
+- **Fixed quiz type icon display**:
+  - CSS updates to ensure icons render correctly in SidePanel
+  - Improved consistency across different visual styles
+  - Enhanced icon positioning and sizing
+
+#### Mindmap Component Updates
+- **Simplified and enhanced Mindmap styling**:
+  - Updated `Mindmap.js` with refined visual presentation
+  - Simplified `MindmapControls.js` for better usability
+  - CSS cleanup in `App.css` and `ExportView.css`
+  - Removed redundant styling rules
+  - Improved control layout and responsiveness
+
+#### Export View Minor Updates
+- **Section naming refinement**:
+  - Updated tab labels and section headers for clarity
+  - Improved semantic HTML structure
+
+---
 
 ### November 16, 2025 - Dynamic Audio URL Implementation
 
@@ -1544,8 +1661,182 @@ To add support for new languages or voice types:
 - **Updated** `.export-sidebar` to accommodate transcript display with proper scrolling
 - **Added** responsive styles for quiz and flashcard cards in content area
 
+### November 18, 2025 - Mindmap Detail Levels Feature
+
+#### Overview
+- **Added detail level selector** for mindmap visualization with three levels:
+  - **Low**: Shows only root node and direct children (8 nodes total)
+  - **Medium**: Shows root, direct children, and 3 representative children (first, middle, last) per branch (29 nodes total)
+  - **High**: Shows complete mindmap with all nodes and connections (47 nodes total)
+
+#### New Files Created
+- **`src/data/mindmap_low.json`**: Filtered mindmap data for low detail level
+  - Contains root node (id: "root")
+  - Contains first-level children (n2-n8)
+  - Contains edges connecting root to first-level children (e1-e7)
+  
+- **`src/data/mindmap_medium.json`**: Filtered mindmap data for medium detail level
+  - Contains root node and first-level children (n2-n8)
+  - Contains selected second-level children (first, middle, last for better spacing):
+    - n2 → n9, n11, n13
+    - n3 → n14, n16, n18
+    - n4 → n19, n22, n24
+    - n5 → n25, n27, n30
+    - n6 → n31, n33, n36
+    - n7 → n37, n39, n42
+    - n8 → n43, n45, n47
+  - Contains all edges connecting these nodes
+
+#### Component Changes
+
+**App.js**:
+- Added `mindmapDetailLevel` state (default: `'high'`)
+- Added `setMindmapDetailLevel` setter function
+- Passed `mindmapDetailLevel` and `setMindmapDetailLevel` to `SidePanel` component
+- Passed `detailLevel` prop to `Mindmap` component
+- Included `detailLevel` in `exportData.config.mindmap` object
+
+**SidePanel.js**:
+- Added `mindmapDetailLevel` and `setMindmapDetailLevel` to props
+- Added detail level dropdown in mindmap "Dettagli" section with three options:
+  - "Basso" (Low)
+  - "Medio" (Medium)
+  - "Alto" (High)
+- Updated reset button to set `mindmapDetailLevel` to `'high'`
+
+**Mindmap.js**:
+- Added `detailLevel` prop (default: `'high'`)
+- Passed `detailLevel` to `useMindmapState` hook
+
+**useMindmapState.js**:
+- Added `detailLevel` parameter (default: `'high'`)
+- Implemented dynamic JSON import based on `detailLevel`:
+  - `'low'` → imports `mindmap_low.json`
+  - `'medium'` → imports `mindmap_medium.json`
+  - `'high'` → imports `mindmap.json`
+- Added `mindmapData` selection logic with `useMemo`
+- Updated `initialNodes` and `initialConnections` dependencies to include `mindmapData`
+
+**ExportView.js**:
+- Extracted `detailLevel` from `mindmapConfig` (defaults to `'high'`)
+- Passed `detailLevel` prop to `Mindmap` component in `renderMindmap` function
+- Detail level selection from main app is preserved in export view
+
+#### User Experience
+- Users can now control mindmap complexity through a simple dropdown selector
+- Selection persists when exporting configuration
+- Lower detail levels improve performance and reduce visual clutter for initial learning
+- Higher detail levels provide comprehensive view for advanced study
+
 ---
 
-*Last Updated: November 17, 2025*
-*Version: 1.0.1*
+### November 18, 2025 - Quiz Feedback Improvements and Illustrated Style Images
+
+#### Quiz Behavior When "Feedback Immediato" is Disabled
+
+**Modified all quiz components** (`SingleQuiz.js`, `MultiQuiz.js`, `TrueFalseQuiz.js`, `OutlinedQuiz.js`):
+
+- **Logic Changes**:
+  - When `immediateFeedbackEnabled` is `false`:
+    - Score display is hidden during the quiz (only shown at the end in results)
+    - Correct/incorrect answer indication is not shown
+    - Explanation text is not displayed
+    - Quiz automatically advances to the next question after selection (200ms delay for single/true-false/outlined, immediate for multi after check)
+  
+- **UI Changes** (Applied to all 8 visual styles):
+  - Score display in quiz header wrapped with `{immediateFeedbackEnabled && (...)}` conditional rendering
+  - Affects: playful, tech, corporate, illustrated, picasso, schoolr, plai, studenti styles
+  
+- **User Experience**:
+  - With feedback disabled: Users get a continuous quiz flow without interruption
+  - With feedback enabled: Users see immediate feedback, score, and explanations as before
+  - Results screen always shows final score regardless of feedback setting
+
+#### Illustrated Style Image Updates
+
+**Updated all quiz components** to use consistent images in the illustrated visual style:
+
+- **Header Icon**: Replaced star emoji (⭐) with `/dubbioso_pensieroso.png` image
+  - Applied to: `SingleQuiz.js`, `MultiQuiz.js`, `TrueFalseQuiz.js`, `OutlinedQuiz.js`
+  
+- **Next Button Icon**: Replaced star emoji (⭐) with `/corre.png` image
+  - Shows running character when advancing to next question
+  - Applied to: `SingleQuiz.js`, `MultiQuiz.js`, `TrueFalseQuiz.js`, `OutlinedQuiz.js`
+  
+- **Result Screen Icon**: Replaced lightbulb emoji (💡) with `/super.png` image
+  - Shows celebration character on quiz completion
+  - Applied to: `SingleQuiz.js`, `MultiQuiz.js`, `TrueFalseQuiz.js`, `OutlinedQuiz.js`
+
+**Consistency Across Quiz Types**:
+- All four quiz types now use the same image assets in illustrated style
+- Images are properly styled with existing CSS classes
+- Maintains visual consistency across different quiz formats
+
+### November 18, 2025 - Quiz Immediate Feedback Bug Fixes
+
+#### Button Flash Bug Fix
+
+**Problem**: When "feedback immediato" (immediate feedback) was disabled, the "Next Question" button briefly appeared for a fraction of a second before auto-advancing to the next question.
+
+**Solution**: Added `immediateFeedbackEnabled` condition to button render logic across all quiz components:
+
+**Modified Files**:
+- `SingleQuiz.js`: Updated button render conditions in all 8 visual styles (playful, tech, corporate, illustrated, picasso, schoolr, plai, studenti)
+- `TrueFalseQuiz.js`: Updated button render conditions in all 8 visual styles
+- `OutlinedQuiz.js`: Updated button render conditions in all 8 visual styles
+
+**Changes**:
+```javascript
+// Before
+{selectedAnswer !== null && (
+  <button>Next Question</button>
+)}
+
+// After
+{immediateFeedbackEnabled && selectedAnswer !== null && (
+  <button>Next Question</button>
+)}
+```
+
+#### Feedback Icons Bug Fix
+
+**Problem**: When "feedback immediato" was disabled, checkmarks (✓) and crosses (✗) icons still appeared briefly, showing whether answers were correct or incorrect. This violated the no-feedback mode expectation.
+
+**Solution**: Added `immediateFeedbackEnabled` condition to icon display logic across all quiz components:
+
+**Modified Files**:
+- `SingleQuiz.js`: Updated icon conditions in all 8 visual styles
+- `TrueFalseQuiz.js`: Updated icon conditions in all 8 visual styles
+- `OutlinedQuiz.js`: Updated icon conditions in all 8 visual styles
+- `MultiQuiz.js`: Updated icon conditions in all 8 visual styles (for consistency, though MultiQuiz already used `showFeedback` state)
+
+**Changes**:
+```javascript
+// Before
+const showCorrect = selectedAnswer !== null && isCorrect;
+const showIncorrect = selectedAnswer !== null && isSelected && !isCorrect;
+
+// After
+const showCorrect = immediateFeedbackEnabled && selectedAnswer !== null && isCorrect;
+const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isSelected && !isCorrect;
+```
+
+**User Experience Impact**:
+- With "feedback immediato" disabled:
+  - No "Next Question" button appears
+  - No checkmark/cross icons appear
+  - No correct/incorrect visual feedback
+  - Quiz automatically advances after answer selection (200ms delay)
+  - Score is only shown at the end
+- With "feedback immediato" enabled:
+  - "Next Question" button appears after selection
+  - Checkmark/cross icons show correct/incorrect
+  - Visual feedback colors applied
+  - Explanation text displayed
+  - Score visible during quiz
+
+---
+
+*Last Updated: November 18, 2025*
+*Version: 1.3.1*
 

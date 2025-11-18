@@ -56,6 +56,7 @@ const ExportView = ({ exportData, onBack }) => {
   const mindmapConfig = safeExportData?.config?.mindmap || {};
   const podcastConfig = safeExportData?.config?.podcast || {};
   const exportDate = safeExportData?.exportMetadata?.exportDate;
+  const mindmapDetailLevel = mindmapConfig.detailLevel || 'high';
 
   const handleCopyToClipboard = () => {
     navigator.clipboard
@@ -244,6 +245,7 @@ const ExportView = ({ exportData, onBack }) => {
     const showNodeDetails = mindmapConfig.showNodeDetails ?? true;
     const showConnectionLabels = mindmapConfig.showConnectionLabels ?? true;
     const dynamicMapEnabled = mindmapConfig.dynamicMapEnabled ?? true;
+    const detailLevel = mindmapConfig.detailLevel || 'high';
 
     return (
       <Mindmap
@@ -251,6 +253,7 @@ const ExportView = ({ exportData, onBack }) => {
         showNodeDetails={showNodeDetails}
         showConnectionLabels={showConnectionLabels}
         dynamicMapEnabled={dynamicMapEnabled}
+        detailLevel={detailLevel}
       />
     );
   };

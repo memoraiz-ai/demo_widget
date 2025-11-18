@@ -1,0 +1,153 @@
+{
+    "nodes": [
+        {
+            "id": "root",
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "data": {
+                "color": "#1f77b4",
+                "icon": "History",
+                "label": "Impero degli Inca",
+                "description": "Panoramica di **l'Impero Inca**, dalla sua rapida ascesa alla caduta con l'arrivo degli spagnoli."
+            }
+        },
+        {
+            "id": "n2",
+            "position": {
+                "x": 880,
+                "y": 0
+            },
+            "data": {
+                "color": "#ff7f0e",
+                "icon": "Map",
+                "label": "Territorio e società",
+                "description": "Descrive l'estensione dell'impero, l'organizzazione sociale e il funzionamento quotidiano della società inca."
+            }
+        },
+        {
+            "id": "n3",
+            "position": {
+                "x": 548,
+                "y": 688
+            },
+            "data": {
+                "color": "#2ca02c",
+                "icon": "Person",
+                "label": "Sovrani e politica",
+                "description": "Raccoglie i principali sovrani inca e il modo in cui esercitavano il potere sul vasto impero."
+            }
+        },
+        {
+            "id": "n4",
+            "position": {
+                "x": -196,
+                "y": 856
+            },
+            "data": {
+                "color": "#d62728",
+                "icon": "Church",
+                "label": "Religione e mito",
+                "description": "Mostra le credenze religiose, i miti di creazione e il rapporto tra potere politico e divino."
+            }
+        },
+        {
+            "id": "n5",
+            "position": {
+                "x": -792,
+                "y": 380
+            },
+            "data": {
+                "color": "#9467bd",
+                "icon": "Building2",
+                "label": "Città e architettura",
+                "description": "Rappresenta le principali città, templi e fortezze inca e le loro funzioni simboliche e pratiche."
+            }
+        },
+        {
+            "id": "n6",
+            "position": {
+                "x": -792,
+                "y": -380
+            },
+            "data": {
+                "color": "#8c564b",
+                "icon": "LayoutDashboard",
+                "label": "Amministrazione ed economia",
+                "description": "Illustra il sistema amministrativo, la gestione dei tributi e le basi economiche dell'impero."
+            }
+        },
+        {
+            "id": "n7",
+            "position": {
+                "x": -196,
+                "y": -856
+            },
+            "data": {
+                "color": "#e377c2",
+                "icon": "Flag",
+                "label": "Conquista e caduta",
+                "description": "Segue le cause e le tappe della conquista spagnola e del crollo dell'impero inca."
+            }
+        },
+        {
+            "id": "n8",
+            "position": {
+                "x": 548,
+                "y": -688
+            },
+            "data": {
+                "color": "#7f7f7f",
+                "icon": "Lightbulb",
+                "label": "Eredità e misteri",
+                "description": "Raccoglie ciò che sopravvive degli Inca e i misteri ancora irrisolti, reali e leggendari."
+            }
+        }
+    ],
+    "edges": [
+        {
+            "id": "e1",
+            "source": "root",
+            "target": "n2",
+            "label": "aspetto"
+        },
+        {
+            "id": "e2",
+            "source": "root",
+            "target": "n3",
+            "label": "aspetto"
+        },
+        {
+            "id": "e3",
+            "source": "root",
+            "target": "n4",
+            "label": "aspetto"
+        },
+        {
+            "id": "e4",
+            "source": "root",
+            "target": "n5",
+            "label": "aspetto"
+        },
+        {
+            "id": "e5",
+            "source": "root",
+            "target": "n6",
+            "label": "aspetto"
+        },
+        {
+            "id": "e6",
+            "source": "root",
+            "target": "n7",
+            "label": "aspetto"
+        },
+        {
+            "id": "e7",
+            "source": "root",
+            "target": "n8",
+            "label": "eredità"
+        }
+    ]
+}
+

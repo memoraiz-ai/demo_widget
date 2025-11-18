@@ -122,7 +122,14 @@ const MultiQuiz = ({
     }
 
     setScore(prev => prev + delta);
-    setShowFeedback(true);
+    
+    if (immediateFeedbackEnabled) {
+      setShowFeedback(true);
+    } else {
+      setShowFeedback(false);
+      // Auto-advance to next question when feedback is disabled
+      nextQuestion();
+    }
   };
 
   const nextQuestion = () => {
@@ -269,7 +276,9 @@ const MultiQuiz = ({
       return (
         <div className="illustrated-quiz-result-container">
           <div className="illustrated-quiz-result-inner">
-            <div className="illustrated-quiz-result-icon">💡</div>
+            <div className="illustrated-quiz-result-icon">
+              <img src="/super.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
             <h2 className="illustrated-quiz-result-title">Quiz Complete!</h2>
             <div className="illustrated-quiz-result-score-box">
               <p className="illustrated-quiz-result-score-text">
@@ -414,9 +423,11 @@ const MultiQuiz = ({
                 {formatTime(timeRemaining)}
               </div>
             )}
-            <div className="playful-quiz-score">
-              Score: {score}
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="playful-quiz-score">
+                Score: {score}
+              </div>
+            )}
           </div>
           
           <div className="playful-quiz-progress-bar">
@@ -430,8 +441,8 @@ const MultiQuiz = ({
             {answers.map((answer, index) => {
               const isSelected = selectedAnswers.includes(answer);
               const isCorrect = correctAnswers.includes(answer);
-              const showCorrect = showFeedback && isCorrect;
-              const showIncorrect = showFeedback && isSelected && !isCorrect;
+              const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+              const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
               return (
                 <button
@@ -482,10 +493,12 @@ const MultiQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="tech-quiz-score-wrapper">
-            <span>SCORE:</span>
-            <span className="tech-quiz-score-badge">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="tech-quiz-score-wrapper">
+              <span>SCORE:</span>
+              <span className="tech-quiz-score-badge">{score}</span>
+            </div>
+          )}
         </div>
 
         <div className="tech-quiz-progress-bar">
@@ -499,8 +512,8 @@ const MultiQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswers.includes(answer);
             const isCorrect = correctAnswers.includes(answer);
-            const showCorrect = showFeedback && isCorrect;
-            const showIncorrect = showFeedback && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
             return (
               <button
@@ -545,10 +558,12 @@ const MultiQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="corporate-quiz-score-wrapper">
-            <span>Score:</span>
-            <span className="corporate-quiz-score-badge">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="corporate-quiz-score-wrapper">
+              <span>Score:</span>
+              <span className="corporate-quiz-score-badge">{score}</span>
+            </div>
+          )}
         </div>
 
         <div className="corporate-quiz-progress-bar">
@@ -562,8 +577,8 @@ const MultiQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswers.includes(answer);
             const isCorrect = correctAnswers.includes(answer);
-            const showCorrect = showFeedback && isCorrect;
-            const showIncorrect = showFeedback && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
             return (
               <button
@@ -599,7 +614,9 @@ const MultiQuiz = ({
     return (
       <div className="illustrated-quiz-container">
         <div className="illustrated-quiz-header">
-          <div className="illustrated-quiz-star">⭐</div>
+          <div className="illustrated-quiz-star">
+            <img src="/dubbioso_pensieroso.png" alt="" className="illustrated-quiz-star-icon" />
+          </div>
           <div className="illustrated-quiz-badges">
             <div className="illustrated-quiz-badge">
               {currentQuestion}/{totalQuestions}
@@ -610,9 +627,11 @@ const MultiQuiz = ({
                 <span>{formatTime(timeRemaining)}</span>
               </div>
             )}
-            <div className="illustrated-quiz-score-badge">
-              Score: {score}
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="illustrated-quiz-score-badge">
+                Score: {score}
+              </div>
+            )}
           </div>
         </div>
 
@@ -625,8 +644,8 @@ const MultiQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswers.includes(answer);
             const isCorrect = correctAnswers.includes(answer);
-            const showCorrect = showFeedback && isCorrect;
-            const showIncorrect = showFeedback && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
             return (
               <button
@@ -654,7 +673,7 @@ const MultiQuiz = ({
             {currentQuestion < totalQuestions ? (
               <>
                 Next Question
-                <span className="illustrated-quiz-star-running">⭐</span>
+                <img src="/corre.png" alt="" className="illustrated-quiz-star-running" />
               </>
             ) : (
               'See Results'
@@ -687,10 +706,12 @@ const MultiQuiz = ({
               </div>
             </div>
           )}
-            <div className="picasso-quiz-badge-wrapper">
-              <div className="picasso-quiz-badge-shadow"></div>
-              <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="picasso-quiz-badge-wrapper">
+                <div className="picasso-quiz-badge-shadow"></div>
+                <div className="picasso-quiz-badge picasso-quiz-score-badge">Score: {score}</div>
+              </div>
+            )}
           </div>
 
           <div className="picasso-quiz-question-wrapper">
@@ -706,8 +727,8 @@ const MultiQuiz = ({
             {answers.map((answer, index) => {
               const isSelected = selectedAnswers.includes(answer);
               const isCorrect = correctAnswers.includes(answer);
-              const showCorrect = showFeedback && isCorrect;
-              const showIncorrect = showFeedback && isSelected && !isCorrect;
+              const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+              const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
               return (
                 <div key={index} className="picasso-quiz-option-wrapper">
@@ -761,9 +782,11 @@ const MultiQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="schoolr-quiz-score-badge">
-            Punteggio: {score}
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="schoolr-quiz-score-badge">
+              Punteggio: {score}
+            </div>
+          )}
         </div>
 
         <div className="schoolr-quiz-progress-bar">
@@ -777,8 +800,8 @@ const MultiQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswers.includes(answer);
             const isCorrect = correctAnswers.includes(answer);
-            const showCorrect = showFeedback && isCorrect;
-            const showIncorrect = showFeedback && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
             return (
               <button
@@ -818,9 +841,11 @@ const MultiQuiz = ({
             <div className="plai-quiz-label">
               Question {currentQuestion} of {totalQuestions}
             </div>
-            <div className="plai-quiz-score-label">
-              Current Score: <span className="plai-quiz-score">{score}</span>
-            </div>
+            {immediateFeedbackEnabled && (
+              <div className="plai-quiz-score-label">
+                Current Score: <span className="plai-quiz-score">{score}</span>
+              </div>
+            )}
           </div>
           {timerEnabled && (
             <div className={`plai-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
@@ -842,8 +867,8 @@ const MultiQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswers.includes(answer);
             const isCorrect = correctAnswers.includes(answer);
-            const showCorrect = showFeedback && isCorrect;
-            const showIncorrect = showFeedback && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
             return (
               <button
@@ -892,10 +917,12 @@ const MultiQuiz = ({
               <span>{formatTime(timeRemaining)}</span>
             </div>
           )}
-          <div className="studenti-quiz-score-badge">
-            <span className="studenti-quiz-score-label">Punteggio:</span>
-            <span className="studenti-quiz-score">{score}</span>
-          </div>
+          {immediateFeedbackEnabled && (
+            <div className="studenti-quiz-score-badge">
+              <span className="studenti-quiz-score-label">Punteggio:</span>
+              <span className="studenti-quiz-score">{score}</span>
+            </div>
+          )}
         </div>
 
         <h3 className="studenti-quiz-question">{questionText}</h3>
@@ -905,8 +932,8 @@ const MultiQuiz = ({
           {answers.map((answer, index) => {
             const isSelected = selectedAnswers.includes(answer);
             const isCorrect = correctAnswers.includes(answer);
-            const showCorrect = showFeedback && isCorrect;
-            const showIncorrect = showFeedback && isSelected && !isCorrect;
+            const showCorrect = immediateFeedbackEnabled && showFeedback && isCorrect;
+            const showIncorrect = immediateFeedbackEnabled && showFeedback && isSelected && !isCorrect;
 
             return (
               <button

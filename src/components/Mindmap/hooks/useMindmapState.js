@@ -1,10 +1,25 @@
-import { useState, useRef, useMemo } from 'react';
-import mindmapData from '../../../data/mindmap.json';
+import { useState, useRef, useMemo, useEffect } from 'react';
+import mindmapDataHigh from '../../../data/mindmap.json';
+import mindmapDataMedium from '../../../data/mindmap_medium.json';
+import mindmapDataLow from '../../../data/mindmap_low.json';
 
 /**
  * Custom hook to manage mindmap state
  */
-export const useMindmapState = () => {
+export const useMindmapState = (detailLevel = 'high') => {
+  // Select the appropriate data file based on detail level
+  const mindmapData = useMemo(() => {
+    switch (detailLevel) {
+      case 'low':
+        return mindmapDataLow;
+      case 'medium':
+        return mindmapDataMedium;
+      case 'high':
+      default:
+        return mindmapDataHigh;
+    }
+  }, [detailLevel]);
+
   const initialNodes = useMemo(() => {
     const jsonNodes = mindmapData.nodes || [];
     if (!jsonNodes.length) return [];
@@ -59,7 +74,7 @@ export const useMindmapState = () => {
         description: node.data?.description || ''
       };
     });
-  }, []);
+  }, [mindmapData]);
 
   const initialConnections = useMemo(() => {
     const jsonEdges = mindmapData.edges || [];
@@ -68,11 +83,21 @@ export const useMindmapState = () => {
       to: edge.target,
       label: edge.label || ''
     }));
-  }, []);
+  }, [mindmapData]);
 
   const [nodes, setNodes] = useState(initialNodes);
-
   const [connections, setConnections] = useState(initialConnections);
+
+  // Update state when detail level changes (which changes initialNodes/initialConnections)
+  useEffect(() => {
+    setNodes(initialNodes);
+    setConnections(initialConnections);
+    // Reset view/selection state when changing detail level
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+    setSelectedNode(null);
+    setSelectedConnection(null);
+  }, [initialNodes, initialConnections]);
 
   // UI state
   const [draggedNode, setDraggedNode] = useState(null);

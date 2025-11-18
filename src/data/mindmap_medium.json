@@ -1,0 +1,179 @@
+{
+    "nodes": [
+        {
+            "id": "root",
+            "position": { "x": 0, "y": 0 },
+            "data": { "color": "#1f77b4", "icon": "History", "label": "Impero degli Inca", "description": "Panoramica di **l'Impero Inca**, dalla sua rapida ascesa alla caduta con l'arrivo degli spagnoli." }
+        },
+        {
+            "id": "n2",
+            "position": { "x": 880, "y": 0 },
+            "data": { "color": "#ff7f0e", "icon": "Map", "label": "Territorio e società", "description": "Descrive l'estensione dell'impero, l'organizzazione sociale e il funzionamento quotidiano della società inca." }
+        },
+        {
+            "id": "n3",
+            "position": { "x": 548, "y": 688 },
+            "data": { "color": "#2ca02c", "icon": "Person", "label": "Sovrani e politica", "description": "Raccoglie i principali sovrani inca e il modo in cui esercitavano il potere sul vasto impero." }
+        },
+        {
+            "id": "n4",
+            "position": { "x": -196, "y": 856 },
+            "data": { "color": "#d62728", "icon": "Church", "label": "Religione e mito", "description": "Mostra le credenze religiose, i miti di creazione e il rapporto tra potere politico e divino." }
+        },
+        {
+            "id": "n5",
+            "position": { "x": -792, "y": 380 },
+            "data": { "color": "#9467bd", "icon": "Building2", "label": "Città e architettura", "description": "Rappresenta le principali città, templi e fortezze inca e le loro funzioni simboliche e pratiche." }
+        },
+        {
+            "id": "n6",
+            "position": { "x": -792, "y": -380 },
+            "data": { "color": "#8c564b", "icon": "LayoutDashboard", "label": "Amministrazione ed economia", "description": "Illustra il sistema amministrativo, la gestione dei tributi e le basi economiche dell'impero." }
+        },
+        {
+            "id": "n7",
+            "position": { "x": -196, "y": -856 },
+            "data": { "color": "#e377c2", "icon": "Flag", "label": "Conquista e caduta", "description": "Segue le cause e le tappe della conquista spagnola e del crollo dell'impero inca." }
+        },
+        {
+            "id": "n8",
+            "position": { "x": 548, "y": -688 },
+            "data": { "color": "#7f7f7f", "icon": "Lightbulb", "label": "Eredità e misteri", "description": "Raccoglie ciò che sopravvive degli Inca e i misteri ancora irrisolti, reali e leggendari." }
+        },
+        {
+            "id": "n9",
+            "position": { "x": 1616, "y": -464 },
+            "data": { "color": "#ff7f0e", "icon": "Map", "label": "Estensione e popolazione", "description": "L'impero andava da Cile e Argentina fino all'Ecuador, con circa **10 milioni di abitanti**." }
+        },
+        {
+            "id": "n11",
+            "position": { "x": 1680, "y": 0 },
+            "data": { "color": "#ff7f0e", "icon": "BarChart", "label": "Sistema economico collettivo", "description": "Modello definito feudale e 'socialista': tutto apparteneva all'Inca, quasi nessuna proprietà privata, scambi basati sugli ordini imperiali." }
+        },
+        {
+            "id": "n13",
+            "position": { "x": 1616, "y": 464 },
+            "data": { "color": "#ff7f0e", "icon": "Science", "label": "Differenze tecnologiche", "description": "Evidenzia che gli Inca non usavano ferro, ruota, animali da tiro, scrittura né moneta, a differenza degli spagnoli." }
+        },
+        {
+            "id": "n14",
+            "position": { "x": 1368, "y": 972 },
+            "data": { "color": "#2ca02c", "icon": "Person", "label": "Pachacutec fondatore", "description": "Condottiero vittorioso che fondò l'impero, si proclamò **figlio di Inti** e avviò la grande espansione." }
+        },
+        {
+            "id": "n16",
+            "position": { "x": 1048, "y": 1312 },
+            "data": { "color": "#2ca02c", "icon": "Person", "label": "Huayna Capac", "description": "Sovrano sotto cui l'impero raggiunse l'apice ma venne colpito da rivolte ed epidemie di vaiolo e morbillo." }
+        },
+        {
+            "id": "n18",
+            "position": { "x": 644, "y": 1552 },
+            "data": { "color": "#2ca02c", "icon": "Concept", "label": "Sistema ereditario reale", "description": "Il nuovo imperatore ereditava il potere ma non le ricchezze; doveva conquistare nuovi territori mentre le mummie mantenevano i possedimenti dei predecessori." }
+        },
+        {
+            "id": "n19",
+            "position": { "x": 208, "y": 1668 },
+            "data": { "color": "#d62728", "icon": "Star", "label": "Inti dio del sole", "description": "**Inti** è il dio del sole, centro del culto ufficiale; l'oro è considerato le sue 'lacrime' e simbolo della sua presenza." }
+        },
+        {
+            "id": "n22",
+            "position": { "x": -488, "y": 1608 },
+            "data": { "color": "#d62728", "icon": "Concept", "label": "Re-dio e ideologia", "description": "L'Inca è un **re-dio**, figlio diretto di Inti; il suo regno è considerato divino e giustifica la conquista delle Ande." }
+        },
+        {
+            "id": "n24",
+            "position": { "x": -912, "y": 1412 },
+            "data": { "color": "#d62728", "icon": "Drama", "label": "Sacrifici umani Capac Cocha", "description": "Rituale in cui **bambini prescelti** venivano sacrificati sulle montagne sacre per ristabilire l'equilibrio cosmico." }
+        },
+        {
+            "id": "n25",
+            "position": { "x": -1172, "y": 1204 },
+            "data": { "color": "#9467bd", "icon": "Palace", "label": "Cusco e Coricancha", "description": "**Cusco** è la capitale, centro del mondo inca; il **Coricancha** è il tempio d'oro dedicato al sole, il santuario più prezioso." }
+        },
+        {
+            "id": "n27",
+            "position": { "x": -1460, "y": 832 },
+            "data": { "color": "#9467bd", "icon": "Mountain", "label": "Machu Picchu", "description": "Città di montagna abbandonata, probabilmente **residenza di campagna imperiale**, scoperta da Hiram Bingham nel 1911." }
+        },
+        {
+            "id": "n30",
+            "position": { "x": -1672, "y": 168 },
+            "data": { "color": "#9467bd", "icon": "Castle", "label": "Chan Chan e Kuelap", "description": "**Chan Chan** dei Chimù e **Kuelap** dei Chachapoya mostrano culture avanzate conquistate e sfruttate dagli Inca." }
+        },
+        {
+            "id": "n31",
+            "position": { "x": -1672, "y": -168 },
+            "data": { "color": "#8c564b", "icon": "Home", "label": "Centri amministrativi", "description": "Città come **Tambo Colorado** gestivano tributi, controllo militare e amministrazione delle regioni conquistate." }
+        },
+        {
+            "id": "n33",
+            "position": { "x": -1560, "y": -620 },
+            "data": { "color": "#8c564b", "icon": "Backpack", "label": "Corridori chasqui", "description": "Staffette che correvano lungo le strade andine trasportando khipu e messaggi orali tra le varie regioni dell'impero." }
+        },
+        {
+            "id": "n36",
+            "position": { "x": -1172, "y": -1204 },
+            "data": { "color": "#8c564b", "icon": "Circle", "label": "Striscia di buche", "description": "Enigmatico allineamento di oltre 5.000 buche vicino a Tambo Colorado, forse legato al conteggio dei tributi o a funzioni rituali." }
+        },
+        {
+            "id": "n37",
+            "position": { "x": -912, "y": -1412 },
+            "data": { "color": "#e377c2", "icon": "Ship", "label": "Spedizioni di Pizarro", "description": "Viaggi di **Francisco Pizarro** lungo la costa e nell'entroterra alla ricerca del regno ricco d'oro, il Birù/Perù." }
+        },
+        {
+            "id": "n39",
+            "position": { "x": -488, "y": -1608 },
+            "data": { "color": "#e377c2", "icon": "Drama", "label": "Guerra civile inca", "description": "Dopo la morte di Huayna Capac scoppiò una guerra di successione tra i suoi figli, devastando l'impero prima dell'arrivo degli spagnoli." }
+        },
+        {
+            "id": "n42",
+            "position": { "x": 208, "y": -1668 },
+            "data": { "color": "#e377c2", "icon": "Shield", "label": "Ultima resistenza", "description": "Gli ultimi Inca resistono a **Ollantaytambo** e **Vilcabamba**, finché anche l'ultimo sovrano viene giustiziato." }
+        },
+        {
+            "id": "n43",
+            "position": { "x": 644, "y": -1552 },
+            "data": { "color": "#7f7f7f", "icon": "Users", "label": "Lingue quechua vive", "description": "Le lingue **quechua**, un tempo parlate nel dominio inca, sono tuttora usate da milioni di persone in Perù e Sud America." }
+        },
+        {
+            "id": "n45",
+            "position": { "x": 1048, "y": -1312 },
+            "data": { "color": "#7f7f7f", "icon": "Brain", "label": "Mistero dei khipu", "description": "Non si conosce più il codice per leggerli: sappiamo che conservavano numeri e forse racconti storici, ma il loro 'alfabeto' è perduto." }
+        },
+        {
+            "id": "n47",
+            "position": { "x": 1368, "y": -972 },
+            "data": { "color": "#7f7f7f", "icon": "User", "label": "Nome Inca e Quechua", "description": "Chiarisce che 'Inca' è il titolo del sovrano e dell'élite, mentre il popolo si definiva **Quechua**." }
+        }
+    ],
+    "edges": [
+        { "id": "e1", "source": "root", "target": "n2", "label": "aspetto" },
+        { "id": "e2", "source": "root", "target": "n3", "label": "aspetto" },
+        { "id": "e3", "source": "root", "target": "n4", "label": "aspetto" },
+        { "id": "e4", "source": "root", "target": "n5", "label": "aspetto" },
+        { "id": "e5", "source": "root", "target": "n6", "label": "aspetto" },
+        { "id": "e6", "source": "root", "target": "n7", "label": "aspetto" },
+        { "id": "e7", "source": "root", "target": "n8", "label": "eredità" },
+        { "id": "e8", "source": "n2", "target": "n9", "label": "descrive" },
+        { "id": "e10", "source": "n2", "target": "n11", "label": "sistema" },
+        { "id": "e12", "source": "n2", "target": "n13", "label": "confronto" },
+        { "id": "e13", "source": "n3", "target": "n14", "label": "sovrano" },
+        { "id": "e15", "source": "n3", "target": "n16", "label": "sovrano" },
+        { "id": "e17", "source": "n3", "target": "n18", "label": "eredità" },
+        { "id": "e18", "source": "n4", "target": "n19", "label": "divinità" },
+        { "id": "e21", "source": "n4", "target": "n22", "label": "ideologia" },
+        { "id": "e23", "source": "n4", "target": "n24", "label": "rituale" },
+        { "id": "e24", "source": "n5", "target": "n25", "label": "capitale" },
+        { "id": "e26", "source": "n5", "target": "n27", "label": "città sacra" },
+        { "id": "e29", "source": "n5", "target": "n30", "label": "conquista" },
+        { "id": "e30", "source": "n6", "target": "n31", "label": "gestione" },
+        { "id": "e32", "source": "n6", "target": "n33", "label": "comunicazione" },
+        { "id": "e35", "source": "n6", "target": "n36", "label": "enigma" },
+        { "id": "e36", "source": "n7", "target": "n37", "label": "conquistatore" },
+        { "id": "e38", "source": "n7", "target": "n39", "label": "conflitto" },
+        { "id": "e41", "source": "n7", "target": "n42", "label": "resistenza" },
+        { "id": "e42", "source": "n8", "target": "n43", "label": "continuità" },
+        { "id": "e44", "source": "n8", "target": "n45", "label": "mistero" },
+        { "id": "e46", "source": "n8", "target": "n47", "label": "identità" }
+    ]
+}

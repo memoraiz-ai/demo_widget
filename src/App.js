@@ -48,6 +48,7 @@ function App() {
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
+  const [mindmapDetailLevel, setMindmapDetailLevel] = useState('high');
   const [podcastTranscript, setPodcastTranscript] = useState('simple');
   const [podcastVoice, setPodcastVoice] = useState('uomo');
   const [podcastMultispeaker, setPodcastMultispeaker] = useState(true);
@@ -158,7 +159,8 @@ function App() {
           style: mindmapStyle,
           showNodeDetails,
           showConnectionLabels,
-          dynamicMapEnabled
+          dynamicMapEnabled,
+          detailLevel: mindmapDetailLevel
         },
         podcast: {
           style: podcastStyle,
@@ -245,7 +247,7 @@ function App() {
     } else if (currentPage === 'flashcard') {
       return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={flashcardTimerEnabled} timerDuration={flashcardTimerDuration} />;
     } else if (currentPage === 'mindmap') {
-      return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
+      return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} detailLevel={mindmapDetailLevel} />;
     } else if (currentPage === 'podcast') {
       return <Podcast visualStyle={podcastStyle} backgroundMusic={podcastBackgroundMusic} language={podcastLanguage} voice={podcastVoice} multispeaker={podcastMultispeaker} />;
     }
@@ -317,6 +319,8 @@ function App() {
                 setShowConnectionLabels={setShowConnectionLabels}
                 dynamicMapEnabled={dynamicMapEnabled}
                 setDynamicMapEnabled={setDynamicMapEnabled}
+                mindmapDetailLevel={mindmapDetailLevel}
+                setMindmapDetailLevel={setMindmapDetailLevel}
                 podcastTranscript={podcastTranscript}
                 setPodcastTranscript={setPodcastTranscript}
                 podcastVoice={podcastVoice}
