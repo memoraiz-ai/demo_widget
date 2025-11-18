@@ -3863,10 +3863,20 @@
   color: #c62828;
 }
 
-.studenti-quiz-icon {
+.studenti-quiz-icon,
+.schoolr-quiz-icon,
+.plai-quiz-icon,
+.illustrated-quiz-icon,
+.picasso-quiz-icon,
+.corporate-quiz-icon,
+.tech-quiz-icon,
+.playful-quiz-icon {
   width: 1.5rem;
   height: 1.5rem;
   flex-shrink: 0;
+  margin-left: auto;
+  margin-right: 0;
+  align-self: center;
 }
 
 .studenti-quiz-check-btn {
