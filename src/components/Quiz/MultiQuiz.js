@@ -602,7 +602,7 @@ const MultiQuiz = ({
           <div className="illustrated-quiz-star">⭐</div>
           <div className="illustrated-quiz-badges">
             <div className="illustrated-quiz-badge">
-              Q {currentQuestion}/{totalQuestions}
+              {currentQuestion}/{totalQuestions}
             </div>
             {timerEnabled && (
               <div className={`illustrated-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
@@ -676,7 +676,7 @@ const MultiQuiz = ({
           <div className="picasso-quiz-header">
             <div className="picasso-quiz-badge-wrapper">
               <div className="picasso-quiz-badge-shadow"></div>
-              <div className="picasso-quiz-badge">Q {currentQuestion}/{totalQuestions}</div>
+              <div className="picasso-quiz-badge">{currentQuestion}/{totalQuestions}</div>
             </div>
           {timerEnabled && (
             <div className={`picasso-timer ${timeRemaining < 60 ? 'warning' : ''}`}>

@@ -799,7 +799,7 @@ const SingleQuiz = ({
           </div>
           <div className="illustrated-quiz-badges">
             <div className="illustrated-quiz-badge">
-              Q {currentQuestion}/{totalQuestions}
+              {currentQuestion}/{totalQuestions}
             </div>
             {timerEnabled && (
               <div className={`illustrated-timer ${timeRemaining < 60 ? 'warning' : ''}`}>
@@ -950,7 +950,7 @@ const SingleQuiz = ({
                     background: 'rgb(56, 189, 248)'
                   }}
                 >
-                  <span>Q {currentQuestion}/{totalQuestions}</span>
+                  <span>{currentQuestion}/{totalQuestions}</span>
                 </div>
               </div>
 
