@@ -372,7 +372,7 @@ const ExportView = ({ exportData, onBack }) => {
               className={`export-content-tab ${activeContentTab === 'audio' ? 'active' : ''}`}
               onClick={() => setActiveContentTab('audio')}
             >
-              Audio Player
+              Podcast
             </button>
             <button
               type="button"
@@ -381,7 +381,7 @@ const ExportView = ({ exportData, onBack }) => {
               className={`export-content-tab ${activeContentTab === 'mindmap' ? 'active' : ''}`}
               onClick={() => setActiveContentTab('mindmap')}
             >
-              Mind Map
+              Mindmap
             </button>
           </div>
 
