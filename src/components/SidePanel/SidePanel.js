@@ -24,6 +24,15 @@ const SidePanel = ({
   setTimerEnabled,
   timerDuration,
   setTimerDuration,
+  // optional separate controls for quiz and flashcard timers
+  quizTimerEnabled,
+  setQuizTimerEnabled,
+  quizTimerDuration,
+  setQuizTimerDuration,
+  flashcardTimerEnabled,
+  setFlashcardTimerEnabled,
+  flashcardTimerDuration,
+  setFlashcardTimerDuration,
   immediateFeedbackEnabled, 
   setImmediateFeedbackEnabled, 
   flashcardMode, 
@@ -58,6 +67,17 @@ const SidePanel = ({
     { id: 'cloze', name: 'Riempi lo spazio', icon: '📝', description: 'Completa le frasi con la parola mancante' },
     { id: 'mix', name: 'Mix', icon: '🔄', description: 'Combinazione di modalità diverse' }
   ];
+
+  // compute effective timer values for quiz and flashcard with graceful fallback
+  const effectiveQuizTimerEnabled = typeof quizTimerEnabled !== 'undefined' ? quizTimerEnabled : timerEnabled;
+  const effectiveSetQuizTimerEnabled = setQuizTimerEnabled || setTimerEnabled;
+  const effectiveQuizTimerDuration = typeof quizTimerDuration !== 'undefined' ? quizTimerDuration : timerDuration;
+  const effectiveSetQuizTimerDuration = setQuizTimerDuration || setTimerDuration;
+
+  const effectiveFlashcardTimerEnabled = typeof flashcardTimerEnabled !== 'undefined' ? flashcardTimerEnabled : timerEnabled;
+  const effectiveSetFlashcardTimerEnabled = setFlashcardTimerEnabled || setTimerEnabled;
+  const effectiveFlashcardTimerDuration = typeof flashcardTimerDuration !== 'undefined' ? flashcardTimerDuration : timerDuration;
+  const effectiveSetFlashcardTimerDuration = setFlashcardTimerDuration || setTimerDuration;
 
   const podcastTranscripts = [
     { id: 'simple', name: 'Attiva Transcript', icon: '📄', description: 'Genera il transcript del podcast' },
@@ -158,8 +178,8 @@ const SidePanel = ({
                     <input
                       type="checkbox"
                       id="timer-toggle"
-                      checked={timerEnabled}
-                      onChange={(e) => setTimerEnabled(e.target.checked)}
+                      checked={effectiveQuizTimerEnabled}
+                      onChange={(e) => effectiveSetQuizTimerEnabled(e.target.checked)}
                     />
                     <label htmlFor="timer-toggle" className="toggle-label">
                       <span className="toggle-slider"></span>
@@ -170,14 +190,14 @@ const SidePanel = ({
                   Abilita o disabilita il timer per le domande del quiz
                 </p>
               </div>
-              {timerEnabled && (
+              {effectiveQuizTimerEnabled && (
                 <div className="detail-item">
                   <div className="detail-header">
                     <span className="detail-title">Durata Timer</span>
                     <select 
                       className="timer-duration-select"
-                      value={timerDuration}
-                      onChange={(e) => setTimerDuration(Number(e.target.value))}
+                      value={effectiveQuizTimerDuration}
+                      onChange={(e) => effectiveSetQuizTimerDuration(Number(e.target.value))}
                       style={{
                         padding: '0.5rem',
                         borderRadius: '0.375rem',
@@ -274,8 +294,8 @@ const SidePanel = ({
                     <input
                       type="checkbox"
                       id="timer-toggle-flashcard"
-                      checked={timerEnabled}
-                      onChange={(e) => setTimerEnabled(e.target.checked)}
+                      checked={effectiveFlashcardTimerEnabled}
+                      onChange={(e) => effectiveSetFlashcardTimerEnabled(e.target.checked)}
                     />
                     <label htmlFor="timer-toggle-flashcard" className="toggle-label">
                       <span className="toggle-slider"></span>
@@ -286,14 +306,14 @@ const SidePanel = ({
                   Abilita o disabilita il timer per le flashcard
                 </p>
               </div>
-              {timerEnabled && (
+              {effectiveFlashcardTimerEnabled && (
                 <div className="detail-item">
                   <div className="detail-header">
                     <span className="detail-title">Durata Timer</span>
                     <select 
                       className="timer-duration-select"
-                      value={timerDuration}
-                      onChange={(e) => setTimerDuration(Number(e.target.value))}
+                      value={effectiveFlashcardTimerDuration}
+                      onChange={(e) => effectiveSetFlashcardTimerDuration(Number(e.target.value))}
                       style={{
                         padding: '0.5rem',
                         borderRadius: '0.375rem',
@@ -636,6 +656,9 @@ const SidePanel = ({
               setPodcastBackgroundMusic(true);
               setPodcastLanguage('italian');
             }
+            // restore both specific timers if setters exist, fallback to generic
+            if (typeof setQuizTimerEnabled === 'function') setQuizTimerEnabled(true);
+            if (typeof setFlashcardTimerEnabled === 'function') setFlashcardTimerEnabled(true);
             setTimerEnabled(true);
           }}>
             Reset

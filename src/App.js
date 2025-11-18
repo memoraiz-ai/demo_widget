@@ -36,6 +36,11 @@ function App() {
   const [podcastStyle, setPodcastStyle] = useState('playful');
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [timerDuration, setTimerDuration] = useState(300); // 5 minutes default
+  // separate timer controls for quiz and flashcard (fall back to shared values)
+  const [quizTimerEnabled, setQuizTimerEnabled] = useState(timerEnabled);
+  const [quizTimerDuration, setQuizTimerDuration] = useState(timerDuration);
+  const [flashcardTimerEnabled, setFlashcardTimerEnabled] = useState(timerEnabled);
+  const [flashcardTimerDuration, setFlashcardTimerDuration] = useState(timerDuration);
   const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
   const [answersCount, setAnswersCount] = useState(4); // Default number of answers for single/multi choice
   const [correctPoints, setCorrectPoints] = useState(1); // Default points for correct answers
@@ -102,7 +107,7 @@ function App() {
           funzionalità: quizTypeNames[quizType] || quizType,
           stile: visualStyles[quizStyle].name,
           dettagli: {
-            timer: timerEnabled,
+            timer: quizTimerEnabled,
             feedbackImmediato: immediateFeedbackEnabled
           }
         },
@@ -110,7 +115,7 @@ function App() {
           funzionalità: flashcardModeNames[flashcardMode] || flashcardMode,
           stile: visualStyles[flashcardStyle].name,
           dettagli: {
-            timer: timerEnabled
+            timer: flashcardTimerEnabled
           }
         },
         mindmap: {
@@ -136,8 +141,8 @@ function App() {
         quiz: {
           type: quizType,
           style: quizStyle,
-          timerEnabled,
-          timerDuration,
+          timerEnabled: quizTimerEnabled,
+          timerDuration: quizTimerDuration,
           immediateFeedbackEnabled,
           answersCount,
           correctPoints,
@@ -146,8 +151,8 @@ function App() {
         flashcard: {
           mode: flashcardMode,
           style: flashcardStyle,
-          timerEnabled,
-          timerDuration
+          timerEnabled: flashcardTimerEnabled,
+          timerDuration: flashcardTimerDuration
         },
         mindmap: {
           style: mindmapStyle,
@@ -206,8 +211,8 @@ function App() {
   const renderQuiz = () => {
     const commonProps = {
       visualStyle: quizStyle,
-      timerEnabled,
-      timerDuration,
+      timerEnabled: quizTimerEnabled,
+      timerDuration: quizTimerDuration,
       immediateFeedbackEnabled,
       answersCount,
       correctPoints,
@@ -238,7 +243,7 @@ function App() {
     if (currentPage === 'quiz') {
       return renderQuiz();
     } else if (currentPage === 'flashcard') {
-      return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={timerEnabled} timerDuration={timerDuration} />;
+      return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={flashcardTimerEnabled} timerDuration={flashcardTimerDuration} />;
     } else if (currentPage === 'mindmap') {
       return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} />;
     } else if (currentPage === 'podcast') {
@@ -295,6 +300,15 @@ function App() {
                 setTimerEnabled={setTimerEnabled}
                 timerDuration={timerDuration}
                 setTimerDuration={setTimerDuration}
+                // pass separate timer controls (optional)
+                quizTimerEnabled={quizTimerEnabled}
+                setQuizTimerEnabled={setQuizTimerEnabled}
+                quizTimerDuration={quizTimerDuration}
+                setQuizTimerDuration={setQuizTimerDuration}
+                flashcardTimerEnabled={flashcardTimerEnabled}
+                setFlashcardTimerEnabled={setFlashcardTimerEnabled}
+                flashcardTimerDuration={flashcardTimerDuration}
+                setFlashcardTimerDuration={setFlashcardTimerDuration}
                 immediateFeedbackEnabled={immediateFeedbackEnabled}
                 setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
                 showNodeDetails={showNodeDetails}
