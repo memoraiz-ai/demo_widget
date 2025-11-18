@@ -400,14 +400,7 @@ const ExportView = ({ exportData, onBack }) => {
 
             {activeContentTab === 'audio' && (
               <div className="export-audio-card">
-                <div className="export-audio-header">
-                  <div>
-                    <h2 className="export-section-title">Audio Player</h2>
-                    <p className="export-section-subtitle">
-                      Ascolta la lezione in formato audio
-                    </p>
-                  </div>
-                </div>
+                {/* export-audio-header removed */}
                 <div className={`${podcastConfig.style || 'playful'}-podcast-player`} style={{ background: 'transparent', padding: '1rem 0' }}>
                   <audio
                     ref={audioRef}
@@ -466,10 +459,7 @@ const ExportView = ({ exportData, onBack }) => {
 
             {activeContentTab === 'mindmap' && (
               <div className="export-mindmap-card">
-                <div className="export-mindmap-header">
-                  <h2 className="export-section-title">Mind Map</h2>
-                  <p className="export-section-subtitle">Visual concept overview</p>
-                </div>
+                {/* export-mindmap-header removed */}
                 <div className="export-mindmap-body">{renderMindmap()}</div>
               </div>
             )}

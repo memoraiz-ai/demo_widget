@@ -65,13 +65,6 @@ const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConn
   return (
     <div className={`${visualStyle}-mindmap-container-fullpage`}>
       <div className={`${visualStyle}-mindmap-wrapper-fullpage`}>
-        {/* Controls */}
-        <MindmapControls 
-          visualStyle={visualStyle}
-          onZoomIn={handlers.handleZoomIn}
-          onZoomOut={handlers.handleZoomOut}
-          onResetView={handlers.handleResetView}
-        />
 
         {/* Main Canvas */}
         <div 
@@ -83,6 +76,28 @@ const MindMap = forwardRef(({ visualStyle = 'playful', showNodeDetails, showConn
             position: 'relative'
           }}
         >
+        {/* Floating Controls Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: '1.5rem',
+          right: '1.5rem',
+          zIndex: 10,
+          display: 'flex',
+          gap: '0.5rem',
+          background: 'rgba(255,255,255,0.85)',
+          borderRadius: '0.75rem',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+          padding: '0.5rem 0.75rem',
+          alignItems: 'center'
+        }}>
+          <MindmapControls
+            visualStyle={visualStyle}
+            onZoomIn={handlers.handleZoomIn}
+            onZoomOut={handlers.handleZoomOut}
+            onResetView={handlers.handleResetView}
+            hideHeader={true}
+          />
+        </div>
           {/* Instructions overlayed on top of the canvas */}
           <div className={`${visualStyle}-mindmap-instructions`}>
             <p>Trascina per spostare • Doppio clic per modificare • Rotella per zoom</p>

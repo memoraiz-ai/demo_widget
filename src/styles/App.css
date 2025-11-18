@@ -451,22 +451,6 @@
   overflow: hidden;
 }
 
-.mindmap-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 0.0625rem solid var(--card-border);
-}
-
-.mindmap-title {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  color: var(--foreground);
-  margin: 0;
-}
 
 .mindmap-controls {
   display: flex;
