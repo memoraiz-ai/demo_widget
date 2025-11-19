@@ -110,8 +110,8 @@ App
 │   │   └── Podcast
 │   └── Export View
 │       └── ExportView
-└── Side Panel
-    └── SidePanel (context-sensitive controls)
+│   └── Side Panel
+│       └── SidePanel (context-sensitive controls)
 ```
 
 ---
@@ -510,7 +510,7 @@ Mindmap (main component)
     ├── MindmapNode
     ├── ConnectionLabel
     ├── NodeCustomization
-    └── MindmapMinimap
+    ├── MindmapMinimap
 ```
 
 **State** (from `useMindmapState`):
@@ -581,9 +581,9 @@ deleteConnection            // Remove connection
 ```
 
 **Features**:
-- Play/Pause toggle
+- Play/Pause controls
 - Progress slider
-- Time formatting
+- Time display (current/total)
 - Episode metadata display
 - **Dynamic audio URL generation** based on user selections
 
@@ -1507,6 +1507,26 @@ The codebase is **well-organized** with clear separation of concerns and consist
 
 ## 📝 Recent Changes
 
+### November 19, 2025 - Export View Podcast Centering
+
+- **Centered the compact podcast player** in the Export View:
+  - Updated `.export-audio-card` in `src/styles/ExportView.css` to use `display: flex`
+  - Ensures the podcast controls are centered **both vertically and horizontally** within the audio card when the "Podcast" tab is active
+
+#### Export View Podcast Size
+- **Increased the width of the podcast player** in the Export View Podcast tab:
+  - Updated `.export-quiz-card > *`, `.export-flashcard-card > *` selector in `src/styles/ExportView.css` to also include `.export-audio-card > *`
+  - The podcast pill now stretches up to `800px` wide (or the full available width on smaller screens), making it more prominent while remaining responsive
+
+### November 19, 2025 - Export View Layout Enhancements
+
+#### Export View Container Height
+- **Increased minimum height** for Quiz and Flashcard containers in Export View:
+  - Updated `.export-quiz-card` and `.export-flashcard-card` in `src/styles/ExportView.css`
+  - Changed `min-height` from `500px` to `700px`
+  - Ensures better accommodation for larger visual themes like "Picasso"
+  - Maintains vertical centering while providing more breathing room for content
+
 ### November 18, 2025 - Separate Timer Controls and UI Improvements
 
 #### Separate Timer Controls for Quiz and Flashcard
@@ -1837,6 +1857,5 @@ const showIncorrect = immediateFeedbackEnabled && selectedAnswer !== null && isS
 
 ---
 
-*Last Updated: November 18, 2025*
-*Version: 1.3.1*
-
+*Last Updated: November 19, 2025*
+*Version: 1.3.2*

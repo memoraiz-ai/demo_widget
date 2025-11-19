@@ -336,11 +336,19 @@
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
-  min-height: 500px;
+  min-height: 750px;
+}
+
+.export-audio-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
 }
 
 .export-quiz-card > *,
-.export-flashcard-card > * {
+.export-flashcard-card > *,
+.export-audio-card > * {
   width: 100%;
   max-width: 800px;
 }
