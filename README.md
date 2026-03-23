@@ -1,4 +1,4 @@
-# Demo MemorAIz
+# MemorAIz Demo Widget
 
 <div align="center">
 
@@ -6,48 +6,101 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-[Link demo](https://demo-memoraiz.vercel.app/)
+Demo interattiva dei widget educativi di **MemorAIz**: quiz, flashcard, mindmap e podcast, completamente personalizzabili in stile e funzionalita.
+
+[Live Demo](https://demo-memoraiz.vercel.app/)
 
 </div>
 
-## ✨ Features
+## Panoramica
 
-### 📝 Quiz Modes
+Questa applicazione mostra una suite di componenti educativi interattivi, ciascuno configurabile tramite un pannello laterale. L'utente puo esplorare diverse modalita, stili visivi e opzioni, per poi esportare la configurazione scelta in formato JSON.
 
-- **Single Answer**: Traditional multiple choice with radio buttons
-- **Multiple Answer**: Select all that apply with checkboxes
-- **True/False**: Binary choice with styled true/false buttons
-- **Outlined Boxes**: Modern card-based selection with checkmarks
+## Funzionalita
 
-### 🃏 Flashcard Modes
+### Quiz
 
-- **Normal Mode**: Standard question and answer flashcards
-- **Fill the Blank**: Complete sentences with missing words
-- **Mix Mode**: Combination of different question types
+Quattro modalita di quiz, ciascuna con timer configurabile, feedback immediato e punteggi personalizzabili:
 
-## 📖 Usage
+- **Risposta singola** — classico quiz a scelta singola con radio button
+- **Risposta multipla** — piu risposte corrette per domanda con checkbox
+- **Vero/Falso** — formato binario con pulsanti stilizzati
+- **Riquadri contornati** — variante visiva con layout a card e checkmark
 
-### Navigation
+### Flashcard
 
-Use the navigation buttons in the top-left corner to switch between:
+Carte interattive con animazione flip, timer indipendente e shuffle:
 
-- **Quiz Mode**: Test your knowledge with various question types
-- **Flashcard Mode**: Study with interactive flashcards
-- **Mindmap Mode**: Visual learning tool (coming soon)
+- **Classica** — domanda e risposta con flip della carta
+- **Riempi lo spazio** — completamento con parola mancante
+- **Mix** — combinazione delle due modalita
 
-### SidePanel Controls
+### Mindmap
 
-The side panel provides comprehensive control over your learning experience:
+Mappa concettuale interattiva per l'apprendimento visivo:
 
-#### Quiz Settings
+- Tre livelli di dettaglio: basso, medio, alto
+- Nodi espandibili con tooltip informativi
+- Etichette sulle connessioni tra i concetti
+- Minimap per la navigazione
+- Modalita statica o dinamica
 
-- **Quiz Type Selection**: Choose between 4 different quiz formats
-- **Timer Toggle**: Enable/disable the countdown timer
-- **Immediate Feedback**: Toggle instant answer validation
-- **Color Theme**: Select from 4 predefined color palettes
+### Podcast
 
-#### Flashcard Settings
+Player audio integrato con supporto alla trascrizione:
 
-- **Flashcard Mode**: Choose between Normal, Fill the Blank, or Mix modes
-- **Timer Toggle**: Control timer visibility
-- **Shuffle Button**: Randomize flashcard order
+- Trascrizione semplice o dettagliata
+- Configurazione voce e lingua
+- Supporto multispeaker
+- Musica di sottofondo opzionale
+
+### Stili visivi
+
+8 temi applicabili indipendentemente a ogni widget:
+
+Playful | Tech | Corporate | Picasso | Illustrated | Schoolr | PLAI | Studenti
+
+### Export
+
+Pagina riepilogativa con anteprima live di tutti i widget nella configurazione scelta. Possibilita di esportare l'intera configurazione in formato JSON.
+
+## Quick Start
+
+```bash
+# Installa le dipendenze
+npm install
+
+# Avvia il server di sviluppo
+npm start
+```
+
+L'app sara disponibile su [http://localhost:3000](http://localhost:3000).
+
+## Struttura del progetto
+
+```
+src/
+├── App.js                    # Componente principale, stato globale e routing
+├── components/
+│   ├── Quiz/                 # Single, Multi, TrueFalse, Outlined
+│   ├── Flashcard/            # Flashcard con flip e fill-the-blank
+│   ├── Mindmap/              # Mappa concettuale interattiva
+│   │   ├── components/       # Nodi, tooltip, controlli, minimap
+│   │   ├── hooks/            # useMindmapState, useMindmapHandlers
+│   │   └── utils/            # Utility per layout e calcoli
+│   ├── Podcast/              # Player audio con trascrizione
+│   ├── SidePanel/            # Pannello di configurazione laterale
+│   └── ExportView/           # Pagina di export e riepilogo
+├── data/                     # Dati statici (quiz, flashcard, mindmap, transcript)
+└── styles/                   # Fogli di stile CSS per componenti e temi
+```
+
+## Tech Stack
+
+- **React 18** — UI framework
+- **Lucide React** — libreria icone
+- **CSS custom** — stili per ogni componente e tema visivo
+
+## Licenza
+
+Progetto proprietario di MemorAIz.
