@@ -1,17 +1,17 @@
-import React from 'react';
-import '../../styles/SidePanel.css';
+import React from "react";
+import "../../styles/SidePanel.css";
 
-const SidePanel = ({ 
-  currentPage, 
-  quizType, 
-  setQuizType, 
+const SidePanel = ({
+  currentPage,
+  quizType,
+  setQuizType,
   answersCount,
   setAnswersCount,
   correctPoints,
   setCorrectPoints,
   incorrectPoints,
   setIncorrectPoints,
-  quizStyle, 
+  quizStyle,
   setQuizStyle,
   flashcardStyle,
   setFlashcardStyle,
@@ -19,8 +19,8 @@ const SidePanel = ({
   setMindmapStyle,
   podcastStyle,
   setPodcastStyle,
-  visualStyles, 
-  timerEnabled, 
+  visualStyles,
+  timerEnabled,
   setTimerEnabled,
   timerDuration,
   setTimerDuration,
@@ -33,10 +33,10 @@ const SidePanel = ({
   setFlashcardTimerEnabled,
   flashcardTimerDuration,
   setFlashcardTimerDuration,
-  immediateFeedbackEnabled, 
-  setImmediateFeedbackEnabled, 
-  flashcardMode, 
-  setFlashcardMode, 
+  immediateFeedbackEnabled,
+  setImmediateFeedbackEnabled,
+  flashcardMode,
+  setFlashcardMode,
   onShuffle,
   showNodeDetails,
   setShowNodeDetails,
@@ -56,59 +56,149 @@ const SidePanel = ({
   setPodcastBackgroundMusic,
   podcastLanguage,
   setPodcastLanguage,
-  onExport
+  crosswordDifficulty,
+  setCrosswordDifficulty,
+  showHints,
+  setShowHints,
+  crosswordStyle,
+  setCrosswordStyle,
+  onExport,
 }) => {
   const quizTypes = [
-    { id: 'single', name: 'Risposta Singola', icon: '🔘', description: 'Scegli un\'opzione corretta' },
-    { id: 'multi', name: 'Risposta Multipla', icon: '☑️', description: 'Seleziona tutte le opzioni corrette' },
-    { id: 'truefalse', name: 'Vero/Falso', icon: '✅', description: 'Scelta binaria semplice' },
+    {
+      id: "single",
+      name: "Risposta Singola",
+      icon: "🔘",
+      description: "Scegli un'opzione corretta",
+    },
+    {
+      id: "multi",
+      name: "Risposta Multipla",
+      icon: "☑️",
+      description: "Seleziona tutte le opzioni corrette",
+    },
+    {
+      id: "truefalse",
+      name: "Vero/Falso",
+      icon: "✅",
+      description: "Scelta binaria semplice",
+    },
   ];
 
   const flashcardModes = [
-    { id: 'classic', name: 'Domanda classica', icon: '❓', description: 'Domande e risposte standard' },
-    { id: 'cloze', name: 'Riempi lo spazio', icon: '📝', description: 'Completa le frasi con la parola mancante' },
-    { id: 'mix', name: 'Mix', icon: '🔄', description: 'Combinazione di modalità diverse' }
+    {
+      id: "classic",
+      name: "Domanda classica",
+      icon: "❓",
+      description: "Domande e risposte standard",
+    },
+    {
+      id: "cloze",
+      name: "Riempi lo spazio",
+      icon: "📝",
+      description: "Completa le frasi con la parola mancante",
+    },
+    {
+      id: "mix",
+      name: "Mix",
+      icon: "🔄",
+      description: "Combinazione di modalità diverse",
+    },
   ];
 
   // compute effective timer values for quiz and flashcard with graceful fallback
-  const effectiveQuizTimerEnabled = typeof quizTimerEnabled !== 'undefined' ? quizTimerEnabled : timerEnabled;
+  const effectiveQuizTimerEnabled =
+    typeof quizTimerEnabled !== "undefined" ? quizTimerEnabled : timerEnabled;
   const effectiveSetQuizTimerEnabled = setQuizTimerEnabled || setTimerEnabled;
-  const effectiveQuizTimerDuration = typeof quizTimerDuration !== 'undefined' ? quizTimerDuration : timerDuration;
-  const effectiveSetQuizTimerDuration = setQuizTimerDuration || setTimerDuration;
+  const effectiveQuizTimerDuration =
+    typeof quizTimerDuration !== "undefined"
+      ? quizTimerDuration
+      : timerDuration;
+  const effectiveSetQuizTimerDuration =
+    setQuizTimerDuration || setTimerDuration;
 
-  const effectiveFlashcardTimerEnabled = typeof flashcardTimerEnabled !== 'undefined' ? flashcardTimerEnabled : timerEnabled;
-  const effectiveSetFlashcardTimerEnabled = setFlashcardTimerEnabled || setTimerEnabled;
-  const effectiveFlashcardTimerDuration = typeof flashcardTimerDuration !== 'undefined' ? flashcardTimerDuration : timerDuration;
-  const effectiveSetFlashcardTimerDuration = setFlashcardTimerDuration || setTimerDuration;
+  const effectiveFlashcardTimerEnabled =
+    typeof flashcardTimerEnabled !== "undefined"
+      ? flashcardTimerEnabled
+      : timerEnabled;
+  const effectiveSetFlashcardTimerEnabled =
+    setFlashcardTimerEnabled || setTimerEnabled;
+  const effectiveFlashcardTimerDuration =
+    typeof flashcardTimerDuration !== "undefined"
+      ? flashcardTimerDuration
+      : timerDuration;
+  const effectiveSetFlashcardTimerDuration =
+    setFlashcardTimerDuration || setTimerDuration;
 
   const podcastTranscripts = [
-    { id: 'simple', name: 'Attiva Transcript', icon: '📄', description: 'Genera il transcript del podcast' },
-    { id: 'none', name: 'Disattiva Transcript', icon: '🚫', description: 'Nessun transcript' },
+    {
+      id: "simple",
+      name: "Attiva Transcript",
+      icon: "📄",
+      description: "Genera il transcript del podcast",
+    },
+    {
+      id: "none",
+      name: "Disattiva Transcript",
+      icon: "🚫",
+      description: "Nessun transcript",
+    },
   ];
 
   const mindmapModes = [
-    { id: 'dynamic', name: 'Mappa Dinamica', icon: '✨', description: 'Modifica nodi, colori e connessioni' },
-    { id: 'static', name: 'Mappa Statica', icon: '🗺️', description: 'Visualizza la mappa senza modifiche' },
+    {
+      id: "dynamic",
+      name: "Mappa Dinamica",
+      icon: "✨",
+      description: "Modifica nodi, colori e connessioni",
+    },
+    {
+      id: "static",
+      name: "Mappa Statica",
+      icon: "🗺️",
+      description: "Visualizza la mappa senza modifiche",
+    },
   ];
 
   const styleLogos = {
-    illustrated: '/logos/memo.png',
-    schoolr: '/logos/schoolr.png',
-    plai: '/logos/plai.png',
-    studenti: '/logos/studenti.png'
+    illustrated: "/logos/memo.png",
+    schoolr: "/logos/schoolr.png",
+    plai: "/logos/plai.png",
+    studenti: "/logos/studenti.png",
   };
+
+  const crosswordDifficulties = [
+    {
+      id: "easy",
+      name: "Facile",
+      icon: "🟢",
+      description: "Griglia 4x4",
+    },
+    {
+      id: "medium",
+      name: "Medio",
+      icon: "🟡",
+      description: "Griglia 5x5",
+    },
+    {
+      id: "hard",
+      name: "Difficile",
+      icon: "🔴",
+      description: "Griglia 6x6",
+    },
+  ];
 
   return (
     <div className="sidepanel">
       <div className="sidepanel-content">
-        {currentPage === 'quiz' && (
+        {currentPage === "quiz" && (
           <div className="sidepanel-section">
             <h3 className="section-title">Funzionalità</h3>
             <div className="quiz-types">
               {quizTypes.map((type) => (
                 <div
                   key={type.id}
-                  className={`quiz-type-card ${quizType === type.id ? 'active' : ''}`}
+                  className={`quiz-type-card ${quizType === type.id ? "active" : ""}`}
                   onClick={() => setQuizType(type.id)}
                 >
                   <div className="quiz-type-header">
@@ -122,14 +212,14 @@ const SidePanel = ({
           </div>
         )}
 
-        {currentPage === 'flashcard' && (
+        {currentPage === "flashcard" && (
           <div className="sidepanel-section">
             <h3 className="section-title">Funzionalità</h3>
             <div className="quiz-types">
               {flashcardModes.map((mode) => (
                 <div
                   key={mode.id}
-                  className={`quiz-type-card ${flashcardMode === mode.id ? 'active' : ''}`}
+                  className={`quiz-type-card ${flashcardMode === mode.id ? "active" : ""}`}
                   onClick={() => setFlashcardMode(mode.id)}
                 >
                   <div className="quiz-type-header">
@@ -143,11 +233,11 @@ const SidePanel = ({
           </div>
         )}
 
-        {currentPage === 'quiz' ? (
+        {currentPage === "quiz" ? (
           <div className="sidepanel-section">
             <h3 className="section-title">Dettagli</h3>
             <div className="details">
-              {(quizType === 'single' || quizType === 'multi') && (
+              {(quizType === "single" || quizType === "multi") && (
                 <div className="detail-item">
                   <div className="detail-header">
                     <span className="detail-title">Numero di risposte</span>
@@ -156,15 +246,17 @@ const SidePanel = ({
                       value={answersCount}
                       onChange={(e) => setAnswersCount(Number(e.target.value))}
                       style={{
-                        padding: '0.5rem',
-                        borderRadius: '0.375rem',
-                        border: '1px solid #e0e0e0',
-                        fontSize: '0.875rem',
-                        fontFamily: 'Geist, sans-serif'
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "1px solid #e0e0e0",
+                        fontSize: "0.875rem",
+                        fontFamily: "Geist, sans-serif",
                       }}
                     >
-                      {[2,3,4,5,6,7,8].map((n) => (
-                        <option key={n} value={n}>{n}</option>
+                      {[2, 3, 4, 5, 6, 7, 8].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -181,7 +273,9 @@ const SidePanel = ({
                       type="checkbox"
                       id="timer-toggle"
                       checked={effectiveQuizTimerEnabled}
-                      onChange={(e) => effectiveSetQuizTimerEnabled(e.target.checked)}
+                      onChange={(e) =>
+                        effectiveSetQuizTimerEnabled(e.target.checked)
+                      }
                     />
                     <label htmlFor="timer-toggle" className="toggle-label">
                       <span className="toggle-slider"></span>
@@ -196,16 +290,18 @@ const SidePanel = ({
                 <div className="detail-item">
                   <div className="detail-header">
                     <span className="detail-title">Durata Timer</span>
-                    <select 
+                    <select
                       className="timer-duration-select"
                       value={effectiveQuizTimerDuration}
-                      onChange={(e) => effectiveSetQuizTimerDuration(Number(e.target.value))}
+                      onChange={(e) =>
+                        effectiveSetQuizTimerDuration(Number(e.target.value))
+                      }
                       style={{
-                        padding: '0.5rem',
-                        borderRadius: '0.375rem',
-                        border: '1px solid #e0e0e0',
-                        fontSize: '0.875rem',
-                        fontFamily: 'Geist, sans-serif'
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "1px solid #e0e0e0",
+                        fontSize: "0.875rem",
+                        fontFamily: "Geist, sans-serif",
                       }}
                     >
                       <option value={60}>1 minuto</option>
@@ -228,9 +324,14 @@ const SidePanel = ({
                       type="checkbox"
                       id="immediate-feedback-toggle"
                       checked={immediateFeedbackEnabled}
-                      onChange={(e) => setImmediateFeedbackEnabled(e.target.checked)}
+                      onChange={(e) =>
+                        setImmediateFeedbackEnabled(e.target.checked)
+                      }
                     />
-                    <label htmlFor="immediate-feedback-toggle" className="toggle-label">
+                    <label
+                      htmlFor="immediate-feedback-toggle"
+                      className="toggle-label"
+                    >
                       <span className="toggle-slider"></span>
                     </label>
                   </div>
@@ -248,12 +349,12 @@ const SidePanel = ({
                     value={correctPoints}
                     onChange={(e) => setCorrectPoints(Number(e.target.value))}
                     style={{
-                      width: '5rem',
-                      padding: '0.5rem',
-                      borderRadius: '0.375rem',
-                      border: '1px solid #e0e0e0',
-                      fontSize: '0.875rem',
-                      fontFamily: 'Geist, sans-serif'
+                      width: "5rem",
+                      padding: "0.5rem",
+                      borderRadius: "0.375rem",
+                      border: "1px solid #e0e0e0",
+                      fontSize: "0.875rem",
+                      fontFamily: "Geist, sans-serif",
                     }}
                   />
                 </div>
@@ -270,12 +371,12 @@ const SidePanel = ({
                     value={incorrectPoints}
                     onChange={(e) => setIncorrectPoints(Number(e.target.value))}
                     style={{
-                      width: '5rem',
-                      padding: '0.5rem',
-                      borderRadius: '0.375rem',
-                      border: '1px solid #e0e0e0',
-                      fontSize: '0.875rem',
-                      fontFamily: 'Geist, sans-serif'
+                      width: "5rem",
+                      padding: "0.5rem",
+                      borderRadius: "0.375rem",
+                      border: "1px solid #e0e0e0",
+                      fontSize: "0.875rem",
+                      fontFamily: "Geist, sans-serif",
                     }}
                   />
                 </div>
@@ -285,7 +386,7 @@ const SidePanel = ({
               </div>
             </div>
           </div>
-        ) : currentPage === 'flashcard' ? (
+        ) : currentPage === "flashcard" ? (
           <div className="sidepanel-section">
             <h3 className="section-title">Dettagli</h3>
             <div className="details">
@@ -297,9 +398,14 @@ const SidePanel = ({
                       type="checkbox"
                       id="timer-toggle-flashcard"
                       checked={effectiveFlashcardTimerEnabled}
-                      onChange={(e) => effectiveSetFlashcardTimerEnabled(e.target.checked)}
+                      onChange={(e) =>
+                        effectiveSetFlashcardTimerEnabled(e.target.checked)
+                      }
                     />
-                    <label htmlFor="timer-toggle-flashcard" className="toggle-label">
+                    <label
+                      htmlFor="timer-toggle-flashcard"
+                      className="toggle-label"
+                    >
                       <span className="toggle-slider"></span>
                     </label>
                   </div>
@@ -312,16 +418,20 @@ const SidePanel = ({
                 <div className="detail-item">
                   <div className="detail-header">
                     <span className="detail-title">Durata Timer</span>
-                    <select 
+                    <select
                       className="timer-duration-select"
                       value={effectiveFlashcardTimerDuration}
-                      onChange={(e) => effectiveSetFlashcardTimerDuration(Number(e.target.value))}
+                      onChange={(e) =>
+                        effectiveSetFlashcardTimerDuration(
+                          Number(e.target.value),
+                        )
+                      }
                       style={{
-                        padding: '0.5rem',
-                        borderRadius: '0.375rem',
-                        border: '1px solid #e0e0e0',
-                        fontSize: '0.875rem',
-                        fontFamily: 'Geist, sans-serif'
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "1px solid #e0e0e0",
+                        fontSize: "0.875rem",
+                        fontFamily: "Geist, sans-serif",
                       }}
                     >
                       <option value={60}>1 minuto</option>
@@ -340,7 +450,19 @@ const SidePanel = ({
                 <div className="detail-header">
                   <span className="detail-title">Mescola Flashcard</span>
                   <button className="shuffle-button" onClick={onShuffle}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M19.47 4.47a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 1 1-1.06-1.06l.72-.72h-1.793c-.844 0-1.424 0-1.88.045c-.44.043-.706.122-.927.247c-.22.125-.426.313-.689.668c-.272.368-.572.865-1.006 1.589l-2.523 4.205c-.41.685-.747 1.245-1.068 1.679c-.335.453-.688.816-1.155 1.08s-.96.38-1.52.435c-.538.052-1.191.052-1.99.052H2a.75.75 0 0 1 0-1.5h3.603c.844 0 1.424 0 1.88-.045c.44-.043.706-.122.927-.247c.22-.125.426-.313.689-.668c.272-.368.571-.865 1.006-1.589l2.523-4.205c.41-.685.747-1.245 1.068-1.679c.335-.453.688-.816 1.155-1.08s.96-.38 1.52-.435c.538-.052 1.191-.052 1.99-.052h1.828l-.72-.72a.75.75 0 0 1 0-1.06M7.73 7.79c-.196-.038-.418-.041-1.063-.041H2a.75.75 0 0 1 0-1.5h4.74c.546 0 .922 0 1.278.07a3.75 3.75 0 0 1 2.071 1.172c.243.27.436.592.717 1.06l.037.062a.75.75 0 1 1-1.286.772c-.332-.554-.45-.742-.583-.89a2.25 2.25 0 0 0-1.243-.705m5.683 6.566a.75.75 0 0 1 1.03.257c.331.554.448.742.582.89c.327.364.763.611 1.243.705c.196.038.418.041 1.063.041h2.857l-.72-.72a.75.75 0 1 1 1.061-1.06l2 2a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 1 1-1.06-1.06l.72-.72h-2.931c-.545 0-.92 0-1.277-.07a3.75 3.75 0 0 1-2.071-1.172c-.243-.27-.436-.592-.717-1.06l-.037-.062a.75.75 0 0 1 .257-1.03" clipRule="evenodd"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        fillRule="evenodd"
+                        d="M19.47 4.47a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 1 1-1.06-1.06l.72-.72h-1.793c-.844 0-1.424 0-1.88.045c-.44.043-.706.122-.927.247c-.22.125-.426.313-.689.668c-.272.368-.572.865-1.006 1.589l-2.523 4.205c-.41.685-.747 1.245-1.068 1.679c-.335.453-.688.816-1.155 1.08s-.96.38-1.52.435c-.538.052-1.191.052-1.99.052H2a.75.75 0 0 1 0-1.5h3.603c.844 0 1.424 0 1.88-.045c.44-.043.706-.122.927-.247c.22-.125.426-.313.689-.668c.272-.368.571-.865 1.006-1.589l2.523-4.205c.41-.685.747-1.245 1.068-1.679c.335-.453.688-.816 1.155-1.08s.96-.38 1.52-.435c.538-.052 1.191-.052 1.99-.052h1.828l-.72-.72a.75.75 0 0 1 0-1.06M7.73 7.79c-.196-.038-.418-.041-1.063-.041H2a.75.75 0 0 1 0-1.5h4.74c.546 0 .922 0 1.278.07a3.75 3.75 0 0 1 2.071 1.172c.243.27.436.592.717 1.06l.037.062a.75.75 0 1 1-1.286.772c-.332-.554-.45-.742-.583-.89a2.25 2.25 0 0 0-1.243-.705m5.683 6.566a.75.75 0 0 1 1.03.257c.331.554.448.742.582.89c.327.364.763.611 1.243.705c.196.038.418.041 1.063.041h2.857l-.72-.72a.75.75 0 1 1 1.061-1.06l2 2a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 1 1-1.06-1.06l.72-.72h-2.931c-.545 0-.92 0-1.277-.07a3.75 3.75 0 0 1-2.071-1.172c-.243-.27-.436-.592-.717-1.06l-.037-.062a.75.75 0 0 1 .257-1.03"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                   </button>
                 </div>
                 <p className="detail-description">
@@ -350,8 +472,8 @@ const SidePanel = ({
             </div>
           </div>
         ) : null}
-        
-        {currentPage === 'mindmap' && (
+
+        {currentPage === "mindmap" && (
           <>
             <div className="sidepanel-section">
               <h3 className="section-title">Funzionalità</h3>
@@ -359,8 +481,8 @@ const SidePanel = ({
                 {mindmapModes.map((mode) => (
                   <div
                     key={mode.id}
-                    className={`quiz-type-card ${(mode.id === 'dynamic' && dynamicMapEnabled) || (mode.id === 'static' && !dynamicMapEnabled) ? 'active' : ''}`}
-                    onClick={() => setDynamicMapEnabled(mode.id === 'dynamic')}
+                    className={`quiz-type-card ${(mode.id === "dynamic" && dynamicMapEnabled) || (mode.id === "static" && !dynamicMapEnabled) ? "active" : ""}`}
+                    onClick={() => setDynamicMapEnabled(mode.id === "dynamic")}
                   >
                     <div className="quiz-type-header">
                       <span className="quiz-type-icon">{mode.icon}</span>
@@ -371,7 +493,7 @@ const SidePanel = ({
                 ))}
               </div>
             </div>
-            
+
             <div className="sidepanel-section">
               <h3 className="section-title">Dettagli</h3>
               <div className="details">
@@ -383,11 +505,11 @@ const SidePanel = ({
                       value={mindmapDetailLevel}
                       onChange={(e) => setMindmapDetailLevel(e.target.value)}
                       style={{
-                        padding: '0.5rem',
-                        borderRadius: '0.375rem',
-                        border: '1px solid #e0e0e0',
-                        fontSize: '0.875rem',
-                        fontFamily: 'Geist, sans-serif'
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "1px solid #e0e0e0",
+                        fontSize: "0.875rem",
+                        fontFamily: "Geist, sans-serif",
                       }}
                     >
                       <option value="low">Basso</option>
@@ -401,7 +523,9 @@ const SidePanel = ({
                 </div>
                 <div className="detail-item">
                   <div className="detail-header">
-                    <span className="detail-title">Visualizza maggiori informazioni nodo</span>
+                    <span className="detail-title">
+                      Visualizza maggiori informazioni nodo
+                    </span>
                     <div className="toggle-switch">
                       <input
                         type="checkbox"
@@ -409,26 +533,37 @@ const SidePanel = ({
                         checked={showNodeDetails}
                         onChange={(e) => setShowNodeDetails(e.target.checked)}
                       />
-                      <label htmlFor="node-details-toggle" className="toggle-label">
+                      <label
+                        htmlFor="node-details-toggle"
+                        className="toggle-label"
+                      >
                         <span className="toggle-slider"></span>
                       </label>
                     </div>
                   </div>
                   <p className="detail-description">
-                    Mostra informazioni dettagliate quando passi il mouse sopra un nodo
+                    Mostra informazioni dettagliate quando passi il mouse sopra
+                    un nodo
                   </p>
                 </div>
                 <div className="detail-item">
                   <div className="detail-header">
-                    <span className="detail-title">Mostra etichette relazioni</span>
+                    <span className="detail-title">
+                      Mostra etichette relazioni
+                    </span>
                     <div className="toggle-switch">
                       <input
                         type="checkbox"
                         id="connection-labels-toggle"
                         checked={showConnectionLabels}
-                        onChange={(e) => setShowConnectionLabels(e.target.checked)}
+                        onChange={(e) =>
+                          setShowConnectionLabels(e.target.checked)
+                        }
                       />
-                      <label htmlFor="connection-labels-toggle" className="toggle-label">
+                      <label
+                        htmlFor="connection-labels-toggle"
+                        className="toggle-label"
+                      >
                         <span className="toggle-slider"></span>
                       </label>
                     </div>
@@ -442,7 +577,7 @@ const SidePanel = ({
           </>
         )}
 
-        {currentPage === 'podcast' && (
+        {currentPage === "podcast" && (
           <>
             <div className="sidepanel-section">
               <h3 className="section-title">Funzionalità</h3>
@@ -450,14 +585,16 @@ const SidePanel = ({
                 {podcastTranscripts.map((transcript) => (
                   <div
                     key={transcript.id}
-                    className={`quiz-type-card ${podcastTranscript === transcript.id ? 'active' : ''}`}
+                    className={`quiz-type-card ${podcastTranscript === transcript.id ? "active" : ""}`}
                     onClick={() => setPodcastTranscript(transcript.id)}
                   >
                     <div className="quiz-type-header">
                       <span className="quiz-type-icon">{transcript.icon}</span>
                       <span className="quiz-type-name">{transcript.name}</span>
                     </div>
-                    <p className="quiz-type-description">{transcript.description}</p>
+                    <p className="quiz-type-description">
+                      {transcript.description}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -470,15 +607,15 @@ const SidePanel = ({
                   <div className="detail-header">
                     <span className="detail-title">Voce</span>
                     <div className="voice-selector">
-                      <button 
-                        className={`voice-btn ${podcastVoice === 'uomo' ? 'active' : ''}`}
-                        onClick={() => setPodcastVoice('uomo')}
+                      <button
+                        className={`voice-btn ${podcastVoice === "uomo" ? "active" : ""}`}
+                        onClick={() => setPodcastVoice("uomo")}
                       >
                         Uomo
                       </button>
-                      <button 
-                        className={`voice-btn ${podcastVoice === 'donna' ? 'active' : ''}`}
-                        onClick={() => setPodcastVoice('donna')}
+                      <button
+                        className={`voice-btn ${podcastVoice === "donna" ? "active" : ""}`}
+                        onClick={() => setPodcastVoice("donna")}
                       >
                         Donna
                       </button>
@@ -496,9 +633,14 @@ const SidePanel = ({
                         type="checkbox"
                         id="multispeaker-toggle"
                         checked={podcastMultispeaker}
-                        onChange={(e) => setPodcastMultispeaker(e.target.checked)}
+                        onChange={(e) =>
+                          setPodcastMultispeaker(e.target.checked)
+                        }
                       />
-                      <label htmlFor="multispeaker-toggle" className="toggle-label">
+                      <label
+                        htmlFor="multispeaker-toggle"
+                        className="toggle-label"
+                      >
                         <span className="toggle-slider"></span>
                       </label>
                     </div>
@@ -515,9 +657,14 @@ const SidePanel = ({
                         type="checkbox"
                         id="background-music-toggle"
                         checked={podcastBackgroundMusic}
-                        onChange={(e) => setPodcastBackgroundMusic(e.target.checked)}
+                        onChange={(e) =>
+                          setPodcastBackgroundMusic(e.target.checked)
+                        }
                       />
-                      <label htmlFor="background-music-toggle" className="toggle-label">
+                      <label
+                        htmlFor="background-music-toggle"
+                        className="toggle-label"
+                      >
                         <span className="toggle-slider"></span>
                       </label>
                     </div>
@@ -534,11 +681,11 @@ const SidePanel = ({
                       value={podcastLanguage}
                       onChange={(e) => setPodcastLanguage(e.target.value)}
                       style={{
-                        padding: '0.5rem',
-                        borderRadius: '0.375rem',
-                        border: '1px solid #e0e0e0',
-                        fontSize: '0.875rem',
-                        fontFamily: 'Geist, sans-serif'
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "1px solid #e0e0e0",
+                        fontSize: "0.875rem",
+                        fontFamily: "Geist, sans-serif",
                       }}
                     >
                       <option value="italian">Italiano</option>
@@ -556,6 +703,110 @@ const SidePanel = ({
           </>
         )}
 
+        {currentPage === "crossword" && (
+          <>
+            <div className="sidepanel-section">
+              <h3 className="section-title">Funzionalità</h3>
+              <div className="quiz-types">
+                {crosswordDifficulties.map((difficulty) => (
+                  <div
+                    key={difficulty.id}
+                    className={`quiz-type-card ${crosswordDifficulty === difficulty.id ? "active" : ""}`}
+                    onClick={() => setCrosswordDifficulty(difficulty.id)}
+                  >
+                    <div className="quiz-type-header">
+                      <span className="quiz-type-icon">{difficulty.icon}</span>
+                      <span className="quiz-type-name">{difficulty.name}</span>
+                    </div>
+                    <p className="quiz-type-description">
+                      {difficulty.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="sidepanel-section">
+              <h3 className="section-title">Dettagli</h3>
+              <div className="details">
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Mostra indizi</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="hints-toggle"
+                        checked={showHints}
+                        onChange={(e) => setShowHints(e.target.checked)}
+                      />
+                      <label htmlFor="hints-toggle" className="toggle-label">
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <p className="detail-description">
+                    Mostra la lunghezza delle parole e il pulsante di
+                    rivelazione
+                  </p>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-header">
+                    <span className="detail-title">Timer</span>
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="timer-toggle-crossword"
+                        checked={timerEnabled}
+                        onChange={(e) => setTimerEnabled(e.target.checked)}
+                      />
+                      <label
+                        htmlFor="timer-toggle-crossword"
+                        className="toggle-label"
+                      >
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <p className="detail-description">
+                    Abilita o disabilita il timer per il cruciverba
+                  </p>
+                </div>
+                {timerEnabled && (
+                  <div className="detail-item">
+                    <div className="detail-header">
+                      <span className="detail-title">Durata Timer</span>
+                      <select
+                        className="timer-duration-select"
+                        value={timerDuration}
+                        onChange={(e) =>
+                          setTimerDuration(Number(e.target.value))
+                        }
+                        style={{
+                          padding: "0.5rem",
+                          borderRadius: "0.375rem",
+                          border: "1px solid #e0e0e0",
+                          fontSize: "0.875rem",
+                          fontFamily: "Geist, sans-serif",
+                        }}
+                      >
+                        <option value={60}>1 minuto</option>
+                        <option value={180}>3 minuti</option>
+                        <option value={300}>5 minuti</option>
+                        <option value={600}>10 minuti</option>
+                        <option value={900}>15 minuti</option>
+                      </select>
+                    </div>
+                    <p className="detail-description">
+                      Scegli per quanto tempo il timer deve contare alla
+                      rovescia
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
         <div className="sidepanel-section">
           <h3 className="section-title">Stile</h3>
           <div className="quiz-types">
@@ -567,46 +818,57 @@ const SidePanel = ({
                 <div
                   key={key}
                   className={`quiz-type-card ${
-                    (currentPage === 'quiz' && quizStyle === key) || 
-                    (currentPage === 'flashcard' && flashcardStyle === key) ||
-                    (currentPage === 'mindmap' && mindmapStyle === key) ||
-                    (currentPage === 'podcast' && podcastStyle === key) ? 'active' : ''
+                    (currentPage === "quiz" && quizStyle === key) ||
+                    (currentPage === "flashcard" && flashcardStyle === key) ||
+                    (currentPage === "mindmap" && mindmapStyle === key) ||
+                    (currentPage === "podcast" && podcastStyle === key) ||
+                    (currentPage === "crossword" && crosswordStyle === key)
+                      ? "active"
+                      : ""
                   }`}
                   onClick={() => {
-                    if (currentPage === 'quiz') {
+                    if (currentPage === "quiz") {
                       setQuizStyle(key);
-                    } else if (currentPage === 'flashcard') {
+                    } else if (currentPage === "flashcard") {
                       setFlashcardStyle(key);
-                    } else if (currentPage === 'mindmap') {
+                    } else if (currentPage === "mindmap") {
                       setMindmapStyle(key);
-                    } else if (currentPage === 'podcast') {
+                    } else if (currentPage === "podcast") {
                       setPodcastStyle(key);
+                    } else if (currentPage === "crossword") {
+                      setCrosswordStyle(key);
                     }
                   }}
                 >
-                <div className={`quiz-type-header ${hasLogo ? 'with-icon' : 'no-icon'}`}>
-                  {!hasLogo && (
-                    <span className="quiz-type-icon">
-                      {key === 'playful' && '🎨'}
-                      {key === 'tech' && '💻'}
-                      {key === 'corporate' && '💼'}
-                      {key === 'picasso' && '🖼️'}
-                      {key === 'illustrated' && '✨'}
-                    </span>
-                  )}
+                  <div
+                    className={`quiz-type-header ${hasLogo ? "with-icon" : "no-icon"}`}
+                  >
+                    {!hasLogo && (
+                      <span className="quiz-type-icon">
+                        {key === "playful" && "🎨"}
+                        {key === "tech" && "💻"}
+                        {key === "corporate" && "💼"}
+                        {key === "picasso" && "🖼️"}
+                        {key === "illustrated" && "✨"}
+                      </span>
+                    )}
                     {hasLogo ? (
-                      <img src={logoSrc} alt={style.name} className="style-logo" />
+                      <img
+                        src={logoSrc}
+                        alt={style.name}
+                        className="style-logo"
+                      />
                     ) : (
                       <span className="quiz-type-name">{style.name}</span>
                     )}
                   </div>
                   {!hasLogo && (
                     <p className="quiz-type-description">
-                      {key === 'playful' && 'Colorato e divertente'}
-                      {key === 'tech' && 'Stile tecnologico scuro'}
-                      {key === 'corporate' && 'Professionale e pulito'}
-                      {key === 'picasso' && 'Artistico e creativo'}
-                      {key === 'illustrated' && 'Illustrato con bordi audaci'}
+                      {key === "playful" && "Colorato e divertente"}
+                      {key === "tech" && "Stile tecnologico scuro"}
+                      {key === "corporate" && "Professionale e pulito"}
+                      {key === "picasso" && "Artistico e creativo"}
+                      {key === "illustrated" && "Illustrato con bordi audaci"}
                     </p>
                   )}
                 </div>
@@ -621,78 +883,131 @@ const SidePanel = ({
             <div className="stat-item">
               <span className="stat-label">Pagina corrente</span>
               <span className="stat-value">
-                {currentPage === 'quiz' ? 'Quiz' : currentPage === 'flashcard' ? 'Flashcard' : currentPage === 'mindmap' ? 'Mindmap' : 'Podcast'}
+                {currentPage === "quiz"
+                  ? "Quiz"
+                  : currentPage === "flashcard"
+                    ? "Flashcard"
+                    : currentPage === "mindmap"
+                      ? "Mindmap"
+                      : currentPage === "podcast"
+                        ? "Podcast"
+                        : "Crossword"}
               </span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Modalità</span>
               <span className="stat-value">
-                {currentPage === 'quiz'
-                  ? quizTypes.find(t => t.id === quizType)?.name
-                  : currentPage === 'flashcard'
-                  ? flashcardModes.find(m => m.id === flashcardMode)?.name
-                  : currentPage === 'mindmap'
-                  ? mindmapModes.find(m => (m.id === 'dynamic' && dynamicMapEnabled) || (m.id === 'static' && !dynamicMapEnabled))?.name
-                  : currentPage === 'podcast'
-                  ? podcastTranscripts.find(t => t.id === podcastTranscript)?.name
-                  : 'N/A'
-                }
+                {currentPage === "quiz"
+                  ? quizTypes.find((t) => t.id === quizType)?.name
+                  : currentPage === "flashcard"
+                    ? flashcardModes.find((m) => m.id === flashcardMode)?.name
+                    : currentPage === "mindmap"
+                      ? mindmapModes.find(
+                          (m) =>
+                            (m.id === "dynamic" && dynamicMapEnabled) ||
+                            (m.id === "static" && !dynamicMapEnabled),
+                        )?.name
+                      : currentPage === "podcast"
+                        ? podcastTranscripts.find(
+                            (t) => t.id === podcastTranscript,
+                          )?.name
+                        : currentPage === "crossword"
+                          ? crosswordDifficulties.find(
+                              (d) => d.id === crosswordDifficulty,
+                            )?.name
+                          : "N/A"}
               </span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Stile</span>
               <span className="stat-value">
-                {currentPage === 'quiz' ? visualStyles[quizStyle].name : 
-                 currentPage === 'flashcard' ? visualStyles[flashcardStyle].name :
-                 currentPage === 'mindmap' ? visualStyles[mindmapStyle].name : 'N/A'}
+                {currentPage === "quiz"
+                  ? visualStyles[quizStyle].name
+                  : currentPage === "flashcard"
+                    ? visualStyles[flashcardStyle].name
+                    : currentPage === "mindmap"
+                      ? visualStyles[mindmapStyle].name
+                      : currentPage === "podcast"
+                        ? visualStyles[podcastStyle].name
+                        : currentPage === "crossword"
+                          ? visualStyles[crosswordStyle].name
+                          : "N/A"}
               </span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Opzioni disponibili</span>
               <span className="stat-value">
-                {currentPage === 'quiz' ? '4 Quiz' : currentPage === 'flashcard' ? '3 Modalità' : currentPage === 'mindmap' ? '2 Modalità' : '3 Transcript'}
+                {currentPage === "quiz"
+                  ? "4 Quiz"
+                  : currentPage === "flashcard"
+                    ? "3 Modalità"
+                    : currentPage === "mindmap"
+                      ? "2 Modalità"
+                      : currentPage === "podcast"
+                        ? "3 Transcript"
+                        : "3 Livelli"}
               </span>
             </div>
           </div>
         </div>
 
-
         <div className="sidepanel-footer">
-          <button className="reset-button" onClick={() => {
-            if (currentPage === 'quiz') {
-              setQuizType('single');
-              setImmediateFeedbackEnabled(true);
-              setQuizStyle('playful');
-              setAnswersCount(4);
-              setCorrectPoints(1);
-              setIncorrectPoints(-1);
-            } else if (currentPage === 'flashcard') {
-              setFlashcardMode('classic');
-              setFlashcardStyle('playful');
-            } else if (currentPage === 'mindmap') {
-              setMindmapStyle('playful');
-              setShowNodeDetails(true);
-              setShowConnectionLabels(true);
-              setDynamicMapEnabled(true);
-              setMindmapDetailLevel('high');
-            } else if (currentPage === 'podcast') {
-              setPodcastStyle('playful');
-              setPodcastTranscript('simple');
-              setPodcastVoice('uomo');
-              setPodcastMultispeaker(true);
-              setPodcastBackgroundMusic(true);
-              setPodcastLanguage('italian');
-            }
-            // restore both specific timers if setters exist, fallback to generic
-            if (typeof setQuizTimerEnabled === 'function') setQuizTimerEnabled(true);
-            if (typeof setFlashcardTimerEnabled === 'function') setFlashcardTimerEnabled(true);
-            setTimerEnabled(true);
-          }}>
+          <button
+            className="reset-button"
+            onClick={() => {
+              if (currentPage === "quiz") {
+                setQuizType("single");
+                setImmediateFeedbackEnabled(true);
+                setQuizStyle("playful");
+                setAnswersCount(4);
+                setCorrectPoints(1);
+                setIncorrectPoints(-1);
+              } else if (currentPage === "flashcard") {
+                setFlashcardMode("classic");
+                setFlashcardStyle("playful");
+              } else if (currentPage === "mindmap") {
+                setMindmapStyle("playful");
+                setShowNodeDetails(true);
+                setShowConnectionLabels(true);
+                setDynamicMapEnabled(true);
+                setMindmapDetailLevel("high");
+              } else if (currentPage === "podcast") {
+                setPodcastStyle("playful");
+                setPodcastTranscript("simple");
+                setPodcastVoice("uomo");
+                setPodcastMultispeaker(true);
+                setPodcastBackgroundMusic(true);
+                setPodcastLanguage("italian");
+              } else if (currentPage === "crossword") {
+                setCrosswordStyle("playful");
+                setCrosswordDifficulty("easy");
+                setShowHints(true);
+              }
+              // restore both specific timers if setters exist, fallback to generic
+              if (typeof setQuizTimerEnabled === "function")
+                setQuizTimerEnabled(true);
+              if (typeof setFlashcardTimerEnabled === "function")
+                setFlashcardTimerEnabled(true);
+              setTimerEnabled(true);
+            }}
+          >
             Reset
           </button>
           <button className="export-button" onClick={onExport}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
             Esporta
           </button>

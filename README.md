@@ -6,7 +6,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-Demo interattiva dei widget educativi di **MemorAIz**: quiz, flashcard, mindmap e podcast, completamente personalizzabili in stile e funzionalita.
+Demo interattiva dei widget educativi di **MemorAIz**: quiz, flashcard, mindmap, podcast e crossword, completamente personalizzabili in stile e funzionalita.
 
 [Live Demo](https://demo-memoraiz.vercel.app/)
 
@@ -54,6 +54,15 @@ Player audio integrato con supporto alla trascrizione:
 - Supporto multispeaker
 - Musica di sottofondo opzionale
 
+### Crossword
+
+Griglia interattiva di parole crociate con timer e suggerimenti:
+
+- Tre livelli di difficolta: facile, medio, difficile
+- Timer configurabile con avviso di scadenza
+- Pulsante di risoluzione e di restart
+- Navigazione tra definizioni
+
 ### Stili visivi
 
 8 temi applicabili indipendentemente a ogni widget:
@@ -89,9 +98,10 @@ src/
 │   │   ├── hooks/            # useMindmapState, useMindmapHandlers
 │   │   └── utils/            # Utility per layout e calcoli
 │   ├── Podcast/              # Player audio con trascrizione
+│   ├── Crossword/            # Griglia interattiva di parole crociate
 │   ├── SidePanel/            # Pannello di configurazione laterale
 │   └── ExportView/           # Pagina di export e riepilogo
-├── data/                     # Dati statici (quiz, flashcard, mindmap, transcript)
+├── data/                     # Dati statici (quiz, flashcard, mindmap,transcript e crossword)
 └── styles/                   # Fogli di stile CSS per componenti e temi
 ```
 

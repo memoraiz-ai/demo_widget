@@ -1,0 +1,179 @@
+{
+  "puzzles": [
+    {
+      "id": "easy-1",
+      "difficulty": "easy",
+      "gridSize": 4,
+      "blackCells": [
+        [0, 0],
+        [0, 2],
+        [2, 0],
+        [2, 2]
+      ],
+      "grid": ["Sole", "Sera", "Lega", "Riga"],
+      "across": [
+        {
+          "number": 1,
+          "clue": "Pianta senza fusto, molto abbondante",
+          "startRow": 1,
+          "startCol": 0,
+          "length": 4,
+          "answer": "Erba"
+        },
+        {
+          "number": 2,
+          "clue": "Senza effetto, inefficace, inutile",
+          "startRow": 3,
+          "startCol": 0,
+          "length": 4,
+          "answer": "Vano"
+        }
+      ],
+      "down": [
+        {
+          "number": 3,
+          "clue": "Elemento essenziale per la nostra vita",
+          "startRow": 0,
+          "startCol": 1,
+          "length": 4,
+          "answer": "Aria"
+        },
+        {
+          "number": 4,
+          "clue": "Contenitore tipicamente rotondeggiante",
+          "startRow": 0,
+          "startCol": 3,
+          "length": 4,
+          "answer": "Vaso"
+        }
+      ]
+    },
+    {
+      "id": "medium-1",
+      "difficulty": "medium",
+      "gridSize": 5,
+      "blackCells": [
+        [0, 1],
+        [0, 3],
+        [1, 1],
+        [1, 3],
+        [3, 1],
+        [3, 3]
+      ],
+      "grid": ["Isola", "Scafo", "Viola", "Opaco", "Asola"],
+      "across": [
+        {
+          "number": 1,
+          "clue": "Non trasparente, poco chiaro",
+          "startRow": 2,
+          "startCol": 0,
+          "length": 5,
+          "answer": "Opaco"
+        },
+        {
+          "number": 2,
+          "clue": "Apertura in un indumento per il bottone",
+          "startRow": 4,
+          "startCol": 0,
+          "length": 5,
+          "answer": "Asola"
+        }
+      ],
+      "down": [
+        {
+          "number": 3,
+          "clue": "Sezione di terra che può essere remota",
+          "startRow": 0,
+          "startCol": 0,
+          "length": 5,
+          "answer": "Isola"
+        },
+        {
+          "number": 4,
+          "clue": "Corpo di un'imbarcazione",
+          "startRow": 0,
+          "startCol": 2,
+          "length": 5,
+          "answer": "Scafo"
+        },
+        {
+          "number": 5,
+          "clue": "Strumento musicale a corde",
+          "startRow": 0,
+          "startCol": 4,
+          "length": 5,
+          "answer": "Viola"
+        }
+      ]
+    },
+    {
+      "id": "hard-1",
+      "difficulty": "hard",
+      "gridSize": 6,
+      "blackCells": [
+        [0, 1],
+        [0, 3],
+        [0, 4],
+        [2, 1],
+        [2, 3],
+        [2, 4],
+        [4, 1],
+        [4, 3],
+        [4, 4]
+      ],
+      "grid": ["Tegame", "Inerte", "Romano", "Etnico", "Aurora", "Eterno"],
+      "across": [
+        {
+          "number": 1,
+          "clue": "Qualcosa tipico di un popolo",
+          "startRow": 1,
+          "startCol": 0,
+          "length": 6,
+          "answer": "Etnico"
+        },
+        {
+          "number": 2,
+          "clue": "Chiarore del cielo dopo l'alba",
+          "startRow": 3,
+          "startCol": 0,
+          "length": 6,
+          "answer": "Aurora"
+        },
+        {
+          "number": 3,
+          "clue": "Perpetuo, di durata indefinita",
+          "startRow": 5,
+          "startCol": 0,
+          "length": 6,
+          "answer": "Eterno"
+        }
+      ],
+      "down": [
+        {
+          "number": 4,
+          "clue": "Strumento usato in cucina",
+          "startRow": 0,
+          "startCol": 0,
+          "length": 6,
+          "answer": "Tegame"
+        },
+        {
+          "number": 5,
+          "clue": "Immobile, inattivo",
+          "startRow": 0,
+          "startCol": 2,
+          "length": 6,
+          "answer": "Inerte"
+        },
+        {
+          "number": 6,
+          "clue": "Uno degli imperi più famosi",
+          "startRow": 0,
+          "startCol": 5,
+          "length": 6,
+          "answer": "Romano"
+        }
+      ]
+    }
+  ]
+}

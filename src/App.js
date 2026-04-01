@@ -1,65 +1,78 @@
-import React, { useState, useRef } from 'react';
-import './styles/App.css';
-import './styles/Styles.css';
+import React, { useState, useRef } from "react";
+import "./styles/App.css";
+import "./styles/Styles.css";
 
-import { SingleQuiz, MultiQuiz, TrueFalseQuiz, OutlinedQuiz } from './components/Quiz';
-import SidePanel from './components/SidePanel';
-import Flashcard from './components/Flashcard';
-import Mindmap from './components/Mindmap';
-import Podcast from './components/Podcast';
-import ExportView from './components/ExportView';
+import {
+  SingleQuiz,
+  MultiQuiz,
+  TrueFalseQuiz,
+  OutlinedQuiz,
+} from "./components/Quiz";
+import SidePanel from "./components/SidePanel";
+import Flashcard from "./components/Flashcard";
+import Mindmap from "./components/Mindmap";
+import Podcast from "./components/Podcast";
+import Crossword from "./components/Crossword";
+import ExportView from "./components/ExportView";
 
 // Static content used when exporting the configuration
-import quizData from './data/quiz.json';
-import flashcardData from './data/flashcard.json';
-import transcriptData from './data/transcript.json';
+import quizData from "./data/quiz.json";
+import flashcardData from "./data/flashcard.json";
+import transcriptData from "./data/transcript.json";
 
 // Define visual styles
 const visualStyles = {
-  playful: { name: 'Playful' },
-  tech: { name: 'Tech' },
-  corporate: { name: 'Corporate' },
-  picasso: { name: 'Picasso' },
-  illustrated: { name: 'Illustrated' },
-  schoolr: { name: 'Schoolr' },
-  plai: { name: 'PLAI' },
-  studenti: { name: 'Studenti' }
+  playful: { name: "Playful" },
+  tech: { name: "Tech" },
+  corporate: { name: "Corporate" },
+  picasso: { name: "Picasso" },
+  illustrated: { name: "Illustrated" },
+  schoolr: { name: "Schoolr" },
+  plai: { name: "PLAI" },
+  studenti: { name: "Studenti" },
 };
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('quiz');
-  const [quizType, setQuizType] = useState('single');
-  const [flashcardMode, setFlashcardMode] = useState('classic');
-  const [quizStyle, setQuizStyle] = useState('playful');
-  const [flashcardStyle, setFlashcardStyle] = useState('playful');
-  const [mindmapStyle, setMindmapStyle] = useState('playful');
-  const [podcastStyle, setPodcastStyle] = useState('playful');
+  const [currentPage, setCurrentPage] = useState("quiz");
+  const [quizType, setQuizType] = useState("single");
+  const [flashcardMode, setFlashcardMode] = useState("classic");
+  const [quizStyle, setQuizStyle] = useState("playful");
+  const [flashcardStyle, setFlashcardStyle] = useState("playful");
+  const [mindmapStyle, setMindmapStyle] = useState("playful");
+  const [podcastStyle, setPodcastStyle] = useState("playful");
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [timerDuration, setTimerDuration] = useState(300); // 5 minutes default
   // separate timer controls for quiz and flashcard (fall back to shared values)
   const [quizTimerEnabled, setQuizTimerEnabled] = useState(timerEnabled);
   const [quizTimerDuration, setQuizTimerDuration] = useState(timerDuration);
-  const [flashcardTimerEnabled, setFlashcardTimerEnabled] = useState(timerEnabled);
-  const [flashcardTimerDuration, setFlashcardTimerDuration] = useState(timerDuration);
-  const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] = useState(true);
+  const [flashcardTimerEnabled, setFlashcardTimerEnabled] =
+    useState(timerEnabled);
+  const [flashcardTimerDuration, setFlashcardTimerDuration] =
+    useState(timerDuration);
+  const [immediateFeedbackEnabled, setImmediateFeedbackEnabled] =
+    useState(true);
   const [answersCount, setAnswersCount] = useState(4); // Default number of answers for single/multi choice
   const [correctPoints, setCorrectPoints] = useState(1); // Default points for correct answers
   const [incorrectPoints, setIncorrectPoints] = useState(-1); // Default points for incorrect answers
   const [showNodeDetails, setShowNodeDetails] = useState(true);
   const [showConnectionLabels, setShowConnectionLabels] = useState(true);
   const [dynamicMapEnabled, setDynamicMapEnabled] = useState(true);
-  const [mindmapDetailLevel, setMindmapDetailLevel] = useState('high');
-  const [podcastTranscript, setPodcastTranscript] = useState('simple');
-  const [podcastVoice, setPodcastVoice] = useState('uomo');
+  const [mindmapDetailLevel, setMindmapDetailLevel] = useState("high");
+  const [podcastTranscript, setPodcastTranscript] = useState("simple");
+  const [podcastVoice, setPodcastVoice] = useState("uomo");
   const [podcastMultispeaker, setPodcastMultispeaker] = useState(true);
   const [podcastBackgroundMusic, setPodcastBackgroundMusic] = useState(true);
-  const [podcastLanguage, setPodcastLanguage] = useState('italian');
+  const [podcastLanguage, setPodcastLanguage] = useState("italian");
+  const [crosswordDifficulty, setCrosswordDifficulty] = useState("easy");
+  const [showHints, setShowHints] = useState(true);
+  const [crosswordStyle, setCrosswordStyle] = useState("playful");
   const [showExportView, setShowExportView] = useState(false);
   const [exportData, setExportData] = useState(null);
   const flashcardRef = useRef(null);
   const mindmapRef = useRef(null);
+  const crosswordRef = useRef(null);
   const previousFeedbackStateRef = useRef(true); // Usa ref per non triggerare re-render
-  const previousQuizTypeRef = useRef('single'); // Traccia il tipo di quiz precedente
+  const previousQuizTypeRef = useRef("single"); // Traccia il tipo di quiz precedente
 
   const handleShuffle = () => {
     if (flashcardRef.current && flashcardRef.current.shuffleFlashcards) {
@@ -69,31 +82,31 @@ function App() {
 
   const handleExport = () => {
     const quizTypeNames = {
-      single: 'Risposta Singola',
-      multi: 'Risposta Multipla',
-      truefalse: 'Vero/Falso',
-      outlined: 'Riquadri Contornati'
+      single: "Risposta Singola",
+      multi: "Risposta Multipla",
+      truefalse: "Vero/Falso",
+      outlined: "Riquadri Contornati",
     };
 
     const flashcardModeNames = {
-      normal: 'Domanda classica',
-      fillblank: 'Riempi lo spazio',
-      mix: 'Mix'
+      normal: "Domanda classica",
+      fillblank: "Riempi lo spazio",
+      mix: "Mix",
     };
 
     const podcastTranscriptNames = {
-      none: 'Nessuno',
-      simple: 'Semplice',
-      detailed: 'Dettagliato'
+      none: "Nessuno",
+      simple: "Semplice",
+      detailed: "Dettagliato",
     };
 
-    const exportDate = new Date().toLocaleString('it-IT', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+    const exportDate = new Date().toLocaleString("it-IT", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
     });
 
     // Structured export object used both for JSON download
@@ -101,7 +114,7 @@ function App() {
     const data = {
       exportMetadata: {
         exportDate,
-        source: 'MemorAIz – Custom widget demo'
+        source: "MemorAIz – Custom widget demo",
       },
       summary: {
         quiz: {
@@ -109,34 +122,35 @@ function App() {
           stile: visualStyles[quizStyle].name,
           dettagli: {
             timer: quizTimerEnabled,
-            feedbackImmediato: immediateFeedbackEnabled
-          }
+            feedbackImmediato: immediateFeedbackEnabled,
+          },
         },
         flashcard: {
           funzionalità: flashcardModeNames[flashcardMode] || flashcardMode,
           stile: visualStyles[flashcardStyle].name,
           dettagli: {
-            timer: flashcardTimerEnabled
-          }
+            timer: flashcardTimerEnabled,
+          },
         },
         mindmap: {
-          funzionalità: dynamicMapEnabled ? 'Dinamica' : 'Statica',
+          funzionalità: dynamicMapEnabled ? "Dinamica" : "Statica",
           stile: visualStyles[mindmapStyle].name,
           dettagli: {
             dettagliNodo: showNodeDetails,
-            etichetteRelazioni: showConnectionLabels
-          }
+            etichetteRelazioni: showConnectionLabels,
+          },
         },
         podcast: {
-          funzionalità: podcastTranscriptNames[podcastTranscript] || podcastTranscript,
+          funzionalità:
+            podcastTranscriptNames[podcastTranscript] || podcastTranscript,
           stile: visualStyles[podcastStyle].name,
           dettagli: {
             voce: podcastVoice,
             multispeaker: podcastMultispeaker,
             musicaSottofondo: podcastBackgroundMusic,
-            lingua: podcastLanguage
-          }
-        }
+            lingua: podcastLanguage,
+          },
+        },
       },
       config: {
         quiz: {
@@ -147,20 +161,20 @@ function App() {
           immediateFeedbackEnabled,
           answersCount,
           correctPoints,
-          incorrectPoints
+          incorrectPoints,
         },
         flashcard: {
           mode: flashcardMode,
           style: flashcardStyle,
           timerEnabled: flashcardTimerEnabled,
-          timerDuration: flashcardTimerDuration
+          timerDuration: flashcardTimerDuration,
         },
         mindmap: {
           style: mindmapStyle,
           showNodeDetails,
           showConnectionLabels,
           dynamicMapEnabled,
-          detailLevel: mindmapDetailLevel
+          detailLevel: mindmapDetailLevel,
         },
         podcast: {
           style: podcastStyle,
@@ -168,14 +182,14 @@ function App() {
           voice: podcastVoice,
           multispeaker: podcastMultispeaker,
           backgroundMusic: podcastBackgroundMusic,
-          language: podcastLanguage
-        }
+          language: podcastLanguage,
+        },
       },
       content: {
         quiz: quizData.quiz,
         flashcards: flashcardData.flashcards,
-        transcript: transcriptData
-      }
+        transcript: transcriptData,
+      },
     };
 
     setExportData(data);
@@ -189,23 +203,23 @@ function App() {
   // Gestione feedback immediato per quiz con risposta multipla
   React.useEffect(() => {
     const prevQuizType = previousQuizTypeRef.current;
-    
+
     // Quando passiamo a 'multi' da un altro tipo
-    if (quizType === 'multi' && prevQuizType !== 'multi') {
+    if (quizType === "multi" && prevQuizType !== "multi") {
       // Salva lo stato corrente e disattiva feedback immediato
       previousFeedbackStateRef.current = immediateFeedbackEnabled;
       setImmediateFeedbackEnabled(false);
-    } 
+    }
     // Quando usciamo da 'multi' verso un altro tipo
-    else if (quizType !== 'multi' && prevQuizType === 'multi') {
+    else if (quizType !== "multi" && prevQuizType === "multi") {
       // Ripristina lo stato precedente
       setImmediateFeedbackEnabled(previousFeedbackStateRef.current);
     }
     // Quando NON siamo in 'multi', aggiorna il valore salvato se l'utente cambia il toggle
-    else if (quizType !== 'multi') {
+    else if (quizType !== "multi") {
       previousFeedbackStateRef.current = immediateFeedbackEnabled;
     }
-    
+
     // Aggiorna il tipo di quiz precedente
     previousQuizTypeRef.current = quizType;
   }, [quizType, immediateFeedbackEnabled]);
@@ -218,19 +232,19 @@ function App() {
       immediateFeedbackEnabled,
       answersCount,
       correctPoints,
-      incorrectPoints
+      incorrectPoints,
     };
 
     const quizKey = `quiz-${quizType}`; // Reset quiz when quiz type changes
 
     switch (quizType) {
-      case 'single':
+      case "single":
         return <SingleQuiz key={quizKey} {...commonProps} />;
-      case 'multi':
+      case "multi":
         return <MultiQuiz key={quizKey} {...commonProps} />;
-      case 'truefalse':
+      case "truefalse":
         return <TrueFalseQuiz key={quizKey} {...commonProps} />;
-      case 'outlined':
+      case "outlined":
         return <OutlinedQuiz key={quizKey} {...commonProps} />;
       default:
         return <SingleQuiz key={quizKey} {...commonProps} />;
@@ -239,115 +253,163 @@ function App() {
 
   const renderContent = () => {
     if (showExportView && exportData) {
-      return <ExportView exportData={exportData} onBack={handleBackFromExport} />;
+      return (
+        <ExportView exportData={exportData} onBack={handleBackFromExport} />
+      );
     }
-    
-    if (currentPage === 'quiz') {
+
+    if (currentPage === "quiz") {
       return renderQuiz();
-    } else if (currentPage === 'flashcard') {
-      return <Flashcard ref={flashcardRef} visualStyle={flashcardStyle} mode={flashcardMode} timerEnabled={flashcardTimerEnabled} timerDuration={flashcardTimerDuration} />;
-    } else if (currentPage === 'mindmap') {
-      return <Mindmap ref={mindmapRef} visualStyle={mindmapStyle} showNodeDetails={showNodeDetails} showConnectionLabels={showConnectionLabels} dynamicMapEnabled={dynamicMapEnabled} detailLevel={mindmapDetailLevel} />;
-    } else if (currentPage === 'podcast') {
-      return <Podcast visualStyle={podcastStyle} backgroundMusic={podcastBackgroundMusic} language={podcastLanguage} voice={podcastVoice} multispeaker={podcastMultispeaker} />;
+    } else if (currentPage === "flashcard") {
+      return (
+        <Flashcard
+          ref={flashcardRef}
+          visualStyle={flashcardStyle}
+          mode={flashcardMode}
+          timerEnabled={flashcardTimerEnabled}
+          timerDuration={flashcardTimerDuration}
+        />
+      );
+    } else if (currentPage === "mindmap") {
+      return (
+        <Mindmap
+          ref={mindmapRef}
+          visualStyle={mindmapStyle}
+          showNodeDetails={showNodeDetails}
+          showConnectionLabels={showConnectionLabels}
+          dynamicMapEnabled={dynamicMapEnabled}
+          detailLevel={mindmapDetailLevel}
+        />
+      );
+    } else if (currentPage === "podcast") {
+      return (
+        <Podcast
+          visualStyle={podcastStyle}
+          backgroundMusic={podcastBackgroundMusic}
+          language={podcastLanguage}
+          voice={podcastVoice}
+          multispeaker={podcastMultispeaker}
+        />
+      );
+    } else if (currentPage === "crossword") {
+      return (
+        <Crossword
+          ref={crosswordRef}
+          visualStyle={crosswordStyle}
+          crosswordDifficulty={crosswordDifficulty}
+          showHints={showHints}
+          timerEnabled={timerEnabled}
+          timerDuration={timerDuration}
+        />
+      );
     }
     return renderQuiz();
   };
 
   return (
-    <div className={`app ${showExportView ? 'export-mode' : ''}`}>
+    <div className={`app ${showExportView ? "export-mode" : ""}`}>
       <div className="app-container">
         <div className="main-content">
           {!showExportView && (
             <div className="navigation-buttons">
               <button
-                className={`nav-button ${currentPage === 'quiz' ? 'active' : ''}`}
-                onClick={() => setCurrentPage('quiz')}
+                className={`nav-button ${currentPage === "quiz" ? "active" : ""}`}
+                onClick={() => setCurrentPage("quiz")}
               >
                 Quiz
               </button>
               <button
-                className={`nav-button ${currentPage === 'flashcard' ? 'active' : ''}`}
-                onClick={() => setCurrentPage('flashcard')}
+                className={`nav-button ${currentPage === "flashcard" ? "active" : ""}`}
+                onClick={() => setCurrentPage("flashcard")}
               >
                 Flashcard
               </button>
               <button
-                className={`nav-button ${currentPage === 'mindmap' ? 'active' : ''}`}
-                onClick={() => setCurrentPage('mindmap')}
+                className={`nav-button ${currentPage === "mindmap" ? "active" : ""}`}
+                onClick={() => setCurrentPage("mindmap")}
               >
                 Mindmap
               </button>
               <button
-                className={`nav-button ${currentPage === 'podcast' ? 'active' : ''}`}
-                onClick={() => setCurrentPage('podcast')}
+                className={`nav-button ${currentPage === "podcast" ? "active" : ""}`}
+                onClick={() => setCurrentPage("podcast")}
               >
                 Podcast
               </button>
+              <button
+                className={`nav-button ${currentPage === "crossword" ? "active" : ""}`}
+                onClick={() => setCurrentPage("crossword")}
+              >
+                Crossword
+              </button>
             </div>
           )}
-          <div className="content-container">
-            {renderContent()}
-          </div>
+          <div className="content-container">{renderContent()}</div>
         </div>
         {!showExportView && (
-            <SidePanel
-                currentPage={currentPage}
-                quizType={quizType}
-                setQuizType={setQuizType}
-                flashcardMode={flashcardMode}
-                setFlashcardMode={setFlashcardMode}
-                onShuffle={handleShuffle}
-                timerEnabled={timerEnabled}
-                setTimerEnabled={setTimerEnabled}
-                timerDuration={timerDuration}
-                setTimerDuration={setTimerDuration}
-                // pass separate timer controls (optional)
-                quizTimerEnabled={quizTimerEnabled}
-                setQuizTimerEnabled={setQuizTimerEnabled}
-                quizTimerDuration={quizTimerDuration}
-                setQuizTimerDuration={setQuizTimerDuration}
-                flashcardTimerEnabled={flashcardTimerEnabled}
-                setFlashcardTimerEnabled={setFlashcardTimerEnabled}
-                flashcardTimerDuration={flashcardTimerDuration}
-                setFlashcardTimerDuration={setFlashcardTimerDuration}
-                immediateFeedbackEnabled={immediateFeedbackEnabled}
-                setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
-                showNodeDetails={showNodeDetails}
-                setShowNodeDetails={setShowNodeDetails}
-                showConnectionLabels={showConnectionLabels}
-                setShowConnectionLabels={setShowConnectionLabels}
-                dynamicMapEnabled={dynamicMapEnabled}
-                setDynamicMapEnabled={setDynamicMapEnabled}
-                mindmapDetailLevel={mindmapDetailLevel}
-                setMindmapDetailLevel={setMindmapDetailLevel}
-                podcastTranscript={podcastTranscript}
-                setPodcastTranscript={setPodcastTranscript}
-                podcastVoice={podcastVoice}
-                setPodcastVoice={setPodcastVoice}
-                podcastMultispeaker={podcastMultispeaker}
-                setPodcastMultispeaker={setPodcastMultispeaker}
-                podcastBackgroundMusic={podcastBackgroundMusic}
-                setPodcastBackgroundMusic={setPodcastBackgroundMusic}
-                podcastLanguage={podcastLanguage}
-                setPodcastLanguage={setPodcastLanguage}
-                onExport={handleExport}
-                answersCount={answersCount}
-                setAnswersCount={setAnswersCount}
-                correctPoints={correctPoints}
-                setCorrectPoints={setCorrectPoints}
-                incorrectPoints={incorrectPoints}
-                setIncorrectPoints={setIncorrectPoints}
-                quizStyle={quizStyle}
-                setQuizStyle={setQuizStyle}
-                flashcardStyle={flashcardStyle}
-                setFlashcardStyle={setFlashcardStyle}
-                mindmapStyle={mindmapStyle}
-                setMindmapStyle={setMindmapStyle}
-                podcastStyle={podcastStyle}
-                setPodcastStyle={setPodcastStyle}
-                visualStyles={visualStyles}
-            />
+          <SidePanel
+            currentPage={currentPage}
+            quizType={quizType}
+            setQuizType={setQuizType}
+            flashcardMode={flashcardMode}
+            setFlashcardMode={setFlashcardMode}
+            onShuffle={handleShuffle}
+            timerEnabled={timerEnabled}
+            setTimerEnabled={setTimerEnabled}
+            timerDuration={timerDuration}
+            setTimerDuration={setTimerDuration}
+            // pass separate timer controls (optional)
+            quizTimerEnabled={quizTimerEnabled}
+            setQuizTimerEnabled={setQuizTimerEnabled}
+            quizTimerDuration={quizTimerDuration}
+            setQuizTimerDuration={setQuizTimerDuration}
+            flashcardTimerEnabled={flashcardTimerEnabled}
+            setFlashcardTimerEnabled={setFlashcardTimerEnabled}
+            flashcardTimerDuration={flashcardTimerDuration}
+            setFlashcardTimerDuration={setFlashcardTimerDuration}
+            immediateFeedbackEnabled={immediateFeedbackEnabled}
+            setImmediateFeedbackEnabled={setImmediateFeedbackEnabled}
+            showNodeDetails={showNodeDetails}
+            setShowNodeDetails={setShowNodeDetails}
+            showConnectionLabels={showConnectionLabels}
+            setShowConnectionLabels={setShowConnectionLabels}
+            dynamicMapEnabled={dynamicMapEnabled}
+            setDynamicMapEnabled={setDynamicMapEnabled}
+            mindmapDetailLevel={mindmapDetailLevel}
+            setMindmapDetailLevel={setMindmapDetailLevel}
+            podcastTranscript={podcastTranscript}
+            setPodcastTranscript={setPodcastTranscript}
+            podcastVoice={podcastVoice}
+            setPodcastVoice={setPodcastVoice}
+            podcastMultispeaker={podcastMultispeaker}
+            setPodcastMultispeaker={setPodcastMultispeaker}
+            podcastBackgroundMusic={podcastBackgroundMusic}
+            setPodcastBackgroundMusic={setPodcastBackgroundMusic}
+            podcastLanguage={podcastLanguage}
+            setPodcastLanguage={setPodcastLanguage}
+            crosswordDifficulty={crosswordDifficulty}
+            setCrosswordDifficulty={setCrosswordDifficulty}
+            showHints={showHints}
+            setShowHints={setShowHints}
+            crosswordStyle={crosswordStyle}
+            setCrosswordStyle={setCrosswordStyle}
+            onExport={handleExport}
+            answersCount={answersCount}
+            setAnswersCount={setAnswersCount}
+            correctPoints={correctPoints}
+            setCorrectPoints={setCorrectPoints}
+            incorrectPoints={incorrectPoints}
+            setIncorrectPoints={setIncorrectPoints}
+            quizStyle={quizStyle}
+            setQuizStyle={setQuizStyle}
+            flashcardStyle={flashcardStyle}
+            setFlashcardStyle={setFlashcardStyle}
+            mindmapStyle={mindmapStyle}
+            setMindmapStyle={setMindmapStyle}
+            podcastStyle={podcastStyle}
+            setPodcastStyle={setPodcastStyle}
+            visualStyles={visualStyles}
+          />
         )}
       </div>
     </div>
